@@ -1,6 +1,4 @@
-mod archive_handler;
-
-use archive_handler::ArchiveHandler;
+use core_liviewrrr::archive_handler::ArchiveHandler;
 use std::fs;
 use std::path::PathBuf;
 use walkdir::WalkDir;

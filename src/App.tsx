@@ -8,6 +8,7 @@ function App() {
 	const [currentDir, setCurrentDir] = useState<string>('.');
 	const [selectedFolder, setSelectedFolder] = useState<string | null>(null);
 
+	setCurrentDir('.');
 	useEffect(() => {
 		invoke<string[]>('list_folders', { currentDir }).then(setFolders);
 	}, [currentDir]);
