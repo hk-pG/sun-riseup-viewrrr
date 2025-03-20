@@ -5,13 +5,15 @@ import './App.css';
 function App() {
 	const [folders, setFolders] = useState<string[]>([]);
 	const [images, setImages] = useState<string[]>([]);
-	const [currentDir, setCurrentDir] = useState<string>('C:/Users'); // 初期ディレクトリ
+	const [currentDir, setCurrentDir] = useState<string>('.');
+	const [selectedFolder, setSelectedFolder] = useState<string | null>(null);
 
 	useEffect(() => {
 		invoke<string[]>('list_folders', { currentDir }).then(setFolders);
 	}, [currentDir]);
 
 	const handleFolderClick = (folder: string) => {
+		setSelectedFolder(folder);
 		invoke<string[]>('list_images', { folder }).then(setImages);
 	};
 
@@ -19,17 +21,20 @@ function App() {
 		<div className="flex h-screen">
 			{/* フォルダビューア */}
 			<div className="w-1/4 bg-gray-100 p-4 border-r border-gray-300">
-				{folders.map((folder, index) => (
+				{folders.map((folder) => (
 					<div
 						key={folder}
-						className="cursor-pointer p-2 rounded hover:bg-gray-300 transition"
-						onClick={() => handleFolderClick(folder)}
+						className={`cursor-pointer p-2 rounded transition ${
+							folder === selectedFolder
+								? 'bg-blue-500 text-white'
+								: 'hover:bg-gray-300'
+						}`}
 						onKeyUp={(e) => {
 							if (e.key === 'Enter' || e.key === ' ') {
 								handleFolderClick(folder);
 							}
 						}}
-						tabIndex={index}
+						onClick={() => handleFolderClick(folder)}
 					>
 						📁 {folder}
 					</div>
