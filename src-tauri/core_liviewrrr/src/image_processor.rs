@@ -1,5 +1,3 @@
-use image::{DynamicImage, GenericImageView};
-
 pub struct ImageProcessor;
 
 impl ImageProcessor {
@@ -8,5 +6,22 @@ impl ImageProcessor {
         let resized = img.resize(width, height, image::imageops::FilterType::Lanczos3);
 
         resized.save(thumb_path).expect("Failed to save thumbnail");
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_generate_thumbnail() {
+        let image_path = "test_assets/test.png";
+        let thumb_path = "test_assets/test_thumb.png";
+
+        ImageProcessor::generate_thumbnail(image_path, thumb_path, 100, 100);
+
+        assert!(std::path::Path::new(thumb_path).exists());
+
+        std::fs::remove_file(thumb_path).expect("Failed to remove thumbnail");
     }
 }
