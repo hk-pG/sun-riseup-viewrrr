@@ -1,4 +1,6 @@
 use core_liviewrrr::archive_handler::ArchiveHandler;
+use core_liviewrrr::archive_manager::ArchiveManager;
+use core_liviewrrr::temp_folder::TempFolder;
 use std::fs;
 use std::path::PathBuf;
 use walkdir::WalkDir;
@@ -10,7 +12,8 @@ pub fn run() {
         .invoke_handler(tauri::generate_handler![
             list_folders,
             list_images,
-            extract_zip
+            extract_zip,
+            open_archive
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
@@ -60,4 +63,10 @@ fn extract_zip(archive_path: String) -> Result<String, String> {
     handler
         .extract_zip(&PathBuf::from(archive_path))
         .map(|path| path.to_string_lossy().to_string())
+}
+#[tauri::command]
+fn open_archive(zip_path: String) -> String {
+    let temp_dir = TempFolder::create_temp_folder("app_cache");
+    let extracted_path = ArchiveManager::extract_to_temp(&zip_path, &temp_dir);
+    extracted_path.to_string_lossy().to_string()
 }

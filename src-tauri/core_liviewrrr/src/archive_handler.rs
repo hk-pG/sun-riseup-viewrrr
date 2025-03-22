@@ -2,7 +2,6 @@ use std::{
     fs::File,
     io::{Read, Write},
     path::{Path, PathBuf},
-    string,
     sync::{Arc, Mutex},
 };
 
@@ -14,6 +13,10 @@ pub struct ArchiveHandler {
     extracted_dirs: Arc<Mutex<Vec<PathBuf>>>,
 }
 
+///
+/// ArchiveHandler is a struct that handles the extraction of zip files.
+/// This struct is used as interface to extract zip files to a temporary directory with UI.
+///
 impl ArchiveHandler {
     pub fn new() -> Self {
         Self {
@@ -53,5 +56,11 @@ impl ArchiveHandler {
 
     pub fn get_extracted_dirs(&self) -> Vec<PathBuf> {
         self.extracted_dirs.lock().unwrap().clone()
+    }
+}
+
+impl Default for ArchiveHandler {
+    fn default() -> Self {
+        Self::new()
     }
 }
