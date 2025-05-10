@@ -42,6 +42,36 @@ function App() {
 					}}
 				/>
 			)}
+			<div style={{ display: "flex" }}>
+				{images.map((path, index) => (
+					<>
+						<button
+							key={path}
+							type="button"
+							onClick={() => {
+								setCurrent(index);
+							}}
+							style={{
+								backgroundColor: index === current ? "blue" : "white",
+								color: index === current ? "white" : "black",
+							}}
+						>
+							<img
+								key={path}
+								alt="selected file in folder"
+								src={`${path}`}
+								style={{
+									maxWidth: "100px",
+									maxHeight: "100px",
+									margin: "5px",
+									cursor: "pointer",
+								}}
+							/>{" "}
+							{index + 1}
+						</button>
+					</>
+				))}
+			</div>
 		</div>
 	);
 }
