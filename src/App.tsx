@@ -32,6 +32,7 @@ function App() {
 			<button type="button" onClick={selectFolder}>
 				Select Image Folder
 			</button>
+			{/* current image */}
 			{images.length > 0 && (
 				<img
 					alt="selected file in folder"
@@ -42,7 +43,8 @@ function App() {
 					}}
 				/>
 			)}
-			<div style={{ display: "flex" }}>
+			{/* images in folder selected */}
+			<div style={{ display: "flex", overflowX: "scroll" }}>
 				{images.map((path, index) => (
 					<>
 						<button
@@ -54,6 +56,8 @@ function App() {
 							style={{
 								backgroundColor: index === current ? "blue" : "white",
 								color: index === current ? "white" : "black",
+								maxHeight: "50px",
+								maxWidth: "50px",
 							}}
 						>
 							<img
@@ -61,13 +65,13 @@ function App() {
 								alt="selected file in folder"
 								src={`${path}`}
 								style={{
-									maxWidth: "100px",
-									maxHeight: "100px",
 									margin: "5px",
 									cursor: "pointer",
+									maxWidth: "100%",
+									maxHeight: "100%",
 								}}
-							/>{" "}
-							{index + 1}
+							/>
+							{index}
 						</button>
 					</>
 				))}
