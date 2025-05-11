@@ -50,10 +50,7 @@ export default function ImageViewer() {
 				<img
 					alt="selected file in folder"
 					src={`${images[current].assetUrl}`}
-					style={{
-						maxWidth: "100%",
-						maxHeight: "100%",
-					}}
+					className="max-h-full max-w-full object-contain"
 				/>
 			)}
 
@@ -63,15 +60,7 @@ export default function ImageViewer() {
 					{current + 1} / {images.length}
 				</p>
 			</div>
-			<div
-				style={{
-					display: "flex",
-					justifyContent: "center",
-					width: "100%",
-					position: "absolute",
-					bottom: 0,
-				}}
-			>
+			<div className="flex justify-center w-full absolute bottom-0">
 				<button
 					type="button"
 					onClick={() => {
