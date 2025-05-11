@@ -1,0 +1,57 @@
+{
+	// tasks.json 形式に関するドキュメントについては
+	// https://go.microsoft.com/fwlink/?LinkId=733558 を参照してください。
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "build:debug",
+			"type": "cargo",
+			"command": "build",
+			"options": {
+				"cwd": "${workspaceRoot}/src-tauri"
+			}
+		},
+		{
+			"label": "dev",
+			"dependsOn": ["build:debug", "ui:dev"],
+			"group": {
+				"kind": "build"
+			}
+		},
+		{
+			"label": "ui:dev",
+			"type": "shell",
+			// `dev` はバックグラウンドで実行が継続します。
+			// 理想的には `problemMatcher` も設定する必要があります。
+			// https://code.visualstudio.com/docs/editor/tasks#_can-a-background-task-be-used-as-a-prelaunchtask-in-launchjson を参照してください。
+			"problemMatcher": {
+				"owner": "custom",
+				"pattern": {
+					"regexp": "."
+				},
+				"background": {
+					"activeOnStart": true,
+					"beginsPattern": ".",
+					"endsPattern": "VITE .* ready "
+				}
+			},
+			"isBackground": true,
+			// この部分をあなたの `beforeBuildCommand` に合わせて変更します：
+			"command": "pnpm",
+			"args": ["dev"]
+		},
+		{
+			"label": "ui:dev:stop",
+			"type": "shell",
+			"command": "echo ${input:terminate}"
+		}
+	],
+	"inputs": [
+		{
+			"id": "terminate",
+			"type": "command",
+			"command": "workbench.action.terminal.kill",
+			"args": "ui:dev"
+		}
+	]
+}
