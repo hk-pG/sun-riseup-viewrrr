@@ -3,6 +3,7 @@ import type { ImageContainer } from "../types/ImageContainer";
 import type { ImageSource } from "../types/ImageSource";
 import { isStringArray } from "../utils/isStringArray";
 import { basename } from "@tauri-apps/api/path";
+import { naturalSort } from "../utils/sort";
 
 export class LocalFolderContainer implements ImageContainer {
     constructor(private folderPath: string) { }
@@ -35,6 +36,9 @@ export class LocalFolderContainer implements ImageContainer {
             console.error("Error converting file paths to asset URLs:", error);
             throw new Error(`Failed to convert file paths to asset URLs: ${error}`);
         });
+
+        // 画像を名前でソートする
+        imageSources.sort(naturalSort);
 
         return imageSources;
     }
