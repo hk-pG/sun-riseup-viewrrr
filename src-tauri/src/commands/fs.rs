@@ -46,6 +46,12 @@ pub fn list_images_in_folder(folder_path: String) -> Vec<String> {
 #[command]
 pub fn get_sibling_folders(path: String) -> Result<Vec<String>, String> {
     let current = PathBuf::from(&path);
+
+    // パスが存在しない場合はエラーを返す
+    if !current.exists() {
+        return Err(format!("Path does not exist: {}", path));
+    }
+
     let parent = current
         .parent()
         .ok_or_else(|| "No parent directory found".to_string())?;
