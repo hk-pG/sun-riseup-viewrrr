@@ -1,19 +1,20 @@
-import { invoke } from "@tauri-apps/api/core";
+import { invoke } from '@tauri-apps/api/core';
 
 /**
  * 指定のフォルダ内の画像を取得する
  *
  * @param folderPath - 画像を取得するフォルダのパス
+ * @deprecated - `/src/service/FileSystem.types.ts`を使用してください。
  * @returns - 画像のパスの配列
  */
 export const listImagesInFolder = async (
-	folderPath: string,
+  folderPath: string,
 ): Promise<string[]> => {
-	const images = await invoke<string[]>("list_images_in_folder", {
-		folderPath,
-	});
+  const images = await invoke<string[]>('list_images_in_folder', {
+    folderPath,
+  });
 
-	return images;
+  return images;
 };
 
 /**
@@ -22,14 +23,15 @@ export const listImagesInFolder = async (
  *
  * @param path - 現在のフォルダのパス
  * @returns - フォルダのパスの配列
+ * @deprecated - `/src/service/FileSystem.types.ts`を使用してください。
  * @description - 現在のフォルダの親フォルダにあるフォルダを取得する
  */
 export const getSiblingFolders = async (path: string): Promise<string[]> => {
-	try {
-		const folders = await invoke<string[]>("get_sibling_folders", { path });
-		return folders;
-	} catch (error) {
-		console.error("Error getting sibling folders:", error);
-		return [];
-	}
+  try {
+    const folders = await invoke<string[]>('get_sibling_folders', { path });
+    return folders;
+  } catch (error) {
+    console.error('Error getting sibling folders:', error);
+    return [];
+  }
 };

@@ -1,6 +1,6 @@
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
-import tailwindcss from "@tailwindcss/vite";
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import tailwindcss from '@tailwindcss/vite';
 
 const host = process.env.TAURI_DEV_HOST;
 
@@ -9,8 +9,8 @@ export default defineConfig(async () => ({
 	plugins: [react(), tailwindcss()],
 	test: {
 		globals: true, // describe, it, expectなどをグローバルスコープで使えるようにする
-		environment: "jsdom", // DOM環境をシミュレート
-		setupFiles: "./src/test/setup.ts", // (オプション) テスト全体のセットアップファイル
+		environment: 'jsdom', // DOM環境をシミュレート
+		setupFiles: './src/test/setup.ts', // (オプション) テスト全体のセットアップファイル
 		// Tauri APIのモックがうまく解決されない場合、エイリアスが役立つことがあります
 		// alias: {
 		//   '@tauri-apps/api/path': 'path-browserify', // 例: Node.jsのpathモジュールのブラウザ版で代替する場合など。ただし、今回は直接モックします。
@@ -28,14 +28,14 @@ export default defineConfig(async () => ({
 		host: host || false,
 		hmr: host
 			? {
-					protocol: "ws",
+					protocol: 'ws',
 					host,
 					port: 1421,
 				}
 			: undefined,
 		watch: {
 			// 3. tell vite to ignore watching `src-tauri`
-			ignored: ["**/src-tauri/**"],
+			ignored: ['**/src-tauri/**'],
 		},
 	},
 }));
