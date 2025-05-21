@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import useSWR from 'swr';
 import { LocalFolderContainer } from '../containers/LocalFolderContainer';
+import { useServices } from '../context/ServiceContext';
 
 type Props = {
   folderPath: string;
@@ -9,10 +10,11 @@ type Props = {
 export default function ImageViewer({ folderPath }: Props) {
   // 現在表示している画像のインデックス
   const [current, setCurrent] = useState(0);
+  const fs = useServices();
 
   // 画像を取得する関数
   async function fetchImages(path: string) {
-    const container = new LocalFolderContainer(path);
+    const container = new LocalFolderContainer(path, fs);
     return await container.listImages();
   }
 

@@ -1,6 +1,6 @@
 import { basename } from '@tauri-apps/api/path';
 import { useEffect, useState } from 'react';
-import { getSiblingFolders } from '../lib/commands/fs';
+import { useServices } from '../context/ServiceContext';
 
 export type FolderEntry = {
   name: string;
@@ -16,6 +16,7 @@ export type FolderEntry = {
  */
 export function useFolderNavigator(currentFolderPath: string) {
   const [entries, setEntries] = useState<FolderEntry[]>([]);
+  const { getSiblingFolders } = useServices();
 
   useEffect(() => {
     let mounted = true;
@@ -40,7 +41,7 @@ export function useFolderNavigator(currentFolderPath: string) {
     return () => {
       mounted = false;
     };
-  }, [currentFolderPath]);
+  }, [currentFolderPath, getSiblingFolders]);
 
   return { entries };
 }

@@ -34,5 +34,13 @@
       "enabled": true,
       "trailingCommas": "none"
     }
+  },
+  "css": {
+    "formatter": {
+      "enabled": true,
+      "indentStyle": "space",
+      "quoteStyle": "single",
+      "indentWidth": 2
+    }
   }
 }

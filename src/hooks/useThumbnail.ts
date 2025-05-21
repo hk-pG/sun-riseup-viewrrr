@@ -1,11 +1,15 @@
 import { convertFileSrc } from '@tauri-apps/api/core';
 import { basename } from '@tauri-apps/api/path';
 import useSWR from 'swr';
-import { listImagesInFolder } from '../lib/commands/fs';
+import { useServices } from '../context/ServiceContext';
+import type { FileSystemService } from '../service/FileSystem.types';
 import type { ImageSource } from '../types/ImageSource';
 
-async function fetchThumbnail(folderPath: string): Promise<ImageSource | null> {
-  const files = await listImagesInFolder(folderPath);
+async function fetchThumbnail(
+  folderPath: string,
+  fs: FileSystemService,
+): Promise<ImageSource | null> {
+  const files = await fs.listImagesInFolder(folderPath);
 
   if (files.length < 1) {
     return null;
@@ -25,10 +29,15 @@ async function fetchThumbnail(folderPath: string): Promise<ImageSource | null> {
 }
 
 export function useThumbnail(folderPath: string) {
-  const { data, isLoading, error } = useSWR(folderPath, fetchThumbnail, {
-    revalidateOnFocus: false,
-    shouldRetryOnError: false,
-  });
+  const fs = useServices();
+  const { data, isLoading, error } = useSWR(
+    folderPath,
+    (key) => fetchThumbnail(key, fs),
+    {
+      revalidateOnFocus: false,
+      shouldRetryOnError: false,
+    },
+  );
 
   return {
     thumbnail: data ?? null,

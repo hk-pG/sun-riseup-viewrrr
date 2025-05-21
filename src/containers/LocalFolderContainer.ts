@@ -1,16 +1,19 @@
 import { convertFileSrc } from '@tauri-apps/api/core';
 import { basename } from '@tauri-apps/api/path';
-import { listImagesInFolder } from '../lib/commands/fs';
+import type { FileSystemService } from '../service/FileSystem.types';
 import type { ImageContainer } from '../types/ImageContainer';
 import type { ImageSource } from '../types/ImageSource';
 import { isStringArray } from '../utils/isStringArray';
 import { naturalSort } from '../utils/sort';
 
 export class LocalFolderContainer implements ImageContainer {
-  constructor(private folderPath: string) {}
+  constructor(
+    private folderPath: string,
+    private fs: FileSystemService,
+  ) {}
 
   async listImages(): Promise<ImageSource[]> {
-    const files = await listImagesInFolder(this.folderPath);
+    const files = await this.fs.listImagesInFolder(this.folderPath);
 
     // Tauriのコマンドの戻り値が文字列の配列であることを確認する
     if (!isStringArray(files)) {
