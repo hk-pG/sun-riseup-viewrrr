@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
-import { getSiblingFolders } from "../lib/commands/fs";
-import { basename } from "@tauri-apps/api/path";
+import { basename } from '@tauri-apps/api/path';
+import { useEffect, useState } from 'react';
+import { useServices } from '../context/ServiceContext';
 
 export type FolderEntry = {
-	name: string;
-	path: string;
+  name: string;
+  path: string;
 };
 
 /**
@@ -15,32 +15,33 @@ export type FolderEntry = {
  * @returns - 同階層のフォルダのパスと、各フォルダのサムネイル
  */
 export function useFolderNavigator(currentFolderPath: string) {
-	const [entries, setEntries] = useState<FolderEntry[]>([]);
+  const [entries, setEntries] = useState<FolderEntry[]>([]);
+  const { getSiblingFolders } = useServices();
 
-	useEffect(() => {
-		let mounted = true;
+  useEffect(() => {
+    let mounted = true;
 
-		async function load() {
-			const paths = await getSiblingFolders(currentFolderPath);
+    async function load() {
+      const paths = await getSiblingFolders(currentFolderPath);
 
-			if (!mounted) return;
+      if (!mounted) return;
 
-			const entries: FolderEntry[] = await Promise.all(
-				paths.map(async (path) => ({
-					path,
-					name: await basename(path),
-				})),
-			);
+      const entries: FolderEntry[] = await Promise.all(
+        paths.map(async (path) => ({
+          path,
+          name: await basename(path),
+        })),
+      );
 
-			setEntries(entries);
-		}
+      setEntries(entries);
+    }
 
-		load();
+    load();
 
-		return () => {
-			mounted = false;
-		};
-	}, [currentFolderPath]);
+    return () => {
+      mounted = false;
+    };
+  }, [currentFolderPath, getSiblingFolders]);
 
-	return { entries };
+  return { entries };
 }

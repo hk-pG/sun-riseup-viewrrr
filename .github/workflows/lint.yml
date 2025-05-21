@@ -25,5 +25,5 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: Run ESLint
-        run: pnpm exec eslint . --ext .ts,.tsx
+      - name: Run linter
+        run: pnpm lint

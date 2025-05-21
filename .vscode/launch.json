@@ -1,39 +1,39 @@
 {
-	// VS Code の IntelliSense 入力支援機能を使用して、利用可能な属性について学習してください。
-	// マウスを既存の属性の上にかざすと、その説明が表示されます。
-	// 詳細については、https://go.microsoft.com/fwlink/?linkid=830387 をご覧ください。
-	"version": "0.2.0",
-	"configurations": [
-		{
-			"name": "Launch App Debug",
-			"type": "cppvsdbg",
-			"request": "launch",
-			// 実行ファイル（exe）名を実際に用いる exe ファイル名に変更してください。
-			//  「リリース・ビルド」（公開版）をデバッグするには、`target/debug` を `release/debug` に変更してください。）
-			"program": "${workspaceRoot}/src-tauri/target/debug/sun-riseup-viewrrr.exe",
-			"cwd": "${workspaceRoot}",
-			"preLaunchTask": "ui:dev",
-			"postDebugTask": "ui:dev:stop",
-			"environment": [
-				{
-					"name": "WEBVIEW2_ADDITIONAL_BROWSER_ARGUMENTS",
-					"value": "--remote-debugging-port=1420"
-				}
-			]
-		},
-		{
-			"name": "Attach to Webview",
-			"port": 1420,
-			"request": "attach",
-			"timeout": 300000,
-			"type": "chrome",
-			"webRoot": "${workspaceFolder}"
-		}
-	],
-	"compounds": [
-		{
-			"name": "Tauri Dev All",
-			"configurations": ["Launch App Debug", "Attach to Webview"]
-		}
-	]
+  // VS Code の IntelliSense 入力支援機能を使用して、利用可能な属性について学習してください。
+  // マウスを既存の属性の上にかざすと、その説明が表示されます。
+  // 詳細については、https://go.microsoft.com/fwlink/?linkid=830387 をご覧ください。
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Launch App Debug",
+      "type": "cppvsdbg",
+      "request": "launch",
+      // 実行ファイル（exe）名を実際に用いる exe ファイル名に変更してください。
+      //  「リリース・ビルド」（公開版）をデバッグするには、`target/debug` を `release/debug` に変更してください。）
+      "program": "${workspaceRoot}/src-tauri/target/debug/sun-riseup-viewrrr.exe",
+      "cwd": "${workspaceRoot}",
+      "preLaunchTask": "dev",
+      "postDebugTask": "ui:dev:stop",
+      "environment": [
+        {
+          "name": "WEBVIEW2_ADDITIONAL_BROWSER_ARGUMENTS",
+          "value": "--remote-debugging-port=1420"
+        }
+      ]
+    },
+    {
+      "name": "Attach to Webview",
+      "port": 1420,
+      "request": "attach",
+      "timeout": 300000,
+      "type": "chrome",
+      "webRoot": "${workspaceFolder}"
+    }
+  ],
+  "compounds": [
+    {
+      "name": "Tauri Dev All",
+      "configurations": ["Launch App Debug", "Attach to Webview"]
+    }
+  ]
 }

@@ -44,12 +44,12 @@ pub fn list_images_in_folder(folder_path: String) -> Vec<String> {
 /// example: `get_sibling_folders("/path/to/current/folder")`
 /// returns: `["/path/to/current/folder/../sibling1", "/path/to/current/folder/../sibling2"]`
 #[command]
-pub fn get_sibling_folders(path: String) -> Result<Vec<String>, String> {
-    let current = PathBuf::from(&path);
+pub fn get_sibling_folders(folder_path: String) -> Result<Vec<String>, String> {
+    let current = PathBuf::from(&folder_path);
 
     // パスが存在しない場合はエラーを返す
     if !current.exists() {
-        return Err(format!("Path does not exist: {}", path));
+        return Err(format!("Path does not exist: {}", folder_path));
     }
 
     let parent = current

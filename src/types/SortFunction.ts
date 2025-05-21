@@ -1,8 +1,8 @@
-import type { ImageSource } from "./ImageSource";
+import type { ImageSource } from './ImageSource';
 
 /**
  * SortFunction
- * @description 
+ * @description
  * SortFunction is a type that represents a function used to sort an array of ImageSource objects.
  * It takes two ImageSource objects as arguments and returns a number indicating their relative order.
  * A negative number indicates that the first argument should come before the second,
