@@ -1,7 +1,7 @@
-import { describe, expect, it } from 'vitest'; // Vitestのテスト関数をインポート
 import { renderHook } from '@testing-library/react'; // React Hooksのテスト用ユーティリティ
-import { useCounter } from '../useCounter'; // テスト対象のカスタムフック
 import { act } from 'react'; // 状態変更をテストする際に必要
+import { describe, expect, it } from 'vitest'; // Vitestのテスト関数をインポート
+import { useCounter } from '../useCounter'; // テスト対象のカスタムフック
 
 // useCounterフックのテストスイート
 describe('useCounter', () => {
