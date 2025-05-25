@@ -1,6 +1,6 @@
 import { convertFileSrc } from '@tauri-apps/api/core';
 import { basename } from '@tauri-apps/api/path';
-import type { FileSystemService } from '../service/FileSystem.types';
+import type { FileSystemService } from '../service/FileSystemService';
 import type { ImageContainer } from '../types/ImageContainer';
 import type { ImageSource } from '../types/ImageSource';
 import { isStringArray } from '../utils/isStringArray';

@@ -1,6 +1,6 @@
-import { basename } from '@tauri-apps/api/path';
 import { useEffect, useState } from 'react';
 import { useServices } from '../context/ServiceContext';
+import { getSiblingFolderEntries } from '../service/getSiblingFolders';
 
 export type FolderEntry = {
   name: string;
@@ -15,33 +15,37 @@ export type FolderEntry = {
  * @returns - 同階層のフォルダのパスと、各フォルダのサムネイル
  */
 export function useFolderNavigator(currentFolderPath: string) {
+  // 同階層のフォルダ情報（パス・名前）のリストを保持するstate
   const [entries, setEntries] = useState<FolderEntry[]>([]);
-  const { getSiblingFolders } = useServices();
+
+  // ファイルシステム関連のサービスを取得
+  const fs = useServices();
 
   useEffect(() => {
     let mounted = true;
 
+    // 指定フォルダと同階層のフォルダ一覧を取得し、各フォルダ名を取得してstateにセットする
     async function load() {
-      const paths = await getSiblingFolders(currentFolderPath);
+      if (!mounted) {
+        setEntries([]);
+        return;
+      }
 
-      if (!mounted) return;
-
-      const entries: FolderEntry[] = await Promise.all(
-        paths.map(async (path) => ({
-          path,
-          name: await basename(path),
-        })),
-      );
+      // 各フォルダパスからフォルダ名を取得し、FolderEntry配列を生成
+      const entries = await getSiblingFolderEntries(currentFolderPath, fs);
 
       setEntries(entries);
     }
 
+    // 副作用としてデータ取得処理を実行
     load();
 
+    // アンマウント時のクリーンアップ
     return () => {
       mounted = false;
     };
-  }, [currentFolderPath, getSiblingFolders]);
+  }, [currentFolderPath, fs]);
 
+  // フォルダエントリ一覧を返す
   return { entries };
 }

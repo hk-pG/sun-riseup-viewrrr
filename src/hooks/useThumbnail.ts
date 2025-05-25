@@ -2,7 +2,7 @@ import { convertFileSrc } from '@tauri-apps/api/core';
 import { basename } from '@tauri-apps/api/path';
 import useSWR from 'swr';
 import { useServices } from '../context/ServiceContext';
-import type { FileSystemService } from '../service/FileSystem.types';
+import type { FileSystemService } from '../service/FileSystemService';
 import type { ImageSource } from '../types/ImageSource';
 
 async function fetchThumbnail(

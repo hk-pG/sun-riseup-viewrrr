@@ -1,6 +1,6 @@
 import { createContext, useContext } from 'react';
-import type { FileSystemService } from '../service/FileSystem.types';
-import { tauriFileSystemService } from '../service/tauriAdapters';
+import { tauriFileSystemService } from '../adapters/tauriAdapters';
+import type { FileSystemService } from '../service/FileSystemService';
 
 const servicesContext = createContext<FileSystemService>(
   tauriFileSystemService,
