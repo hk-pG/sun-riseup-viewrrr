@@ -27,3 +27,10 @@ jobs:
 
       - name: Run linter
         run: pnpm lint
+
+      - name: Run frontend tests
+        run: pnpm test
+
+      - name: Run Rust tests
+        run: cargo test
+        working-directory: ./src-tauri
