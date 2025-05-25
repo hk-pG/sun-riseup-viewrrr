@@ -7,7 +7,8 @@ import {
   dirname as tauriDirname,
 } from '@tauri-apps/api/path';
 import { open as tauriOpenDialog } from '@tauri-apps/plugin-dialog';
-import type { FileSystemService } from './FileSystem.types';
+import type { FileSystemService } from '../service/FileSystemService';
+import { isStringArray } from '../utils/isStringArray';
 
 export const tauriFileSystemService: FileSystemService = {
   openDirectoryDialog: async (): Promise<string | null> => {
@@ -40,6 +41,10 @@ export const tauriFileSystemService: FileSystemService = {
       const folders = await invoke<string[]>('get_sibling_folders', {
         folderPath,
       });
+      if (!isStringArray(folders)) {
+        console.error('Invalid response from getSiblingFolders:', folders);
+        return [];
+      }
       return folders;
     } catch (error) {
       console.error('Error getting sibling folders:', error);
