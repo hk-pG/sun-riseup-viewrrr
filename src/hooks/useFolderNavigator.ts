@@ -31,10 +31,9 @@ export function useFolderNavigator(currentFolderPath: string) {
         return;
       }
 
-      // 2. 各フォルダパスからフォルダ名を取得し、FolderEntry配列を生成
+      // 各フォルダパスからフォルダ名を取得し、FolderEntry配列を生成
       const entries = await getSiblingFolderEntries(currentFolderPath, fs);
 
-      // 3. stateを更新
       setEntries(entries);
     }
 
