@@ -1,6 +1,8 @@
-# Tauri + React + Typescript
+# Sun-Riseup-Viewrrr
 
-This template should help get you started developing with Tauri, React and Typescript in Vite.
+Sun-Riseup-Viewrrr is an image viewer application mainly designed for enjoying manga and illustration collections.
+
+I started this project to realize the experience I personally seek, and to make it available cross-platform.
 
 ## Recommended IDE Setup
 
@@ -29,3 +31,4 @@ Please refer to the official Tauri documentation for the prerequisites specific 
 
     ```bash
     pnpm run build
+    ```
