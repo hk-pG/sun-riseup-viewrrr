@@ -24,11 +24,11 @@ Please refer to the official Tauri documentation for the prerequisites specific 
 2. **Run in Development Mode:**
 
     ```bash
-    pnpm run dev
+    pnpm tauri dev
     ```
 
 3. **Build for Production:**
 
     ```bash
-    pnpm run build
+    pnpm tauri build
     ```
