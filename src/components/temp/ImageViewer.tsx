@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import useSWR from 'swr';
-import { LocalFolderContainer } from '../containers/LocalFolderContainer';
-import { useServices } from '../context/ServiceContext';
+import { LocalFolderContainer } from '../../containers/LocalFolderContainer';
+import { useServices } from '../../context/ServiceContext';
 
 type Props = {
   folderPath: string;

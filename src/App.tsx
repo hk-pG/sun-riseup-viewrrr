@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import './App.css';
-import FolderListPanel from './components/FolderListPanel';
-import ImageViewer from './components/ImageViewer';
-import { SelectFolderButton } from './components/SelectFolderButton';
+import FolderListPanel from './components/temp/FolderListPanel';
+import ImageViewer from './components/temp/ImageViewer';
+import { SelectFolderButton } from './components/temp/SelectFolderButton';
 import { useFolderNavigator } from './components/hooks/useFolderNavigator';
 
 function App() {

@@ -1,4 +1,4 @@
-import { useThumbnail } from './hooks/useThumbnail';
+import { useThumbnail } from '../hooks/useThumbnail';
 
 type Props = {
   folderPath: string;
