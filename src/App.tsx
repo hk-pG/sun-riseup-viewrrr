@@ -1,32 +1,45 @@
 import { useState } from 'react';
 import './App.css';
-import FolderListPanel from './components/FolderListPanel';
-import ImageViewer from './components/ImageViewer';
-import { SelectFolderButton } from './components/SelectFolderButton';
-import { useFolderNavigator } from './hooks/useFolderNavigator';
+import { HeaderMenu, Sidebar } from './components';
+import { ImageViewer } from './components/ImageViewer';
+import { useSiblingFolders } from './components/hooks/useSiblingFolders';
+import { useServices } from './context/ServiceContext';
 
 function App() {
   // 現在表示しているフォルダのパス
   const [currentFolderPath, setCurrentFolderPath] = useState<string>('');
 
-  const { entries } = useFolderNavigator(currentFolderPath);
+  // サイドバーの表示のために同階層のフォルダ情報を取得
+  const { entries } = useSiblingFolders(currentFolderPath);
 
-  console.log(entries);
+  // ファイルシステムサービスを取得
+  const fss = useServices();
 
   return (
     <>
-      <header className="flex items-center justify-between p-4 bg-gray-200">
-        <SelectFolderButton onSelect={setCurrentFolderPath} />
-      </header>
-
-      <div className="flex h-screen">
-        <FolderListPanel
-          entries={entries}
-          currentFolder={currentFolderPath}
-          onSelect={(folder) => setCurrentFolderPath(folder)}
+      <div className="h-screen flex flex-col bg-gray-100">
+        <HeaderMenu
+          menuActions={[]}
+          onMenuAction={(_actionId, _action) => {}}
+          title={currentFolderPath}
+          onOpenFolder={async () => {
+            const path = await fss.openDirectoryDialog();
+            if (path) {
+              setCurrentFolderPath(path);
+            }
+          }}
         />
-        <div className="flex flex-col items-center justify-center">
-          <ImageViewer key={currentFolderPath} folderPath={currentFolderPath} />
+
+        <div className="h-screen flex bg-gray-100">
+          <Sidebar
+            folders={entries}
+            onFolderSelect={(folder) => {
+              const { path } = folder;
+              setCurrentFolderPath(path);
+            }}
+            width={280}
+          />
+          <ImageViewer folderPath={currentFolderPath} className="flex-1" />
         </div>
       </div>
     </>

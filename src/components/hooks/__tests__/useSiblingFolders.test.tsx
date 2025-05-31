@@ -1,8 +1,8 @@
+import { ServicesProvider } from '@/context/ServiceContext';
+import type { FileSystemService } from '@/service/FileSystemService';
 import { act, renderHook, waitFor } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { ServicesProvider } from '../../context/ServiceContext';
-import type { FileSystemService } from '../../service/FileSystemService';
-import { type FolderEntry, useFolderNavigator } from '../useFolderNavigator';
+import { type FolderEntry, useSiblingFolders } from '../useSiblingFolders';
 
 // --- 定数 ---
 const TEST_CURRENT_PATH = '/path/to/current';
@@ -37,7 +37,7 @@ describe('useFolderNavigator', () => {
   });
 
   it('初期状態または currentFolderPath が空文字列の場合、entries は空配列であり、フォルダ取得処理は実行されない', async () => {
-    const { result } = renderHook(() => useFolderNavigator(''), {
+    const { result } = renderHook(() => useSiblingFolders(''), {
       wrapper: ServicesWrapper,
     });
 
@@ -68,7 +68,7 @@ describe('useFolderNavigator', () => {
         return '';
       });
 
-    const { result } = renderHook(() => useFolderNavigator(TEST_CURRENT_PATH), {
+    const { result } = renderHook(() => useSiblingFolders(TEST_CURRENT_PATH), {
       wrapper: ServicesWrapper,
     });
 
@@ -90,7 +90,7 @@ describe('useFolderNavigator', () => {
   it('該当するフォルダがない場合、entries は空配列であること', async () => {
     mockFileSystemService.getSiblingFolders = vi.fn().mockResolvedValue([]);
 
-    const { result } = renderHook(() => useFolderNavigator(TEST_CURRENT_PATH), {
+    const { result } = renderHook(() => useSiblingFolders(TEST_CURRENT_PATH), {
       wrapper: ServicesWrapper,
     });
 
@@ -111,7 +111,7 @@ describe('useFolderNavigator', () => {
       .fn()
       .mockRejectedValue(new Error('Failed to get sibling folders'));
 
-    const { result } = renderHook(() => useFolderNavigator(TEST_CURRENT_PATH), {
+    const { result } = renderHook(() => useSiblingFolders(TEST_CURRENT_PATH), {
       wrapper: ServicesWrapper,
     });
 
@@ -136,7 +136,7 @@ describe('useFolderNavigator', () => {
       .fn()
       .mockRejectedValue(new Error('Failed to get base name'));
 
-    const { result } = renderHook(() => useFolderNavigator(TEST_CURRENT_PATH), {
+    const { result } = renderHook(() => useSiblingFolders(TEST_CURRENT_PATH), {
       wrapper: ServicesWrapper,
     });
 
@@ -168,7 +168,7 @@ describe('useFolderNavigator', () => {
       .mockResolvedValue(TEST_FOLDER_NAME_1);
 
     const { unmount, result } = renderHook(
-      () => useFolderNavigator(TEST_CURRENT_PATH),
+      () => useSiblingFolders(TEST_CURRENT_PATH),
       {
         wrapper: ServicesWrapper,
       },
