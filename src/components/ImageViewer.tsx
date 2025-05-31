@@ -1,7 +1,6 @@
 'use client';
 
 import type { ImageViewerProps, ViewerSettings } from '@/types/viewerTypes';
-import type React from 'react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useControlsVisibility } from '../hooks/useControlsVisibility';
 import { useKeyboardHandler } from '../hooks/useKeyboardHandler';
@@ -18,7 +17,7 @@ const defaultSettings: ViewerSettings = {
   controlsTimeout: 3000,
 };
 
-export const ImageViewer: React.FC<ImageViewerProps> = ({
+export function ImageViewer({
   images,
   initialIndex = 0,
   settings: userSettings,
@@ -28,7 +27,7 @@ export const ImageViewer: React.FC<ImageViewerProps> = ({
   error,
   className = '',
   style,
-}) => {
+}: ImageViewerProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [currentIndex, setCurrentIndex] = useState(initialIndex);
   const [settings, setSettings] = useState<ViewerSettings>({
@@ -274,4 +273,4 @@ export const ImageViewer: React.FC<ImageViewerProps> = ({
       />
     </div>
   );
-};
+}

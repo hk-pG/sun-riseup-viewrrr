@@ -1,6 +1,5 @@
 'use client';
 
-import type React from 'react';
 import { useState } from 'react';
 import {
   getShortcutDescription,
@@ -15,12 +14,12 @@ interface KeyboardShortcutHelpProps {
   className?: string;
 }
 
-export const KeyboardShortcutHelp: React.FC<KeyboardShortcutHelpProps> = ({
+export function KeyboardShortcutHelp({
   mapping,
   isOpen,
   onClose,
   className = '',
-}) => {
+}: KeyboardShortcutHelpProps) {
   const [searchTerm, setSearchTerm] = useState('');
 
   if (!isOpen) return null;
@@ -127,4 +126,4 @@ export const KeyboardShortcutHelp: React.FC<KeyboardShortcutHelpProps> = ({
       </div>
     </div>
   );
-};
+}

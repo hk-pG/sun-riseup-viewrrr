@@ -1,12 +1,7 @@
-import type React from 'react';
 import { useState } from 'react';
 import type { MenuItemProps } from '../types/viewerTypes';
 
-export const MenuItem: React.FC<MenuItemProps> = ({
-  action,
-  onAction,
-  depth = 0,
-}) => {
+export function MenuItem({ action, onAction, depth = 0 }: MenuItemProps) {
   const [isOpen, setIsOpen] = useState(false);
   const hasSubmenu = action.submenu && action.submenu.length > 0;
 
@@ -57,4 +52,4 @@ export const MenuItem: React.FC<MenuItemProps> = ({
       )}
     </div>
   );
-};
+}

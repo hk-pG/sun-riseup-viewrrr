@@ -1,7 +1,6 @@
-import type React from 'react';
 import type { ViewerControlsProps } from '../types/viewerTypes';
 
-export const ViewerControls: React.FC<ViewerControlsProps> = ({
+export function ViewerControls({
   currentIndex,
   totalImages,
   zoom,
@@ -12,7 +11,7 @@ export const ViewerControls: React.FC<ViewerControlsProps> = ({
   onResetZoom,
   isVisible,
   className = '',
-}) => {
+}: ViewerControlsProps) {
   if (!isVisible) return null;
 
   return (
@@ -72,4 +71,4 @@ export const ViewerControls: React.FC<ViewerControlsProps> = ({
       </button>
     </div>
   );
-};
+}

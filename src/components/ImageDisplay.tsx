@@ -1,17 +1,16 @@
 'use client';
 
-import type React from 'react';
 import { useCallback } from 'react';
 import type { ImageDisplayProps } from '../types/viewerTypes';
 
-export const ImageDisplay: React.FC<ImageDisplayProps> = ({
+export function ImageDisplay({
   image,
   settings,
   onLoad,
   onError,
   className = '',
   style,
-}) => {
+}: ImageDisplayProps) {
   const handleImageLoad = useCallback(() => {
     onLoad?.();
   }, [onLoad]);
@@ -55,4 +54,4 @@ export const ImageDisplay: React.FC<ImageDisplayProps> = ({
       />
     </div>
   );
-};
+}

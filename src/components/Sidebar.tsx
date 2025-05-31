@@ -1,8 +1,7 @@
 import type { SidebarProps } from '@/types/viewerTypes';
-import type React from 'react';
 import { FolderList } from './FolderList';
 
-export const Sidebar: React.FC<SidebarProps> = ({
+export function Sidebar({
   folders,
   selectedFolder,
   onFolderSelect,
@@ -14,7 +13,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
   emptyMessage = 'フォルダが見つかりません',
   className = '',
   style,
-}) => {
+}: SidebarProps) {
   const renderContent = () => {
     if (loading) {
       return (
@@ -59,4 +58,4 @@ export const Sidebar: React.FC<SidebarProps> = ({
       </div>
     </aside>
   );
-};
+}

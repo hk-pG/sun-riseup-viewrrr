@@ -1,17 +1,16 @@
 'use client';
 
-import type React from 'react';
 import type { FolderListProps } from '../types/viewerTypes';
 import { FolderView } from './FolderView';
 
-export const FolderList: React.FC<FolderListProps> = ({
+export function FolderList({
   folders,
   selectedFolder,
   onFolderSelect,
   onFolderDoubleClick,
   thumbnailSize = 100,
   showImageCount = true,
-}) => {
+}: FolderListProps) {
   return (
     <div className="space-y-2">
       {folders.map((folder) => (
@@ -27,4 +26,4 @@ export const FolderList: React.FC<FolderListProps> = ({
       ))}
     </div>
   );
-};
+}

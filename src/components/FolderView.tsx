@@ -1,7 +1,6 @@
 import type { FolderViewProps } from '@/types/viewerTypes';
-import type React from 'react';
 
-export const FolderView: React.FC<FolderViewProps> = ({
+export function FolderView({
   folder,
   isSelected = false,
   onClick,
@@ -9,7 +8,7 @@ export const FolderView: React.FC<FolderViewProps> = ({
   thumbnailSize = 120,
   showImageCount = true,
   className = '',
-}) => {
+}: FolderViewProps) {
   const handleClick = () => {
     onClick(folder);
   };
@@ -68,4 +67,4 @@ export const FolderView: React.FC<FolderViewProps> = ({
       </div>
     </div>
   );
-};
+}

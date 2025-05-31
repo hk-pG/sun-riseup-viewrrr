@@ -1,16 +1,15 @@
-import type React from 'react';
 import { useState } from 'react';
 import type { HeaderMenuProps, MenuAction } from '../types/viewerTypes';
 import { MenuDropdown } from './MenuDropdown';
 
-export const HeaderMenu: React.FC<HeaderMenuProps> = ({
+export function HeaderMenu({
   title = '漫画ビューア',
   menuActions,
   onMenuAction,
   onOpenFolder,
   className = '',
   style,
-}) => {
+}: HeaderMenuProps) {
   const [openMenuId, setOpenMenuId] = useState<string | null>(null);
 
   const handleMenuClick = (actionId: string) => {
@@ -82,4 +81,4 @@ export const HeaderMenu: React.FC<HeaderMenuProps> = ({
       </div>
     </header>
   );
-};
+}

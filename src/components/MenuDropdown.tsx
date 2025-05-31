@@ -1,17 +1,16 @@
 'use client';
 
-import type React from 'react';
 import { useEffect, useRef } from 'react';
 import type { MenuDropdownProps } from '../types/viewerTypes';
 import { MenuItem } from './MenuItem';
 
-export const MenuDropdown: React.FC<MenuDropdownProps> = ({
+export function MenuDropdown({
   actions,
   onAction,
   isOpen,
   onClose,
   className = '',
-}) => {
+}: MenuDropdownProps) {
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -45,4 +44,4 @@ export const MenuDropdown: React.FC<MenuDropdownProps> = ({
       ))}
     </div>
   );
-};
+}
