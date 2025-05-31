@@ -1,5 +1,9 @@
-import type React from 'react';
-// 共通の型定義
+/**
+ * 画像ファイルのファイルシステム上の情報を表す型。
+ * - 画像のパスやファイル名、サイズ、更新日時などを保持する。
+ * - UIで画像リストやサムネイル表示などに利用される。
+ * - ImageSource（表示用リソース型）への変換元となることが多い。
+ */
 export interface ImageFile {
   path: string;
   name: string;
@@ -7,6 +11,12 @@ export interface ImageFile {
   lastModified?: Date;
 }
 
+/**
+ * フォルダ情報を表す型。
+ * - フォルダのパスや名前、サムネイル画像、画像数などを保持する。
+ * - サイドバーやフォルダリスト表示などで利用される。
+ * - thumbnailImageはImageFile型を参照する。
+ */
 export interface FolderInfo {
   path: string;
   name: string;
@@ -14,7 +24,11 @@ export interface FolderInfo {
   imageCount?: number;
 }
 
-// ヘッダメニューの型定義
+/**
+ * メニュー項目の情報を表す型。
+ * - メニューのID、ラベル、アイコン、ショートカット、サブメニューなどを保持する。
+ * - HeaderMenuPropsやMenuDropdownProps、MenuItemPropsなどで利用される。
+ */
 export interface MenuAction {
   id: string;
   label: string;
@@ -24,6 +38,10 @@ export interface MenuAction {
   submenu?: MenuAction[];
 }
 
+/**
+ * ヘッダーメニューコンポーネントのprops型。
+ * - メニュー項目（MenuAction型）やイベントハンドラなどを受け取る。
+ */
 export interface HeaderMenuProps {
   title?: string;
   menuActions: MenuAction[];
@@ -33,13 +51,20 @@ export interface HeaderMenuProps {
   style?: React.CSSProperties;
 }
 
-// メニュー関連の分離された型
+/**
+ * メニューアイテムコンポーネントのprops型。
+ * - MenuAction型のactionを受け取る。
+ */
 export interface MenuItemProps {
   action: MenuAction;
   onAction: (actionId: string, action: MenuAction) => void;
   depth?: number;
 }
 
+/**
+ * ドロップダウンメニューコンポーネントのprops型。
+ * - MenuAction型の配列を受け取る。
+ */
 export interface MenuDropdownProps {
   actions: MenuAction[];
   onAction: (actionId: string, action: MenuAction) => void;
@@ -48,7 +73,10 @@ export interface MenuDropdownProps {
   className?: string;
 }
 
-// サイドバーの型定義
+/**
+ * フォルダ表示コンポーネントのprops型。
+ * - FolderInfo型のfolderを受け取る。
+ */
 export interface FolderViewProps {
   folder: FolderInfo;
   isSelected?: boolean;
@@ -59,6 +87,10 @@ export interface FolderViewProps {
   className?: string;
 }
 
+/**
+ * フォルダリストコンポーネントのprops型。
+ * - FolderInfo型の配列を受け取る。
+ */
 export interface FolderListProps {
   folders: FolderInfo[];
   selectedFolder?: FolderInfo;
@@ -68,6 +100,10 @@ export interface FolderListProps {
   showImageCount?: boolean;
 }
 
+/**
+ * サイドバーコンポーネントのprops型。
+ * - FolderInfo型の配列を受け取る。
+ */
 export interface SidebarProps {
   folders: FolderInfo[];
   selectedFolder?: FolderInfo;
@@ -82,7 +118,11 @@ export interface SidebarProps {
   style?: React.CSSProperties;
 }
 
-// 画像ビューア関連の型定義
+/**
+ * 画像ビューアの表示設定を表す型。
+ * - ズーム、回転、背景色、コントロール表示などの設定を保持する。
+ * - ImageViewerPropsやImageDisplayPropsで利用される。
+ */
 export interface ViewerSettings {
   fitMode: 'width' | 'height' | 'both' | 'none';
   zoom: number;
@@ -93,6 +133,10 @@ export interface ViewerSettings {
   controlsTimeout: number;
 }
 
+/**
+ * 画像表示コンポーネントのprops型。
+ * - ImageFile型のimageとViewerSettings型のsettingsを受け取る。
+ */
 export interface ImageDisplayProps {
   image: ImageFile;
   settings: ViewerSettings;
@@ -102,6 +146,10 @@ export interface ImageDisplayProps {
   style?: React.CSSProperties;
 }
 
+/**
+ * ビューアコントロールバーのprops型。
+ * - 現在のインデックスやズーム値、各種操作ハンドラを受け取る。
+ */
 export interface ViewerControlsProps {
   currentIndex: number;
   totalImages: number;
@@ -115,7 +163,10 @@ export interface ViewerControlsProps {
   className?: string;
 }
 
-// キーボードショートカット関連の型定義
+/**
+ * 画像ビューアのキーボードアクション種別。
+ * - KeyboardMappingやKeyboardShortcutと連携する。
+ */
 export type ActionType =
   | 'nextImage'
   | 'previousImage'
@@ -132,6 +183,10 @@ export type ActionType =
   | 'resetRotation'
   | string;
 
+/**
+ * キーボードショートカットの情報を表す型。
+ * - KeyboardMappingで利用される。
+ */
 export interface KeyboardShortcut {
   key: string;
   ctrlKey?: boolean;
@@ -142,13 +197,22 @@ export interface KeyboardShortcut {
   description?: string;
 }
 
+/**
+ * キーボードショートカットのマッピングを表す型。
+ * - アクションごとにKeyboardShortcut配列を持つ。
+ * - onActionでアクション発火時の処理を定義。
+ */
 export interface KeyboardMapping {
   shortcuts: Map<ActionType, KeyboardShortcut[]>;
   onAction: (action: ActionType, event: KeyboardEvent) => void;
   enabled?: boolean;
 }
 
-// ImageViewerの簡素化された型定義
+/**
+ * 画像ビューアのコールバック関数群。
+ * - ImageViewerPropsで利用される。
+ * - ImageFile型やViewerSettings型と連携する。
+ */
 export interface ImageViewerCallbacks {
   onImageChange?: (index: number, image: ImageFile) => void;
   onZoomChange?: (zoom: number) => void;
@@ -159,6 +223,10 @@ export interface ImageViewerCallbacks {
   onImageError?: (error: Error, image: ImageFile) => void;
 }
 
+/**
+ * 画像ビューアコンポーネントのprops型。
+ * - ImageFile型の配列やViewerSettings、KeyboardMapping、コールバック群を受け取る。
+ */
 export interface ImageViewerProps {
   images: ImageFile[];
   initialIndex?: number;
