@@ -1,5 +1,5 @@
-import type { FolderEntry } from '../hooks/useFolderNavigator';
 import { FolderListItem } from './FolderListItem';
+import type { FolderEntry } from './hooks/useFolderNavigator';
 
 type Props = {
   entries: FolderEntry[];

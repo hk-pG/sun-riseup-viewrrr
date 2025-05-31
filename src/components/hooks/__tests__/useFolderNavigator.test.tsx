@@ -1,8 +1,8 @@
 import { act, renderHook, waitFor } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { ServicesProvider } from '../../context/ServiceContext';
-import type { FileSystemService } from '../../service/FileSystemService';
 import { type FolderEntry, useFolderNavigator } from '../useFolderNavigator';
+import type { FileSystemService } from '@/service/FileSystemService';
+import { ServicesProvider } from '@/context/ServiceContext';
 
 // --- 定数 ---
 const TEST_CURRENT_PATH = '/path/to/current';

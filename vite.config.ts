@@ -10,7 +10,7 @@ export default defineConfig(async () => ({
   resolve: {
     alias: {
       // エイリアス設定
-      '@': 'src/',
+      '@': '/src',
     },
   },
   test: {

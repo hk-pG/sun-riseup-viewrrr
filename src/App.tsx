@@ -3,7 +3,7 @@ import './App.css';
 import FolderListPanel from './components/FolderListPanel';
 import ImageViewer from './components/ImageViewer';
 import { SelectFolderButton } from './components/SelectFolderButton';
-import { useFolderNavigator } from './hooks/useFolderNavigator';
+import { useFolderNavigator } from './components/hooks/useFolderNavigator';
 
 function App() {
   // 現在表示しているフォルダのパス
