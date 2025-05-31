@@ -13,5 +13,4 @@ export type {
   SidebarProps,
   ViewerSettings,
   ImageViewerCallbacks,
-  ImageViewerProps,
 } from '../types/viewerTypes';

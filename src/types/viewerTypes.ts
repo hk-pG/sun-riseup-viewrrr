@@ -222,19 +222,3 @@ export interface ImageViewerCallbacks {
   onImageLoad?: (image: ImageFile) => void;
   onImageError?: (error: Error, image: ImageFile) => void;
 }
-
-/**
- * 画像ビューアコンポーネントのprops型。
- * - ImageFile型の配列やViewerSettings、KeyboardMapping、コールバック群を受け取る。
- */
-export interface ImageViewerProps {
-  images: ImageFile[];
-  initialIndex?: number;
-  settings?: Partial<ViewerSettings>;
-  keyboardMapping?: KeyboardMapping;
-  callbacks?: ImageViewerCallbacks;
-  loading?: boolean;
-  error?: string;
-  className?: string;
-  style?: React.CSSProperties;
-}

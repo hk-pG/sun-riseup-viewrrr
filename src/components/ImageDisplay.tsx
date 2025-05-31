@@ -1,7 +1,17 @@
 'use client';
 
 import { useCallback } from 'react';
-import type { ImageDisplayProps } from '../types/viewerTypes';
+import type { ImageSource } from '../types/ImageSource';
+import type { ViewerSettings } from '../types/viewerTypes';
+
+export interface ImageDisplayProps {
+  image: ImageSource;
+  settings: ViewerSettings;
+  onLoad?: () => void;
+  onError?: (error: Error) => void;
+  className?: string;
+  style?: React.CSSProperties;
+}
 
 export function ImageDisplay({
   image,
@@ -44,7 +54,7 @@ export function ImageDisplay({
       style={{ backgroundColor: settings.backgroundColor, ...style }}
     >
       <img
-        src={image.path || '/placeholder.svg'}
+        src={image.assetUrl || '/placeholder.svg'}
         alt={image.name}
         style={getImageStyle()}
         onLoad={handleImageLoad}

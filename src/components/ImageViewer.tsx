@@ -1,11 +1,38 @@
 'use client';
 
-import type { ImageViewerProps, ViewerSettings } from '@/types/viewerTypes';
+import type { FileSystemService } from '@/service/FileSystemService';
+import type { ImageSource } from '@/types/ImageSource';
+import type { ViewerSettings } from '@/types/viewerTypes';
+import type { KeyboardMapping } from '@/types/viewerTypes';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import useSWR from 'swr';
+import { LocalFolderContainer } from '../containers/LocalFolderContainer';
+import { useServices } from '../context/ServiceContext';
 import { useControlsVisibility } from '../hooks/useControlsVisibility';
 import { useKeyboardHandler } from '../hooks/useKeyboardHandler';
 import { ImageDisplay } from './ImageDisplay';
 import { ViewerControls } from './ViewerControls';
+
+/**
+ * ImageViewerProps: フォルダパスを受け取り、その中の画像を表示するビューアのprops
+ */
+export interface ImageViewerProps {
+  folderPath: string;
+  initialIndex?: number;
+  settings?: Partial<ViewerSettings>;
+  keyboardMapping?: KeyboardMapping;
+  callbacks?: {
+    onImageChange?: (index: number, image: ImageSource) => void;
+    onZoomChange?: (zoom: number) => void;
+    onRotationChange?: (rotation: number) => void;
+    onSettingsChange?: (settings: Partial<ViewerSettings>) => void;
+    onCustomAction?: (action: string, event: KeyboardEvent) => void;
+    onImageLoad?: (image: ImageSource) => void;
+    onImageError?: (error: Error, image: ImageSource) => void;
+  };
+  className?: string;
+  style?: React.CSSProperties;
+}
 
 const defaultSettings: ViewerSettings = {
   fitMode: 'both',
@@ -17,25 +44,37 @@ const defaultSettings: ViewerSettings = {
   controlsTimeout: 3000,
 };
 
+const fetchImages = async (folderPath: string, fs: FileSystemService) => {
+  const container = new LocalFolderContainer(folderPath, fs);
+  return await container.listImages();
+};
+
 export function ImageViewer({
-  images,
+  folderPath,
   initialIndex = 0,
   settings: userSettings,
   keyboardMapping,
   callbacks,
-  loading = false,
-  error,
   className = '',
   style,
 }: ImageViewerProps) {
-  const containerRef = useRef<HTMLDivElement>(null);
+  const fs = useServices();
+  const {
+    data: images = [],
+    isLoading,
+    error,
+  } = useSWR(
+    folderPath ? ['images', folderPath] : null,
+    () => fetchImages(folderPath, fs),
+    { revalidateOnFocus: false },
+  );
+  const [loading, setLoading] = useState(true);
   const [currentIndex, setCurrentIndex] = useState(initialIndex);
   const [settings, setSettings] = useState<ViewerSettings>({
     ...defaultSettings,
     ...userSettings,
   });
-
-  const currentImage = images[currentIndex];
+  const containerRef = useRef<HTMLDivElement>(null);
 
   // コントロールの表示管理
   const { isVisible: controlsVisible, handleMouseMove } = useControlsVisibility(
@@ -65,21 +104,6 @@ export function ImageViewer({
     });
   }, [images, callbacks]);
 
-  const goToFirst = useCallback(() => {
-    setCurrentIndex(0);
-    if (callbacks?.onImageChange) {
-      callbacks.onImageChange(0, images[0]);
-    }
-  }, [images, callbacks]);
-
-  const goToLast = useCallback(() => {
-    const lastIndex = images.length - 1;
-    setCurrentIndex(lastIndex);
-    if (callbacks?.onImageChange) {
-      callbacks.onImageChange(lastIndex, images[lastIndex]);
-    }
-  }, [images, callbacks]);
-
   // ズーム・回転関数
   const zoomIn = useCallback(() => {
     setSettings((prev) => {
@@ -104,103 +128,9 @@ export function ImageViewer({
     });
   }, [callbacks]);
 
-  const rotateRight = useCallback(() => {
-    setSettings((prev) => {
-      const newRotation = prev.rotation + 90;
-      callbacks?.onRotationChange?.(newRotation);
-      return { ...prev, rotation: newRotation };
-    });
-  }, [callbacks]);
-
-  const rotateLeft = useCallback(() => {
-    setSettings((prev) => {
-      const newRotation = prev.rotation - 90;
-      callbacks?.onRotationChange?.(newRotation);
-      return { ...prev, rotation: newRotation };
-    });
-  }, [callbacks]);
-
-  const resetRotation = useCallback(() => {
-    setSettings((prev) => {
-      callbacks?.onRotationChange?.(0);
-      return { ...prev, rotation: 0 };
-    });
-  }, [callbacks]);
-
-  // 設定変更関数
-  const toggleControls = useCallback(() => {
-    setSettings((prev) => {
-      const newSettings = { ...prev, showControls: !prev.showControls };
-      callbacks?.onSettingsChange?.(newSettings);
-      return newSettings;
-    });
-  }, [callbacks]);
-
-  const toggleFitMode = useCallback(() => {
-    setSettings((prev) => {
-      const modes = ['both', 'width', 'height', 'none'] as const;
-      const currentIndex = modes.indexOf(prev.fitMode);
-      const nextMode = modes[(currentIndex + 1) % modes.length];
-      const newSettings = { ...prev, fitMode: nextMode };
-      callbacks?.onSettingsChange?.(newSettings);
-      return newSettings;
-    });
-  }, [callbacks]);
-
   // キーボードマッピングの拡張
-  const extendedKeyboardMapping = keyboardMapping
-    ? {
-        ...keyboardMapping,
-        onAction: (action: string, event: KeyboardEvent) => {
-          switch (action) {
-            case 'nextImage':
-              goToNext();
-              break;
-            case 'previousImage':
-              goToPrevious();
-              break;
-            case 'firstImage':
-              goToFirst();
-              break;
-            case 'lastImage':
-              goToLast();
-              break;
-            case 'zoomIn':
-              zoomIn();
-              break;
-            case 'zoomOut':
-              zoomOut();
-              break;
-            case 'resetZoom':
-              resetZoom();
-              break;
-            case 'rotateRight':
-              rotateRight();
-              break;
-            case 'rotateLeft':
-              rotateLeft();
-              break;
-            case 'resetRotation':
-              resetRotation();
-              break;
-            case 'toggleControls':
-              toggleControls();
-              break;
-            case 'toggleFitMode':
-              toggleFitMode();
-              break;
-            default:
-              // カスタムアクションは元のハンドラーに委譲
-              keyboardMapping.onAction(action, event);
-              callbacks?.onCustomAction?.(action, event);
-              break;
-          }
-        },
-      }
-    : undefined;
-
-  // キーボードハンドラーの設定
-  useKeyboardHandler(extendedKeyboardMapping, containerRef);
+  // 画像数やコールバックの都合でonActionだけ差し替えたい場合は、親でKeyboardMappingを生成して渡す設計にする
+  useKeyboardHandler(keyboardMapping, containerRef);
 
   // 外部からの設定変更を反映
   useEffect(() => {
@@ -211,6 +141,10 @@ export function ImageViewer({
   useEffect(() => {
     setCurrentIndex(initialIndex);
   }, [initialIndex]);
+
+  useEffect(() => {
+    setLoading(isLoading);
+  }, [isLoading]);
 
   if (loading) {
     return (
@@ -229,12 +163,12 @@ export function ImageViewer({
         className={`flex items-center justify-center ${className}`}
         style={{ backgroundColor: settings.backgroundColor, ...style }}
       >
-        <div className="text-red-400 text-lg">{error}</div>
+        <div className="text-red-400 text-lg">{String(error)}</div>
       </div>
     );
   }
 
-  if (!currentImage || images.length === 0) {
+  if (images.length === 0) {
     return (
       <div
         className={`flex items-center justify-center ${className}`}
@@ -244,6 +178,8 @@ export function ImageViewer({
       </div>
     );
   }
+
+  const currentImage = images[currentIndex];
 
   return (
     <div

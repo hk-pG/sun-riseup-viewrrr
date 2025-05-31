@@ -14,7 +14,7 @@ export type FolderEntry = {
  * @param currentFolderPath - 現在のフォルダのパス
  * @returns - 同階層のフォルダのパスと、各フォルダのサムネイル
  */
-export function useFolderNavigator(currentFolderPath: string) {
+export function useSiblingFolders(currentFolderPath: string) {
   // 同階層のフォルダ情報（パス・名前）のリストを保持するstate
   const [entries, setEntries] = useState<FolderEntry[]>([]);
 
