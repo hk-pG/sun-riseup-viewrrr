@@ -5,14 +5,12 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Launch App Debug",
+      "name": "Debug Rust Backend",
       "type": "cppvsdbg",
       "request": "launch",
-      // 実行ファイル（exe）名を実際に用いる exe ファイル名に変更してください。
-      //  「リリース・ビルド」（公開版）をデバッグするには、`target/debug` を `release/debug` に変更してください。）
-      "program": "${workspaceRoot}/src-tauri/target/debug/sun-riseup-viewrrr.exe",
+      "preLaunchTask": "tauri:dev",
       "cwd": "${workspaceRoot}",
-      "preLaunchTask": "dev",
+      "program": "${workspaceRoot}/src-tauri/target/debug/sun-riseup-viewrrr.exe",
       "postDebugTask": "ui:dev:stop",
       "environment": [
         {
@@ -23,17 +21,17 @@
     },
     {
       "name": "Attach to Webview",
-      "port": 1420,
-      "request": "attach",
-      "timeout": 300000,
       "type": "chrome",
-      "webRoot": "${workspaceFolder}"
+      "request": "attach",
+      "port": 1420,
+      "webRoot": "${workspaceFolder}",
+      "timeout": 300000
     }
   ],
   "compounds": [
     {
-      "name": "Tauri Dev All",
-      "configurations": ["Launch App Debug", "Attach to Webview"]
+      "name": "Tauri Dev (Rust+Webview)",
+      "configurations": ["Debug Rust Backend", "Attach to Webview"]
     }
   ]
 }

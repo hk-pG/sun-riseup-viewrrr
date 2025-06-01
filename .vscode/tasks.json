@@ -4,46 +4,23 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "dev",
-      "dependsOn": ["build:debug", "ui:dev"],
-      "group": {
-        "kind": "build"
-      }
-    },
-    {
-      "label": "build:debug",
-      "type": "cargo",
-      "command": "build",
-      "options": {
-        "cwd": "${workspaceRoot}/src-tauri"
-      }
-    },
-    {
-      "label": "ui:dev",
       "type": "shell",
-      // `dev` はバックグラウンドで実行が継続します。
-      // 理想的には `problemMatcher` も設定する必要があります。
-      // https://code.visualstudio.com/docs/editor/tasks#_can-a-background-task-be-used-as-a-prelaunchtask-in-launchjson を参照してください。
+      "label": "tauri:dev",
+      "command": "pnpm",
+      "args": ["tauri", "dev"],
+      "isBackground": true,
+      "group": "build",
       "problemMatcher": {
         "owner": "custom",
         "pattern": {
-          "regexp": "."
+          "regexp": ".+"
         },
         "background": {
           "activeOnStart": true,
-          "beginsPattern": ".",
-          "endsPattern": "VITE .* ready "
+          "beginsPattern": ".*tauri \"dev\"",
+          "endsPattern": "VITE v.* ready in .*"
         }
-      },
-      "isBackground": true,
-      // この部分をあなたの `beforeBuildCommand` に合わせて変更します：
-      "command": "pnpm",
-      "args": ["dev"]
-    },
-    {
-      "label": "ui:dev:stop",
-      "type": "shell",
-      "command": "echo ${input:terminate}"
+      }
     }
   ],
   "inputs": [
