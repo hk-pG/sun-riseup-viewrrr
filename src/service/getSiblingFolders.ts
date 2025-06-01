@@ -1,4 +1,4 @@
-import type { FolderEntry } from '../hooks/useFolderNavigator';
+import type { FolderEntry } from '@/components/hooks/useSiblingFolders';
 import type { FileSystemService } from './FileSystemService';
 
 /**

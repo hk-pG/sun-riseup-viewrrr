@@ -1,0 +1,31 @@
+name: バグ報告
+description: 不具合の詳細と再現方法を記録します
+title: "[Bug] "
+labels: ["bug"]
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: 不具合の内容
+      description: 発生している問題について詳しく記述してください
+      placeholder: 例）〇〇で画面が真っ白になる
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: 再現手順
+      description: バグを再現する方法を記載してください
+      placeholder: |
+        1. 特定のフォルダを開く
+        2. ページングを行う
+        3. エラーが表示されずページが停止する
+    validations:
+      required: true
+
+  - type: input
+    id: env
+    attributes:
+      label: 実行環境（任意）
+      placeholder: OS / バージョンなど

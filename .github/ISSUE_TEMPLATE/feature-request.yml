@@ -1,0 +1,32 @@
+name: 機能追加リクエスト
+description: 新しい機能や改善したい点を記録します
+title: "[Feature] "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: overview
+    attributes:
+      label: 概要
+      description: 実装したい機能の内容を簡潔に記述してください
+      placeholder: 例）〇〇画面に言語切替機能を追加する
+    validations:
+      required: true
+
+  - type: textarea
+    id: motivation
+    attributes:
+      label: 背景・目的
+      description: なぜこの機能が必要か、目的や経緯を記述してください
+      placeholder: (例)多言語ユーザー向けにUIを切り替える必要があるため
+    validations:
+      required: false
+
+  - type: textarea
+    id: tasks
+    attributes:
+      label: 実装タスク（任意）
+      description: 必要なタスクを箇条書きで書いてください
+      placeholder: |
+        - i18nの導入
+        - 翻訳ファイルの作成
+        - 切替UIの実装
