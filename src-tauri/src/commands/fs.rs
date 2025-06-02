@@ -61,7 +61,7 @@ pub fn get_sibling_folders(folder_path: String) -> Result<Vec<String>, String> {
         .filter_map(|entry| {
             entry.ok().and_then(|e| {
                 let path = e.path();
-                if path.is_dir() && path != current {
+                if path.is_dir() {
                     Some(path.to_string_lossy().to_string())
                 } else {
                     None
@@ -93,8 +93,9 @@ mod tests {
         let result = get_sibling_folders(current_path).unwrap();
 
         // A, C が返ってくる（順序保証はされない）
-        assert_eq!(result.len(), 2);
+        assert_eq!(result.len(), 3);
         assert!(result.iter().any(|p| p.contains("A")));
+        assert!(result.iter().any(|p| p.contains("B")));
         assert!(result.iter().any(|p| p.contains("C")));
 
         // クリーンアップ
