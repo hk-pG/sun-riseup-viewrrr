@@ -20,6 +20,14 @@ use tauri::command;
 /// # Panics
 ///
 /// This function will panic if it fails to read the directory specified by `folder_path`.
+///
+/// # Examples
+///
+/// ```no_run
+/// use sun_riseup_viewrrr_lib::commands::fs::list_images_in_folder;
+/// let images = list_images_in_folder("/path/to/folder".to_string());
+/// // images: Vec<String>
+/// ```
 #[tauri::command]
 pub fn list_images_in_folder(folder_path: String) -> Vec<String> {
     use std::fs;
@@ -41,8 +49,14 @@ pub fn list_images_in_folder(folder_path: String) -> Vec<String> {
 
 /// `get_sibling_folders` コマンドは、指定されたパスの兄弟フォルダを取得します。
 /// 自分自身のフォルダは除外されます。
-/// example: `get_sibling_folders("/path/to/current/folder")`
-/// returns: `["/path/to/current/folder/../sibling1", "/path/to/current/folder/../sibling2"]`
+///
+/// # Examples
+///
+/// ```no_run
+/// use sun_riseup_viewrrr_lib::commands::fs::get_sibling_folders;
+/// let siblings = get_sibling_folders("/path/to/current/folder".to_string());
+/// // siblings: Ok(["/path/to/current/folder/../sibling1", "/path/to/current/folder/../sibling2"])
+/// ```
 #[command]
 pub fn get_sibling_folders(folder_path: String) -> Result<Vec<String>, String> {
     let current = PathBuf::from(&folder_path);
@@ -78,6 +92,27 @@ mod tests {
     use super::*;
     use std::env::temp_dir;
     use std::fs::{create_dir_all, remove_dir_all};
+
+    #[test]
+    fn test_list_images_in_folder() {
+        // テスト用のフォルダとファイルを作成
+        let temp_dir = std::env::temp_dir().join("tauri_test_images");
+        std::fs::create_dir_all(&temp_dir).unwrap();
+        std::fs::write(temp_dir.join("image1.jpg"), b"").unwrap();
+        std::fs::write(temp_dir.join("image2.png"), b"").unwrap();
+        std::fs::write(temp_dir.join("document.txt"), b"").unwrap();
+
+        // 関数を呼び出して結果を取得
+        let images = list_images_in_folder(temp_dir.to_string_lossy().to_string());
+
+        // 結果の検証
+        assert_eq!(images.len(), 2);
+        assert!(images.contains(&temp_dir.join("image1.jpg").to_string_lossy().to_string()));
+        assert!(images.contains(&temp_dir.join("image2.png").to_string_lossy().to_string()));
+
+        // クリーンアップ
+        std::fs::remove_dir_all(temp_dir).unwrap();
+    }
 
     #[test]
     fn test_get_sibling_folders() {
