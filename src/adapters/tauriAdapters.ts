@@ -20,6 +20,21 @@ export const tauriFileSystemService: FileSystemService = {
     return null;
   },
 
+  openFileDialog: async (): Promise<string | null> => {
+    const selected = await tauriOpenDialog({
+      directory: false,
+      multiple: false,
+      // TODO: バックエンド側と連携して対応する拡張子のみのファイルを選択できるようにする
+      // filters: [{ name: 'Images', extensions: [] }],
+    });
+
+    if (selected) {
+      return selected;
+    }
+
+    return null;
+  },
+
   getBaseName: async (filePath: string): Promise<string> => {
     const basename = await tauriBasename(filePath);
     return basename;

@@ -19,6 +19,7 @@ const mockFileSystemService: FileSystemService = {
   listImagesInFolder: vi.fn(),
   getSiblingFolders: vi.fn(),
   convertFileSrc: vi.fn(),
+  openFileDialog: vi.fn(),
 };
 
 // --- ヘルパーコンポーネント ---
