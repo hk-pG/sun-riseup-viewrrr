@@ -1,6 +1,6 @@
 'use client';
 
-import type { FolderListProps } from '../types/viewerTypes';
+import type { FolderInfo, FolderListProps } from '../types/viewerTypes';
 import { FolderView } from './FolderView';
 
 export function FolderList({
@@ -11,13 +11,17 @@ export function FolderList({
   thumbnailSize = 100,
   showImageCount = true,
 }: FolderListProps) {
+  const isSelected = (folder: FolderInfo) => {
+    return selectedFolder?.path === folder.path;
+  };
+
   return (
     <div className="space-y-2">
       {folders.map((folder) => (
         <FolderView
           key={folder.path}
           folder={folder}
-          isSelected={selectedFolder?.path === folder.path}
+          isSelected={isSelected(folder)}
           onClick={onFolderSelect}
           onDoubleClick={onFolderDoubleClick}
           thumbnailSize={thumbnailSize}
