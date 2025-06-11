@@ -59,13 +59,18 @@ export function ImageViewer({
   style,
 }: ImageViewerProps) {
   const fs = useServices();
+
   const {
     data: images = [],
     isLoading,
     error,
   } = useSWR(
     folderPath ? ['images', folderPath] : null,
-    () => fetchImages(folderPath, fs),
+    () => {
+      // 選択されたフォルダが変わるたび、表示する画像のインデックスを初期化する
+      setCurrentIndex(0);
+      return fetchImages(folderPath, fs);
+    },
     { revalidateOnFocus: false },
   );
   const [loading, setLoading] = useState(true);
@@ -136,11 +141,6 @@ export function ImageViewer({
   useEffect(() => {
     setSettings((prev) => ({ ...prev, ...userSettings }));
   }, [userSettings]);
-
-  // インデックス変更を反映
-  useEffect(() => {
-    setCurrentIndex(initialIndex);
-  }, [initialIndex]);
 
   useEffect(() => {
     setLoading(isLoading);
