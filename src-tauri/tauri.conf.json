@@ -14,7 +14,10 @@
       {
         "title": "sun-riseup-viewrrr",
         "width": 1200,
-        "height": 1200
+        "height": 1200,
+        "decorations": false,
+        "dragDropEnabled": true,
+        "transparent": true
       }
     ],
     "security": {
@@ -22,7 +25,14 @@
       "assetProtocol": {
         "enable": true,
         "scope": ["**"]
-      }
+      },
+      "capabilities": [
+        {
+          "identifier": "draggable-window",
+          "windows": ["*"],
+          "permissions": ["core:window:allow-start-dragging"]
+        }
+      ]
     }
   },
   "bundle": {
