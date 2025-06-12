@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import './App.css';
 import { type FolderInfo, HeaderMenu, Sidebar } from './components';
+import { AppMenuBar } from './components/AppMenuBar';
 import { ImageViewer } from './components/ImageViewer';
 import { useSiblingFolders } from './components/hooks/useSiblingFolders';
 import { useServices } from './context/ServiceContext';
@@ -28,6 +29,14 @@ function App() {
   return (
     <>
       <div className="h-screen flex flex-col bg-gray-100">
+        <div data-tauri-drag-region className="titlebar">
+          <AppMenuBar
+            title="漫画ビューア"
+            onMenuAction={(actionId) => {
+              alert(`Action ID: ${actionId}`);
+            }}
+          />
+        </div>
         <HeaderMenu
           menuActions={[]}
           onMenuAction={(_actionId, _action) => {}}

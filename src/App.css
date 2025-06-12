@@ -114,3 +114,9 @@ button {
     background-color: #0f0f0f69;
   }
 }
+
+.titlebar {
+  display: flex;
+  user-select: none;
+  -webkit-user-select: none;
+}
