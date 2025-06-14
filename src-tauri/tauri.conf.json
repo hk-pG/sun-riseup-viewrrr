@@ -31,6 +31,16 @@
           "identifier": "draggable-window",
           "windows": ["*"],
           "permissions": ["core:window:allow-start-dragging"]
+        },
+        {
+          "identifier": "file-dialog",
+          "windows": ["*"],
+          "permissions": ["dialog:allow-open", "dialog:default"]
+        },
+        {
+          "identifier": "path-basename",
+          "windows": ["*"],
+          "permissions": ["core:path:allow-basename", "core:path:default"]
         }
       ]
     }
