@@ -12,9 +12,13 @@ import { isStringArray } from '../utils/isStringArray';
 
 export const tauriFileSystemService: FileSystemService = {
   openDirectoryDialog: async (): Promise<string | null> => {
-    const selected = await tauriOpenDialog({ directory: true });
-    if (selected) {
-      return selected as string;
+    try {
+      const selected = await tauriOpenDialog({ directory: true });
+      if (selected) {
+        return selected as string;
+      }
+    } catch (error) {
+      throw new Error(`error occurred during open folder ${error}`);
     }
 
     return null;
