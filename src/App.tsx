@@ -37,17 +37,6 @@ function App() {
             }}
           />
         </div>
-        <HeaderMenu
-          menuActions={[]}
-          onMenuAction={(_actionId, _action) => {}}
-          title={currentFolderPath}
-          onOpenFolder={async () => {
-            const path = await fss.openDirectoryDialog();
-            if (path) {
-              setCurrentFolderPath(path);
-            }
-          }}
-        />
 
         <div className="h-screen flex bg-gray-100">
           <Sidebar
