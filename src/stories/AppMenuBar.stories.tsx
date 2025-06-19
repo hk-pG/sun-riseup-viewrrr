@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { AppMenuBar } from '../components/AppMenuBar';
-import type { AppMenuBarProps } from '@/types/viewerTypes';
+import type { AppMenuBarEvent } from '../components/AppMenuBar';
 
 const meta: Meta<typeof AppMenuBar> = {
   title: 'AppMenuBar',
@@ -14,6 +14,6 @@ type Story = StoryObj<typeof AppMenuBar>;
 export const Default: Story = {
   args: {
     title: '漫画ビューア',
-    onMenuAction: (action: string) => alert(`Action: ${action}`),
-  } as AppMenuBarProps,
+    onMenuAction: (action: AppMenuBarEvent) => alert(`Action: ${action}`),
+  },
 };
