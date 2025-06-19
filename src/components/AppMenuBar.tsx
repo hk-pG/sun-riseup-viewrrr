@@ -10,8 +10,43 @@ import {
   MenubarSubTrigger,
   MenubarTrigger,
 } from '@/components/ui/menubar';
-import type { AppMenuBarProps } from '@/types/viewerTypes';
 import { Eye, FileText, FolderOpen, Navigation, Settings } from 'lucide-react';
+
+// AppMenuBarで使うイベントIDの型
+export type AppMenuBarEvent =
+  | 'open-folder'
+  | 'recent-1'
+  | 'recent-2'
+  | 'recent-3'
+  | 'exit'
+  | 'fullscreen'
+  | 'fit-width'
+  | 'fit-height'
+  | 'fit-both'
+  | 'fit-none'
+  | 'zoom-in'
+  | 'zoom-out'
+  | 'zoom-reset'
+  | 'toggle-controls'
+  | 'next-page'
+  | 'prev-page'
+  | 'first-page'
+  | 'last-page'
+  | 'rotate-right'
+  | 'rotate-left'
+  | 'reset-rotation'
+  | 'preferences'
+  | 'shortcuts'
+  | 'about';
+
+export interface AppMenuBarProps {
+  title?: string;
+  onMenuAction: (actionId: AppMenuBarEvent) => void;
+  onOpenFolder?: () => void;
+  isDraggable?: boolean;
+  className?: string;
+  style?: React.CSSProperties;
+}
 
 export const AppMenuBar = ({
   title = '漫画ビューア',
