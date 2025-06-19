@@ -33,8 +33,14 @@ function App() {
           <AppMenuBar
             title="漫画ビューア"
             isDraggable={true}
-            onMenuAction={(actionId) => {
-              alert(`Action ID: ${actionId}`);
+            onMenuAction={async (actionId) => {
+              if (actionId === 'open-folder') {
+                const folderPath = await fss.openDirectoryDialog();
+                if (folderPath) {
+                  setCurrentFolderPath(folderPath);
+                }
+              }
+              // 他のアクションは今まで通り（必要ならここに追加）
             }}
           />
         </div>
