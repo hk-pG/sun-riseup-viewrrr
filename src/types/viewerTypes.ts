@@ -40,6 +40,8 @@ export interface MenuAction {
 export interface AppMenuBarProps {
   title?: string;
   onMenuAction: (actionId: string) => void;
+  onOpenFolder?: () => void;
+  isDraggable?: boolean;
   className?: string;
   style?: React.CSSProperties;
 }

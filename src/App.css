@@ -1,0 +1,5 @@
+.draggable {
+  display: flex;
+  user-select: none;
+  -webkit-user-select: none;
+}

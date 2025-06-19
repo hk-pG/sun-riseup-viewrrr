@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import './App.css';
-import { type FolderInfo, HeaderMenu, Sidebar } from './components';
+import { type FolderInfo, Sidebar } from './components';
 import { AppMenuBar } from './components/AppMenuBar';
 import { ImageViewer } from './components/ImageViewer';
 import { useSiblingFolders } from './components/hooks/useSiblingFolders';
@@ -29,9 +29,10 @@ function App() {
   return (
     <>
       <div className="h-screen flex flex-col bg-gray-100">
-        <div data-tauri-drag-region className="titlebar">
+        <div data-tauri-drag-region className="draggable">
           <AppMenuBar
             title="漫画ビューア"
+            isDraggable={true}
             onMenuAction={(actionId) => {
               alert(`Action ID: ${actionId}`);
             }}

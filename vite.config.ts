@@ -1,4 +1,5 @@
 import { defineConfig } from 'vitest/config';
+import path from 'path';
 import react from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
 
@@ -10,7 +11,7 @@ export default defineConfig(async () => ({
   resolve: {
     alias: {
       // エイリアス設定
-      '@': '/src',
+      '@': path.resolve(__dirname, './src/'),
     },
   },
   test: {

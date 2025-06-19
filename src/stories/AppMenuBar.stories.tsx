@@ -1,4 +1,4 @@
-import { Meta, StoryObj } from '@storybook/react-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { AppMenuBar } from '../components/AppMenuBar';
 import type { AppMenuBarProps } from '@/types/viewerTypes';
 
