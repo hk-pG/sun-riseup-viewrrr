@@ -15,6 +15,7 @@ import { Eye, FileText, FolderOpen, Navigation, Settings } from 'lucide-react';
 // AppMenuBarで使うイベントIDの型
 export type AppMenuBarEvent =
   | 'open-folder'
+  | 'open-image'
   | 'recent-1'
   | 'recent-2'
   | 'recent-3'
@@ -95,6 +96,14 @@ export const AppMenuBar = ({
                 <FolderOpen className="mr-2 h-4 w-4" />
                 フォルダを開く
                 <MenubarShortcut>Ctrl+O</MenubarShortcut>
+              </MenubarItem>
+              <MenubarItem
+                onClick={() => onMenuAction('open-image')}
+                className="hover:bg-gray-100 focus:bg-gray-100"
+              >
+                <span className="mr-2">🖼️</span>
+                画像ファイルを開く
+                <MenubarShortcut>Ctrl+Shift+O</MenubarShortcut>
               </MenubarItem>
               <MenubarSub>
                 <MenubarSubTrigger className="hover:bg-gray-100 focus:bg-gray-100">

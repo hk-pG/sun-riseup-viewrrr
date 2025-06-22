@@ -24,6 +24,15 @@ export const tauriFileSystemService: FileSystemService = {
     return null;
   },
 
+  getBaseName: async (filePath: string): Promise<string> => {
+    const basename = await tauriBasename(filePath);
+    return basename;
+  },
+  getDirName: async (filePath: string): Promise<string> => {
+    const dirname = await tauriDirname(filePath);
+    return dirname;
+  },
+
   openFileDialog: async (): Promise<string | null> => {
     const selected = await tauriOpenDialog({
       directory: false,
@@ -39,14 +48,20 @@ export const tauriFileSystemService: FileSystemService = {
     return null;
   },
 
-  getBaseName: async (filePath: string): Promise<string> => {
-    const basename = await tauriBasename(filePath);
-    return basename;
+  openImageFileDialog: async (
+    extensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'],
+  ): Promise<string | null> => {
+    const selected = await tauriOpenDialog({
+      directory: false,
+      multiple: false,
+      filters: [{ name: 'Images', extensions }],
+    });
+    if (selected && typeof selected === 'string') {
+      return selected;
+    }
+    return null;
   },
-  getDirName: async (filePath: string): Promise<string> => {
-    const dirname = await tauriDirname(filePath);
-    return dirname;
-  },
+
   listImagesInFolder: async (folderPath: string): Promise<string[]> => {
     const images = await invoke<string[]>('list_images_in_folder', {
       folderPath,
