@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
-import { sampleImageSources } from '../../data/mockData';
+import { sampleImageSources1 } from '../../data/mockData';
 import { ImageViewer } from '../components/ImageViewer';
 import { ServicesProvider } from '../context/ServiceContext';
 import type { FileSystemService } from '../service/FileSystemService';
@@ -8,19 +8,22 @@ import type { ViewerSettings } from '../types/viewerTypes';
 
 // モックファイルシステムサービス
 const createMockFileSystemService = (
-  images: typeof sampleImageSources,
+  images: typeof sampleImageSources1,
 ): FileSystemService => ({
   openDirectoryDialog: async () => '/mock/folder/path',
   openFileDialog: async () => '/mock/file/path',
   listImagesInFolder: async () => images.map((img) => img.assetUrl),
   getSiblingFolders: async () => ['/mock/folder1', '/mock/folder2'],
   convertFileSrc: (filePath: string) => filePath,
+  getBaseName: async (filePath: string) => filePath.split('/').pop() || '',
+  getDirName: async (filePath: string) =>
+    filePath.substring(0, filePath.lastIndexOf('/')),
 });
 
 const MockServiceProvider = ({
   children,
   images,
-}: { children: React.ReactNode; images: typeof sampleImageSources }) => {
+}: { children: React.ReactNode; images: typeof sampleImageSources1 }) => {
   const mockService = createMockFileSystemService(images);
 
   return <ServicesProvider services={mockService}>{children}</ServicesProvider>;
@@ -43,7 +46,7 @@ const meta: Meta<typeof ImageViewer> = {
   },
   decorators: [
     (Story, _context) => (
-      <MockServiceProvider images={sampleImageSources}>
+      <MockServiceProvider images={sampleImageSources1}>
         <Story />
       </MockServiceProvider>
     ),

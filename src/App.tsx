@@ -67,6 +67,7 @@ function App() {
             width={280}
           />
           <ImageViewer
+            key={currentFolderPath}
             folderPath={currentFolderPath}
             initialIndex={initialImageIndex}
             className="flex-1"

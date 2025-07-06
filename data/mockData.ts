@@ -27,107 +27,59 @@ export const createMockImageSources = (
 };
 
 // ビューアテスト用のサンプル画像データ
-export const sampleImageSources: ImageSource[] = [
-  {
-    id: 'sample-1',
-    name: 'sample_page_001.jpg',
-    assetUrl: '/placeholder.svg?height=800&width=600&text=サンプル画像1',
-  },
-  {
-    id: 'sample-2',
-    name: 'sample_page_002.jpg',
-    assetUrl: '/placeholder.svg?height=600&width=800&text=サンプル画像2',
-  },
-  {
-    id: 'sample-3',
-    name: 'sample_page_003.jpg',
-    assetUrl: '/placeholder.svg?height=900&width=700&text=サンプル画像3',
-  },
-  {
-    id: 'sample-4',
-    name: 'sample_page_004.jpg',
-    assetUrl: '/placeholder.svg?height=700&width=900&text=サンプル画像4',
-  },
-  {
-    id: 'sample-5',
-    name: 'sample_page_005.jpg',
-    assetUrl: '/placeholder.svg?height=800&width=800&text=サンプル画像5',
-  },
+export const sampleImageSources1: ImageSource[] = [
+  // 上の例と同じ構成の画像を1~10まで生成
+  ...Array.from({ length: 10 }, (_, i) => ({
+    id: `${i + 1}.png`,
+    name: `${i + 1}.png`,
+    assetUrl: `/test_images/folder_1/1-${i + 1}.png`,
+  })),
+];
+export const sampleImageSources2: ImageSource[] = [
+  // 上の例と同じ構成の画像を1~10まで生成
+  ...Array.from({ length: 10 }, (_, i) => ({
+    id: `${i + 1}.png`,
+    name: `${i + 1}.png`,
+    assetUrl: `/test_images/folder_2/2-${i + 1}.png`,
+  })),
+];
+export const sampleImageSources3: ImageSource[] = [
+  // 上の例と同じ構成の画像を1~10まで生成
+  ...Array.from({ length: 10 }, (_, i) => ({
+    id: `${i + 1}.png`,
+    name: `${i + 1}.png`,
+    assetUrl: `/test_images/folder_3/3-${i + 1}.png`,
+  })),
 ];
 
 // モックフォルダデータ
 export const mockFolders: FolderInfo[] = [
   {
-    path: '/manga/one-piece-vol-1',
+    path: '/test_images/folder_1/',
     name: 'ワンピース 第1巻',
     thumbnailImage: {
-      path: '/placeholder.svg?height=400&width=300&text=ワンピース1巻',
-      name: 'cover.jpg',
+      path: '/test_images/folder_1/1-1.png',
+      name: '1-1.png',
     },
     imageCount: 192,
   },
   {
-    path: '/manga/naruto-vol-1',
+    path: '/test_images/folder_2/',
     name: 'NARUTO -ナルト- 第1巻',
     thumbnailImage: {
-      path: '/placeholder.svg?height=400&width=300&text=ナルト1巻',
-      name: 'cover.jpg',
+      path: '/test_images/folder_2/2-1.png',
+      name: '2-1.png',
     },
     imageCount: 184,
   },
   {
-    path: '/manga/attack-on-titan-vol-1',
+    path: '/test_images/folder_3/',
     name: '進撃の巨人 第1巻',
     thumbnailImage: {
-      path: '/placeholder.svg?height=400&width=300&text=進撃の巨人1巻',
-      name: 'cover.jpg',
+      path: '/test_images/folder_3/3-1.png',
+      name: '3-1.png',
     },
     imageCount: 196,
-  },
-  {
-    path: '/manga/demon-slayer-vol-1',
-    name: '鬼滅の刃 第1巻',
-    thumbnailImage: {
-      path: '/placeholder.svg?height=400&width=300&text=鬼滅の刃1巻',
-      name: 'cover.jpg',
-    },
-    imageCount: 208,
-  },
-  {
-    path: '/manga/my-hero-academia-vol-1',
-    name: '僕のヒーローアカデミア 第1巻',
-    thumbnailImage: {
-      path: '/placeholder.svg?height=400&width=300&text=ヒロアカ1巻',
-      name: 'cover.jpg',
-    },
-    imageCount: 200,
-  },
-  {
-    path: '/manga/jujutsu-kaisen-vol-1',
-    name: '呪術廻戦 第1巻',
-    thumbnailImage: {
-      path: '/placeholder.svg?height=400&width=300&text=呪術廻戦1巻',
-      name: 'cover.jpg',
-    },
-    imageCount: 192,
-  },
-  {
-    path: '/manga/chainsaw-man-vol-1',
-    name: 'チェンソーマン 第1巻',
-    thumbnailImage: {
-      path: '/placeholder.svg?height=400&width=300&text=チェンソーマン1巻',
-      name: 'cover.jpg',
-    },
-    imageCount: 200,
-  },
-  {
-    path: '/manga/spy-family-vol-1',
-    name: 'SPY×FAMILY 第1巻',
-    thumbnailImage: {
-      path: '/placeholder.svg?height=400&width=300&text=スパイファミリー1巻',
-      name: 'cover.jpg',
-    },
-    imageCount: 188,
   },
 ];
 

@@ -1,6 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
-import { sampleImageSources } from '../../data/mockData';
+import {
+  sampleImageSources1,
+  sampleImageSources2,
+  sampleImageSources3,
+} from '../../data/mockData';
 import { mockFolders } from '../../data/mockData';
 import { ImageViewer } from '../components/ImageViewer';
 import { Sidebar } from '../components/Sidebar';
@@ -9,11 +13,32 @@ import type { FileSystemService } from '../service/FileSystemService';
 
 // モックファイルシステムサービス
 const createMockFileSystemService = (
-  images: typeof sampleImageSources,
+  images: typeof sampleImageSources1,
 ): FileSystemService => ({
   openDirectoryDialog: async () => '/mock/folder/path',
   openFileDialog: async () => '/mock/file/path',
-  listImagesInFolder: async () => images.map((img) => img.assetUrl),
+  listImagesInFolder: async (_folderPath: string) => {
+    const folders = [
+      sampleImageSources1,
+      sampleImageSources2,
+      sampleImageSources3,
+    ];
+    const mapped = mockFolders.map((folder, i) => {
+      return {
+        id: i,
+        name: folder.name,
+        path: folder.path,
+        images: folders[i] || [],
+      };
+    });
+    const matched = mapped.find((folder) => folder.path === _folderPath);
+
+    if (!matched) {
+      return [];
+    }
+
+    return matched.images.map((img) => img.assetUrl);
+  },
   getSiblingFolders: async () => ['/mock/folder1', '/mock/folder2'],
   convertFileSrc: (filePath: string) => filePath,
   getBaseName: async (filePath: string) => {
@@ -29,7 +54,7 @@ const createMockFileSystemService = (
 const MockServiceProvider = ({
   children,
   images,
-}: { children: React.ReactNode; images: typeof sampleImageSources }) => {
+}: { children: React.ReactNode; images: typeof sampleImageSources1 }) => {
   const mockService = createMockFileSystemService(images);
 
   return <ServicesProvider services={mockService}>{children}</ServicesProvider>;
@@ -42,7 +67,7 @@ const meta: Meta = {
   },
   decorators: [
     (Story, _context) => (
-      <MockServiceProvider images={sampleImageSources}>
+      <MockServiceProvider images={sampleImageSources1}>
         <Story />
       </MockServiceProvider>
     ),
@@ -55,9 +80,7 @@ type Story = StoryObj;
 // 完全なビューアアプリケーションのシミュレーション
 export const FullViewerApp: Story = {
   render: () => {
-    const [currentFolderPath, setCurrentFolderPath] =
-      useState('/mock/folder/path');
-    const [initialImageIndex, setInitialImageIndex] = useState(0);
+    const [currentFolderPath, setCurrentFolderPath] = useState('');
 
     const selectedFolder = mockFolders.find(
       (folder) => folder.path === currentFolderPath,
@@ -70,13 +93,12 @@ export const FullViewerApp: Story = {
           selectedFolder={selectedFolder}
           onFolderSelect={(folder) => {
             setCurrentFolderPath(folder.path);
-            setInitialImageIndex(0);
           }}
           width={280}
         />
         <ImageViewer
+          key={currentFolderPath} // フォルダが変更されたら再レンダリング
           folderPath={currentFolderPath}
-          initialIndex={initialImageIndex}
           className="flex-1"
         />
       </div>

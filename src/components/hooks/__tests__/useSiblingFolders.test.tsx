@@ -18,6 +18,8 @@ const mockFileSystemService: FileSystemService = {
   getSiblingFolders: vi.fn(),
   convertFileSrc: vi.fn(),
   openFileDialog: vi.fn(),
+  getBaseName: vi.fn(),
+  getDirName: vi.fn(),
 };
 
 // --- ヘルパーコンポーネント ---
@@ -57,6 +59,15 @@ describe('useFolderNavigator', () => {
     mockFileSystemService.getSiblingFolders = vi
       .fn()
       .mockResolvedValue([TEST_FOLDER_PATH_1, TEST_FOLDER_PATH_2]);
+
+    // getBaseName もモックする
+    mockFileSystemService.getBaseName = vi
+      .fn()
+      .mockImplementation(async (p) => {
+        if (p === TEST_FOLDER_PATH_1) return TEST_FOLDER_NAME_1;
+        if (p === TEST_FOLDER_PATH_2) return TEST_FOLDER_NAME_2;
+        return '';
+      });
 
     const { result } = renderHook(() => useSiblingFolders(TEST_CURRENT_PATH), {
       wrapper: ServicesWrapper,
