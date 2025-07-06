@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { sampleImageSources } from '../../data/mockData';
+import { sampleImageSources1 } from '../../data/mockData';
 import { ImageDisplay } from '../components/ImageDisplay';
 import type { ViewerSettings } from '../types/viewerTypes';
 
@@ -34,7 +34,7 @@ const defaultSettings: ViewerSettings = {
 
 export const Default: Story = {
   args: {
-    image: sampleImageSources[0],
+    image: sampleImageSources1[0],
     settings: defaultSettings,
     className: 'w-full h-screen',
   },
@@ -42,7 +42,7 @@ export const Default: Story = {
 
 export const ZoomedIn: Story = {
   args: {
-    image: sampleImageSources[0],
+    image: sampleImageSources1[0],
     settings: {
       ...defaultSettings,
       zoom: 2,
@@ -53,7 +53,7 @@ export const ZoomedIn: Story = {
 
 export const Rotated: Story = {
   args: {
-    image: sampleImageSources[0],
+    image: sampleImageSources1[0],
     settings: {
       ...defaultSettings,
       rotation: 90,
@@ -64,7 +64,7 @@ export const Rotated: Story = {
 
 export const FitWidth: Story = {
   args: {
-    image: sampleImageSources[0],
+    image: sampleImageSources1[0],
     settings: {
       ...defaultSettings,
       fitMode: 'width',
@@ -75,7 +75,7 @@ export const FitWidth: Story = {
 
 export const FitHeight: Story = {
   args: {
-    image: sampleImageSources[0],
+    image: sampleImageSources1[0],
     settings: {
       ...defaultSettings,
       fitMode: 'height',
@@ -86,7 +86,7 @@ export const FitHeight: Story = {
 
 export const LightBackground: Story = {
   args: {
-    image: sampleImageSources[0],
+    image: sampleImageSources1[0],
     settings: {
       ...defaultSettings,
       backgroundColor: '#f5f5f5',
@@ -97,7 +97,7 @@ export const LightBackground: Story = {
 
 export const ZoomedAndRotated: Story = {
   args: {
-    image: sampleImageSources[0],
+    image: sampleImageSources1[0],
     settings: {
       ...defaultSettings,
       zoom: 1.5,
@@ -109,7 +109,7 @@ export const ZoomedAndRotated: Story = {
 
 export const PortraitImage: Story = {
   args: {
-    image: sampleImageSources[1], // 縦長の画像
+    image: sampleImageSources1[1], // 縦長の画像
     settings: defaultSettings,
     className: 'w-full h-screen',
   },
@@ -117,7 +117,7 @@ export const PortraitImage: Story = {
 
 export const LandscapeImage: Story = {
   args: {
-    image: sampleImageSources[2], // 横長の画像
+    image: sampleImageSources1[2], // 横長の画像
     settings: defaultSettings,
     className: 'w-full h-screen',
   },
