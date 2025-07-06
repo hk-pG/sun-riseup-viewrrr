@@ -5,35 +5,99 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Launch App Debug",
+      "name": "Launch Tauri with Frontend Dev Server",
       "type": "cppvsdbg",
       "request": "launch",
-      // 実行ファイル（exe）名を実際に用いる exe ファイル名に変更してください。
-      //  「リリース・ビルド」（公開版）をデバッグするには、`target/debug` を `release/debug` に変更してください。）
       "program": "${workspaceRoot}/src-tauri/target/debug/sun-riseup-viewrrr.exe",
       "cwd": "${workspaceRoot}",
-      "preLaunchTask": "dev",
-      "postDebugTask": "ui:dev:stop",
+      "preLaunchTask": "dev:with-frontend-server",
+      "postDebugTask": "dev:cleanup",
       "environment": [
         {
           "name": "WEBVIEW2_ADDITIONAL_BROWSER_ARGUMENTS",
           "value": "--remote-debugging-port=1420"
+        },
+        {
+          "name": "RUST_BACKTRACE",
+          "value": "1"
         }
-      ]
+      ],
+      "console": "integratedTerminal",
+      "stopAtEntry": false
     },
     {
-      "name": "Attach to Webview",
+      "name": "Attach to Webview (Auto-Reconnect)",
       "port": 1420,
       "request": "attach",
       "timeout": 300000,
       "type": "chrome",
-      "webRoot": "${workspaceFolder}"
+      "webRoot": "${workspaceFolder}/src",
+      "sourceMaps": true,
+      "skipFiles": ["<node_internals>/**", "node_modules/**"],
+      "restart": true
+    },
+    {
+      "name": "Launch Tauri Dev (Full Restart)",
+      "type": "cppvsdbg",
+      "request": "launch",
+      "program": "${workspaceRoot}/src-tauri/target/debug/sun-riseup-viewrrr.exe",
+      "cwd": "${workspaceRoot}",
+      "preLaunchTask": "tauri:dev:start",
+      "postDebugTask": "tauri:dev:stop",
+      "environment": [
+        {
+          "name": "WEBVIEW2_ADDITIONAL_BROWSER_ARGUMENTS",
+          "value": "--remote-debugging-port=1420"
+        },
+        {
+          "name": "RUST_BACKTRACE",
+          "value": "1"
+        }
+      ],
+      "console": "integratedTerminal",
+      "stopAtEntry": false
+    },
+    {
+      "name": "Debug Rust Backend Only",
+      "type": "cppvsdbg",
+      "request": "launch",
+      "program": "${workspaceRoot}/src-tauri/target/debug/sun-riseup-viewrrr.exe",
+      "cwd": "${workspaceRoot}",
+      "preLaunchTask": "build:debug",
+      "environment": [
+        {
+          "name": "RUST_BACKTRACE",
+          "value": "1"
+        }
+      ],
+      "console": "integratedTerminal",
+      "stopAtEntry": false
     }
   ],
   "compounds": [
     {
-      "name": "Tauri Dev All",
-      "configurations": ["Launch App Debug", "Attach to Webview"]
+      "name": "Tauri with Separate Dev Server (Recommended)",
+      "configurations": [
+        "Launch Tauri with Frontend Dev Server",
+        "Attach to Webview (Auto-Reconnect)"
+      ],
+      "presentation": {
+        "hidden": false,
+        "group": "tauri",
+        "order": 1
+      }
+    },
+    {
+      "name": "Tauri Full Restart Debug",
+      "configurations": [
+        "Launch Tauri Dev (Full Restart)",
+        "Attach to Webview (Auto-Reconnect)"
+      ],
+      "presentation": {
+        "hidden": false,
+        "group": "tauri",
+        "order": 2
+      }
     }
   ]
 }

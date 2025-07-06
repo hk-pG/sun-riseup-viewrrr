@@ -1,5 +1,3 @@
-import { convertFileSrc } from '@tauri-apps/api/core';
-import { basename } from '@tauri-apps/api/path';
 import type { FileSystemService } from '../service/FileSystemService';
 import type { ImageContainer } from '../types/ImageContainer';
 import type { ImageSource } from '../types/ImageSource';
@@ -18,22 +16,18 @@ export class LocalFolderContainer implements ImageContainer {
     // Tauriのコマンドの戻り値が文字列の配列であることを確認する
     if (!isStringArray(files)) {
       throw new Error(
-        `Invalid response from Tauri command. Expected an array of strings. Received: ${files} of type ${typeof files}`,
+        `Invalid response from FileSystemService. Expected an array of strings. Received: ${files} of type ${typeof files}`,
       );
     }
 
     const imageSources = await Promise.all(
-      files.map(async (path) => {
+      files.map(async (imgPath) => {
         // ファイルパスからファイル名を取得する
-        const fileBasename = await basename(path).catch((error) => {
-          console.error('Error getting file basename:', error);
-          throw new Error(`Failed to get file basename: ${error}`);
-        });
-
+        const fileBasename = await this.fs.getBaseName(imgPath);
         return {
-          id: path,
+          id: imgPath,
           name: fileBasename,
-          assetUrl: convertFileSrc(path),
+          assetUrl: this.fs.convertFileSrc(imgPath),
         };
       }),
     ).catch((error) => {

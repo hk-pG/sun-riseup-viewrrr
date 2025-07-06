@@ -5,9 +5,8 @@ import type { ImageSource } from '@/types/ImageSource';
 import type { ViewerSettings } from '@/types/viewerTypes';
 import type { KeyboardMapping } from '@/types/viewerTypes';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import useSWR from 'swr';
 import { LocalFolderContainer } from '../containers/LocalFolderContainer';
-import { useServices } from '../context/ServiceContext';
+import { useImages } from '../hooks/data/useImages';
 import { useControlsVisibility } from '../hooks/useControlsVisibility';
 import { useKeyboardHandler } from '../hooks/useKeyboardHandler';
 import { ImageDisplay } from './ImageDisplay';
@@ -44,11 +43,6 @@ const defaultSettings: ViewerSettings = {
   controlsTimeout: 3000,
 };
 
-const fetchImages = async (folderPath: string, fs: FileSystemService) => {
-  const container = new LocalFolderContainer(folderPath, fs);
-  return await container.listImages();
-};
-
 export function ImageViewer({
   folderPath,
   initialIndex = 0,
@@ -58,17 +52,9 @@ export function ImageViewer({
   className = '',
   style,
 }: ImageViewerProps) {
-  const fs = useServices();
-  const {
-    data: images = [],
-    isLoading,
-    error,
-  } = useSWR(
-    folderPath ? ['images', folderPath] : null,
-    () => fetchImages(folderPath, fs),
-    { revalidateOnFocus: false },
-  );
+  const { images = [], isLoading, error } = useImages(folderPath);
   const [loading, setLoading] = useState(true);
+
   const [currentIndex, setCurrentIndex] = useState(initialIndex);
   const [settings, setSettings] = useState<ViewerSettings>({
     ...defaultSettings,
@@ -136,11 +122,6 @@ export function ImageViewer({
   useEffect(() => {
     setSettings((prev) => ({ ...prev, ...userSettings }));
   }, [userSettings]);
-
-  // インデックス変更を反映
-  useEffect(() => {
-    setCurrentIndex(initialIndex);
-  }, [initialIndex]);
 
   useEffect(() => {
     setLoading(isLoading);
