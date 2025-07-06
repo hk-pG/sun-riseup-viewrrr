@@ -4,11 +4,146 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "dev",
-      "dependsOn": ["build:debug", "ui:dev"],
+      "label": "dev:with-frontend-server",
+      "dependsOn": ["frontend:dev:start", "cargo:watch:build"],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "dev:cleanup",
+      "dependsOn": ["frontend:dev:stop", "cargo:watch:stop"],
+      "group": "build"
+    },
+    {
+      "label": "frontend:dev:start",
+      "type": "shell",
+      "command": "pnpm",
+      "args": ["dev"],
+      "isBackground": true,
+      "problemMatcher": {
+        "owner": "vite",
+        "pattern": {
+          "regexp": "."
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": "VITE",
+          "endsPattern": "Local:\\s+http://localhost:\\d+"
+        }
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "silent",
+        "focus": false,
+        "panel": "dedicated",
+        "group": "dev-servers"
+      },
+      "options": {
+        "cwd": "${workspaceRoot}"
+      }
+    },
+    {
+      "label": "frontend:dev:stop",
+      "type": "shell",
+      "command": "echo",
+      "args": ["${input:terminate}"],
+      "group": "build"
+    },
+    {
+      "label": "cargo:watch:build",
+      "type": "shell",
+      "command": "cargo",
+      "args": ["watch", "-x", "build"],
+      "options": {
+        "cwd": "${workspaceRoot}/src-tauri"
+      },
+      "isBackground": true,
+      "group": "build",
+      "presentation": {
+        "echo": true,
+        "reveal": "silent",
+        "focus": false,
+        "panel": "dedicated",
+        "group": "dev-servers"
+      },
+      "problemMatcher": {
+        "owner": "rust",
+        "fileLocation": ["relative", "${workspaceRoot}/src-tauri"],
+        "pattern": [
+          {
+            "regexp": "^error\\[E\\d+\\]: (.*)$",
+            "message": 1
+          },
+          {
+            "regexp": "^\\s*-->\\s+(.*?):(\\d+):(\\d+)$",
+            "file": 1,
+            "line": 2,
+            "column": 3
+          }
+        ],
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": "^\\[Running",
+          "endsPattern": "^\\[Finished running"
+        }
+      }
+    },
+    {
+      "label": "cargo:watch:stop",
+      "type": "shell",
+      "command": "echo",
+      "args": ["${input:terminate}"],
+      "group": "build"
+    },
+    {
+      "label": "tauri:dev:start",
+      "type": "shell",
+      "command": "pnpm",
+      "args": ["tauri", "dev"],
       "group": {
         "kind": "build"
+      },
+      "isBackground": true,
+      "problemMatcher": {
+        "owner": "tauri",
+        "pattern": [
+          {
+            "regexp": "^error\\[E\\d+\\]: (.*)$",
+            "message": 1
+          },
+          {
+            "regexp": "^\\s*-->\\s+(.*?):(\\d+):(\\d+)$",
+            "file": 1,
+            "line": 2,
+            "column": 3
+          }
+        ],
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": "^\\s*Compiling",
+          "endsPattern": "(App listening on|Local:.*http://localhost)"
+        }
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "dedicated",
+        "showReuseMessage": true,
+        "clear": false
+      },
+      "options": {
+        "cwd": "${workspaceRoot}"
       }
+    },
+    {
+      "label": "tauri:dev:stop",
+      "type": "shell",
+      "command": "echo",
+      "args": ["${input:terminate}"],
+      "group": "build"
     },
     {
       "label": "build:debug",
@@ -16,42 +151,27 @@
       "command": "build",
       "options": {
         "cwd": "${workspaceRoot}/src-tauri"
-      }
-    },
-    {
-      "label": "ui:dev",
-      "type": "shell",
-      // `dev` はバックグラウンドで実行が継続します。
-      // 理想的には `problemMatcher` も設定する必要があります。
-      // https://code.visualstudio.com/docs/editor/tasks#_can-a-background-task-be-used-as-a-prelaunchtask-in-launchjson を参照してください。
-      "problemMatcher": {
-        "owner": "custom",
-        "pattern": {
-          "regexp": "."
-        },
-        "background": {
-          "activeOnStart": true,
-          "beginsPattern": ".",
-          "endsPattern": "VITE .* ready "
-        }
       },
-      "isBackground": true,
-      // この部分をあなたの `beforeBuildCommand` に合わせて変更します：
-      "command": "pnpm",
-      "args": ["dev"]
+      "group": "build",
+      "problemMatcher": "$rustc"
     },
     {
-      "label": "ui:dev:stop",
-      "type": "shell",
-      "command": "echo ${input:terminate}"
+      "label": "build:release",
+      "type": "cargo",
+      "command": "build",
+      "args": ["--release"],
+      "options": {
+        "cwd": "${workspaceRoot}/src-tauri"
+      },
+      "group": "build",
+      "problemMatcher": "$rustc"
     }
   ],
   "inputs": [
     {
       "id": "terminate",
       "type": "command",
-      "command": "workbench.action.terminal.kill",
-      "args": "ui:dev"
+      "command": "workbench.action.terminal.kill"
     }
   ]
 }

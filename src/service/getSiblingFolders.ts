@@ -32,9 +32,9 @@ export async function getSiblingFolderEntries(
 
     // 各フォルダパスからベース名を取得し、FolderEntry配列を生成
     const entries: FolderEntry[] = await Promise.all(
-      paths.map(async (path) => ({
-        path,
-        name: await fs.getBaseName(path),
+      paths.map(async (dirPath) => ({
+        path: dirPath,
+        name: await fs.getBaseName(dirPath),
       })),
     );
 

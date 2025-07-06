@@ -1,4 +1,4 @@
-mod commands;
+pub mod commands;
 use commands::fs::{get_sibling_folders, list_images_in_folder};
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]

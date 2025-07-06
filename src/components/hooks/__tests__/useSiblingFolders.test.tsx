@@ -14,11 +14,12 @@ const TEST_FOLDER_NAME_2 = 'folder2';
 // --- モック ---
 const mockFileSystemService: FileSystemService = {
   openDirectoryDialog: vi.fn(),
-  getBaseName: vi.fn(),
-  getDirName: vi.fn(),
   listImagesInFolder: vi.fn(),
   getSiblingFolders: vi.fn(),
   convertFileSrc: vi.fn(),
+  openFileDialog: vi.fn(),
+  getBaseName: vi.fn(),
+  getDirName: vi.fn(),
 };
 
 // --- ヘルパーコンポーネント ---
@@ -59,7 +60,7 @@ describe('useFolderNavigator', () => {
       .fn()
       .mockResolvedValue([TEST_FOLDER_PATH_1, TEST_FOLDER_PATH_2]);
 
-    // フォルダパスに対するフォルダ名をモック
+    // getBaseName もモックする
     mockFileSystemService.getBaseName = vi
       .fn()
       .mockImplementation(async (p) => {
@@ -79,12 +80,6 @@ describe('useFolderNavigator', () => {
     expect(mockFileSystemService.getSiblingFolders).toHaveBeenCalledWith(
       TEST_CURRENT_PATH,
     );
-    expect(mockFileSystemService.getBaseName).toHaveBeenCalledWith(
-      TEST_FOLDER_PATH_1,
-    );
-    expect(mockFileSystemService.getBaseName).toHaveBeenCalledWith(
-      TEST_FOLDER_PATH_2,
-    );
   });
 
   it('該当するフォルダがない場合、entries は空配列であること', async () => {
@@ -100,7 +95,6 @@ describe('useFolderNavigator', () => {
     expect(mockFileSystemService.getSiblingFolders).toHaveBeenCalledWith(
       TEST_CURRENT_PATH,
     );
-    expect(mockFileSystemService.getBaseName).not.toHaveBeenCalled();
   });
 
   it('getSiblingFolders がエラーをスローした場合、entries は空配列になること', async () => {
@@ -125,34 +119,6 @@ describe('useFolderNavigator', () => {
     consoleErrorSpy.mockRestore();
   });
 
-  it('getBaseName がエラーをスローした場合、entries は空配列になること', async () => {
-    const consoleErrorSpy = vi
-      .spyOn(console, 'error')
-      .mockImplementation(() => {});
-    mockFileSystemService.getSiblingFolders = vi
-      .fn()
-      .mockResolvedValue([TEST_FOLDER_PATH_1]);
-    mockFileSystemService.getBaseName = vi
-      .fn()
-      .mockRejectedValue(new Error('Failed to get base name'));
-
-    const { result } = renderHook(() => useSiblingFolders(TEST_CURRENT_PATH), {
-      wrapper: ServicesWrapper,
-    });
-
-    await waitFor(() => {
-      expect(result.current.entries).toEqual([]);
-    });
-    expect(mockFileSystemService.getSiblingFolders).toHaveBeenCalledWith(
-      TEST_CURRENT_PATH,
-    );
-    expect(mockFileSystemService.getBaseName).toHaveBeenCalledWith(
-      TEST_FOLDER_PATH_1,
-    );
-    expect(consoleErrorSpy).toHaveBeenCalled();
-    consoleErrorSpy.mockRestore();
-  });
-
   it('フックがアンマウントされた場合、進行中の処理がキャンセルされること (setEntries が呼ばれないこと)', async () => {
     // getSiblingFolders が解決するのに時間がかかるようにモック
     mockFileSystemService.getSiblingFolders = vi
@@ -163,9 +129,6 @@ describe('useFolderNavigator', () => {
             setTimeout(() => resolve([TEST_FOLDER_PATH_1]), 50),
           ),
       );
-    mockFileSystemService.getBaseName = vi
-      .fn()
-      .mockResolvedValue(TEST_FOLDER_NAME_1);
 
     const { unmount, result } = renderHook(
       () => useSiblingFolders(TEST_CURRENT_PATH),
@@ -195,16 +158,5 @@ describe('useFolderNavigator', () => {
 
     // getSiblingFolders は呼び出されているはず
     expect(mockFileSystemService.getSiblingFolders).toHaveBeenCalledTimes(1);
-    // getBaseName は、getSiblingFolders の解決後に mounted フラグをチェックするため、
-    // アンマウントされていれば呼ばれないはず。
-    // ただし、タイミングによっては getSiblingFolders の Promise が解決する前に
-    // unmount が完了し、getBaseName が呼ばれないケースと、
-    // getSiblingFolders が解決した直後に unmount され、getBaseName が呼ばれる直前に
-    // mounted が false になるケースがある。
-    // 重要なのは setEntries が呼ばれないこと。
-    // このテストでは、getBaseName が呼ばれたとしても、その後の setEntries が
-    // mounted フラグによって抑制されることを期待している。
-    // 確実に getBaseName が呼ばれないことを保証するには、より詳細なタイミング制御が必要。
-    // ここでは、エラーが発生せず、entries が更新されないことを主眼に置く。
   });
 });

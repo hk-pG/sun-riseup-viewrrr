@@ -12,9 +12,13 @@ import { isStringArray } from '../utils/isStringArray';
 
 export const tauriFileSystemService: FileSystemService = {
   openDirectoryDialog: async (): Promise<string | null> => {
-    const selected = await tauriOpenDialog({ directory: true });
-    if (selected) {
-      return selected as string;
+    try {
+      const selected = await tauriOpenDialog({ directory: true });
+      if (selected) {
+        return selected as string;
+      }
+    } catch (error) {
+      throw new Error(`error occurred during open folder ${error}`);
     }
 
     return null;
@@ -28,6 +32,36 @@ export const tauriFileSystemService: FileSystemService = {
     const dirname = await tauriDirname(filePath);
     return dirname;
   },
+
+  openFileDialog: async (): Promise<string | null> => {
+    const selected = await tauriOpenDialog({
+      directory: false,
+      multiple: false,
+      // TODO: バックエンド側と連携して対応する拡張子のみのファイルを選択できるようにする
+      // filters: [{ name: 'Images', extensions: [] }],
+    });
+
+    if (selected) {
+      return selected;
+    }
+
+    return null;
+  },
+
+  openImageFileDialog: async (
+    extensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'],
+  ): Promise<string | null> => {
+    const selected = await tauriOpenDialog({
+      directory: false,
+      multiple: false,
+      filters: [{ name: 'Images', extensions }],
+    });
+    if (selected && typeof selected === 'string') {
+      return selected;
+    }
+    return null;
+  },
+
   listImagesInFolder: async (folderPath: string): Promise<string[]> => {
     const images = await invoke<string[]>('list_images_in_folder', {
       folderPath,

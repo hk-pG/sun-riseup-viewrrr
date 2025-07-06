@@ -1,4 +1,5 @@
 import type { ViewerControlsProps } from '../types/viewerTypes';
+import { Button } from './ui/button';
 
 export function ViewerControls({
   currentIndex,
@@ -18,57 +19,47 @@ export function ViewerControls({
     <div
       className={`absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-75 text-white rounded-lg px-4 py-2 flex items-center gap-4 ${className}`}
     >
-      <button
-        type="button"
-        onClick={onPrevious}
-        disabled={currentIndex <= 0}
-        className="px-2 py-1 rounded hover:bg-white hover:bg-opacity-20 disabled:opacity-50 disabled:cursor-not-allowed"
+      <Button
+        onClick={onNext}
+        disabled={currentIndex >= totalImages - 1}
+        variant="secondary"
+        className="px-2 py-1 min-w-16"
       >
-        ◀ 前
-      </button>
-
+        ◀ 次
+      </Button>
       <span className="text-sm">
         {currentIndex + 1} / {totalImages}
       </span>
-
-      <button
-        type="button"
-        onClick={onNext}
-        disabled={currentIndex >= totalImages - 1}
-        className="px-2 py-1 rounded hover:bg-white hover:bg-opacity-20 disabled:opacity-50 disabled:cursor-not-allowed"
+      <Button
+        onClick={onPrevious}
+        disabled={currentIndex <= 0}
+        variant="secondary"
+        className="px-2 py-1 min-w-16"
       >
-        次 ▶
-      </button>
+        前 ▶
+      </Button>
 
       <div className="w-px h-4 bg-white bg-opacity-30" />
 
-      <button
-        type="button"
-        onClick={onZoomOut}
-        className="px-2 py-1 rounded hover:bg-white hover:bg-opacity-20"
-      >
+      <Button onClick={onZoomOut} variant="ghost" className="px-2 py-1">
         ー
-      </button>
+      </Button>
 
       <span className="text-sm min-w-12 text-center">
         {Math.round(zoom * 100)}%
       </span>
 
-      <button
-        type="button"
-        onClick={onZoomIn}
-        className="px-2 py-1 rounded hover:bg-white hover:bg-opacity-20"
-      >
+      <Button onClick={onZoomIn} variant="ghost" className="px-2 py-1">
         ＋
-      </button>
+      </Button>
 
-      <button
-        type="button"
+      <Button
         onClick={onResetZoom}
-        className="px-2 py-1 rounded hover:bg-white hover:bg-opacity-20 text-sm"
+        variant="outline"
+        className="px-2 py-1 text-sm"
       >
         リセット
-      </button>
+      </Button>
     </div>
   );
 }

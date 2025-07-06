@@ -1,8 +1,6 @@
 import { useServices } from '@/context/ServiceContext';
 import type { FileSystemService } from '@/service/FileSystemService';
 import type { ImageSource } from '@/types/ImageSource';
-import { convertFileSrc } from '@tauri-apps/api/core';
-import { basename } from '@tauri-apps/api/path';
 import useSWR from 'swr';
 
 async function fetchThumbnail(
@@ -16,15 +14,12 @@ async function fetchThumbnail(
   }
 
   const first = files[0];
-  const name = await basename(first).catch((error) => {
-    console.error('Error getting file basename:', error);
-    throw new Error(`Failed to get file basename: ${error}`);
-  });
+  const name = await fs.getBaseName(first);
 
   return {
     id: first,
     name,
-    assetUrl: convertFileSrc(first),
+    assetUrl: fs.convertFileSrc(first),
   };
 }
 
