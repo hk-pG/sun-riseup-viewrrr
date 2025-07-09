@@ -34,6 +34,9 @@
     "tailwindcss": "^4.1.6",
     "tailwindcss-animate": "^1.0.7"
   },
+  "pnpm": {
+    "onlyBuiltDependencies": ["@biomejs/biome", "@tailwindcss/oxide", "esbuild"]
+  },
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
     "@chromatic-com/storybook": "4.0.0",
