@@ -11,6 +11,7 @@ export interface ImageDisplayProps {
   onError?: (error: Error) => void;
   className?: string;
   style?: React.CSSProperties;
+  transitionType?: 'fade' | 'none';
 }
 
 export function ImageDisplay({
@@ -20,6 +21,7 @@ export function ImageDisplay({
   onError,
   className = '',
   style,
+  transitionType = 'fade',
 }: ImageDisplayProps) {
   const handleImageLoad = useCallback(() => {
     onLoad?.();
@@ -59,7 +61,7 @@ export function ImageDisplay({
         style={getImageStyle()}
         onLoad={handleImageLoad}
         onError={handleImageError}
-        className="select-none"
+        className={`select-none ${transitionType === 'fade' ? 'image-fade' : ''}`}
         draggable={false}
       />
     </div>

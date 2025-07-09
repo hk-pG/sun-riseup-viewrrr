@@ -175,6 +175,7 @@ export function ImageViewer({
         onLoad={() => callbacks?.onImageLoad?.(currentImage)}
         onError={(error) => callbacks?.onImageError?.(error, currentImage)}
         className="w-full h-full"
+        transitionType="fade"
       />
 
       <ViewerControls

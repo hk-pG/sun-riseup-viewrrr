@@ -77,3 +77,18 @@
 .dark .bg-menubar {
   @apply bg-gray-800;
 }
+
+/* 画像フェードアニメーション */
+.image-fade {
+  opacity: 0;
+  animation: image-fadein 0.5s ease-in forwards;
+}
+
+@keyframes image-fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
