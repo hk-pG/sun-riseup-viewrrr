@@ -1,0 +1,22 @@
+name: アイデア・メモ
+description: 実装するかは未定だが記録しておきたいアイデア
+title: "[Idea] "
+labels: ["idea"]
+body:
+  - type: textarea
+    id: idea
+    attributes:
+      label: アイデアの概要
+      description: 実装案、メモ、改善案など自由に記述してください
+      placeholder: (例)ドラッグ＆ドロップでフォルダを開けたら便利かも？
+    validations:
+      required: true
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: 優先度（任意）
+      options:
+        - 高（早めに検討したい）
+        - 中（時期を見て判断）
+        - 低（そのうちやるかも）
