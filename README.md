@@ -1,8 +1,10 @@
-# Sun-Riseup-Viewrrr
+# ![Sun-Riseup-Viewrrr Logo](logo.svg) Sun-Riseup-Viewrrr
 
 Sun-Riseup-Viewrrr is an image viewer application mainly designed for enjoying manga and illustration collections.
 
 I started this project to realize the experience I personally seek, and to make it available cross-platform.
+
+---
 
 ## Recommended IDE Setup
 
