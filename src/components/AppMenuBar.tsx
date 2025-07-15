@@ -151,7 +151,7 @@ function renderMenuItems(
   items: MenuItemData[],
   onMenuAction: (id: AppMenuBarEvent) => void,
 ) {
-  return items.map((item, idx) => {
+  return items.map((item, _) => {
     if (item.type === 'separator') {
       return <MenubarSeparator key={item.actionId} className="bg-gray-200" />;
     }

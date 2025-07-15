@@ -17,7 +17,6 @@ const mockFileSystemService: FileSystemService = {
   listImagesInFolder: vi.fn(),
   getSiblingFolders: vi.fn(),
   convertFileSrc: vi.fn(),
-  openFileDialog: vi.fn(),
   getBaseName: vi.fn(),
   getDirName: vi.fn(),
 };
