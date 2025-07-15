@@ -13,7 +13,6 @@ type Story = StoryObj<typeof AppMenuBar>;
 
 export const Default: Story = {
   args: {
-    title: '漫画ビューア',
     onMenuAction: (action: AppMenuBarEvent) => alert(`Action: ${action}`),
   },
 };

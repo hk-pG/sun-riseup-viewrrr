@@ -1,11 +1,9 @@
 'use client';
 
-import type { FileSystemService } from '@/service/FileSystemService';
 import type { ImageSource } from '@/types/ImageSource';
 import type { ViewerSettings } from '@/types/viewerTypes';
 import type { KeyboardMapping } from '@/types/viewerTypes';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { LocalFolderContainer } from '../containers/LocalFolderContainer';
 import { useImages } from '../hooks/data/useImages';
 import { useControlsVisibility } from '../hooks/useControlsVisibility';
 import { useKeyboardHandler } from '../hooks/useKeyboardHandler';
