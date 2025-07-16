@@ -34,7 +34,6 @@ function App() {
       <div className="h-screen flex flex-col bg-gray-100">
         <div data-tauri-drag-region className="draggable">
           <AppMenuBar
-            title="漫画ビューア"
             isDraggable={true}
             onMenuAction={async (actionId) => {
               // TODO: スケールを考えてストラテジーパターンへの移行を検討

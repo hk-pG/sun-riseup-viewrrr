@@ -11,7 +11,6 @@ const createMockFileSystemService = (
   images: typeof sampleImageSources1,
 ): FileSystemService => ({
   openDirectoryDialog: async () => '/mock/folder/path',
-  openFileDialog: async () => '/mock/file/path',
   listImagesInFolder: async () => images.map((img) => img.assetUrl),
   getSiblingFolders: async () => ['/mock/folder1', '/mock/folder2'],
   convertFileSrc: (filePath: string) => filePath,

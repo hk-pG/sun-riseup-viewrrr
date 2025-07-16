@@ -4,8 +4,8 @@ import { describe, expect, it, vi } from 'vitest';
 
 const mockFs = {
   openDirectoryDialog: vi.fn(),
-  openFileDialog: vi.fn(),
   openImageFileDialog: vi.fn(),
+  getBaseName: vi.fn(),
   getDirName: vi.fn(),
   listImagesInFolder: vi.fn(),
   getSiblingFolders: vi.fn(),

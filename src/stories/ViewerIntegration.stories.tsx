@@ -13,10 +13,9 @@ import type { FileSystemService } from '../service/FileSystemService';
 
 // モックファイルシステムサービス
 const createMockFileSystemService = (
-  images: typeof sampleImageSources1,
+  _: typeof sampleImageSources1,
 ): FileSystemService => ({
   openDirectoryDialog: async () => '/mock/folder/path',
-  openFileDialog: async () => '/mock/file/path',
   listImagesInFolder: async (_folderPath: string) => {
     const folders = [
       sampleImageSources1,
