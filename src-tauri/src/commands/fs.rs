@@ -63,7 +63,7 @@ pub fn get_sibling_folders(folder_path: String) -> Result<Vec<String>, String> {
 
     // パスが存在しない場合はエラーを返す
     if !current.exists() {
-        return Err(format!("Path does not exist: {}", folder_path));
+        return Err(format!("Path does not exist: {folder_path}"));
     }
 
     let parent = current

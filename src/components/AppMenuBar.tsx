@@ -151,13 +151,18 @@ function renderMenuItems(
   items: MenuItemData[],
   onMenuAction: (id: AppMenuBarEvent) => void,
 ) {
-  return items.map((item, _) => {
+  return items.map((item, index) => {
     if (item.type === 'separator') {
-      return <MenubarSeparator key={item.actionId} className="bg-gray-200" />;
+      return (
+        <MenubarSeparator
+          key={`separator-${index}-${item.actionId}`}
+          className="bg-gray-200"
+        />
+      );
     }
     if (item.type === 'submenu' && item.children) {
       return (
-        <MenubarSub key={item.actionId}>
+        <MenubarSub key={item.label || `submenu-${index}`}>
           <MenubarSubTrigger className="hover:bg-gray-100 focus:bg-gray-100">
             {item.icon}
             {item.label}
@@ -170,7 +175,7 @@ function renderMenuItems(
     }
     return (
       <MenubarItem
-        key={item.actionId}
+        key={item.actionId || `item-${index}`}
         onClick={() => item.actionId && onMenuAction(item.actionId)}
         className="hover:bg-gray-100 focus:bg-gray-100"
       >
