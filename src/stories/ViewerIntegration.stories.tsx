@@ -1,44 +1,28 @@
+import App from '@/App';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
 import {
-  sampleImageSources1,
-  sampleImageSources2,
-  sampleImageSources3,
+  getMockImageFolders,
+  mockImageSourcesByFolderPath,
+  mockSidebarOnlyFolders,
 } from '../../data/mockData';
-import { mockFolders } from '../../data/mockData';
 import { ImageViewer } from '../components/ImageViewer';
 import { Sidebar } from '../components/Sidebar';
 import { ServicesProvider } from '../context/ServiceContext';
 import type { FileSystemService } from '../service/FileSystemService';
 
 // モックファイルシステムサービス
-const createMockFileSystemService = (
-  _: typeof sampleImageSources1,
-): FileSystemService => ({
+const createMockFileSystemService = (): FileSystemService => ({
   openDirectoryDialog: async () => '/mock/folder/path',
   listImagesInFolder: async (_folderPath: string) => {
-    const folders = [
-      sampleImageSources1,
-      sampleImageSources2,
-      sampleImageSources3,
-    ];
-    const mapped = mockFolders.map((folder, i) => {
-      return {
-        id: i,
-        name: folder.name,
-        path: folder.path,
-        images: folders[i] || [],
-      };
-    });
-    const matched = mapped.find((folder) => folder.path === _folderPath);
-
-    if (!matched) {
-      return [];
-    }
-
-    return matched.images.map((img) => img.assetUrl);
+    const images = mockImageSourcesByFolderPath[_folderPath] || [];
+    return images.map((img) => img.assetUrl);
   },
-  getSiblingFolders: async () => ['/mock/folder1', '/mock/folder2'],
+  // getSiblingFolders: async () => ['/mock/folder1', '/mock/folder2'],
+
+  getSiblingFolders: async () => {
+    return getMockImageFolders().map((folder) => folder.path);
+  },
   convertFileSrc: (filePath: string) => filePath,
   getBaseName: async (filePath: string) => {
     const parts = filePath.split('/');
@@ -50,12 +34,8 @@ const createMockFileSystemService = (
   },
 });
 
-const MockServiceProvider = ({
-  children,
-  images,
-}: { children: React.ReactNode; images: typeof sampleImageSources1 }) => {
-  const mockService = createMockFileSystemService(images);
-
+const MockServiceProvider = ({ children }: { children: React.ReactNode }) => {
+  const mockService = createMockFileSystemService();
   return <ServicesProvider services={mockService}>{children}</ServicesProvider>;
 };
 
@@ -66,7 +46,7 @@ const meta: Meta = {
   },
   decorators: [
     (Story, _context) => (
-      <MockServiceProvider images={sampleImageSources1}>
+      <MockServiceProvider>
         <Story />
       </MockServiceProvider>
     ),
@@ -79,29 +59,8 @@ type Story = StoryObj;
 // 完全なビューアアプリケーションのシミュレーション
 export const FullViewerApp: Story = {
   render: () => {
-    const [currentFolderPath, setCurrentFolderPath] = useState('');
-
-    const selectedFolder = mockFolders.find(
-      (folder) => folder.path === currentFolderPath,
-    );
-
-    return (
-      <div className="h-screen flex bg-gray-100">
-        <Sidebar
-          folders={mockFolders}
-          selectedFolder={selectedFolder}
-          onFolderSelect={(folder) => {
-            setCurrentFolderPath(folder.path);
-          }}
-          width={280}
-        />
-        <ImageViewer
-          key={currentFolderPath} // フォルダが変更されたら再レンダリング
-          folderPath={currentFolderPath}
-          className="flex-1"
-        />
-      </div>
-    );
+    // フォルダ情報は getMockFolders() で取得可能
+    return <App />;
   },
 };
 
@@ -133,12 +92,13 @@ export const ViewerOnly: Story = {
 // サイドバーのみのテスト
 export const SidebarOnly: Story = {
   render: () => {
-    const [selectedFolder, setSelectedFolder] = useState(mockFolders[0]);
-
+    // サイドバーのみのテストでは画像を持たないフォルダも含めてテストできる
+    const folders = [...getMockImageFolders(), ...mockSidebarOnlyFolders];
+    const [selectedFolder, setSelectedFolder] = useState(folders[0]);
     return (
       <div className="h-screen bg-gray-100">
         <Sidebar
-          folders={mockFolders}
+          folders={folders}
           selectedFolder={selectedFolder}
           onFolderSelect={setSelectedFolder}
           width={280}
@@ -151,14 +111,15 @@ export const SidebarOnly: Story = {
 // レスポンシブテスト
 export const ResponsiveLayout: Story = {
   render: () => {
-    const [currentFolderPath, setCurrentFolderPath] =
-      useState('/mock/folder/path');
+    // レスポンシブテストでも画像付き・画像なし両方のフォルダをサイドバーに表示
+    const folders = [...getMockImageFolders(), ...mockSidebarOnlyFolders];
+    const [currentFolderPath, setCurrentFolderPath] = useState(
+      folders[0]?.path || '',
+    );
     const [sidebarVisible, setSidebarVisible] = useState(true);
-
-    const selectedFolder = mockFolders.find(
+    const selectedFolder = folders.find(
       (folder) => folder.path === currentFolderPath,
     );
-
     return (
       <div className="h-screen flex flex-col bg-gray-100">
         {/* ヘッダー */}
@@ -172,12 +133,11 @@ export const ResponsiveLayout: Story = {
             {sidebarVisible ? 'サイドバー非表示' : 'サイドバー表示'}
           </button>
         </div>
-
         {/* メインコンテンツ */}
         <div className="flex-1 flex">
           {sidebarVisible && (
             <Sidebar
-              folders={mockFolders}
+              folders={folders}
               selectedFolder={selectedFolder}
               onFolderSelect={(folder) => setCurrentFolderPath(folder.path)}
               width={280}
