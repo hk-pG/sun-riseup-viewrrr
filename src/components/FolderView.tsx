@@ -53,7 +53,9 @@ export function FolderView({
         <div
           className={`flex items-center justify-center w-full h-full text-gray-400 ${folder.thumbnailImage ? 'hidden' : ''}`}
         >
+          {/* TODO: サムネイルを表示する */}
           <span className="text-4xl">📁</span>
+          <span className="hidden">{folder.path}</span>
         </div>
       </div>
 
