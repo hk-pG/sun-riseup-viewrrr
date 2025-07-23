@@ -1,103 +1,32 @@
 {
-  // VS Code の IntelliSense 入力支援機能を使用して、利用可能な属性について学習してください。
-  // マウスを既存の属性の上にかざすと、その説明が表示されます。
-  // 詳細については、https://go.microsoft.com/fwlink/?linkid=830387 をご覧ください。
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Launch Tauri with Frontend Dev Server",
-      "type": "cppvsdbg",
+      "type": "lldb",
       "request": "launch",
-      "program": "${workspaceRoot}/src-tauri/target/debug/sun-riseup-viewrrr.exe",
-      "cwd": "${workspaceRoot}",
-      "preLaunchTask": "dev:with-frontend-server",
-      "postDebugTask": "dev:cleanup",
-      "environment": [
-        {
-          "name": "WEBVIEW2_ADDITIONAL_BROWSER_ARGUMENTS",
-          "value": "--remote-debugging-port=1420"
-        },
-        {
-          "name": "RUST_BACKTRACE",
-          "value": "1"
-        }
-      ],
-      "console": "integratedTerminal",
-      "stopAtEntry": false
+      "name": "Tauri Development Debug",
+      "cargo": {
+        "args": [
+          "build",
+          "--manifest-path=./src-tauri/Cargo.toml",
+          "--no-default-features"
+        ]
+      },
+      // task for the `beforeDevCommand` if used, must be configured in `.vscode/tasks.json`
+      "preLaunchTask": "ui:dev"
     },
     {
-      "name": "Attach to Webview (Auto-Reconnect)",
-      "port": 1420,
-      "request": "attach",
-      "timeout": 300000,
-      "type": "chrome",
-      "webRoot": "${workspaceFolder}/src",
-      "sourceMaps": true,
-      "skipFiles": ["<node_internals>/**", "node_modules/**"],
-      "restart": true
-    },
-    {
-      "name": "Launch Tauri Dev (Full Restart)",
-      "type": "cppvsdbg",
+      "type": "lldb",
       "request": "launch",
-      "program": "${workspaceRoot}/src-tauri/target/debug/sun-riseup-viewrrr.exe",
-      "cwd": "${workspaceRoot}",
-      "preLaunchTask": "tauri:dev:start",
-      "postDebugTask": "tauri:dev:stop",
-      "environment": [
-        {
-          "name": "WEBVIEW2_ADDITIONAL_BROWSER_ARGUMENTS",
-          "value": "--remote-debugging-port=1420"
-        },
-        {
-          "name": "RUST_BACKTRACE",
-          "value": "1"
-        }
-      ],
-      "console": "integratedTerminal",
-      "stopAtEntry": false
-    },
-    {
-      "name": "Debug Rust Backend Only",
-      "type": "cppvsdbg",
-      "request": "launch",
-      "program": "${workspaceRoot}/src-tauri/target/debug/sun-riseup-viewrrr.exe",
-      "cwd": "${workspaceRoot}",
-      "preLaunchTask": "build:debug",
-      "environment": [
-        {
-          "name": "RUST_BACKTRACE",
-          "value": "1"
-        }
-      ],
-      "console": "integratedTerminal",
-      "stopAtEntry": false
-    }
-  ],
-  "compounds": [
-    {
-      "name": "Tauri with Separate Dev Server (Recommended)",
-      "configurations": [
-        "Launch Tauri with Frontend Dev Server",
-        "Attach to Webview (Auto-Reconnect)"
-      ],
-      "presentation": {
-        "hidden": false,
-        "group": "tauri",
-        "order": 1
-      }
-    },
-    {
-      "name": "Tauri Full Restart Debug",
-      "configurations": [
-        "Launch Tauri Dev (Full Restart)",
-        "Attach to Webview (Auto-Reconnect)"
-      ],
-      "presentation": {
-        "hidden": false,
-        "group": "tauri",
-        "order": 2
-      }
+      "name": "Tauri Production Debug",
+      "cargo": {
+        "args": ["build", "--release", "--manifest-path=./src-tauri/Cargo.toml"]
+      },
+      // task for the `beforeBuildCommand` if used, must be configured in `.vscode/tasks.json`
+      "preLaunchTask": "ui:build"
     }
   ]
 }
