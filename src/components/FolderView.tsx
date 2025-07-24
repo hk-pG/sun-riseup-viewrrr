@@ -1,4 +1,5 @@
 import type { FolderViewProps } from '@/types/viewerTypes';
+import { useState } from 'react';
 import { useThumbnail } from './hooks/useThumbnail';
 
 export function FolderView({
@@ -11,6 +12,7 @@ export function FolderView({
   className = '',
 }: FolderViewProps) {
   const { thumbnail, isLoading } = useThumbnail(folder.path);
+  const [imgError, setImgError] = useState(false);
   const handleClick = () => {
     onClick(folder);
   };
@@ -45,16 +47,12 @@ export function FolderView({
             data-testid="thumbnail-loading"
             className="animate-pulse bg-gray-300 w-full h-full"
           />
-        ) : thumbnail ? (
+        ) : thumbnail && !imgError ? (
           <img
             src={thumbnail.assetUrl}
             alt={`${folder.name}のサムネイル`}
             className="w-full h-full object-cover"
-            onError={(e) => {
-              const target = e.target as HTMLImageElement;
-              target.style.display = 'none';
-              target.nextElementSibling?.classList.remove('hidden');
-            }}
+            onError={() => setImgError(true)}
           />
         ) : (
           <div className="flex items-center justify-center w-full h-full text-gray-400">
