@@ -35,7 +35,11 @@
     "tailwindcss-animate": "^1.0.7"
   },
   "pnpm": {
-    "onlyBuiltDependencies": ["@biomejs/biome", "@tailwindcss/oxide", "esbuild"]
+    "onlyBuiltDependencies": [
+      "@biomejs/biome",
+      "@tailwindcss/oxide",
+      "esbuild"
+    ]
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
