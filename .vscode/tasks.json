@@ -12,7 +12,18 @@
       "isBackground": true,
       // change this to your `beforeDevCommand`:
       "command": "pnpm",
-      "args": ["dev"]
+      "args": ["dev"],
+      "problemMatcher": {
+        "owner": "custom",
+        "pattern": {
+          "regexp": "^$"
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": "^.*",
+          "endsPattern": "^.*Local:\\s+http://localhost:\\d+/"
+        }
+      }
     },
     {
       "label": "ui:build",
