@@ -1,4 +1,6 @@
 import type { FolderViewProps } from '@/types/viewerTypes';
+import { useState } from 'react';
+import { useThumbnail } from './hooks/useThumbnail';
 
 export function FolderView({
   folder,
@@ -9,6 +11,8 @@ export function FolderView({
   showImageCount = true,
   className = '',
 }: FolderViewProps) {
+  const { thumbnail, isLoading } = useThumbnail(folder.path);
+  const [imgError, setImgError] = useState(false);
   const handleClick = () => {
     onClick(folder);
   };
@@ -38,23 +42,23 @@ export function FolderView({
         className="flex items-center justify-center bg-gray-200 rounded-md overflow-hidden mb-2"
         style={{ width: thumbnailSize, height: thumbnailSize }}
       >
-        {folder.thumbnailImage ? (
+        {isLoading ? (
+          <div
+            data-testid="thumbnail-loading"
+            className="animate-pulse bg-gray-300 w-full h-full"
+          />
+        ) : thumbnail && !imgError ? (
           <img
-            src={folder.thumbnailImage.path || '/placeholder.svg'}
+            src={thumbnail.assetUrl}
             alt={`${folder.name}のサムネイル`}
             className="w-full h-full object-cover"
-            onError={(e) => {
-              const target = e.target as HTMLImageElement;
-              target.style.display = 'none';
-              target.nextElementSibling?.classList.remove('hidden');
-            }}
+            onError={() => setImgError(true)}
           />
-        ) : null}
-        <div
-          className={`flex items-center justify-center w-full h-full text-gray-400 ${folder.thumbnailImage ? 'hidden' : ''}`}
-        >
-          <span className="text-4xl">📁</span>
-        </div>
+        ) : (
+          <div className="flex items-center justify-center w-full h-full text-gray-400">
+            <span className="text-4xl">📁</span>
+          </div>
+        )}
       </div>
 
       <div className="text-center w-full">
