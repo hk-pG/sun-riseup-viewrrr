@@ -81,7 +81,7 @@ describe('FolderView', () => {
   });
 
   it('サムネイルが取得できない場合はフォルダアイコンを表示する', () => {
-    (useThumbnail as ReturnType<typeof vi.fn>).mockReturnValue({
+    vi.mocked(useThumbnail).mockReturnValue({
       thumbnail: null,
       isLoading: false,
       isError: false,
