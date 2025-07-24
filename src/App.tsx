@@ -31,7 +31,7 @@ function App() {
 
   return (
     <>
-      <div className="h-screen flex flex-col bg-gray-100">
+      <div className="h-screen flex flex-col bg-white">
         <div data-tauri-drag-region className="draggable">
           <AppMenuBar
             isDraggable={true}
