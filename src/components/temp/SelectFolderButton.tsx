@@ -14,10 +14,8 @@ export function SelectFolderButton({ onSelect }: Props) {
   }
 
   return (
-    <>
-      <button type="button" onClick={handleSelect}>
-        フォルダを選択
-      </button>
-    </>
+    <button type="button" onClick={handleSelect}>
+      フォルダを選択
+    </button>
   );
 }

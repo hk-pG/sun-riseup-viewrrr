@@ -1,7 +1,7 @@
+import useSWR from 'swr';
 import { LocalFolderContainer } from '@/containers/LocalFolderContainer';
 import { useServices } from '@/context/ServiceContext';
 import type { FileSystemService } from '@/service/FileSystemService';
-import useSWR from 'swr';
 
 const fetchImages = async (folderPath: string, fs: FileSystemService) => {
   const container = new LocalFolderContainer(folderPath, fs);
