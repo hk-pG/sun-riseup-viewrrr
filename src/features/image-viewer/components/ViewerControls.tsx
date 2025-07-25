@@ -1,5 +1,5 @@
+import { Button } from '@/shared/components/ui/button';
 import type { ViewerControlsProps } from '../types/viewerTypes';
-import { Button } from './ui/button';
 
 export function ViewerControls({
   currentIndex,

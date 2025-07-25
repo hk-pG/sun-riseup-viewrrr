@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
 import { mockImageSourcesByFolderPath } from '../../data/mockData';
-import { ImageViewer } from '../components/ImageViewer';
-import { ServicesProvider } from '../context/ServiceContext';
+import { ImageViewer } from '../features/image-viewer/components/ImageViewer';
+import type { ImageSource } from '../features/image-viewer/types/ImageSource';
+import type { ViewerSettings } from '../features/image-viewer/types/viewerTypes';
 import type { FileSystemService } from '../service/FileSystemService';
-import type { ImageSource } from '../types/ImageSource';
-import type { ViewerSettings } from '../types/viewerTypes';
+import { ServicesProvider } from '../shared/context/ServiceContext';
 
 const images = mockImageSourcesByFolderPath['/test_images/folder_1'];
 

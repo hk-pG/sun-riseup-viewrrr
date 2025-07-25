@@ -1,11 +1,14 @@
 'use client';
 
 import { useState } from 'react';
+import type {
+  KeyboardMapping,
+  KeyboardShortcut,
+} from '../features/image-viewer/types/viewerTypes';
 import {
   getShortcutDescription,
   getShortcutList,
-} from '../../utils/keyboardUtils';
-import type { KeyboardMapping, KeyboardShortcut } from '../types/viewerTypes';
+} from '../shared/utils/keyboardUtils';
 
 interface KeyboardShortcutHelpProps {
   mapping: KeyboardMapping;

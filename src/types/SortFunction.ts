@@ -1,4 +1,4 @@
-import type { ImageSource } from './ImageSource';
+import type { ImageSource } from '../features/image-viewer/types/ImageSource';
 
 /**
  * SortFunction

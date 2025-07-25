@@ -6,10 +6,10 @@ import {
   mockImageSourcesByFolderPath,
   mockSidebarOnlyFolders,
 } from '../../data/mockData';
-import { ImageViewer } from '../components/ImageViewer';
 import { Sidebar } from '../components/Sidebar';
-import { ServicesProvider } from '../context/ServiceContext';
+import { ImageViewer } from '../features/image-viewer/components/ImageViewer';
 import type { FileSystemService } from '../service/FileSystemService';
+import { ServicesProvider } from '../shared/context/ServiceContext';
 
 // モックファイルシステムサービス
 const createMockFileSystemService = (): FileSystemService => ({

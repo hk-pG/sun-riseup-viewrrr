@@ -1,9 +1,12 @@
 'use client';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
-import type { ImageSource } from '@/types/ImageSource';
-import type { KeyboardMapping, ViewerSettings } from '@/types/viewerTypes';
-import { useImages } from '../hooks/data/useImages';
+import type { ImageSource } from '@/features/image-viewer/types/ImageSource';
+import type {
+  KeyboardMapping,
+  ViewerSettings,
+} from '@/features/image-viewer/types/viewerTypes';
+import { useImages } from '../../../hooks/data/useImages';
 import { useControlsVisibility } from '../hooks/useControlsVisibility';
 import { useKeyboardHandler } from '../hooks/useKeyboardHandler';
 import { ImageDisplay } from './ImageDisplay';
@@ -57,7 +60,7 @@ export function ImageViewer({
     ...defaultSettings,
     ...userSettings,
   });
-  const containerRef = useRef<HTMLButtonElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   // コントロールの表示管理
   const { isVisible: controlsVisible, handleMouseMove } = useControlsVisibility(
@@ -160,12 +163,13 @@ export function ImageViewer({
   const currentImage = images[currentIndex];
 
   return (
-    <button
-      type="button"
+    <div
       ref={containerRef}
+      role="application"
       className={`relative ${className}`}
       style={style}
       onMouseMove={handleMouseMove}
+      tabIndex={-1}
     >
       <ImageDisplay
         image={currentImage}
@@ -187,6 +191,6 @@ export function ImageViewer({
         onResetZoom={resetZoom}
         isVisible={controlsVisible}
       />
-    </button>
+    </div>
   );
 }

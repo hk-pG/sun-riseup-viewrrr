@@ -4,8 +4,8 @@ import { type FolderInfo, Sidebar } from './components';
 import { AppMenuBar } from './components/AppMenuBar';
 import { useOpenImageFile } from './components/hooks/useOpenImageFile';
 import { useSiblingFolders } from './components/hooks/useSiblingFolders';
-import { ImageViewer } from './components/ImageViewer';
-import { useServices } from './context/ServiceContext';
+import { ImageViewer } from './features/image-viewer';
+import { useServices } from './shared/context/ServiceContext';
 
 function App() {
   // 現在表示しているフォルダのパス

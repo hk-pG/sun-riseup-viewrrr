@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { useServices } from '../../context/ServiceContext';
 import { getSiblingFolderEntries } from '../../service/getSiblingFolders';
+import { useServices } from '../../shared/context/ServiceContext';
 
 export type FolderEntry = {
   name: string;

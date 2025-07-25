@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { mockImageSourcesByFolderPath } from '../../data/mockData';
-import { ImageDisplay } from '../components/ImageDisplay';
-import type { ViewerSettings } from '../types/viewerTypes';
+import { ImageDisplay } from '../features/image-viewer/components/ImageDisplay';
+import type { ViewerSettings } from '../features/image-viewer/types/viewerTypes';
 
 const meta: Meta<typeof ImageDisplay> = {
   title: 'Viewer/ImageDisplay',

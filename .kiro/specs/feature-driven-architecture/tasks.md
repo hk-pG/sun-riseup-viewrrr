@@ -7,14 +7,17 @@
   - Move shared utilities and common types to `src/shared/`
   - _Requirements: 1.1, 4.2_
 
-- [ ] 2. Migrate shared components and utilities
-  - [ ] 2.1 Move UI components to shared directory
+- [x] 2. Migrate shared components and utilities
+
+  - [x] 2.1 Move UI components to shared directory
+
     - Move `src/components/ui/` to `src/shared/components/ui/`
     - Update import paths in all consuming files
     - Run build, lint, and test to validate changes
     - _Requirements: 2.1, 2.4, 3.1, 3.3, 4.2_
 
-  - [ ] 2.2 Move common utilities and adapters
+  - [x] 2.2 Move common utilities and adapters
+
     - Move `src/utils/` contents to `src/shared/utils/`
     - Move `src/adapters/` to `src/shared/adapters/`
     - Move `src/lib/utils.ts` to `src/shared/utils/`
@@ -22,14 +25,17 @@
     - Run build, lint, and test to validate changes
     - _Requirements: 2.1, 2.4, 3.1, 3.3, 4.2_
 
-  - [ ] 2.3 Move service context to shared
+  - [x] 2.3 Move service context to shared
+
     - Move `src/context/ServiceContext.tsx` to `src/shared/context/`
     - Update import in `src/main.tsx` and other consuming files
     - Run build, lint, and test to validate changes
     - _Requirements: 2.1, 2.4, 3.1, 3.3, 5.1_
 
 - [ ] 3. Migrate image viewer feature
-  - [ ] 3.1 Move image viewer types
+
+  - [x] 3.1 Move image viewer types
+
     - Move `src/types/ImageSource.ts` to `src/features/image-viewer/types/`
     - Move `src/types/ImageContainer.ts` to `src/features/image-viewer/types/`
     - Extract image viewer related types from `src/types/viewerTypes.ts` to `src/features/image-viewer/types/`
@@ -37,7 +43,8 @@
     - Run build, lint, and test to validate changes
     - _Requirements: 1.1, 1.2, 2.1, 2.4, 3.1, 3.3_
 
-  - [ ] 3.2 Move image viewer components
+  - [x] 3.2 Move image viewer components
+
     - Move `src/components/ImageViewer.tsx` to `src/features/image-viewer/components/`
     - Move `src/components/ImageDisplay.tsx` to `src/features/image-viewer/components/`
     - Move `src/components/ViewerControls.tsx` to `src/features/image-viewer/components/`
@@ -45,14 +52,16 @@
     - Run build, lint, and test to validate changes
     - _Requirements: 1.1, 1.2, 2.1, 2.4, 3.1, 3.3_
 
-  - [ ] 3.3 Move image viewer hooks
+  - [x] 3.3 Move image viewer hooks
+
     - Move `src/hooks/useControlsVisibility.ts` to `src/features/image-viewer/hooks/`
     - Move `src/hooks/useKeyboardHandler.ts` to `src/features/image-viewer/hooks/`
     - Update import statements in consuming components
     - Run build, lint, and test to validate changes
     - _Requirements: 1.1, 1.2, 2.1, 2.4, 3.1, 3.3_
 
-  - [ ] 3.4 Create image viewer feature exports
+  - [x] 3.4 Create image viewer feature exports
+
     - Create comprehensive `src/features/image-viewer/index.ts` with all public exports
     - Update `src/App.tsx` to import from the feature index
     - Run build, lint, and test to validate changes

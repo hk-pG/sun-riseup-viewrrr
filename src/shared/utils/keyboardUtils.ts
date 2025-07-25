@@ -1,8 +1,8 @@
 import type {
   ActionType,
-  KeyboardShortcut,
   KeyboardMapping,
-} from '../src/types/viewerTypes';
+  KeyboardShortcut,
+} from '../../features/image-viewer/types/viewerTypes';
 
 // デフォルトのキーボードショートカット設定
 export const createDefaultKeyboardMapping = (

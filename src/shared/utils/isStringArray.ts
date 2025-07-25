@@ -6,10 +6,10 @@
  * @todo zodなどのバリデーションライブラリを使うと、より簡潔に書けるかもしれない
  */
 function isStringArray(value: unknown): value is string[] {
-    if (!Array.isArray(value)) {
-        return false;
-    }
-    return value.every((item) => typeof item === 'string');
+  if (!Array.isArray(value)) {
+    return false;
+  }
+  return value.every((item) => typeof item === 'string');
 }
 
 export { isStringArray };

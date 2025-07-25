@@ -10,7 +10,7 @@ import {
   MenubarSubContent,
   MenubarSubTrigger,
   MenubarTrigger,
-} from '@/components/ui/menubar';
+} from '@/shared/components/ui/menubar';
 
 // AppMenuBarで使うイベントIDの型
 export type AppMenuBarEvent =

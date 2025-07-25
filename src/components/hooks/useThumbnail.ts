@@ -1,7 +1,7 @@
 import useSWR from 'swr';
-import { useServices } from '@/context/ServiceContext';
+import type { ImageSource } from '@/features/image-viewer/types/ImageSource';
 import type { FileSystemService } from '@/service/FileSystemService';
-import type { ImageSource } from '@/types/ImageSource';
+import { useServices } from '@/shared/context/ServiceContext';
 
 async function fetchThumbnail(
   folderPath: string,

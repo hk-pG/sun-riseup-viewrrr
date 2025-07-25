@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { ViewerControls } from '../components/ViewerControls';
+import { ViewerControls } from '../features/image-viewer/components/ViewerControls';
 
 const meta: Meta<typeof ViewerControls> = {
   title: 'Viewer/ViewerControls',
