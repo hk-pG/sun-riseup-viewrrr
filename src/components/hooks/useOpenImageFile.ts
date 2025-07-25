@@ -1,5 +1,5 @@
-import type { FileSystemService } from '@/service/FileSystemService';
 import { useCallback } from 'react';
+import type { FileSystemService } from '@/service/FileSystemService';
 
 export interface OpenImageFileResult {
   folderPath: string | null;

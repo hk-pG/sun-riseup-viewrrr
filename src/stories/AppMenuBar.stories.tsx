@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { AppMenuBar } from '../components/AppMenuBar';
 import type { AppMenuBarEvent } from '../components/AppMenuBar';
+import { AppMenuBar } from '../components/AppMenuBar';
 
 const meta: Meta<typeof AppMenuBar> = {
   title: 'AppMenuBar',

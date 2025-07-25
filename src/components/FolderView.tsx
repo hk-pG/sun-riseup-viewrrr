@@ -1,4 +1,6 @@
+import { useState } from 'react';
 import type { FolderViewProps } from '@/types/viewerTypes';
+import { useThumbnail } from './hooks/useThumbnail';
 
 export function FolderView({
   folder,
@@ -9,6 +11,8 @@ export function FolderView({
   showImageCount = true,
   className = '',
 }: FolderViewProps) {
+  const { thumbnail, isLoading } = useThumbnail(folder.path);
+  const [imgError, setImgError] = useState(false);
   const handleClick = () => {
     onClick(folder);
   };
@@ -20,7 +24,8 @@ export function FolderView({
   };
 
   return (
-    <div
+    <button
+      type="button"
       className={`
         flex flex-col items-center p-3 cursor-pointer rounded-lg transition-colors
         hover:bg-gray-100 ${isSelected ? 'bg-blue-50 border-2 border-blue-300' : 'border-2 border-transparent'}
@@ -28,35 +33,28 @@ export function FolderView({
       `}
       onClick={handleClick}
       onDoubleClick={handleDoubleClick}
-      onKeyUp={(e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          handleClick();
-        }
-      }}
     >
       <div
         className="flex items-center justify-center bg-gray-200 rounded-md overflow-hidden mb-2"
         style={{ width: thumbnailSize, height: thumbnailSize }}
       >
-        {folder.thumbnailImage ? (
+        {isLoading ? (
+          <div
+            data-testid="thumbnail-loading"
+            className="animate-pulse bg-gray-300 w-full h-full"
+          />
+        ) : thumbnail && !imgError ? (
           <img
-            src={folder.thumbnailImage.path || '/placeholder.svg'}
+            src={thumbnail.assetUrl}
             alt={`${folder.name}のサムネイル`}
             className="w-full h-full object-cover"
-            onError={(e) => {
-              const target = e.target as HTMLImageElement;
-              target.style.display = 'none';
-              target.nextElementSibling?.classList.remove('hidden');
-            }}
+            onError={() => setImgError(true)}
           />
-        ) : null}
-        <div
-          className={`flex items-center justify-center w-full h-full text-gray-400 ${folder.thumbnailImage ? 'hidden' : ''}`}
-        >
-          {/* TODO: サムネイルを表示する */}
-          <span className="text-4xl">📁</span>
-          <span className="hidden">{folder.path}</span>
-        </div>
+        ) : (
+          <div className="flex items-center justify-center w-full h-full text-gray-400">
+            <span className="text-4xl">📁</span>
+          </div>
+        )}
       </div>
 
       <div className="text-center w-full">
@@ -67,6 +65,6 @@ export function FolderView({
           <p className="text-xs text-gray-500 mt-1">{folder.imageCount}枚</p>
         )}
       </div>
-    </div>
+    </button>
   );
 }

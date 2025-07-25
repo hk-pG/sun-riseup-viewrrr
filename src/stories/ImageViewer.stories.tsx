@@ -26,7 +26,10 @@ const createMockFileSystemService = (
 const MockServiceProvider = ({
   children,
   images,
-}: { children: React.ReactNode; images: ImageSource[] }) => {
+}: {
+  children: React.ReactNode;
+  images: ImageSource[];
+}) => {
   const mockService = createMockFileSystemService(images);
 
   return <ServicesProvider services={mockService}>{children}</ServicesProvider>;
