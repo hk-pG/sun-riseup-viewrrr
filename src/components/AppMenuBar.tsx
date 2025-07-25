@@ -1,3 +1,4 @@
+import { Eye, FileText, FolderOpen } from 'lucide-react';
 import {
   Menubar,
   MenubarContent,
@@ -10,7 +11,6 @@ import {
   MenubarSubTrigger,
   MenubarTrigger,
 } from '@/components/ui/menubar';
-import { Eye, FileText, FolderOpen } from 'lucide-react';
 
 // AppMenuBarで使うイベントIDの型
 export type AppMenuBarEvent =

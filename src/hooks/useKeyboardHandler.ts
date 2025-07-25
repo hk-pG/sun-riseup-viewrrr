@@ -11,8 +11,21 @@ import type {
 
 export const useKeyboardHandler = (
   keyboardMapping: KeyboardMapping | undefined,
-  containerRef: React.RefObject<HTMLElement>,
+  containerRef: React.RefObject<HTMLElement | HTMLButtonElement>,
 ) => {
+  const isKeyboardEventMatch = useCallback(
+    (event: KeyboardEvent, shortcut: KeyboardShortcut): boolean => {
+      return (
+        event.key === shortcut.key &&
+        !!event.ctrlKey === !!shortcut.ctrlKey &&
+        !!event.shiftKey === !!shortcut.shiftKey &&
+        !!event.altKey === !!shortcut.altKey &&
+        !!event.metaKey === !!shortcut.metaKey
+      );
+    },
+    [],
+  );
+
   const findMatchingAction = useCallback(
     (
       event: KeyboardEvent,
@@ -27,20 +40,7 @@ export const useKeyboardHandler = (
       }
       return null;
     },
-    [],
-  );
-
-  const isKeyboardEventMatch = useCallback(
-    (event: KeyboardEvent, shortcut: KeyboardShortcut): boolean => {
-      return (
-        event.key === shortcut.key &&
-        !!event.ctrlKey === !!shortcut.ctrlKey &&
-        !!event.shiftKey === !!shortcut.shiftKey &&
-        !!event.altKey === !!shortcut.altKey &&
-        !!event.metaKey === !!shortcut.metaKey
-      );
-    },
-    [],
+    [isKeyboardEventMatch],
   );
 
   const handleKeyDown = useCallback(
@@ -68,9 +68,9 @@ export const useKeyboardHandler = (
     const container = containerRef.current;
     if (!container) return;
 
-    container.addEventListener('keydown', handleKeyDown);
+    container.addEventListener('keydown', handleKeyDown as EventListener);
     return () => {
-      container.removeEventListener('keydown', handleKeyDown);
+      container.removeEventListener('keydown', handleKeyDown as EventListener);
     };
   }, [handleKeyDown, containerRef]);
 };

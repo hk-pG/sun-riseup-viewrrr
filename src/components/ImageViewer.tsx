@@ -1,9 +1,8 @@
 'use client';
 
-import type { ImageSource } from '@/types/ImageSource';
-import type { ViewerSettings } from '@/types/viewerTypes';
-import type { KeyboardMapping } from '@/types/viewerTypes';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import type { ImageSource } from '@/types/ImageSource';
+import type { KeyboardMapping, ViewerSettings } from '@/types/viewerTypes';
 import { useImages } from '../hooks/data/useImages';
 import { useControlsVisibility } from '../hooks/useControlsVisibility';
 import { useKeyboardHandler } from '../hooks/useKeyboardHandler';
@@ -58,7 +57,7 @@ export function ImageViewer({
     ...defaultSettings,
     ...userSettings,
   });
-  const containerRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLButtonElement>(null);
 
   // コントロールの表示管理
   const { isVisible: controlsVisible, handleMouseMove } = useControlsVisibility(
@@ -161,7 +160,8 @@ export function ImageViewer({
   const currentImage = images[currentIndex];
 
   return (
-    <div
+    <button
+      type="button"
       ref={containerRef}
       className={`relative ${className}`}
       style={style}
@@ -187,6 +187,6 @@ export function ImageViewer({
         onResetZoom={resetZoom}
         isVisible={controlsVisible}
       />
-    </div>
+    </button>
   );
 }

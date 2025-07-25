@@ -1,6 +1,6 @@
-import type { FolderInfo } from '@/types/viewerTypes';
 import { render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
+import type { FolderInfo } from '@/types/viewerTypes';
 import { FolderView } from './FolderView';
 import { useThumbnail } from './hooks/useThumbnail';
 

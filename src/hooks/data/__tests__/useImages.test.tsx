@@ -1,10 +1,9 @@
+import { renderHook } from '@testing-library/react';
+import useSWR, { SWRConfig } from 'swr';
+import { beforeEach, describe, expect, it, type Mock, vi } from 'vitest';
 import { ServicesProvider } from '@/context/ServiceContext';
 import type { FileSystemService } from '@/service/FileSystemService';
 import type { ImageSource } from '@/types/ImageSource';
-import { renderHook } from '@testing-library/react';
-import { SWRConfig } from 'swr';
-import useSWR from 'swr'; // useSWR を直接インポート
-import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useImages } from '../useImages';
 
 // useSWR をモックする

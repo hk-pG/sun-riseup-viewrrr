@@ -1,6 +1,6 @@
-import { useOpenImageFile } from '@/components/hooks/useOpenImageFile';
 import { renderHook } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
+import { useOpenImageFile } from '@/components/hooks/useOpenImageFile';
 
 const mockFs = {
   openDirectoryDialog: vi.fn(),

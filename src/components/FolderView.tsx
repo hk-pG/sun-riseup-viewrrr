@@ -1,5 +1,5 @@
-import type { FolderViewProps } from '@/types/viewerTypes';
 import { useState } from 'react';
+import type { FolderViewProps } from '@/types/viewerTypes';
 import { useThumbnail } from './hooks/useThumbnail';
 
 export function FolderView({
@@ -24,7 +24,8 @@ export function FolderView({
   };
 
   return (
-    <div
+    <button
+      type="button"
       className={`
         flex flex-col items-center p-3 cursor-pointer rounded-lg transition-colors
         hover:bg-gray-100 ${isSelected ? 'bg-blue-50 border-2 border-blue-300' : 'border-2 border-transparent'}
@@ -32,11 +33,6 @@ export function FolderView({
       `}
       onClick={handleClick}
       onDoubleClick={handleDoubleClick}
-      onKeyUp={(e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          handleClick();
-        }
-      }}
     >
       <div
         className="flex items-center justify-center bg-gray-200 rounded-md overflow-hidden mb-2"
@@ -69,6 +65,6 @@ export function FolderView({
           <p className="text-xs text-gray-500 mt-1">{folder.imageCount}枚</p>
         )}
       </div>
-    </div>
+    </button>
   );
 }
