@@ -16,13 +16,9 @@ export function FolderListItem({
   const { thumbnail } = useThumbnail(folderPath);
 
   return (
-    <div
+    <button
+      type="button"
       onClick={() => onClick(folderPath)}
-      onKeyDown={(e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          onClick(folderPath);
-        }
-      }}
       className={`p-2 cursor-pointer ${isSelected ? 'bg-blue-100' : 'hover:bg-gray-100'}`}
     >
       {thumbnail ? (
@@ -31,6 +27,6 @@ export function FolderListItem({
         <div className="w-20 h-20 bg-gray-200 animate-pulse rounded mb-1" />
       )}
       <div className="text-sm text-gray-700 truncate">{name}</div>
-    </div>
+    </button>
   );
 }
