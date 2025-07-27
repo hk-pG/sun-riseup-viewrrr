@@ -49,7 +49,9 @@ describe('useFolderNavigator', () => {
   });
 
   it('currentFolderPath が指定された場合、同階層のフォルダ情報を取得すること', async () => {
+    // 現在のフォルダも含めた期待値（ソート済み）
     const mockEntries: FolderEntry[] = [
+      { name: 'current', path: TEST_CURRENT_PATH },
       { name: TEST_FOLDER_NAME_1, path: TEST_FOLDER_PATH_1 },
       { name: TEST_FOLDER_NAME_2, path: TEST_FOLDER_PATH_2 },
     ];
@@ -65,6 +67,7 @@ describe('useFolderNavigator', () => {
       .mockImplementation(async (p) => {
         if (p === TEST_FOLDER_PATH_1) return TEST_FOLDER_NAME_1;
         if (p === TEST_FOLDER_PATH_2) return TEST_FOLDER_NAME_2;
+        if (p === TEST_CURRENT_PATH) return 'current';
         return '';
       });
 
@@ -81,15 +84,25 @@ describe('useFolderNavigator', () => {
     );
   });
 
-  it('該当するフォルダがない場合、entries は空配列であること', async () => {
+  it('該当するフォルダがない場合、現在のフォルダのみが含まれること', async () => {
+    const expectedEntries: FolderEntry[] = [
+      { name: 'current', path: TEST_CURRENT_PATH },
+    ];
+
     mockFileSystemService.getSiblingFolders = vi.fn().mockResolvedValue([]);
+    mockFileSystemService.getBaseName = vi
+      .fn()
+      .mockImplementation(async (p) => {
+        if (p === TEST_CURRENT_PATH) return 'current';
+        return '';
+      });
 
     const { result } = renderHook(() => useSiblingFolders(TEST_CURRENT_PATH), {
       wrapper: ServicesWrapper,
     });
 
     await waitFor(() => {
-      expect(result.current.entries).toEqual([]);
+      expect(result.current.entries).toEqual(expectedEntries);
     });
     expect(mockFileSystemService.getSiblingFolders).toHaveBeenCalledWith(
       TEST_CURRENT_PATH,

@@ -28,8 +28,10 @@ export {
 export { ServicesProvider, useServices } from './context/ServiceContext';
 // Hooks
 export { useImages } from './hooks/data/useImages';
+export type { FolderSortFunction } from './types/FolderSortFunction';
 // Types
 export type { SortFunction } from './types/SortFunction';
+export { naturalFolderSort } from './utils/folderSort';
 // Utils
 export { isStringArray } from './utils/isStringArray';
 export { naturalSort } from './utils/sort';
