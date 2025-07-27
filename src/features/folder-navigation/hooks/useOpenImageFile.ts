@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import type { FileSystemService } from '@/service/FileSystemService';
+import type { FileSystemService } from '../services/FileSystemService';
 
 export interface OpenImageFileResult {
   folderPath: string | null;
@@ -16,7 +16,7 @@ export function useOpenImageFile(fs: FileSystemService) {
       if (!filePath) return null;
       const folderPath = await fs.getDirName(filePath);
       const images = await fs.listImagesInFolder(folderPath);
-      const index = images.findIndex((img) => img === filePath);
+      const index = images.findIndex((img: string) => img === filePath);
       return {
         folderPath,
         filePath,

@@ -32,7 +32,7 @@
     - Run build, lint, and test to validate changes
     - _Requirements: 2.1, 2.4, 3.1, 3.3, 5.1_
 
-- [ ] 3. Migrate image viewer feature
+- [x] 3. Migrate image viewer feature
 
   - [x] 3.1 Move image viewer types
 
@@ -67,15 +67,18 @@
     - Run build, lint, and test to validate changes
     - _Requirements: 1.1, 1.2, 4.3_
 
-- [ ] 4. Migrate folder navigation feature
-  - [ ] 4.1 Move folder navigation types
+- [-] 4. Migrate folder navigation feature
+
+  - [x] 4.1 Move folder navigation types
+
     - Extract folder-related types from `src/types/viewerTypes.ts` to `src/features/folder-navigation/types/`
     - Create `folderTypes.ts` with `FolderInfo`, `ImageFile`, and related interfaces
     - Update import statements in all consuming files
     - Run build, lint, and test to validate changes
     - _Requirements: 1.1, 1.2, 2.1, 2.4, 3.1, 3.3_
 
-  - [ ] 4.2 Move folder navigation services
+  - [x] 4.2 Move folder navigation services
+
     - Move `src/service/FileSystemService.ts` to `src/features/folder-navigation/services/`
     - Move `src/service/getSiblingFolders.ts` to `src/features/folder-navigation/services/`
     - Move `src/containers/LocalFolderContainer.ts` to `src/features/folder-navigation/containers/`
@@ -83,7 +86,8 @@
     - Run build, lint, and test to validate changes
     - _Requirements: 1.1, 1.2, 2.1, 2.4, 3.1, 3.3_
 
-  - [ ] 4.3 Move folder navigation hooks
+  - [x] 4.3 Move folder navigation hooks
+
     - Move `src/components/hooks/useSiblingFolders.ts` to `src/features/folder-navigation/hooks/`
     - Move `src/components/hooks/useOpenImageFile.ts` to `src/features/folder-navigation/hooks/`
     - Update import statements in consuming components
@@ -91,6 +95,7 @@
     - _Requirements: 1.1, 1.2, 2.1, 2.4, 3.1, 3.3_
 
   - [ ] 4.4 Move folder navigation components
+
     - Move `src/components/Sidebar.tsx` to `src/features/folder-navigation/components/`
     - Move `src/components/FolderList.tsx` to `src/features/folder-navigation/components/`
     - Move `src/components/FolderView.tsx` to `src/features/folder-navigation/components/`

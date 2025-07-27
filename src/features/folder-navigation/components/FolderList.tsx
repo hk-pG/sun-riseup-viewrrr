@@ -1,9 +1,6 @@
 'use client';
 
-import type {
-  FolderInfo,
-  FolderListProps,
-} from '../features/folder-navigation/types/folderTypes';
+import type { FolderInfo, FolderListProps } from '../types/folderTypes';
 import { FolderView } from './FolderView';
 
 export function FolderList({

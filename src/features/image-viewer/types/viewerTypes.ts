@@ -1,15 +1,4 @@
-/**
- * 画像ファイルのファイルシステム上の情報を表す型。
- * - 画像のパスやファイル名、サイズ、更新日時などを保持する。
- * - UIで画像リストやサムネイル表示などに利用される。
- * - ImageSource（表示用リソース型）への変換元となることが多い。
- */
-export interface ImageFile {
-  path: string;
-  name: string;
-  size?: number;
-  lastModified?: Date;
-}
+import type { ImageFile } from '../../folder-navigation/types/folderTypes';
 
 /**
  * 画像ビューアの表示設定を表す型。

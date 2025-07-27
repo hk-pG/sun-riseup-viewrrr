@@ -1,8 +1,8 @@
 import { renderHook } from '@testing-library/react';
 import useSWR, { SWRConfig } from 'swr';
 import { beforeEach, describe, expect, it, type Mock, vi } from 'vitest';
+import type { FileSystemService } from '@/features/folder-navigation/services/FileSystemService';
 import type { ImageSource } from '@/features/image-viewer/types/ImageSource';
-import type { FileSystemService } from '@/service/FileSystemService';
 import { ServicesProvider } from '@/shared/context/ServiceContext';
 import { useImages } from '../useImages';
 

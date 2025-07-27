@@ -1,8 +1,8 @@
-import type { ImageContainer } from '../features/image-viewer/types/ImageContainer';
-import type { ImageSource } from '../features/image-viewer/types/ImageSource';
-import type { FileSystemService } from '../service/FileSystemService';
-import { isStringArray } from '../shared/utils/isStringArray';
-import { naturalSort } from '../shared/utils/sort';
+import { isStringArray } from '../../../shared/utils/isStringArray';
+import { naturalSort } from '../../../shared/utils/sort';
+import type { ImageContainer } from '../../image-viewer/types/ImageContainer';
+import type { ImageSource } from '../../image-viewer/types/ImageSource';
+import type { FileSystemService } from '../services/FileSystemService';
 
 export class LocalFolderContainer implements ImageContainer {
   constructor(

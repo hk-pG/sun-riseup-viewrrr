@@ -6,9 +6,9 @@ import {
   mockImageSourcesByFolderPath,
   mockSidebarOnlyFolders,
 } from '../../data/mockData';
-import { Sidebar } from '../components/Sidebar';
+import { Sidebar } from '../features/folder-navigation/components/Sidebar';
+import type { FileSystemService } from '../features/folder-navigation/services/FileSystemService';
 import { ImageViewer } from '../features/image-viewer/components/ImageViewer';
-import type { FileSystemService } from '../service/FileSystemService';
 import { ServicesProvider } from '../shared/context/ServiceContext';
 
 // モックファイルシステムサービス

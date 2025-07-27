@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { mockImageSourcesByFolderPath } from '../../data/mockData';
-import { FolderList } from '../components/FolderList';
-import type { FolderInfo } from '../types/viewerTypes';
+import { FolderList } from '../features/folder-navigation/components/FolderList';
+import type { FolderInfo } from '../features/folder-navigation/types/folderTypes';
 
 const folders: FolderInfo[] = [
   {

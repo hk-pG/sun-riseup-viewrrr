@@ -1,4 +1,4 @@
-import type { FolderInfo, ImageFile } from '@/types/viewerTypes';
+import type { FolderInfo, ImageFile } from '@/features/folder-navigation/types/folderTypes';
 import type { ImageSource } from '@/features/image-viewer/types/ImageSource';
 
 // モック画像データ

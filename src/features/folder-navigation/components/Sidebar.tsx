@@ -1,4 +1,4 @@
-import type { SidebarProps } from '@/features/folder-navigation/types/folderTypes';
+import type { SidebarProps } from '../types/folderTypes';
 import { FolderList } from './FolderList';
 
 export function Sidebar({
