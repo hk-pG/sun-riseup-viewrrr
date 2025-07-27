@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import type { AppMenuBarEvent } from '../features/app-shell';
-import { AppMenuBar } from '../features/app-shell';
+import type { AppMenuBarEvent } from '../index';
+import { AppMenuBar } from '../index';
 
 const meta: Meta<typeof AppMenuBar> = {
-  title: 'AppMenuBar',
+  title: 'AppShell/AppMenuBar',
   component: AppMenuBar,
   tags: ['autodocs'],
 };

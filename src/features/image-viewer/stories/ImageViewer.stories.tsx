@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
-import { mockImageSourcesByFolderPath } from '../../data/mockData';
-import type { FileSystemService } from '../features/folder-navigation';
-import { ImageViewer } from '../features/image-viewer/components/ImageViewer';
-import type { ImageSource } from '../features/image-viewer/types/ImageSource';
-import type { ViewerSettings } from '../features/image-viewer/types/viewerTypes';
-import { ServicesProvider } from '../shared/context/ServiceContext';
+import { mockImageSourcesByFolderPath } from '../../../../data/mockData';
+import { ServicesProvider } from '../../../shared/context/ServiceContext';
+import type { FileSystemService } from '../../folder-navigation';
+import { ImageViewer } from '../components/ImageViewer';
+import type { ImageSource } from '../types/ImageSource';
+import type { ViewerSettings } from '../types/viewerTypes';
 
 const images = mockImageSourcesByFolderPath['/test_images/folder_1'];
 
@@ -36,7 +36,7 @@ const MockServiceProvider = ({
 };
 
 const meta: Meta<typeof ImageViewer> = {
-  title: 'Viewer/ImageViewer',
+  title: 'ImageViewer/ImageViewer',
   component: ImageViewer,
   tags: ['autodocs'],
   parameters: {

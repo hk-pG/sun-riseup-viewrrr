@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { ViewerControls } from '../features/image-viewer/components/ViewerControls';
+import { ViewerControls } from '../components/ViewerControls';
 
 const meta: Meta<typeof ViewerControls> = {
-  title: 'Viewer/ViewerControls',
+  title: 'ImageViewer/ViewerControls',
   component: ViewerControls,
   tags: ['autodocs'],
   parameters: {

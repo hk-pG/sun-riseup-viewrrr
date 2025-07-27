@@ -7,7 +7,7 @@ import {
   mockSidebarOnlyFolders,
 } from '../../data/mockData';
 import { type FileSystemService, Sidebar } from '../features/folder-navigation';
-import { ImageViewer } from '../features/image-viewer/components/ImageViewer';
+import { ImageViewer } from '../features/image-viewer';
 import { ServicesProvider } from '../shared/context/ServiceContext';
 
 // モックファイルシステムサービス
@@ -39,7 +39,7 @@ const MockServiceProvider = ({ children }: { children: React.ReactNode }) => {
 };
 
 const meta: Meta = {
-  title: 'Viewer/Integration',
+  title: 'Integration/ViewerIntegration',
   parameters: {
     layout: 'fullscreen',
   },

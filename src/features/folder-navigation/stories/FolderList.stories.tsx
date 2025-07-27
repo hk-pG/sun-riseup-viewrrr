@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { mockImageSourcesByFolderPath } from '../../data/mockData';
-import { type FolderInfo, FolderList } from '../features/folder-navigation';
+import { mockImageSourcesByFolderPath } from '../../../../data/mockData';
+import { type FolderInfo, FolderList } from '../index';
 
 const folders: FolderInfo[] = [
   {
@@ -21,7 +21,7 @@ const folders: FolderInfo[] = [
 ];
 
 const meta: Meta<typeof FolderList> = {
-  title: 'Viewer/FolderList',
+  title: 'FolderNavigation/FolderList',
   component: FolderList,
   tags: ['autodocs'],
   parameters: {
