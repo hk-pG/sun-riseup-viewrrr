@@ -1,4 +1,7 @@
-import type { FolderEntry } from '../hooks/useSiblingFolders';
+import {
+  createFolderEntry,
+  type FolderEntry,
+} from '../hooks/useSiblingFolders';
 import type { FileSystemService } from './FileSystemService';
 
 /**
@@ -32,10 +35,7 @@ export async function getSiblingFolderEntries(
 
     // 各フォルダパスからベース名を取得し、FolderEntry配列を生成
     const entries: FolderEntry[] = await Promise.all(
-      paths.map(async (dirPath) => ({
-        path: dirPath,
-        name: await fs.getBaseName(dirPath),
-      })),
+      paths.map(async (dirPath) => createFolderEntry(dirPath, fs)),
     );
 
     return entries;

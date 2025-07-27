@@ -1,11 +1,22 @@
 import { useEffect, useState } from 'react';
 import { useServices } from '../../../shared/context/ServiceContext';
+import type { FileSystemService } from '..';
 import { getSiblingFolderEntries } from '../services/getSiblingFolders';
 
 export type FolderEntry = {
   name: string;
   path: string;
 };
+
+export async function createFolderEntry(
+  dirPath: string,
+  fs: FileSystemService,
+) {
+  return {
+    path: dirPath,
+    name: await fs.getBaseName(dirPath),
+  };
+}
 
 /**
  * 指定のフォルダと同階層にあるフォルダを取得し、
