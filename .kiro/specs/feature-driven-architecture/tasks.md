@@ -163,22 +163,27 @@
     - Run build, lint, and test to validate changes
     - _Requirements: 1.1, 1.2, 2.1, 2.4, 3.1, 3.3, 4.2_
 
-- [ ] 7. Update Storybook configuration and stories
-  - [ ] 7.1 Move and update story files
+- [x] 7. Update Storybook configuration and stories
+
+  - [x] 7.1 Move and update story files
+
     - Move stories from `src/stories/` to their respective feature directories
     - Update import paths in all story files
     - Update Storybook configuration if needed
     - Run Storybook to validate all stories work correctly
     - _Requirements: 2.1, 2.4, 3.1, 3.3, 5.4_
 
-  - [ ] 7.2 Update test configuration
+  - [x] 7.2 Update test configuration
+
     - Update `vitest.workspace.ts` if needed for new directory structure
     - Verify all tests can find their dependencies with new import paths
     - Run full test suite to validate everything works
     - _Requirements: 2.1, 2.4, 3.1, 3.3, 5.4_
 
-- [ ] 8. Clean up old directory structure
-  - [ ] 8.1 Remove empty directories
+- [x] 8. Clean up old directory structure
+
+  - [x] 8.1 Remove empty directories
+
     - Remove empty `src/components/` directory (except temp folder if needed)
     - Remove empty `src/hooks/` directory
     - Remove empty `src/service/` directory
@@ -188,7 +193,8 @@
     - Run build, lint, and test to validate no broken references
     - _Requirements: 1.1, 2.1, 2.4, 3.1, 3.3_
 
-  - [ ] 8.2 Final validation and cleanup
+  - [x] 8.2 Final validation and cleanup
+
     - Run complete build process to ensure no compilation errors
     - Run full test suite to ensure all functionality is preserved
     - Run linting to ensure code quality standards are met
