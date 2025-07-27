@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import type { HeaderMenuProps, MenuAction } from '../types/viewerTypes';
+import type { HeaderMenuProps, MenuAction } from '../types/menuTypes';
 import { MenuDropdown } from './MenuDropdown';
 
 export function HeaderMenu({

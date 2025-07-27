@@ -94,7 +94,7 @@
     - Run build, lint, and test to validate changes
     - _Requirements: 1.1, 1.2, 2.1, 2.4, 3.1, 3.3_
 
-  - [ ] 4.4 Move folder navigation components
+  - [x] 4.4 Move folder navigation components
 
     - Move `src/components/Sidebar.tsx` to `src/features/folder-navigation/components/`
     - Move `src/components/FolderList.tsx` to `src/features/folder-navigation/components/`
@@ -104,27 +104,32 @@
     - Run build, lint, and test to validate changes
     - _Requirements: 1.1, 1.2, 2.1, 2.4, 3.1, 3.3_
 
-  - [ ] 4.5 Create folder navigation feature exports
+  - [x] 4.5 Create folder navigation feature exports
+
     - Create comprehensive `src/features/folder-navigation/index.ts` with all public exports
     - Update `src/App.tsx` to import from the feature index
     - Run build, lint, and test to validate changes
     - _Requirements: 1.1, 1.2, 4.3_
 
-- [ ] 5. Migrate app shell feature
-  - [ ] 5.1 Move app shell types
+- [x] 5. Migrate app shell feature
+
+  - [x] 5.1 Move app shell types
+
     - Extract menu-related types from `src/types/viewerTypes.ts` to `src/features/app-shell/types/`
     - Create `menuTypes.ts` with `MenuAction`, `HeaderMenuProps`, and related interfaces
     - Update import statements in all consuming files
     - Run build, lint, and test to validate changes
     - _Requirements: 1.1, 1.2, 2.1, 2.4, 3.1, 3.3_
 
-  - [ ] 5.2 Move app settings
+  - [x] 5.2 Move app settings
+
     - Move `src/app-settings/` directory to `src/features/app-shell/settings/`
     - Update import statements in consuming files
     - Run build, lint, and test to validate changes
     - _Requirements: 1.1, 1.2, 2.1, 2.4, 3.1, 3.3_
 
-  - [ ] 5.3 Move app shell components
+  - [x] 5.3 Move app shell components
+
     - Move `src/components/AppMenuBar.tsx` to `src/features/app-shell/components/`
     - Move `src/components/HeaderMenu.tsx` to `src/features/app-shell/components/`
     - Move `src/components/MenuDropdown.tsx` to `src/features/app-shell/components/`
@@ -134,20 +139,24 @@
     - Run build, lint, and test to validate changes
     - _Requirements: 1.1, 1.2, 2.1, 2.4, 3.1, 3.3_
 
-  - [ ] 5.4 Create app shell feature exports
+  - [x] 5.4 Create app shell feature exports
+
     - Create comprehensive `src/features/app-shell/index.ts` with all public exports
     - Update `src/App.tsx` to import from the feature index
     - Run build, lint, and test to validate changes
     - _Requirements: 1.1, 1.2, 4.3_
 
-- [ ] 6. Move remaining shared resources
-  - [ ] 6.1 Move remaining hooks to shared
+- [x] 6. Move remaining shared resources
+
+  - [x] 6.1 Move remaining hooks to shared
+
     - Move `src/hooks/data/` to `src/shared/hooks/data/`
     - Update import statements in consuming files
     - Run build, lint, and test to validate changes
     - _Requirements: 1.1, 1.2, 2.1, 2.4, 3.1, 3.3, 4.2_
 
-  - [ ] 6.2 Clean up remaining types
+  - [x] 6.2 Clean up remaining types
+
     - Move any remaining common types from `src/types/` to `src/shared/types/`
     - Remove empty `src/types/` directory
     - Update import statements in consuming files

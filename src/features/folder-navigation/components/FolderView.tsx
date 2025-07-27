@@ -1,6 +1,6 @@
 import { useState } from 'react';
+import { useThumbnail } from '../hooks/useThumbnail';
 import type { FolderViewProps } from '../types/folderTypes';
-import { useThumbnail } from '../../../components/hooks/useThumbnail';
 
 export function FolderView({
   folder,

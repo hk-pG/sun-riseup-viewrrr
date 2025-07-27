@@ -1,11 +1,11 @@
 import { render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { useThumbnail } from '../hooks/useThumbnail';
 import type { FolderInfo } from '../types/folderTypes';
 import { FolderView } from './FolderView';
-import { useThumbnail } from '../../../components/hooks/useThumbnail';
 
 // useThumbnailのモック
-vi.mock('../../../components/hooks/useThumbnail', () => ({
+vi.mock('../hooks/useThumbnail', () => ({
   useThumbnail: vi.fn(),
 }));
 

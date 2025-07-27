@@ -1,4 +1,4 @@
-import { useThumbnail } from '../hooks/useThumbnail';
+import { useThumbnail } from '../../features/folder-navigation';
 
 type Props = {
   folderPath: string;

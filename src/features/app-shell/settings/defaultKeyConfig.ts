@@ -2,7 +2,7 @@ import type {
   ActionType,
   KeyboardMapping,
   KeyboardShortcut,
-} from '../features/image-viewer/types/viewerTypes';
+} from '../../image-viewer/types/viewerTypes';
 
 // デフォルトのキーボードショートカット設定
 export const createDefaultKeyboardMapping = (
@@ -154,7 +154,9 @@ export const getShortcutList = (
   shortcuts: KeyboardShortcut[];
   descriptions: string[];
 }> => {
-  return Array.from(mapping.shortcuts.entries()).map(([action, shortcuts]) => ({
+  return Array.from(
+    mapping.shortcuts.entries() as Iterable<[ActionType, KeyboardShortcut[]]>,
+  ).map(([action, shortcuts]) => ({
     action,
     shortcuts,
     descriptions: shortcuts.map(
@@ -172,7 +174,7 @@ export const findShortcutConflicts = (
 }> => {
   const shortcutToActions = new Map<string, ActionType[]>();
 
-  for (const [action, shortcuts] of mapping.shortcuts.entries()) {
+  for (const [action, shortcuts] of mapping.shortcuts) {
     for (const shortcut of shortcuts) {
       const key = JSON.stringify({
         key: shortcut.key,
@@ -194,7 +196,7 @@ export const findShortcutConflicts = (
     actions: ActionType[];
   }> = [];
 
-  for (const [key, actions] of shortcutToActions.entries()) {
+  for (const [key, actions] of shortcutToActions) {
     if (actions.length > 1) {
       const shortcut = JSON.parse(key) as KeyboardShortcut;
       conflicts.push({ shortcut, actions });

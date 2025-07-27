@@ -7,7 +7,7 @@ import {
   dirname as tauriDirname,
 } from '@tauri-apps/api/path';
 import { open as tauriOpenDialog } from '@tauri-apps/plugin-dialog';
-import type { FileSystemService } from '../../features/folder-navigation/services/FileSystemService';
+import type { FileSystemService } from '../../features/folder-navigation';
 import { isStringArray } from '../utils/isStringArray';
 
 export const tauriFileSystemService: FileSystemService = {

@@ -1,4 +1,4 @@
-import type { FolderEntry } from '../../features/folder-navigation/hooks/useSiblingFolders';
+import type { FolderEntry } from '../../features/folder-navigation';
 import { FolderListItem } from './FolderListItem';
 
 type Props = {

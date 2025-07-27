@@ -6,7 +6,7 @@ import type {
   KeyboardMapping,
   ViewerSettings,
 } from '@/features/image-viewer/types/viewerTypes';
-import { useImages } from '../../../hooks/data/useImages';
+import { useImages } from '@/shared/hooks/data/useImages';
 import { useControlsVisibility } from '../hooks/useControlsVisibility';
 import { useKeyboardHandler } from '../hooks/useKeyboardHandler';
 import { ImageDisplay } from './ImageDisplay';

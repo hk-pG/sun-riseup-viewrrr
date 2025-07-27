@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import useSWR from 'swr';
-import { LocalFolderContainer } from '../../features/folder-navigation/containers/LocalFolderContainer';
+import { LocalFolderContainer } from '../../features/folder-navigation';
 import { useServices } from '../../shared/context/ServiceContext';
 
 type Props = {

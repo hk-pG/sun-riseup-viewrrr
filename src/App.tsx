@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import './App.css';
-import { Sidebar } from './components';
-import { AppMenuBar } from './components/AppMenuBar';
-import { useOpenImageFile } from './features/folder-navigation/hooks/useOpenImageFile';
-import { useSiblingFolders } from './features/folder-navigation/hooks/useSiblingFolders';
-import type { FolderInfo } from './features/folder-navigation/types/folderTypes';
+import { AppMenuBar } from './features/app-shell';
+import {
+  type FolderInfo,
+  Sidebar,
+  useOpenImageFile,
+  useSiblingFolders,
+} from './features/folder-navigation';
 import { ImageViewer } from './features/image-viewer';
 import { useServices } from './shared/context/ServiceContext';
 

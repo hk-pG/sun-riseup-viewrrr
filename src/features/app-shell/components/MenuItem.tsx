@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import type { MenuItemProps } from '../types/viewerTypes';
+import type { MenuItemProps } from '../types/menuTypes';
 
 export function MenuItem({ action, onAction, depth = 0 }: MenuItemProps) {
   const [isOpen, setIsOpen] = useState(false);

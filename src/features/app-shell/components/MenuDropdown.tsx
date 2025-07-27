@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import type { MenuDropdownProps } from '../types/viewerTypes';
+import type { MenuDropdownProps } from '../types/menuTypes';
 import { MenuItem } from './MenuItem';
 
 export function MenuDropdown({
