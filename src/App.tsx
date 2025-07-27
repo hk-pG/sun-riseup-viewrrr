@@ -1,11 +1,14 @@
 import { useState } from 'react';
 import './App.css';
-import { type FolderInfo, Sidebar } from './components';
-import { AppMenuBar } from './components/AppMenuBar';
-import { useOpenImageFile } from './components/hooks/useOpenImageFile';
-import { useSiblingFolders } from './components/hooks/useSiblingFolders';
-import { ImageViewer } from './components/ImageViewer';
-import { useServices } from './context/ServiceContext';
+import { AppMenuBar } from './features/app-shell';
+import {
+  type FolderInfo,
+  Sidebar,
+  useOpenImageFile,
+  useSiblingFolders,
+} from './features/folder-navigation';
+import { ImageViewer } from './features/image-viewer';
+import { useServices } from './shared/context/ServiceContext';
 
 function App() {
   // 現在表示しているフォルダのパス

@@ -1,5 +1,5 @@
-import type { FolderInfo, ImageFile } from '@/components';
-import type { ImageSource } from '@/types/ImageSource';
+import type { FolderInfo, ImageFile } from '@/features/folder-navigation/types/folderTypes';
+import type { ImageSource } from '@/features/image-viewer/types/ImageSource';
 
 // モック画像データ
 export const createMockImages = (

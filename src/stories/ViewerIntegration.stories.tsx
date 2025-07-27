@@ -6,10 +6,9 @@ import {
   mockImageSourcesByFolderPath,
   mockSidebarOnlyFolders,
 } from '../../data/mockData';
-import { ImageViewer } from '../components/ImageViewer';
-import { Sidebar } from '../components/Sidebar';
-import { ServicesProvider } from '../context/ServiceContext';
-import type { FileSystemService } from '../service/FileSystemService';
+import { type FileSystemService, Sidebar } from '../features/folder-navigation';
+import { ImageViewer } from '../features/image-viewer';
+import { ServicesProvider } from '../shared/context/ServiceContext';
 
 // モックファイルシステムサービス
 const createMockFileSystemService = (): FileSystemService => ({
@@ -40,7 +39,7 @@ const MockServiceProvider = ({ children }: { children: React.ReactNode }) => {
 };
 
 const meta: Meta = {
-  title: 'Viewer/Integration',
+  title: 'Integration/ViewerIntegration',
   parameters: {
     layout: 'fullscreen',
   },
