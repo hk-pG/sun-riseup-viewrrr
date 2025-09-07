@@ -1,5 +1,13 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
+/**
+ * 画像ビューアのコントロールの表示/非表示を管理するカスタムフック。
+ *
+ * @param showControls - コントロールを表示するか
+ * @param autoHide - コントロールを自動的に非表示にするか
+ * @param timeout - コントロールが自動的に非表示になるまでの時間(ms)。0以下の場合は自動非表示しない
+ * @returns 表示状態とマウスムーブハンドラを含むオブジェクト。
+ */
 export const useControlsVisibility = (
   showControls: boolean,
   autoHide: boolean,
