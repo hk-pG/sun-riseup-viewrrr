@@ -39,20 +39,24 @@ function App() {
           isDraggable={true}
           onMenuAction={async (actionId) => {
             // TODO: スケールを考えてストラテジーパターンへの移行を検討
-            if (actionId === 'open-folder') {
-              const folderPath = await fss.openDirectoryDialog();
-              if (folderPath) {
-                setCurrentFolderPath(folderPath);
-                setInitialImageIndex(0);
+            try {
+              if (actionId === 'open-folder') {
+                const folderPath = await fss.openDirectoryDialog();
+                if (folderPath) {
+                  setCurrentFolderPath(folderPath);
+                  setInitialImageIndex(0);
+                }
+              } else if (actionId === 'open-image') {
+                const result = await openImageFile();
+                if (result?.folderPath) {
+                  setCurrentFolderPath(result.folderPath);
+                  setInitialImageIndex(result.index);
+                }
               }
-            } else if (actionId === 'open-image') {
-              const result = await openImageFile();
-              if (result?.folderPath) {
-                setCurrentFolderPath(result.folderPath);
-                setInitialImageIndex(result.index);
-              }
+              // 他のアクションは今まで通り（必要ならここに追加）
+            } catch (error) {
+              console.error('Menu action failed:', error);
             }
-            // 他のアクションは今まで通り（必要ならここに追加）
           }}
         />
       </div>
