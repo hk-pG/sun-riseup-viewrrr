@@ -6,7 +6,6 @@ import type { ImageViewerProps } from '@/features/image-viewer';
 import App from '../App';
 import type { FileSystemService } from '../features/folder-navigation/services/FileSystemService';
 import { ServicesProvider } from '../shared/context/ServiceContext';
-import { createMockFileSystemService } from '../test/factories';
 import { resetAllMocks, setupTauriMocks } from '../test/mocks';
 
 // Create a mock function that can be controlled in tests
@@ -85,6 +84,15 @@ vi.mock('../features/image-viewer', () => ({
     </div>
   ),
 }));
+
+const createMockFileSystemService = (): FileSystemService => ({
+  openDirectoryDialog: vi.fn(),
+  getBaseName: vi.fn(),
+  getDirName: vi.fn(),
+  listImagesInFolder: vi.fn(),
+  getSiblingFolders: vi.fn(),
+  convertFileSrc: vi.fn(),
+});
 
 describe('App Component', () => {
   let mockFileSystemService: ReturnType<typeof createMockFileSystemService>;

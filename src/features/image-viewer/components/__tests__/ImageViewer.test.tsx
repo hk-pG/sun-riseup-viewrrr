@@ -1,14 +1,21 @@
 import { render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
+import type { FileSystemService } from '@/features/folder-navigation';
 import { ServicesProvider } from '../../../../shared/context/ServiceContext';
 import { useImages } from '../../../../shared/hooks/data/useImages';
-import { createMockFileSystemService } from '../../../../test/factories';
 import { resetAllMocks, setupTauriMocks } from '../../../../test/mocks';
 import { ImageViewer } from '../..';
 
 vi.mock('../../../../shared/hooks/data/useImages');
 
-// WARN: 構造が未確定のため、基本的なレンダリングテストのみ実施
+const createMockFileSystemService = (): FileSystemService => ({
+  openDirectoryDialog: vi.fn(),
+  getBaseName: vi.fn(),
+  getDirName: vi.fn(),
+  listImagesInFolder: vi.fn(),
+  getSiblingFolders: vi.fn(),
+  convertFileSrc: vi.fn(),
+});
 
 describe('ImageViewer', () => {
   beforeEach(() => {
