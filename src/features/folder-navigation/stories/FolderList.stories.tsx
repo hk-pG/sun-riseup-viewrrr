@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { fn } from 'storybook/test';
-import type { ImageSource } from '@/features/image-viewer';
 import { ServicesProvider } from '@/shared';
 import { mockImageSourcesByFolderPath } from '../../../../data/mockData';
 import { type FileSystemService, type FolderInfo, FolderList } from '../index';
