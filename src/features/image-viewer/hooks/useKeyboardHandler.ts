@@ -104,7 +104,7 @@ export const useKeyboardHandler = (
       // 対応するアクションをコールバックで通知
       keyboardMapping.onAction(matchedAction, event);
     },
-    [keyboardMapping, findMatchingAction],
+    [keyboardMapping, findMatchingAction, isKeyboardEventMatch],
   );
 
   // イベントリスナーの登録・解除（containerRefが変わるたびに再登録）
