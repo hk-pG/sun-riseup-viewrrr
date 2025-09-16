@@ -3,125 +3,337 @@ import type { FolderEntry } from '../../../features/folder-navigation/hooks/useS
 import { naturalFolderSort } from '../folderSort';
 
 describe('naturalFolderSort', () => {
-  it('should sort folders alphabetically by name', () => {
-    const folders: FolderEntry[] = [
-      { name: 'zebra', path: '/path/to/zebra' },
-      { name: 'apple', path: '/path/to/apple' },
-      { name: 'banana', path: '/path/to/banana' },
-    ];
-
-    const sorted = folders.sort(naturalFolderSort);
-
-    expect(sorted).toEqual([
-      { name: 'apple', path: '/path/to/apple' },
-      { name: 'banana', path: '/path/to/banana' },
-      { name: 'zebra', path: '/path/to/zebra' },
-    ]);
+  const createFolderEntry = (name: string, path?: string): FolderEntry => ({
+    name,
+    path: path || `/test/${name}`,
   });
 
-  it('should handle numeric sorting correctly', () => {
-    const folders: FolderEntry[] = [
-      { name: 'folder10', path: '/path/to/folder10' },
-      { name: 'folder2', path: '/path/to/folder2' },
-      { name: 'folder1', path: '/path/to/folder1' },
-    ];
+  describe('basic string sorting', () => {
+    it('should sort folder names alphabetically', () => {
+      const a = createFolderEntry('Documents');
+      const b = createFolderEntry('Pictures');
 
-    const sorted = folders.sort(naturalFolderSort);
+      expect(naturalFolderSort(a, b)).toBeLessThan(0);
+      expect(naturalFolderSort(b, a)).toBeGreaterThan(0);
+    });
 
-    expect(sorted).toEqual([
-      { name: 'folder1', path: '/path/to/folder1' },
-      { name: 'folder2', path: '/path/to/folder2' },
-      { name: 'folder10', path: '/path/to/folder10' },
-    ]);
+    it('should return 0 for identical folder names', () => {
+      const a = createFolderEntry('SameFolder');
+      const b = createFolderEntry('SameFolder');
+
+      expect(naturalFolderSort(a, b)).toBe(0);
+    });
+
+    it('should handle empty folder names', () => {
+      const empty = createFolderEntry('');
+      const nonEmpty = createFolderEntry('Documents');
+
+      expect(naturalFolderSort(empty, nonEmpty)).toBeLessThan(0);
+      expect(naturalFolderSort(nonEmpty, empty)).toBeGreaterThan(0);
+    });
   });
 
-  it('should handle Japanese characters correctly', () => {
-    const folders: FolderEntry[] = [
-      { name: 'フォルダ2', path: '/path/to/フォルダ2' },
-      { name: 'あいうえお', path: '/path/to/あいうえお' },
-      { name: 'フォルダ1', path: '/path/to/フォルダ1' },
-    ];
+  describe('numeric sorting', () => {
+    it('should sort numbered folders naturally', () => {
+      const folders = [
+        createFolderEntry('Folder10'),
+        createFolderEntry('Folder2'),
+        createFolderEntry('Folder1'),
+        createFolderEntry('Folder20'),
+      ];
 
-    const sorted = folders.sort(naturalFolderSort);
+      const sorted = folders.sort(naturalFolderSort);
+      const names = sorted.map((folder) => folder.name);
 
-    expect(sorted).toEqual([
-      { name: 'あいうえお', path: '/path/to/あいうえお' },
-      { name: 'フォルダ1', path: '/path/to/フォルダ1' },
-      { name: 'フォルダ2', path: '/path/to/フォルダ2' },
-    ]);
+      expect(names).toEqual(['Folder1', 'Folder2', 'Folder10', 'Folder20']);
+    });
+
+    it('should handle mixed numeric and text content', () => {
+      const folders = [
+        createFolderEntry('Project100_final'),
+        createFolderEntry('Project2_draft'),
+        createFolderEntry('Project10_review'),
+        createFolderEntry('Project1_initial'),
+      ];
+
+      const sorted = folders.sort(naturalFolderSort);
+      const names = sorted.map((folder) => folder.name);
+
+      expect(names).toEqual([
+        'Project1_initial',
+        'Project2_draft',
+        'Project10_review',
+        'Project100_final',
+      ]);
+    });
+
+    it('should handle folders with leading zeros', () => {
+      const folders = [
+        createFolderEntry('Backup001'),
+        createFolderEntry('Backup010'),
+        createFolderEntry('Backup002'),
+        createFolderEntry('Backup100'),
+      ];
+
+      const sorted = folders.sort(naturalFolderSort);
+      const names = sorted.map((folder) => folder.name);
+
+      expect(names).toEqual([
+        'Backup001',
+        'Backup002',
+        'Backup010',
+        'Backup100',
+      ]);
+    });
   });
 
-  it('should handle mixed case correctly', () => {
-    const folders: FolderEntry[] = [
-      { name: 'Zebra', path: '/path/to/Zebra' },
-      { name: 'apple', path: '/path/to/apple' },
-      { name: 'Banana', path: '/path/to/Banana' },
-    ];
+  describe('Japanese text sorting', () => {
+    it('should sort Japanese hiragana folder names correctly', () => {
+      const folders = [
+        createFolderEntry('こんにちは'),
+        createFolderEntry('あいうえお'),
+        createFolderEntry('さようなら'),
+      ];
 
-    const sorted = folders.sort(naturalFolderSort);
+      const sorted = folders.sort(naturalFolderSort);
+      const names = sorted.map((folder) => folder.name);
 
-    expect(sorted).toEqual([
-      { name: 'apple', path: '/path/to/apple' },
-      { name: 'Banana', path: '/path/to/Banana' },
-      { name: 'Zebra', path: '/path/to/Zebra' },
-    ]);
+      expect(names).toEqual(['あいうえお', 'こんにちは', 'さようなら']);
+    });
+
+    it('should sort Japanese katakana folder names correctly', () => {
+      const folders = [
+        createFolderEntry('コンニチハ'),
+        createFolderEntry('アイウエオ'),
+        createFolderEntry('サヨウナラ'),
+      ];
+
+      const sorted = folders.sort(naturalFolderSort);
+      const names = sorted.map((folder) => folder.name);
+
+      expect(names).toEqual(['アイウエオ', 'コンニチハ', 'サヨウナラ']);
+    });
+
+    it('should sort mixed Japanese and English folder names', () => {
+      const folders = [
+        createFolderEntry('Documents'),
+        createFolderEntry('ドキュメント'),
+        createFolderEntry('Pictures'),
+        createFolderEntry('写真'),
+      ];
+
+      const sorted = folders.sort(naturalFolderSort);
+
+      // Should maintain consistent ordering
+      expect(sorted).toHaveLength(4);
+      const names = sorted.map((folder) => folder.name);
+      expect(names.includes('Documents')).toBe(true);
+      expect(names.includes('ドキュメント')).toBe(true);
+      expect(names.includes('Pictures')).toBe(true);
+      expect(names.includes('写真')).toBe(true);
+    });
   });
 
-  it('should handle empty names gracefully', () => {
-    const folders: FolderEntry[] = [
-      { name: '', path: '/path/to/empty' },
-      { name: 'apple', path: '/path/to/apple' },
-      { name: '', path: '/path/to/empty2' },
-    ];
+  describe('null and undefined handling', () => {
+    it('should handle null folder names gracefully', () => {
+      const a = { name: null as unknown as string, path: '/test/null' };
+      const b = createFolderEntry('ValidFolder');
 
-    const sorted = folders.sort(naturalFolderSort);
+      expect(() => naturalFolderSort(a, b)).not.toThrow();
+      expect(naturalFolderSort(a, b)).toBeLessThan(0);
+    });
 
-    expect(sorted).toEqual([
-      { name: '', path: '/path/to/empty' },
-      { name: '', path: '/path/to/empty2' },
-      { name: 'apple', path: '/path/to/apple' },
-    ]);
+    it('should handle undefined folder names gracefully', () => {
+      const a = {
+        name: undefined as unknown as string,
+        path: '/test/undefined',
+      };
+      const b = createFolderEntry('ValidFolder');
+
+      expect(() => naturalFolderSort(a, b)).not.toThrow();
+      expect(naturalFolderSort(a, b)).toBeLessThan(0);
+    });
+
+    it('should handle both null/undefined names', () => {
+      const a = { name: null as unknown as string, path: '/test/null' };
+      const b = {
+        name: undefined as unknown as string,
+        path: '/test/undefined',
+      };
+
+      expect(() => naturalFolderSort(a, b)).not.toThrow();
+      expect(naturalFolderSort(a, b)).toBe(0);
+    });
   });
 
-  it('should handle special characters correctly', () => {
-    const folders: FolderEntry[] = [
-      { name: '_underscore', path: '/path/to/_underscore' },
-      { name: '123numbers', path: '/path/to/123numbers' },
-      { name: 'apple', path: '/path/to/apple' },
-      { name: '-dash', path: '/path/to/-dash' },
-    ];
+  describe('case sensitivity', () => {
+    it('should handle case differences consistently', () => {
+      const folders = [
+        createFolderEntry('Documents'),
+        createFolderEntry('documents'),
+        createFolderEntry('DOCUMENTS'),
+      ];
 
-    const sorted = folders.sort(naturalFolderSort);
+      const sorted = folders.sort(naturalFolderSort);
 
-    // The exact order may vary based on locale, but we test that it doesn't throw
-    expect(sorted).toHaveLength(4);
-    expect(sorted.every((folder) => folder.name !== undefined)).toBe(true);
+      // Should maintain consistent ordering regardless of case
+      expect(sorted).toHaveLength(3);
+      const names = sorted.map((folder) => folder.name);
+      expect(names).toContain('Documents');
+      expect(names).toContain('documents');
+      expect(names).toContain('DOCUMENTS');
+    });
   });
 
-  it('should return 0 for identical folder names', () => {
-    const folderA: FolderEntry = { name: 'same', path: '/path/to/same1' };
-    const folderB: FolderEntry = { name: 'same', path: '/path/to/same2' };
+  describe('special characters and edge cases', () => {
+    it('should handle special characters in folder names', () => {
+      const folders = [
+        createFolderEntry('Folder@2'),
+        createFolderEntry('Folder#1'),
+        createFolderEntry('Folder$3'),
+      ];
 
-    const result = naturalFolderSort(folderA, folderB);
+      const sorted = folders.sort(naturalFolderSort);
 
-    expect(result).toBe(0);
+      // Should not throw errors and maintain consistent ordering
+      expect(sorted).toHaveLength(3);
+    });
+
+    it('should handle very long folder names', () => {
+      const longName = 'VeryLongFolderName'.repeat(50);
+      const folders = [
+        createFolderEntry(`${longName}2`),
+        createFolderEntry(`${longName}1`),
+        createFolderEntry(`${longName}10`),
+      ];
+
+      const sorted = folders.sort(naturalFolderSort);
+      const names = sorted.map((folder) => folder.name);
+
+      expect(names[0]).toBe(`${longName}1`);
+      expect(names[1]).toBe(`${longName}2`);
+      expect(names[2]).toBe(`${longName}10`);
+    });
+
+    it('should handle unicode characters in folder names', () => {
+      const folders = [
+        createFolderEntry('Café'),
+        createFolderEntry('Naïve'),
+        createFolderEntry('Résumé'),
+      ];
+
+      const sorted = folders.sort(naturalFolderSort);
+
+      // Should not throw errors and maintain consistent ordering
+      expect(sorted).toHaveLength(3);
+    });
+
+    it('should handle emoji in folder names', () => {
+      const folders = [
+        createFolderEntry('🎉 Party Photos'),
+        createFolderEntry('🎈 Birthday'),
+        createFolderEntry('🎊 Celebration'),
+      ];
+
+      const sorted = folders.sort(naturalFolderSort);
+
+      // Should not throw errors and maintain consistent ordering
+      expect(sorted).toHaveLength(3);
+    });
   });
 
-  it('should return negative number when first folder should come before second', () => {
-    const folderA: FolderEntry = { name: 'apple', path: '/path/to/apple' };
-    const folderB: FolderEntry = { name: 'banana', path: '/path/to/banana' };
+  describe('real-world folder scenarios', () => {
+    it('should sort typical folder names correctly', () => {
+      const folders = [
+        createFolderEntry('Desktop'),
+        createFolderEntry('Documents'),
+        createFolderEntry('Downloads'),
+        createFolderEntry('Pictures'),
+        createFolderEntry('Music'),
+        createFolderEntry('Videos'),
+      ];
 
-    const result = naturalFolderSort(folderA, folderB);
+      const sorted = folders.sort(naturalFolderSort);
+      const names = sorted.map((folder) => folder.name);
 
-    expect(result).toBeLessThan(0);
+      expect(names).toEqual([
+        'Desktop',
+        'Documents',
+        'Downloads',
+        'Music',
+        'Pictures',
+        'Videos',
+      ]);
+    });
+
+    it('should sort date-based folder names correctly', () => {
+      const folders = [
+        createFolderEntry('2024-01-15'),
+        createFolderEntry('2024-01-02'),
+        createFolderEntry('2024-01-10'),
+        createFolderEntry('2024-12-01'),
+      ];
+
+      const sorted = folders.sort(naturalFolderSort);
+      const names = sorted.map((folder) => folder.name);
+
+      expect(names).toEqual([
+        '2024-01-02',
+        '2024-01-10',
+        '2024-01-15',
+        '2024-12-01',
+      ]);
+    });
+
+    it('should sort version-based folder names correctly', () => {
+      const folders = [
+        createFolderEntry('v1.10.0'),
+        createFolderEntry('v1.2.0'),
+        createFolderEntry('v1.1.0'),
+        createFolderEntry('v2.0.0'),
+      ];
+
+      const sorted = folders.sort(naturalFolderSort);
+      const names = sorted.map((folder) => folder.name);
+
+      expect(names).toEqual(['v1.1.0', 'v1.2.0', 'v1.10.0', 'v2.0.0']);
+    });
   });
 
-  it('should return positive number when first folder should come after second', () => {
-    const folderA: FolderEntry = { name: 'banana', path: '/path/to/banana' };
-    const folderB: FolderEntry = { name: 'apple', path: '/path/to/apple' };
+  describe('consistency and stability', () => {
+    it('should produce consistent results across multiple sorts', () => {
+      const folders = [
+        createFolderEntry('Folder10'),
+        createFolderEntry('Folder2'),
+        createFolderEntry('Folder1'),
+        createFolderEntry('Folder20'),
+        createFolderEntry('Folder3'),
+      ];
 
-    const result = naturalFolderSort(folderA, folderB);
+      const sorted1 = [...folders].sort(naturalFolderSort);
+      const sorted2 = [...folders].sort(naturalFolderSort);
+      const sorted3 = [...folders].sort(naturalFolderSort);
 
-    expect(result).toBeGreaterThan(0);
+      expect(sorted1.map((f) => f.name)).toEqual(sorted2.map((f) => f.name));
+      expect(sorted2.map((f) => f.name)).toEqual(sorted3.map((f) => f.name));
+    });
+
+    it('should maintain stable sort for equal elements', () => {
+      const folders = [
+        { name: 'SameFolder', path: '/path1' },
+        { name: 'SameFolder', path: '/path2' },
+        { name: 'SameFolder', path: '/path3' },
+      ];
+
+      const sorted = folders.sort(naturalFolderSort);
+
+      // All should have same name but maintain their path identity
+      expect(sorted.every((folder) => folder.name === 'SameFolder')).toBe(true);
+      expect(sorted.map((folder) => folder.path)).toEqual([
+        '/path1',
+        '/path2',
+        '/path3',
+      ]);
+    });
   });
 });

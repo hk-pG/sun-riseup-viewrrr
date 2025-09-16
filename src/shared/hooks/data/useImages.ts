@@ -10,7 +10,12 @@ const fetchImages = async (folderPath: string, fs: FileSystemService) => {
   return await container.listImages();
 };
 
-export const useImages = (folderPath: string | null | undefined) => {
+/**
+ * 指定のフォルダから像ファイルを取得するためのカスタムフック
+ * @param folderPath 画像ファイルを取得したいフォルダのパス
+ * @returns 画像ファイルのリスト、エラー、ローディング状態
+ */
+export const useImages = (folderPath?: string | null) => {
   const fs = useServices();
   const { data, error, isLoading } = useSWR(
     folderPath ? ['images', folderPath] : null,
