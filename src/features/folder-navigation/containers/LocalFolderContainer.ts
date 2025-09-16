@@ -11,33 +11,38 @@ export class LocalFolderContainer implements ImageContainer {
   ) {}
 
   async listImages(): Promise<ImageSource[]> {
-    const files = await this.fs.listImagesInFolder(this.folderPath);
+    try {
+      const files = await this.fs.listImagesInFolder(this.folderPath);
 
-    // Tauriのコマンドの戻り値が文字列の配列であることを確認する
-    if (!isStringArray(files)) {
-      throw new Error(
-        `Invalid response from FileSystemService. Expected an array of strings. Received: ${files} of type ${typeof files}`,
-      );
+      // Tauriのコマンドの戻り値が文字列の配列であることを確認する
+      if (!isStringArray(files)) {
+        throw new Error(
+          `Invalid response from FileSystemService. Expected an array of strings. Received: ${files} of type ${typeof files}`,
+        );
+      }
+
+      const imageSources = await Promise.all(
+        files.map(async (imgPath) => {
+          // ファイルパスからファイル名を取得する
+          const fileBasename = await this.fs.getBaseName(imgPath);
+          return {
+            id: imgPath,
+            name: fileBasename,
+            assetUrl: this.fs.convertFileSrc(imgPath),
+          };
+        }),
+      ).catch((error) => {
+        console.error('Error converting file paths to asset URLs:', error);
+        throw new Error(`Failed to convert file paths to asset URLs: ${error}`);
+      });
+
+      // 画像を名前でソートする
+      imageSources.sort(naturalSort);
+
+      return imageSources;
+    } catch (error) {
+      console.error('Error listing images in folder:', error);
+      return [];
     }
-
-    const imageSources = await Promise.all(
-      files.map(async (imgPath) => {
-        // ファイルパスからファイル名を取得する
-        const fileBasename = await this.fs.getBaseName(imgPath);
-        return {
-          id: imgPath,
-          name: fileBasename,
-          assetUrl: this.fs.convertFileSrc(imgPath),
-        };
-      }),
-    ).catch((error) => {
-      console.error('Error converting file paths to asset URLs:', error);
-      throw new Error(`Failed to convert file paths to asset URLs: ${error}`);
-    });
-
-    // 画像を名前でソートする
-    imageSources.sort(naturalSort);
-
-    return imageSources;
   }
 }

@@ -78,16 +78,6 @@ export const Default: Story = {
     initialIndex: 0,
     settings: defaultSettings,
     className: 'w-full h-screen',
-    callbacks: {
-      onImageChange: (index, image) =>
-        console.log('Image changed:', index, image.name),
-      onZoomChange: (zoom) => console.log('Zoom changed:', zoom),
-      onRotationChange: (rotation) =>
-        console.log('Rotation changed:', rotation),
-      onImageLoad: (image) => console.log('Image loaded:', image.name),
-      onImageError: (error, image) =>
-        console.log('Image error:', error, image.name),
-    },
   },
 };
 
