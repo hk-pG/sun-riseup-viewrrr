@@ -1,9 +1,16 @@
+import { fileURLToPath } from 'node:url';
+import path from 'node:path';
 import { defineConfig } from 'vitest/config';
-import path from 'path';
 import react from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
+import { storybookTest } from '@storybook/addon-vitest/vitest-plugin';
 
 const host = process.env.TAURI_DEV_HOST;
+
+const dirname =
+  typeof __dirname !== 'undefined'
+    ? __dirname
+    : path.dirname(fileURLToPath(import.meta.url));
 
 // https://vitejs.dev/config/
 export default defineConfig(async () => ({
@@ -22,6 +29,53 @@ export default defineConfig(async () => ({
     // (オプション) テスト全体のセットアップファイル
     setupFiles: './src/test/setup.ts',
     testTimeout: 10000,
+    // プロジェクト設定（旧vitest.workspace.tsの内容を統合）
+    projects: [
+      // デフォルトのテストプロジェクト
+      {
+        test: {
+          globals: true,
+          environment: 'jsdom',
+          setupFiles: './src/test/setup.ts',
+          testTimeout: 10000,
+        },
+      },
+      // Storybookテストプロジェクト
+      {
+        plugins: [
+          react(),
+          tailwindcss(),
+          storybookTest({ configDir: path.join(dirname, '.storybook') }),
+        ],
+        resolve: {
+          alias: {
+            '@': path.resolve(dirname, './src/'),
+          },
+        },
+        test: {
+          name: 'storybook',
+          browser: {
+            enabled: true,
+            headless: true,
+            provider: 'playwright',
+            instances: [{ browser: 'chromium' }],
+          },
+          setupFiles: ['.storybook/vitest.setup.ts'],
+          testTimeout: 10000,
+          deps: {
+            optimizer: {
+              web: {
+                include: [
+                  '@testing-library/react',
+                  '@storybook/react-vite',
+                  '@storybook/addon-a11y',
+                ],
+              },
+            },
+          },
+        },
+      },
+    ],
   },
 
   // Vite options tailored for Tauri development and only applied in `tauri dev` or `tauri build`
