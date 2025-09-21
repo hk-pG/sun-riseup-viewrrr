@@ -1,5 +1,6 @@
 import type React from 'react';
 import { createContext, useContext, useEffect, useState } from 'react';
+import { settingsService } from '../services/SettingsService';
 
 type Theme = 'light' | 'dark' | 'system';
 
@@ -22,6 +23,32 @@ export function ThemeProvider({
 }: ThemeProviderProps) {
   const [theme, setTheme] = useState<Theme>(defaultTheme);
   const [resolvedTheme, setResolvedTheme] = useState<'light' | 'dark'>('light');
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  // Load theme from storage on mount
+  useEffect(() => {
+    const loadTheme = async () => {
+      try {
+        const savedTheme = await settingsService.loadTheme();
+        setTheme(savedTheme);
+      } catch (error) {
+        console.warn('Failed to load theme from storage:', error);
+      } finally {
+        setIsLoaded(true);
+      }
+    };
+
+    loadTheme();
+  }, []);
+
+  // Save theme to storage when it changes
+  useEffect(() => {
+    if (isLoaded) {
+      settingsService.saveTheme(theme).catch((error) => {
+        console.error('Failed to save theme to storage:', error);
+      });
+    }
+  }, [theme, isLoaded]);
 
   // System theme detection
   useEffect(() => {
