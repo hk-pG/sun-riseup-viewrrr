@@ -28,20 +28,20 @@ export function FolderView({
       type="button"
       className={`
         flex flex-col items-center p-3 cursor-pointer rounded-lg transition-colors
-        hover:bg-gray-100 ${isSelected ? 'bg-blue-50 border-2 border-blue-300' : 'border-2 border-transparent'}
+        sidebar-hover ${isSelected ? 'sidebar-selected border-2' : 'border-2 border-transparent'}
         ${className}
       `}
       onClick={handleClick}
       onDoubleClick={handleDoubleClick}
     >
       <div
-        className="flex items-center justify-center bg-gray-200 rounded-md overflow-hidden mb-2"
+        className="flex items-center justify-center thumbnail-background rounded-md overflow-hidden mb-2"
         style={{ width: thumbnailSize, height: thumbnailSize }}
       >
         {isLoading ? (
           <div
             data-testid="thumbnail-loading"
-            className="animate-pulse bg-gray-300 w-full h-full"
+            className="animate-pulse thumbnail-loading w-full h-full"
           />
         ) : thumbnail && !imgError ? (
           <img
@@ -51,18 +51,20 @@ export function FolderView({
             onError={() => setImgError(true)}
           />
         ) : (
-          <div className="flex items-center justify-center w-full h-full text-gray-400">
+          <div className="flex items-center justify-center w-full h-full thumbnail-icon">
             <span className="text-4xl">📁</span>
           </div>
         )}
       </div>
 
       <div className="text-center w-full">
-        <p className="text-sm text-gray-700 break-words leading-tight">
+        <p className="text-sm sidebar-text break-words leading-tight">
           {folder.name}
         </p>
         {showImageCount && folder.imageCount !== undefined && (
-          <p className="text-xs text-gray-500 mt-1">{folder.imageCount}枚</p>
+          <p className="text-xs sidebar-text-muted mt-1">
+            {folder.imageCount}枚
+          </p>
         )}
       </div>
     </button>

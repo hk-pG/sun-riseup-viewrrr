@@ -133,7 +133,7 @@ export function ImageViewer({
         className={`flex items-center justify-center ${className}`}
         style={{ backgroundColor: settings.backgroundColor, ...style }}
       >
-        <div className="text-white text-lg">読み込み中...</div>
+        <div className="viewer-loading text-lg">読み込み中...</div>
       </div>
     );
   }
@@ -144,7 +144,7 @@ export function ImageViewer({
         className={`flex items-center justify-center ${className}`}
         style={{ backgroundColor: settings.backgroundColor, ...style }}
       >
-        <div className="text-red-400 text-lg">{String(error)}</div>
+        <div className="viewer-error text-lg">{String(error)}</div>
       </div>
     );
   }
@@ -155,7 +155,7 @@ export function ImageViewer({
         className={`flex items-center justify-center ${className}`}
         style={{ backgroundColor: settings.backgroundColor, ...style }}
       >
-        <div className="text-gray-400 text-lg">画像が選択されていません</div>
+        <div className="viewer-empty text-lg">画像が選択されていません</div>
       </div>
     );
   }

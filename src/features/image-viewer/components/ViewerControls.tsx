@@ -17,7 +17,7 @@ export function ViewerControls({
 
   return (
     <div
-      className={`absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-75 text-white rounded-lg px-4 py-2 flex items-center gap-4 ${className}`}
+      className={`absolute bottom-4 left-1/2 transform -translate-x-1/2 viewer-controls rounded-lg px-4 py-2 flex items-center gap-4 ${className}`}
     >
       <Button
         onClick={onNext}
@@ -39,7 +39,7 @@ export function ViewerControls({
         前 ▶
       </Button>
 
-      <div className="w-px h-4 bg-white bg-opacity-30" />
+      <div className="w-px h-4 viewer-controls-separator" />
 
       <Button onClick={onZoomOut} variant="ghost" className="px-2 py-1">
         ー

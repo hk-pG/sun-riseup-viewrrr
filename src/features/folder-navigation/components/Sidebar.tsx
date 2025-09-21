@@ -18,7 +18,7 @@ export function Sidebar({
     if (loading) {
       return (
         <div className="flex items-center justify-center h-32">
-          <div className="text-gray-500">読み込み中...</div>
+          <div className="sidebar-text-muted">読み込み中...</div>
         </div>
       );
     }
@@ -26,7 +26,7 @@ export function Sidebar({
     if (folders.length === 0) {
       return (
         <div className="flex items-center justify-center h-32 px-4">
-          <div className="text-gray-500 text-center text-sm">
+          <div className="sidebar-text-muted text-center text-sm">
             {emptyMessage}
           </div>
         </div>
@@ -47,11 +47,11 @@ export function Sidebar({
 
   return (
     <aside
-      className={`bg-gray-50 border-r border-gray-200 overflow-y-auto ${className}`}
+      className={`sidebar border-r overflow-y-auto ${className}`}
       style={{ width, ...style }}
     >
       <div className="p-2">
-        <h2 className="text-sm font-semibold text-gray-700 mb-3 px-2">
+        <h2 className="text-sm font-semibold sidebar-text mb-3 px-2">
           フォルダ一覧
         </h2>
         {renderContent()}

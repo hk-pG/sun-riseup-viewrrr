@@ -61,7 +61,7 @@ function App() {
         />
       </div>
 
-      <div className="h-screen flex bg-gray-100">
+      <div className="h-screen flex bg-background">
         <Sidebar
           folders={folderInfo}
           selectedFolder={selectedFolder}

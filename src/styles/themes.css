@@ -47,6 +47,28 @@
   --menubar-background: oklch(1 0 0);
   --menubar-foreground: oklch(0.145 0 0);
   --image-fade-duration: 0.5s;
+
+  /* Sidebar colors */
+  --sidebar-background: oklch(0.985 0 0);
+  --sidebar-text: oklch(0.4 0 0);
+  --sidebar-text-muted: oklch(0.556 0 0);
+  --sidebar-hover: oklch(0.97 0 0);
+  --sidebar-selected: oklch(0.94 0.05 240);
+  --sidebar-selected-border: oklch(0.6 0.15 240);
+
+  /* Viewer colors */
+  --viewer-background: oklch(0.145 0 0);
+  --viewer-controls-background: oklch(0.145 0 0 / 75%);
+  --viewer-controls-text: oklch(0.985 0 0);
+  --viewer-controls-separator: oklch(0.985 0 0 / 30%);
+  --viewer-loading-text: oklch(0.985 0 0);
+  --viewer-error-text: oklch(0.7 0.15 25);
+  --viewer-empty-text: oklch(0.6 0 0);
+
+  /* Thumbnail colors */
+  --thumbnail-background: oklch(0.92 0 0);
+  --thumbnail-loading: oklch(0.88 0 0);
+  --thumbnail-icon: oklch(0.6 0 0);
 }
 
 /* Dark theme colors */
@@ -91,6 +113,28 @@
   /* Application specific colors for dark theme */
   --menubar-background: oklch(0.205 0 0);
   --menubar-foreground: oklch(0.985 0 0);
+
+  /* Sidebar colors for dark theme */
+  --sidebar-background: oklch(0.205 0 0);
+  --sidebar-text: oklch(0.8 0 0);
+  --sidebar-text-muted: oklch(0.6 0 0);
+  --sidebar-hover: oklch(0.269 0 0);
+  --sidebar-selected: oklch(0.3 0.05 240);
+  --sidebar-selected-border: oklch(0.6 0.15 240);
+
+  /* Viewer colors for dark theme */
+  --viewer-background: oklch(0.145 0 0);
+  --viewer-controls-background: oklch(0.145 0 0 / 85%);
+  --viewer-controls-text: oklch(0.985 0 0);
+  --viewer-controls-separator: oklch(0.985 0 0 / 30%);
+  --viewer-loading-text: oklch(0.985 0 0);
+  --viewer-error-text: oklch(0.7 0.15 25);
+  --viewer-empty-text: oklch(0.7 0 0);
+
+  /* Thumbnail colors for dark theme */
+  --thumbnail-background: oklch(0.3 0 0);
+  --thumbnail-loading: oklch(0.35 0 0);
+  --thumbnail-icon: oklch(0.6 0 0);
 }
 
 /* Theme transition animations */
@@ -110,6 +154,68 @@
 .bg-menubar {
   background-color: var(--menubar-background);
   color: var(--menubar-foreground);
+}
+
+/* Sidebar styles */
+.sidebar {
+  background-color: var(--sidebar-background);
+  border-color: var(--border);
+}
+
+.sidebar-text {
+  color: var(--sidebar-text);
+}
+
+.sidebar-text-muted {
+  color: var(--sidebar-text-muted);
+}
+
+.sidebar-hover:hover {
+  background-color: var(--sidebar-hover);
+}
+
+.sidebar-selected {
+  background-color: var(--sidebar-selected);
+  border-color: var(--sidebar-selected-border);
+}
+
+/* Viewer styles */
+.viewer-background {
+  background-color: var(--viewer-background);
+}
+
+.viewer-controls {
+  background-color: var(--viewer-controls-background);
+  color: var(--viewer-controls-text);
+}
+
+.viewer-controls-separator {
+  background-color: var(--viewer-controls-separator);
+}
+
+.viewer-loading {
+  color: var(--viewer-loading-text);
+}
+
+.viewer-error {
+  color: var(--viewer-error-text);
+}
+
+.viewer-empty {
+  color: var(--viewer-empty-text);
+}
+
+/* Thumbnail styles */
+.thumbnail-background {
+  background-color: var(--thumbnail-background);
+}
+
+.thumbnail-loading {
+  background-color: var(--thumbnail-loading);
+}
+
+.thumbnail-icon {
+  color: var(--thumbnail-icon);
 }
 
 /* Image fade animation */
