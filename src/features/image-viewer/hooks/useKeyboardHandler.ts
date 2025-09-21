@@ -32,7 +32,7 @@ import type {
  */
 export const useKeyboardHandler = (
   keyboardMapping: KeyboardMapping | undefined,
-  containerRef: React.RefObject<HTMLElement | HTMLButtonElement>,
+  containerRef: React.RefObject<HTMLElement | HTMLButtonElement | null>,
 ) => {
   // あらかじめ定義したショートカットと押下されたキーイベントが一致するか判定
   const isKeyboardEventMatch = useCallback(

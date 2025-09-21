@@ -33,6 +33,11 @@ export default defineConfig(async () => ({
     projects: [
       // デフォルトのテストプロジェクト
       {
+        resolve: {
+          alias: {
+            '@': path.resolve(dirname, './src/'),
+          },
+        },
         test: {
           globals: true,
           environment: 'jsdom',
