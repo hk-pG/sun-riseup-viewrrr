@@ -51,7 +51,7 @@
   - Commit: `git commit -m "feat: implement unified theme provider with React 19 patterns"`
   - _Requirements: 3.1, 3.5_
 
-- [-] 2.2 Implement theme persistence and toggle component
+- [x] 2.2 Implement theme persistence and toggle component
 
   - Create theme persistence using Tauri settings API
   - Implement ThemeToggle component using shadcn/ui Button

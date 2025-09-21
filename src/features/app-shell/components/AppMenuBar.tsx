@@ -11,6 +11,7 @@ import {
   MenubarSubTrigger,
   MenubarTrigger,
 } from '@/shared/components/ui/menubar';
+import { ThemeToggle } from '../../../components/ui/theme-toggle';
 
 // AppMenuBarで使うイベントIDの型
 export type AppMenuBarEvent =
@@ -231,6 +232,11 @@ export const AppMenuBar = ({
           </MenubarMenu>
           {/* ...他のメニューも同様にデータ化して適用可能... */}
         </Menubar>
+      </div>
+
+      {/* Theme toggle button */}
+      <div className="flex items-center">
+        <ThemeToggle />
       </div>
     </header>
   );
