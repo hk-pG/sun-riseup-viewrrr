@@ -16,7 +16,8 @@
 
 ---
 
-- [ ] 1. Setup development branch and React 19 upgrade
+- [x] 1. Setup development branch and React 19 upgrade
+
 - [x] 1.1 Create feature branch for React 19 upgrade
 
   - Create new branch: `git checkout -b feature/react-19-upgrade`
