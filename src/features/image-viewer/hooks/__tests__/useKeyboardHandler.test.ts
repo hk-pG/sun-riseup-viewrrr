@@ -251,7 +251,7 @@ describe('useKeyboardHandler', () => {
     });
 
     it('should not add event listener when container is null', () => {
-      const nullRef = { current: null };
+      const nullRef: React.RefObject<HTMLElement | null> = { current: null };
 
       renderHook(() => useKeyboardHandler(mockKeyboardMapping, nullRef));
 
