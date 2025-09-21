@@ -69,14 +69,6 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
-/* AppMenuBar 用のカスタム背景色 */
-.bg-menubar {
-  @apply bg-white;
-}
-.dark .bg-menubar {
-  @apply bg-gray-800;
-}
-
 /* 画像フェードアニメーション */
 .image-fade {
   opacity: 0;
