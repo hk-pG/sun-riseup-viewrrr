@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { useThumbnail } from '../hooks/useThumbnail';
 import type { FolderViewProps } from '../types/folderTypes';
 
@@ -13,15 +13,15 @@ export function FolderView({
 }: FolderViewProps) {
   const { thumbnail, isLoading } = useThumbnail(folder.path);
   const [imgError, setImgError] = useState(false);
-  const handleClick = () => {
+  const handleClick = useCallback(() => {
     onClick(folder);
-  };
+  }, [onClick, folder]);
 
-  const handleDoubleClick = () => {
+  const handleDoubleClick = useCallback(() => {
     if (onDoubleClick) {
       onDoubleClick(folder);
     }
-  };
+  }, [onDoubleClick, folder]);
 
   return (
     <button
@@ -34,23 +34,33 @@ export function FolderView({
         className="mb-2 flex items-center justify-center overflow-hidden rounded-md bg-muted"
         style={{ width: thumbnailSize, height: thumbnailSize }}
       >
-        {isLoading ? (
-          <div
-            data-testid="thumbnail-loading"
-            className="h-full w-full animate-pulse bg-muted-foreground/20"
-          />
-        ) : thumbnail && !imgError ? (
-          <img
-            src={thumbnail.assetUrl}
-            alt={`${folder.name}のサムネイル`}
-            className="h-full w-full object-cover"
-            onError={() => setImgError(true)}
-          />
-        ) : (
-          <div className="flex h-full w-full items-center justify-center text-muted-foreground">
-            <span className="text-4xl">📁</span>
-          </div>
-        )}
+        {useMemo(() => {
+          if (isLoading) {
+            return (
+              <div
+                data-testid="thumbnail-loading"
+                className="h-full w-full animate-pulse bg-muted-foreground/20"
+              />
+            );
+          }
+
+          if (thumbnail && !imgError) {
+            return (
+              <img
+                src={thumbnail.assetUrl}
+                alt={`${folder.name}のサムネイル`}
+                className="h-full w-full object-cover"
+                onError={() => setImgError(true)}
+              />
+            );
+          }
+
+          return (
+            <div className="flex h-full w-full items-center justify-center text-muted-foreground">
+              <span className="text-4xl">📁</span>
+            </div>
+          );
+        }, [isLoading, thumbnail, imgError, folder.name])}
       </div>
 
       <div className="w-full text-center">
