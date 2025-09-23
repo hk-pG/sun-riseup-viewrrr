@@ -1,4 +1,10 @@
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import {
+  act,
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+} from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { ThemeProvider, useTheme } from '../ThemeProvider';
 
@@ -75,30 +81,38 @@ describe('ThemeProvider', () => {
     expect(screen.getByTestId('resolved-theme')).toHaveTextContent('light');
   });
 
-  it('should allow setting light theme', () => {
+  it('should allow setting light theme', async () => {
     render(
       <ThemeProvider>
         <TestComponent />
       </ThemeProvider>,
     );
 
-    fireEvent.click(screen.getByTestId('set-light'));
+    await act(async () => {
+      fireEvent.click(screen.getByTestId('set-light'));
+    });
 
-    expect(screen.getByTestId('current-theme')).toHaveTextContent('light');
-    expect(screen.getByTestId('resolved-theme')).toHaveTextContent('light');
+    await waitFor(() => {
+      expect(screen.getByTestId('current-theme')).toHaveTextContent('light');
+      expect(screen.getByTestId('resolved-theme')).toHaveTextContent('light');
+    });
   });
 
-  it('should allow setting dark theme', () => {
+  it('should allow setting dark theme', async () => {
     render(
       <ThemeProvider>
         <TestComponent />
       </ThemeProvider>,
     );
 
-    fireEvent.click(screen.getByTestId('set-dark'));
+    await act(async () => {
+      fireEvent.click(screen.getByTestId('set-dark'));
+    });
 
-    expect(screen.getByTestId('current-theme')).toHaveTextContent('dark');
-    expect(screen.getByTestId('resolved-theme')).toHaveTextContent('dark');
+    await waitFor(() => {
+      expect(screen.getByTestId('current-theme')).toHaveTextContent('dark');
+      expect(screen.getByTestId('resolved-theme')).toHaveTextContent('dark');
+    });
   });
 
   it('should respect system theme preference', async () => {
@@ -125,17 +139,21 @@ describe('ThemeProvider', () => {
     });
   });
 
-  it('should apply theme classes to document element', () => {
+  it('should apply theme classes to document element', async () => {
     render(
       <ThemeProvider>
         <TestComponent />
       </ThemeProvider>,
     );
 
-    fireEvent.click(screen.getByTestId('set-dark'));
+    await act(async () => {
+      fireEvent.click(screen.getByTestId('set-dark'));
+    });
 
-    expect(document.documentElement).toHaveClass('dark');
-    expect(document.documentElement).not.toHaveClass('light');
+    await waitFor(() => {
+      expect(document.documentElement).toHaveClass('dark');
+      expect(document.documentElement).not.toHaveClass('light');
+    });
   });
 
   it('should accept custom default theme', () => {
