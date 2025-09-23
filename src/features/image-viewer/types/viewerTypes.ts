@@ -4,6 +4,7 @@ import type { ImageFile } from '../../folder-navigation/types/folderTypes';
  * 画像ビューアの表示設定を表す型。
  * - ズーム、回転、背景色、コントロール表示などの設定を保持する。
  * - ImageViewerPropsやImageDisplayPropsで利用される。
+
  */
 export interface ViewerSettings {
   fitMode: 'width' | 'height' | 'both' | 'none';
@@ -83,6 +84,7 @@ export interface KeyboardShortcut {
  * キーボードショートカットのマッピングを表す型。
  * - アクションごとにKeyboardShortcut配列を持つ。
  * - onActionでアクション発火時の処理を定義。
+
  */
 export interface KeyboardMapping {
   shortcuts: Map<ActionType, KeyboardShortcut[]>;

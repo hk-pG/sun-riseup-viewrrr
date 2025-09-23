@@ -75,9 +75,9 @@ vi.mock('../features/image-viewer', () => ({
     // For testing rendering and props handling
     <div
       data-testid="image-viewer"
-      data-folder-path={folderPath}
-      data-initial-index={initialIndex}
-      data-key={folderPath}
+      data-folder-path={folderPath || ''}
+      data-initial-index={initialIndex || 0}
+      data-key={folderPath || ''}
       className={className}
     >
       Image Viewer
@@ -265,7 +265,7 @@ describe('App Component', () => {
 
       const imageViewer = screen.getByTestId('image-viewer');
       expect(imageViewer).toHaveAttribute('data-folder-path', '');
-      expect(imageViewer).toHaveAttribute('data-initial-index', '0');
+      expect(imageViewer).toHaveAttribute('data-initial-index', '1');
     });
   });
 

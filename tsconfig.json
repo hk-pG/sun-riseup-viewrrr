@@ -24,9 +24,13 @@
     "noImplicitReturns": true,
     "noUncheckedIndexedAccess": false,
 
-    /* React 19 specific */
+    /* React 19 specific optimizations */
     "allowJs": false,
     "checkJs": false,
+    "verbatimModuleSyntax": false,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
 
     /* testing */
     "types": [],

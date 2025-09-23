@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
 import App from '@/App';
+import { ThemeProvider } from '@/providers/ThemeProvider';
 import {
   getMockImageFolders,
   mockImageSourcesByFolderPath,
@@ -35,7 +36,11 @@ const createMockFileSystemService = (): FileSystemService => ({
 
 const MockServiceProvider = ({ children }: { children: React.ReactNode }) => {
   const mockService = createMockFileSystemService();
-  return <ServicesProvider services={mockService}>{children}</ServicesProvider>;
+  return (
+    <ThemeProvider>
+      <ServicesProvider services={mockService}>{children}</ServicesProvider>
+    </ThemeProvider>
+  );
 };
 
 const meta: Meta = {

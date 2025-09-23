@@ -1,9 +1,9 @@
-import { fileURLToPath } from 'node:url';
 import path from 'node:path';
-import { defineConfig } from 'vitest/config';
-import react from '@vitejs/plugin-react';
-import tailwindcss from '@tailwindcss/vite';
+import { fileURLToPath } from 'node:url';
 import { storybookTest } from '@storybook/addon-vitest/vitest-plugin';
+import tailwindcss from '@tailwindcss/vite';
+import react from '@vitejs/plugin-react';
+import { defineConfig } from 'vitest/config';
 
 const host = process.env.TAURI_DEV_HOST;
 
@@ -165,10 +165,10 @@ export default defineConfig(async () => ({
     host: host || false,
     hmr: host
       ? {
-          protocol: 'ws',
-          host,
-          port: 1421,
-        }
+        protocol: 'ws',
+        host,
+        port: 1421,
+      }
       : undefined,
     watch: {
       // 3. tell vite to ignore watching `src-tauri`
@@ -188,5 +188,14 @@ export default defineConfig(async () => ({
     jsxImportSource: 'react',
     // Enable tree shaking
     treeShaking: true,
+    // TypeScript optimizations for React 19
+    target: 'esnext',
+    format: 'esm',
+  },
+
+  // TypeScript configuration for React 19
+  define: {
+    // Enable React 19 development mode features
+    __DEV__: JSON.stringify(process.env.NODE_ENV === 'development'),
   },
 }));

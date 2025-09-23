@@ -12,15 +12,22 @@ const fetchImages = async (folderPath: string, fs: FileSystemService) => {
 
 /**
  * 指定のフォルダから像ファイルを取得するためのカスタムフック
+
  * @param folderPath 画像ファイルを取得したいフォルダのパス
  * @returns 画像ファイルのリスト、エラー、ローディング状態
  */
 export const useImages = (folderPath?: string | null) => {
   const fs = useServices();
+
   const { data, error, isLoading } = useSWR(
     folderPath ? ['images', folderPath] : null,
     () => fetchImages(folderPath as string, fs),
-    { revalidateOnFocus: false },
+    {
+      revalidateOnFocus: false,
+      // React 19 concurrent features対応
+      suspense: false,
+      keepPreviousData: true,
+    },
   );
 
   return { images: data, error, isLoading };

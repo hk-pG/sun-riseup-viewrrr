@@ -1,6 +1,12 @@
 'use client';
 
-import { useCallback, useEffect, useRef, useState } from 'react';
+import {
+  startTransition,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import type { ImageSource } from '@/features/image-viewer/types/ImageSource';
 import type {
   KeyboardMapping,
@@ -52,15 +58,19 @@ export function ImageViewer({
   className = '',
   style,
 }: ImageViewerProps) {
+  const mergedSettings = {
+    ...defaultSettings,
+    ...userSettings,
+  };
+
   const { images = [], isLoading, error } = useImages(folderPath);
   const [loading, setLoading] = useState(true);
 
   const [currentIndex, setCurrentIndex] = useState(initialIndex);
-  const [settings, setSettings] = useState<ViewerSettings>({
-    ...defaultSettings,
-    ...userSettings,
-  });
+  const [settings, setSettings] = useState<ViewerSettings>(mergedSettings);
   const containerRef = useRef<HTMLDivElement>(null);
+
+  const currentImage = images[currentIndex];
 
   // コントロールの表示管理
   const { isVisible: controlsVisible, handleMouseMove } = useControlsVisibility(
@@ -71,46 +81,56 @@ export function ImageViewer({
 
   // ナビゲーション関数
   const goToNext = useCallback(() => {
-    setCurrentIndex((prev) => {
-      const newIndex = Math.min(prev + 1, images.length - 1);
-      if (newIndex !== prev && callbacks?.onImageChange) {
-        callbacks.onImageChange(newIndex, images[newIndex]);
-      }
-      return newIndex;
+    startTransition(() => {
+      setCurrentIndex((prev) => {
+        const newIndex = Math.min(prev + 1, images.length - 1);
+        if (newIndex !== prev && callbacks?.onImageChange) {
+          callbacks.onImageChange(newIndex, images[newIndex]);
+        }
+        return newIndex;
+      });
     });
   }, [images, callbacks]);
 
   const goToPrevious = useCallback(() => {
-    setCurrentIndex((prev) => {
-      const newIndex = Math.max(prev - 1, 0);
-      if (newIndex !== prev && callbacks?.onImageChange) {
-        callbacks.onImageChange(newIndex, images[newIndex]);
-      }
-      return newIndex;
+    startTransition(() => {
+      setCurrentIndex((prev) => {
+        const newIndex = Math.max(prev - 1, 0);
+        if (newIndex !== prev && callbacks?.onImageChange) {
+          callbacks.onImageChange(newIndex, images[newIndex]);
+        }
+        return newIndex;
+      });
     });
   }, [images, callbacks]);
 
   // ズーム・回転関数
   const zoomIn = useCallback(() => {
-    setSettings((prev) => {
-      const newZoom = Math.min(prev.zoom * 1.2, 5);
-      callbacks?.onZoomChange?.(newZoom);
-      return { ...prev, zoom: newZoom };
+    startTransition(() => {
+      setSettings((prev) => {
+        const newZoom = Math.min(prev.zoom * 1.2, 5);
+        callbacks?.onZoomChange?.(newZoom);
+        return { ...prev, zoom: newZoom };
+      });
     });
   }, [callbacks]);
 
   const zoomOut = useCallback(() => {
-    setSettings((prev) => {
-      const newZoom = Math.max(prev.zoom / 1.2, 0.1);
-      callbacks?.onZoomChange?.(newZoom);
-      return { ...prev, zoom: newZoom };
+    startTransition(() => {
+      setSettings((prev) => {
+        const newZoom = Math.max(prev.zoom / 1.2, 0.1);
+        callbacks?.onZoomChange?.(newZoom);
+        return { ...prev, zoom: newZoom };
+      });
     });
   }, [callbacks]);
 
   const resetZoom = useCallback(() => {
-    setSettings((prev) => {
-      callbacks?.onZoomChange?.(1);
-      return { ...prev, zoom: 1 };
+    startTransition(() => {
+      setSettings((prev) => {
+        callbacks?.onZoomChange?.(1);
+        return { ...prev, zoom: 1 };
+      });
     });
   }, [callbacks]);
 
@@ -161,8 +181,6 @@ export function ImageViewer({
       </div>
     );
   }
-
-  const currentImage = images[currentIndex];
 
   return (
     <div

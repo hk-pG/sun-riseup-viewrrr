@@ -52,11 +52,17 @@ export function ThemeProvider({
 
   // System theme detection
   useEffect(() => {
-    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-
+    // React 19 compatible media query handling with fallback for tests
     const updateResolvedTheme = () => {
       if (theme === 'system') {
-        setResolvedTheme(mediaQuery.matches ? 'dark' : 'light');
+        // Safe media query check for test environments
+        if (typeof window !== 'undefined' && window.matchMedia) {
+          const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+          setResolvedTheme(mediaQuery.matches ? 'dark' : 'light');
+        } else {
+          // Fallback for test environments
+          setResolvedTheme('light');
+        }
       } else {
         setResolvedTheme(theme);
       }
@@ -64,7 +70,12 @@ export function ThemeProvider({
 
     updateResolvedTheme();
 
-    if (theme === 'system') {
+    if (
+      theme === 'system' &&
+      typeof window !== 'undefined' &&
+      window.matchMedia
+    ) {
+      const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
       mediaQuery.addEventListener('change', updateResolvedTheme);
       return () =>
         mediaQuery.removeEventListener('change', updateResolvedTheme);

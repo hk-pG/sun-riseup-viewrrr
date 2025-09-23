@@ -13,6 +13,11 @@ export function ViewerControls({
   isVisible,
   className = '',
 }: ViewerControlsProps) {
+  const canGoNext = currentIndex < totalImages - 1;
+  const canGoPrevious = currentIndex > 0;
+  const displayIndex = currentIndex + 1;
+  const zoomPercentage = Math.round(zoom * 100);
+
   if (!isVisible) return null;
 
   return (
@@ -21,18 +26,18 @@ export function ViewerControls({
     >
       <Button
         onClick={onNext}
-        disabled={currentIndex >= totalImages - 1}
+        disabled={!canGoNext}
         variant="secondary"
         className="min-w-16 px-2 py-1"
       >
         ◀ 次
       </Button>
       <span className="text-sm">
-        {currentIndex + 1} / {totalImages}
+        {displayIndex} / {totalImages}
       </span>
       <Button
         onClick={onPrevious}
-        disabled={currentIndex <= 0}
+        disabled={!canGoPrevious}
         variant="secondary"
         className="min-w-16 px-2 py-1"
       >
@@ -45,9 +50,7 @@ export function ViewerControls({
         ー
       </Button>
 
-      <span className="min-w-12 text-center text-sm">
-        {Math.round(zoom * 100)}%
-      </span>
+      <span className="min-w-12 text-center text-sm">{zoomPercentage}%</span>
 
       <Button onClick={onZoomIn} variant="ghost" className="px-2 py-1">
         ＋

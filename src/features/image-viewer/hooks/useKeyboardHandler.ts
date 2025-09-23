@@ -34,6 +34,8 @@ export const useKeyboardHandler = (
   keyboardMapping: KeyboardMapping | undefined,
   containerRef: React.RefObject<HTMLElement | HTMLButtonElement | null>,
 ) => {
+  const isEnabled = keyboardMapping?.enabled ?? false;
+
   // あらかじめ定義したショートカットと押下されたキーイベントが一致するか判定
   const isKeyboardEventMatch = useCallback(
     (event: KeyboardEvent, shortcut: KeyboardShortcut): boolean => {
@@ -75,23 +77,23 @@ export const useKeyboardHandler = (
   const handleKeyDown = useCallback(
     (event: KeyboardEvent) => {
       // キーボードショートカットが無効なら何もしない
-      if (!keyboardMapping?.enabled) return;
+      if (!isEnabled) return;
 
       // マッチするアクションを検索
       const matchedAction = findMatchingAction(
         event,
-        keyboardMapping.shortcuts,
+        keyboardMapping?.shortcuts ?? new Map(),
       );
 
       if (!matchedAction) return;
 
       const isPreventDefault = (
-        keyboardMapping: KeyboardMapping,
+        keyboardMapping: KeyboardMapping | undefined,
         matchedAction: string,
       ) => {
         // return keyboardMapping.shortcuts.get(matchedAction)?.[0]?.preventDefault !== false
         // 0番目ではなく、マッチしたショートカットのpreventDefaultを参照するように修正
-        return keyboardMapping.shortcuts
+        return keyboardMapping?.shortcuts
           .get(matchedAction)
           ?.find((shortcut) => isKeyboardEventMatch(event, shortcut))
           ?.preventDefault;
@@ -102,9 +104,9 @@ export const useKeyboardHandler = (
         event.preventDefault();
       }
       // 対応するアクションをコールバックで通知
-      keyboardMapping.onAction(matchedAction, event);
+      keyboardMapping?.onAction(matchedAction, event);
     },
-    [keyboardMapping, findMatchingAction, isKeyboardEventMatch],
+    [keyboardMapping, findMatchingAction, isKeyboardEventMatch, isEnabled],
   );
 
   // イベントリスナーの登録・解除（containerRefが変わるたびに再登録）

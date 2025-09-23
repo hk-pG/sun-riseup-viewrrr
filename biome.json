@@ -41,7 +41,9 @@
         "recommended": true,
         "noUnusedVariables": "error",
         "useExhaustiveDependencies": "warn",
-        "useHookAtTopLevel": "error"
+        "useHookAtTopLevel": "error",
+        "noUnusedImports": "error",
+        "noUndeclaredVariables": "error"
       },
       "nursery": {
         "useSortedClasses": "error"
@@ -79,9 +81,14 @@
       "arrowParentheses": "always",
       "bracketSpacing": true,
       "bracketSameLine": false,
-      "quoteProperties": "asNeeded"
+      "quoteProperties": "asNeeded",
+      "lineEnding": "lf",
+      "lineWidth": 80
     },
-    "globals": ["React", "JSX"]
+    "globals": ["React", "JSX"],
+    "parser": {
+      "unsafeParameterDecoratorsEnabled": false
+    }
   },
   "json": {
     "formatter": {
@@ -125,6 +132,20 @@
           "suspicious": {
             "noExplicitAny": "off",
             "noEmptyBlockStatements": "off"
+          }
+        }
+      }
+    },
+    {
+      "includes": ["**/*.tsx"],
+      "linter": {
+        "rules": {
+          "correctness": {
+            "useJsxKeyInIterable": "error"
+          },
+          "a11y": {
+            "useButtonType": "error",
+            "useValidAnchor": "error"
           }
         }
       }
