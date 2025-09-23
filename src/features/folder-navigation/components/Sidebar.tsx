@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import type { SidebarProps } from '../types/folderTypes';
 import { FolderList } from './FolderList';
 
@@ -14,7 +15,8 @@ export function Sidebar({
   className = '',
   style,
 }: SidebarProps) {
-  const renderContent = () => {
+  // コンテンツレンダリングの最適化
+  const content = useMemo(() => {
     if (loading) {
       return (
         <div className="flex h-32 items-center justify-center">
@@ -43,7 +45,16 @@ export function Sidebar({
         showImageCount={showImageCount}
       />
     );
-  };
+  }, [
+    loading,
+    folders,
+    selectedFolder,
+    onFolderSelect,
+    onFolderDoubleClick,
+    thumbnailSize,
+    showImageCount,
+    emptyMessage,
+  ]);
 
   return (
     <aside
