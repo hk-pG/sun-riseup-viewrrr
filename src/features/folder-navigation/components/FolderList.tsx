@@ -1,5 +1,6 @@
 'use client';
 
+import { useCallback } from 'react';
 import type { FolderInfo, FolderListProps } from '../types/folderTypes';
 import { FolderView } from './FolderView';
 
@@ -11,9 +12,12 @@ export function FolderList({
   thumbnailSize = 100,
   showImageCount = true,
 }: FolderListProps) {
-  const isSelected = (folder: FolderInfo) => {
-    return selectedFolder?.path === folder.path;
-  };
+  const isSelected = useCallback(
+    (folder: FolderInfo) => {
+      return selectedFolder?.path === folder.path;
+    },
+    [selectedFolder?.path],
+  );
 
   return (
     <div className="space-y-2">
