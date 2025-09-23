@@ -138,6 +138,7 @@
   - Run `pnpm test` to ensure all tests pass
   - Test folder selection and navigation functionality manually
   - Run `pnpm lint` for final code quality check
+
   - Commit: `git commit -m "feat: complete folder navigation migration to React 19"`
   - _Requirements: 1.2, 1.4_
 
