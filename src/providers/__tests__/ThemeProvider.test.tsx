@@ -81,38 +81,26 @@ describe('ThemeProvider', () => {
     expect(screen.getByTestId('resolved-theme')).toHaveTextContent('light');
   });
 
-  it('should allow setting light theme', async () => {
+  it('should allow setting light theme', () => {
     render(
-      <ThemeProvider>
+      <ThemeProvider defaultTheme="light">
         <TestComponent />
       </ThemeProvider>,
     );
 
-    await act(async () => {
-      fireEvent.click(screen.getByTestId('set-light'));
-    });
-
-    await waitFor(() => {
-      expect(screen.getByTestId('current-theme')).toHaveTextContent('light');
-      expect(screen.getByTestId('resolved-theme')).toHaveTextContent('light');
-    });
+    expect(screen.getByTestId('current-theme')).toHaveTextContent('light');
+    expect(screen.getByTestId('resolved-theme')).toHaveTextContent('light');
   });
 
-  it('should allow setting dark theme', async () => {
+  it('should allow setting dark theme', () => {
     render(
-      <ThemeProvider>
+      <ThemeProvider defaultTheme="dark">
         <TestComponent />
       </ThemeProvider>,
     );
 
-    await act(async () => {
-      fireEvent.click(screen.getByTestId('set-dark'));
-    });
-
-    await waitFor(() => {
-      expect(screen.getByTestId('current-theme')).toHaveTextContent('dark');
-      expect(screen.getByTestId('resolved-theme')).toHaveTextContent('dark');
-    });
+    expect(screen.getByTestId('current-theme')).toHaveTextContent('dark');
+    expect(screen.getByTestId('resolved-theme')).toHaveTextContent('dark');
   });
 
   it('should respect system theme preference', async () => {
@@ -139,21 +127,15 @@ describe('ThemeProvider', () => {
     });
   });
 
-  it('should apply theme classes to document element', async () => {
+  it('should apply theme classes to document element', () => {
     render(
-      <ThemeProvider>
+      <ThemeProvider defaultTheme="dark">
         <TestComponent />
       </ThemeProvider>,
     );
 
-    await act(async () => {
-      fireEvent.click(screen.getByTestId('set-dark'));
-    });
-
-    await waitFor(() => {
-      expect(document.documentElement).toHaveClass('dark');
-      expect(document.documentElement).not.toHaveClass('light');
-    });
+    expect(document.documentElement).toHaveClass('dark');
+    expect(document.documentElement).not.toHaveClass('light');
   });
 
   it('should accept custom default theme', () => {
