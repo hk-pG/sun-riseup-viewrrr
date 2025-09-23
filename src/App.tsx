@@ -33,7 +33,7 @@ function App() {
   const { openImageFile } = useOpenImageFile(fss);
 
   return (
-    <div className="h-screen flex flex-col bg-white">
+    <div className="flex h-screen flex-col bg-white">
       <div data-tauri-drag-region className="draggable">
         <AppMenuBar
           isDraggable={true}
@@ -61,7 +61,7 @@ function App() {
         />
       </div>
 
-      <div className="h-screen flex bg-background">
+      <div className="flex h-screen bg-background">
         <Sidebar
           folders={folderInfo}
           selectedFolder={selectedFolder}

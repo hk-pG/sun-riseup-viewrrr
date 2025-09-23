@@ -37,7 +37,7 @@ export function MenuDropdown({
   return (
     <div
       ref={dropdownRef}
-      className={`absolute top-full left-0 min-w-48 bg-white border border-gray-200 rounded-md shadow-lg z-50 mt-1 ${className}`}
+      className={`absolute top-full left-0 z-50 mt-1 min-w-48 rounded-md border border-border bg-popover shadow-lg ${className}`}
     >
       {actions.map((action) => (
         <MenuItem key={action.id} action={action} onAction={onAction} />

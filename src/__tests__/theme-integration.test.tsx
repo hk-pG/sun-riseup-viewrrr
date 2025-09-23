@@ -25,7 +25,15 @@ vi.mock('lucide-react', () => ({
 }));
 
 describe('Theme System Integration', () => {
-  beforeEach(() => {
+  beforeEach(async () => {
+    // Reset mocks
+    vi.clearAllMocks();
+
+    // Reset settings service mocks to default behavior
+    const { settingsService } = await import('../services/SettingsService');
+    vi.mocked(settingsService.loadTheme).mockResolvedValue('system');
+    vi.mocked(settingsService.saveTheme).mockResolvedValue(undefined);
+
     // Mock matchMedia
     Object.defineProperty(window, 'matchMedia', {
       writable: true,
@@ -56,44 +64,60 @@ describe('Theme System Integration', () => {
     expect(document.documentElement).toHaveClass('light');
     expect(document.documentElement).not.toHaveClass('dark');
 
-    // Click to switch to dark theme
     const button = screen.getByRole('button');
-    fireEvent.click(button);
 
-    // Should now have dark theme
+    // Click to switch to dark theme (light → dark)
+    fireEvent.click(button);
     expect(document.documentElement).toHaveClass('dark');
     expect(document.documentElement).not.toHaveClass('light');
+
+    // Click to switch to system theme (dark → system)
+    fireEvent.click(button);
+    // System should resolve to light (since matchMedia.matches = false)
+    expect(document.documentElement).toHaveClass('light');
+    expect(document.documentElement).not.toHaveClass('dark');
+
+    // Click to switch back to light theme (system → light)
+    fireEvent.click(button);
+    expect(document.documentElement).toHaveClass('light');
+    expect(document.documentElement).not.toHaveClass('dark');
   });
 
-  it('should persist theme changes across provider remounts', () => {
-    const { rerender } = render(
-      <ThemeProvider defaultTheme="light">
-        <ThemeToggle />
-      </ThemeProvider>,
-    );
+  it('should handle system theme detection', () => {
+    // Test dark system preference
+    const mockMatchMedia = vi.fn().mockImplementation((query) => ({
+      matches: query === '(prefers-color-scheme: dark)',
+      media: query,
+      onchange: null,
+      addListener: vi.fn(),
+      removeListener: vi.fn(),
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
+      dispatchEvent: vi.fn(),
+    }));
 
-    // Switch to dark theme
-    const button = screen.getByRole('button');
-    fireEvent.click(button);
-    expect(document.documentElement).toHaveClass('dark');
+    Object.defineProperty(window, 'matchMedia', {
+      writable: true,
+      value: mockMatchMedia,
+    });
 
-    // Remount the provider
-    rerender(
+    render(
       <ThemeProvider defaultTheme="system">
         <ThemeToggle />
       </ThemeProvider>,
     );
 
-    // Theme should be preserved (though this test won't show persistence due to mocking)
-    expect(screen.getByTestId('monitor-icon')).toBeInTheDocument();
+    // Should detect dark system theme
+    expect(document.documentElement).toHaveClass('dark');
+    expect(document.documentElement).not.toHaveClass('light');
   });
 
-  it('should handle system theme detection', () => {
-    // Mock dark system preference
+  it('should handle light system theme detection', () => {
+    // Test light system preference
     Object.defineProperty(window, 'matchMedia', {
       writable: true,
       value: vi.fn().mockImplementation((query) => ({
-        matches: query === '(prefers-color-scheme: dark)',
+        matches: false, // Light theme
         media: query,
         onchange: null,
         addListener: vi.fn(),
@@ -110,28 +134,52 @@ describe('Theme System Integration', () => {
       </ThemeProvider>,
     );
 
-    // Should detect dark system theme
-    expect(document.documentElement).toHaveClass('dark');
+    // Should detect light system theme
+    expect(document.documentElement).toHaveClass('light');
+    expect(document.documentElement).not.toHaveClass('dark');
   });
 
-  it('should provide smooth theme transitions', () => {
+  it('should persist theme settings', async () => {
+    const { settingsService } = await import('../services/SettingsService');
+
     render(
       <ThemeProvider defaultTheme="light">
-        <div
-          data-testid="test-element"
-          className="bg-background text-foreground"
-        >
-          Test content
-        </div>
+        <ThemeToggle />
       </ThemeProvider>,
     );
 
-    const testElement = screen.getByTestId('test-element');
+    // Wait for initial theme loading to complete
+    await vi.waitFor(() => {
+      expect(settingsService.loadTheme).toHaveBeenCalled();
+    });
 
-    // Check that CSS variables are applied
-    const computedStyle = window.getComputedStyle(testElement);
-    expect(computedStyle.getPropertyValue('transition')).toContain(
-      'background-color',
+    const button = screen.getByRole('button');
+    fireEvent.click(button); // Switch to dark
+
+    // Wait for theme to be saved
+    await vi.waitFor(() => {
+      expect(settingsService.saveTheme).toHaveBeenCalledWith('dark');
+    });
+  });
+
+  it('should load initial theme from settings', async () => {
+    const { settingsService } = await import('../services/SettingsService');
+
+    // Reset the mock and set it to return 'dark'
+    vi.mocked(settingsService.loadTheme).mockReset();
+    vi.mocked(settingsService.loadTheme).mockResolvedValueOnce('dark');
+
+    render(
+      <ThemeProvider>
+        <ThemeToggle />
+      </ThemeProvider>,
     );
+
+    // Wait for async theme loading and DOM update
+    await vi.waitFor(() => {
+      expect(document.documentElement).toHaveClass('dark');
+    });
+
+    expect(settingsService.loadTheme).toHaveBeenCalled();
   });
 });

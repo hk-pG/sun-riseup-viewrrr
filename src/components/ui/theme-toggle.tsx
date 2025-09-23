@@ -65,7 +65,7 @@ export function ThemeSelector() {
         onClick={() => setTheme('light')}
         aria-label="Light mode"
       >
-        <Sun className="h-4 w-4 mr-2" />
+        <Sun className="mr-2 h-4 w-4" />
         Light
       </Button>
       <Button
@@ -74,7 +74,7 @@ export function ThemeSelector() {
         onClick={() => setTheme('dark')}
         aria-label="Dark mode"
       >
-        <Moon className="h-4 w-4 mr-2" />
+        <Moon className="mr-2 h-4 w-4" />
         Dark
       </Button>
       <Button
@@ -83,7 +83,7 @@ export function ThemeSelector() {
         onClick={() => setTheme('system')}
         aria-label="System mode"
       >
-        <Monitor className="h-4 w-4 mr-2" />
+        <Monitor className="mr-2 h-4 w-4" />
         System
       </Button>
     </div>

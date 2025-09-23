@@ -26,43 +26,39 @@ export function FolderView({
   return (
     <button
       type="button"
-      className={`
-        flex flex-col items-center p-3 cursor-pointer rounded-lg transition-colors
-        sidebar-hover ${isSelected ? 'sidebar-selected border-2' : 'border-2 border-transparent'}
-        ${className}
-      `}
+      className={`flex cursor-pointer flex-col items-center rounded-lg p-3 transition-colors hover:bg-sidebar-accent ${isSelected ? 'border-2 border-sidebar-primary bg-sidebar-accent' : 'border-2 border-transparent'} ${className} `}
       onClick={handleClick}
       onDoubleClick={handleDoubleClick}
     >
       <div
-        className="flex items-center justify-center thumbnail-background rounded-md overflow-hidden mb-2"
+        className="mb-2 flex items-center justify-center overflow-hidden rounded-md bg-muted"
         style={{ width: thumbnailSize, height: thumbnailSize }}
       >
         {isLoading ? (
           <div
             data-testid="thumbnail-loading"
-            className="animate-pulse thumbnail-loading w-full h-full"
+            className="h-full w-full animate-pulse bg-muted-foreground/20"
           />
         ) : thumbnail && !imgError ? (
           <img
             src={thumbnail.assetUrl}
             alt={`${folder.name}のサムネイル`}
-            className="w-full h-full object-cover"
+            className="h-full w-full object-cover"
             onError={() => setImgError(true)}
           />
         ) : (
-          <div className="flex items-center justify-center w-full h-full thumbnail-icon">
+          <div className="flex h-full w-full items-center justify-center text-muted-foreground">
             <span className="text-4xl">📁</span>
           </div>
         )}
       </div>
 
-      <div className="text-center w-full">
-        <p className="text-sm sidebar-text break-words leading-tight">
+      <div className="w-full text-center">
+        <p className="break-words text-sidebar-foreground text-sm leading-tight">
           {folder.name}
         </p>
         {showImageCount && folder.imageCount !== undefined && (
-          <p className="text-xs sidebar-text-muted mt-1">
+          <p className="mt-1 text-muted-foreground text-xs">
             {folder.imageCount}枚
           </p>
         )}

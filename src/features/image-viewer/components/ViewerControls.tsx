@@ -17,13 +17,13 @@ export function ViewerControls({
 
   return (
     <div
-      className={`absolute bottom-4 left-1/2 transform -translate-x-1/2 viewer-controls rounded-lg px-4 py-2 flex items-center gap-4 ${className}`}
+      className={`-translate-x-1/2 absolute bottom-4 left-1/2 flex transform items-center gap-4 rounded-lg bg-background/75 px-4 py-2 text-foreground backdrop-blur-sm ${className}`}
     >
       <Button
         onClick={onNext}
         disabled={currentIndex >= totalImages - 1}
         variant="secondary"
-        className="px-2 py-1 min-w-16"
+        className="min-w-16 px-2 py-1"
       >
         ◀ 次
       </Button>
@@ -34,18 +34,18 @@ export function ViewerControls({
         onClick={onPrevious}
         disabled={currentIndex <= 0}
         variant="secondary"
-        className="px-2 py-1 min-w-16"
+        className="min-w-16 px-2 py-1"
       >
         前 ▶
       </Button>
 
-      <div className="w-px h-4 viewer-controls-separator" />
+      <div className="h-4 w-px bg-border" />
 
       <Button onClick={onZoomOut} variant="ghost" className="px-2 py-1">
         ー
       </Button>
 
-      <span className="text-sm min-w-12 text-center">
+      <span className="min-w-12 text-center text-sm">
         {Math.round(zoom * 100)}%
       </span>
 

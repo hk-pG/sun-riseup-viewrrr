@@ -17,16 +17,16 @@ export function Sidebar({
   const renderContent = () => {
     if (loading) {
       return (
-        <div className="flex items-center justify-center h-32">
-          <div className="sidebar-text-muted">読み込み中...</div>
+        <div className="flex h-32 items-center justify-center">
+          <div className="text-muted-foreground">読み込み中...</div>
         </div>
       );
     }
 
     if (folders.length === 0) {
       return (
-        <div className="flex items-center justify-center h-32 px-4">
-          <div className="sidebar-text-muted text-center text-sm">
+        <div className="flex h-32 items-center justify-center px-4">
+          <div className="text-center text-muted-foreground text-sm">
             {emptyMessage}
           </div>
         </div>
@@ -47,11 +47,11 @@ export function Sidebar({
 
   return (
     <aside
-      className={`sidebar border-r overflow-y-auto ${className}`}
+      className={`overflow-y-auto border-sidebar-border border-r bg-sidebar text-sidebar-foreground ${className}`}
       style={{ width, ...style }}
     >
       <div className="p-2">
-        <h2 className="text-sm font-semibold sidebar-text mb-3 px-2">
+        <h2 className="mb-3 px-2 font-semibold text-sidebar-foreground text-sm">
           フォルダ一覧
         </h2>
         {renderContent()}

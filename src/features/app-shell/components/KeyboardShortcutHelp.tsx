@@ -53,19 +53,19 @@ export function KeyboardShortcutHelp({
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/80 backdrop-blur-sm">
       <div
-        className={`bg-white rounded-lg shadow-xl max-w-2xl w-full mx-4 max-h-[80vh] overflow-hidden ${className}`}
+        className={`mx-4 max-h-[80vh] w-full max-w-2xl overflow-hidden rounded-lg bg-card text-card-foreground shadow-xl ${className}`}
       >
-        <div className="p-6 border-b border-gray-200">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xl font-semibold text-gray-800">
+        <div className="border-border border-b p-6">
+          <div className="mb-4 flex items-center justify-between">
+            <h2 className="font-semibold text-card-foreground text-xl">
               キーボードショートカット
             </h2>
             <button
               type="button"
               onClick={onClose}
-              className="text-gray-400 hover:text-gray-600 text-2xl leading-none"
+              className="text-2xl text-muted-foreground leading-none hover:text-accent-foreground"
               aria-label="閉じる"
             >
               ×
@@ -77,13 +77,13 @@ export function KeyboardShortcutHelp({
             placeholder="ショートカットを検索..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="input w-full rounded-md border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-ring"
           />
         </div>
 
-        <div className="p-6 overflow-y-auto max-h-96">
+        <div className="max-h-96 overflow-y-auto p-6">
           {filteredList.length === 0 ? (
-            <div className="text-center text-gray-500 py-8">
+            <div className="py-8 text-center text-muted-foreground">
               {searchTerm
                 ? '検索結果が見つかりません'
                 : 'ショートカットが設定されていません'}
@@ -94,23 +94,23 @@ export function KeyboardShortcutHelp({
                 (item: { action: string; shortcuts: KeyboardShortcut[] }) => (
                   <div
                     key={item.action}
-                    className="border-b border-gray-100 pb-3 last:border-b-0"
+                    className="border-border border-b pb-3 last:border-b-0"
                   >
-                    <h3 className="font-medium text-gray-800 mb-2">
+                    <h3 className="mb-2 font-medium text-card-foreground">
                       {actionLabels[item.action] || item.action}
                     </h3>
                     <div className="flex flex-wrap gap-2">
                       {item.shortcuts.map((shortcut: KeyboardShortcut) => (
                         <span
                           key={shortcut.key || JSON.stringify(shortcut)}
-                          className="inline-flex items-center px-2 py-1 bg-gray-100 text-gray-700 text-sm rounded border"
+                          className="inline-flex items-center rounded border bg-secondary px-2 py-1 text-secondary-foreground text-sm"
                         >
                           {getShortcutDescription(shortcut)}
                         </span>
                       ))}
                     </div>
                     {item.shortcuts[0]?.description && (
-                      <p className="text-sm text-gray-500 mt-1">
+                      <p className="mt-1 text-gray-500 text-sm">
                         {item.shortcuts[0].description}
                       </p>
                     )}
@@ -121,8 +121,8 @@ export function KeyboardShortcutHelp({
           )}
         </div>
 
-        <div className="p-4 bg-gray-50 border-t border-gray-200">
-          <p className="text-sm text-gray-600 text-center">
+        <div className="border-gray-200 border-t bg-gray-50 p-4">
+          <p className="text-center text-gray-600 text-sm">
             設定は呼び出し元で変更できます
           </p>
         </div>

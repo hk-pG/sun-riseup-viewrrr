@@ -1,5 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { ThemeProvider } from '../../../../providers/ThemeProvider';
 import { resetAllMocks, setupTauriMocks } from '../../../../test/mocks';
 import { AppMenuBar, type AppMenuBarProps } from '../AppMenuBar';
 
@@ -8,6 +9,9 @@ vi.mock('lucide-react', () => ({
   Eye: () => <span data-testid="eye-icon">Eye</span>,
   FileText: () => <span data-testid="file-text-icon">FileText</span>,
   FolderOpen: () => <span data-testid="folder-open-icon">FolderOpen</span>,
+  Monitor: () => <span data-testid="monitor-icon">Monitor</span>,
+  Moon: () => <span data-testid="moon-icon">Moon</span>,
+  Sun: () => <span data-testid="sun-icon">Sun</span>,
 }));
 
 describe('AppMenuBar Component', () => {
@@ -26,7 +30,11 @@ describe('AppMenuBar Component', () => {
   });
 
   const renderAppMenuBar = (props: Partial<AppMenuBarProps> = {}) => {
-    return render(<AppMenuBar {...getDefaultProps()} {...props} />);
+    return render(
+      <ThemeProvider>
+        <AppMenuBar {...getDefaultProps()} {...props} />
+      </ThemeProvider>,
+    );
   };
 
   describe('Component Rendering and Structure', () => {

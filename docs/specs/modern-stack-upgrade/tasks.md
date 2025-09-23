@@ -63,7 +63,8 @@
   - Commit: `git commit -m "feat: add theme persistence and toggle component"`
   - _Requirements: 3.2, 3.4, 3.5_
 
-- [ ] 2.3 Update CSS architecture and validate theme system
+- [x] 2.3 Update CSS architecture and validate theme system
+
   - Consolidate CSS variables in src/styles/themes.css
   - Optimize Tailwind config for better performance
   - Remove redundant theme-related CSS from existing files
@@ -75,7 +76,8 @@
   - _Requirements: 2.2, 3.3_
 
 - [ ] 3. Development tools optimization
-- [ ] 3.1 Create development tools branch and update Vite configuration
+- [x] 3.1 Create development tools branch and update Vite configuration
+
   - Merge theme system changes: `git checkout main && git merge feature/theme-system && git checkout -b feature/dev-tools-optimization`
   - Update Vite plugins for React 19 compatibility
   - Optimize build performance with new React 19 features
@@ -145,14 +147,17 @@
   - Commit: `git commit -m "feat: update testing infrastructure for React 19"`
   - _Requirements: 1.4, 4.4_
 
-- [ ] 5.2 Add comprehensive theme system tests
+- [ ] 5.2 Add comprehensive theme system tests and fix existing test issues
+  - Fix AppMenuBar test failures (window.matchMedia mock, Tauri API mocks)
+  - Fix theme integration test icon data-testid mismatches
+  - Fix CSS transition tests in test environment
   - Write comprehensive tests for ThemeProvider
   - Test theme switching functionality
   - Add tests for theme persistence
   - Test theme integration with all components
   - Run `pnpm test` to ensure all new tests pass
   - Run `pnpm lint` to verify test code quality
-  - Commit: `git commit -m "test: add comprehensive theme system test coverage"`
+  - Commit: `git commit -m "test: fix existing test issues and add comprehensive theme system test coverage"`
   - _Requirements: 3.1, 3.2, 3.5_
 
 - [ ] 5.3 Add performance tests and validate testing setup
