@@ -15,7 +15,6 @@ export function Sidebar({
   className = '',
   style,
 }: SidebarProps) {
-  // コンテンツレンダリングの最適化
   const content = useMemo(() => {
     if (loading) {
       return (
@@ -65,7 +64,7 @@ export function Sidebar({
         <h2 className="mb-3 px-2 font-semibold text-sidebar-foreground text-sm">
           フォルダ一覧
         </h2>
-        {renderContent()}
+        {content}
       </div>
     </aside>
   );

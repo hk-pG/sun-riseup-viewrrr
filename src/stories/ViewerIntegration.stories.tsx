@@ -143,7 +143,9 @@ export const ResponsiveLayout: Story = {
             <Sidebar
               folders={folders}
               selectedFolder={selectedFolder}
-              onFolderSelect={(folder) => setCurrentFolderPath(folder.path)}
+              onFolderSelect={(folder: any) =>
+                setCurrentFolderPath(folder.path)
+              }
               width={280}
             />
           )}

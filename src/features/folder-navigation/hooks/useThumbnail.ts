@@ -36,9 +36,12 @@ export function useThumbnail(folderPath: string) {
     },
   );
 
-  return useMemo(() => ({
-    thumbnail: data ?? null,
-    isLoading,
-    isError: !!error,
-  }), [data, isLoading, error]);
+  return useMemo(
+    () => ({
+      thumbnail: data ?? null,
+      isLoading,
+      isError: !!error,
+    }),
+    [data, isLoading, error],
+  );
 }

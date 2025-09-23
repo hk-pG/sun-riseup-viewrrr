@@ -126,6 +126,7 @@
   - Run `pnpm test` to verify component tests pass
   - Test image display and navigation functionality manually
   - Run `pnpm lint` to ensure code quality
+
   - Commit: `git commit -m "feat: optimize ImageViewer components with React 19 features"`
   - _Requirements: 1.2, 6.3_
 
