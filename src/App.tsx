@@ -97,12 +97,12 @@ function App() {
 
   return (
     <ErrorBoundary>
-      <div className="flex h-screen flex-col bg-white">
+      <div className="flex h-screen flex-col bg-background">
         <div data-tauri-drag-region className="draggable">
           <AppMenuBar isDraggable={true} onMenuAction={handleMenuAction} />
         </div>
 
-        <div className="flex h-screen bg-background">
+        <div className="flex h-screen bg-background text-foreground">
           <Sidebar
             folders={folderInfo}
             selectedFolder={selectedFolder}

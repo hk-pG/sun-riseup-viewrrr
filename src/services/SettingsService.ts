@@ -10,9 +10,7 @@ class SettingsService {
   private async getStore(): Promise<Store> {
     if (!this.store) {
       try {
-        console.log('Attempting to load Tauri Store...');
         this.store = await Store.load('settings.json');
-        console.log('Tauri Store loaded successfully');
       } catch (error) {
         // Fallback for test environments or when Tauri is not available
         console.warn('Store.load failed, using fallback:', error);
@@ -21,15 +19,13 @@ class SettingsService {
         const mockData: Record<string, unknown> = {};
         this.store = {
           get: async (key: string) => {
-            console.log('Mock store get:', key, mockData[key]);
             return mockData[key] || null;
           },
           set: async (key: string, value: unknown) => {
-            console.log('Mock store set:', key, value);
             mockData[key] = value;
           },
           save: async () => {
-            console.log('Mock store save (no-op)');
+            // Mock save - no persistence in fallback mode
           },
         } as unknown as Store;
       }
