@@ -25,6 +25,11 @@ export function ThemeProvider({
   const [resolvedTheme, setResolvedTheme] = useState<'light' | 'dark'>('light');
   const [isLoaded, setIsLoaded] = useState(false);
 
+  // Debug theme changes
+  useEffect(() => {
+    console.log('Theme changed:', theme, '-> resolved:', resolvedTheme);
+  }, [theme, resolvedTheme]);
+
   // Load theme from storage on mount
   useEffect(() => {
     const loadTheme = async () => {
@@ -87,8 +92,11 @@ export function ThemeProvider({
   // Apply theme to document
   useEffect(() => {
     const root = document.documentElement;
+    console.log('Applying theme to document:', resolvedTheme);
+    console.log('Before:', root.className);
     root.classList.remove('light', 'dark');
     root.classList.add(resolvedTheme);
+    console.log('After:', root.className);
   }, [resolvedTheme]);
 
   const value: ThemeContextType = {
