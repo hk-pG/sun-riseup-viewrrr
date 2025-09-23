@@ -11,10 +11,9 @@ afterEach(() => {
 });
 
 // React 19 compatibility: Mock window.matchMedia for theme detection
-Object.defineProperty(window, 'matchMedia', {
-  writable: true,
-  value: vi.fn().mockImplementation((query) => ({
-    matches: false,
+const mockMatchMedia = vi.fn().mockImplementation((query: string) => {
+  const mediaQueryList = {
+    matches: query === '(prefers-color-scheme: dark)' ? false : false, // Default to light theme
     media: query,
     onchange: null,
     addListener: vi.fn(), // deprecated
@@ -22,7 +21,13 @@ Object.defineProperty(window, 'matchMedia', {
     addEventListener: vi.fn(),
     removeEventListener: vi.fn(),
     dispatchEvent: vi.fn(),
-  })),
+  };
+  return mediaQueryList;
+});
+
+Object.defineProperty(window, 'matchMedia', {
+  writable: true,
+  value: mockMatchMedia,
 });
 
 // Mock Tauri APIs for testing
@@ -31,17 +36,21 @@ const mockTauriCore = {
 };
 
 // Enhanced Tauri Store mock for theme system
-const mockStore = {
+const mockStoreInstance = {
   get: vi.fn().mockResolvedValue(null),
   set: vi.fn().mockResolvedValue(undefined),
-  load: vi.fn().mockResolvedValue({}),
   save: vi.fn().mockResolvedValue(undefined),
 };
 
 const mockTauriStore = {
-  Store: vi.fn().mockImplementation(() => mockStore),
-  // Also export the mock instance for direct access in tests
-  __mockStore: mockStore,
+  Store: {
+    // Mock the static load method
+    load: vi.fn().mockResolvedValue(mockStoreInstance),
+    // Also provide constructor if needed
+    new: vi.fn().mockImplementation(() => mockStoreInstance),
+  },
+  // Export mock instance for direct access in tests
+  __mockStore: mockStoreInstance,
 };
 
 // Mock Tauri modules
