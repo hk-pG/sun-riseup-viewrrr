@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom';
 import { cleanup } from '@testing-library/react';
-import { vi } from 'vitest';
+import { afterEach, vi } from 'vitest';
 
 // Setup global vi for tests
 (globalThis as typeof globalThis & { vi: typeof vi }).vi = vi;
@@ -13,7 +13,7 @@ afterEach(() => {
 // React 19 compatibility: Mock window.matchMedia for theme detection
 const mockMatchMedia = vi.fn().mockImplementation((query: string) => {
   const mediaQueryList = {
-    matches: query === '(prefers-color-scheme: dark)' ? false : false, // Default to light theme
+    matches: false, // Default to light theme
     media: query,
     onchange: null,
     addListener: vi.fn(), // deprecated
@@ -75,7 +75,9 @@ import { act } from '@testing-library/react';
 export { act };
 
 // Global test utilities for React 19
-(globalThis as typeof globalThis & {
-  vi: typeof vi;
-  act: typeof act;
-}).act = act;
+(
+  globalThis as typeof globalThis & {
+    vi: typeof vi;
+    act: typeof act;
+  }
+).act = act;
