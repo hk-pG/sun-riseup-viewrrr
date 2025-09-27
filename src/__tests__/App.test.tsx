@@ -265,7 +265,8 @@ describe('App Component', () => {
 
       const imageViewer = screen.getByTestId('image-viewer');
       expect(imageViewer).toHaveAttribute('data-folder-path', '');
-      expect(imageViewer).toHaveAttribute('data-initial-index', '1');
+      // React 19 improvement: Don't update state when folderPath is missing
+      expect(imageViewer).toHaveAttribute('data-initial-index', '0');
     });
   });
 
