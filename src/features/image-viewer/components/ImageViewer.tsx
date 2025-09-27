@@ -1,11 +1,12 @@
 'use client';
 
 import {
-  startTransition,
   useCallback,
   useEffect,
+  useMemo,
   useRef,
   useState,
+  useTransition,
 } from 'react';
 import type { ImageSource } from '@/features/image-viewer/types/ImageSource';
 import type {
@@ -58,19 +59,30 @@ export function ImageViewer({
   className = '',
   style,
 }: ImageViewerProps) {
-  const mergedSettings = {
-    ...defaultSettings,
-    ...userSettings,
-  };
+  // React 19: Memoize merged settings to prevent unnecessary recalculations
+  const mergedSettings = useMemo(
+    () => ({
+      ...defaultSettings,
+      ...userSettings,
+    }),
+    [userSettings],
+  );
 
   const { images = [], isLoading, error } = useImages(folderPath);
   const [loading, setLoading] = useState(true);
+
+  // React 19: Use useTransition for better loading state management
+  const [isPending, startTransition] = useTransition();
 
   const [currentIndex, setCurrentIndex] = useState(initialIndex);
   const [settings, setSettings] = useState<ViewerSettings>(mergedSettings);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const currentImage = images[currentIndex];
+  // React 19: Memoize current image to prevent unnecessary re-renders
+  const currentImage = useMemo(
+    () => images[currentIndex],
+    [images, currentIndex],
+  );
 
   // コントロールの表示管理
   const { isVisible: controlsVisible, handleMouseMove } = useControlsVisibility(
@@ -79,33 +91,36 @@ export function ImageViewer({
     settings.controlsTimeout,
   );
 
-  // ナビゲーション関数
+  // React 19: Optimized navigation functions with better boundary checks
   const goToNext = useCallback(() => {
+    if (currentIndex >= images.length - 1) return; // Early return for boundary
+
     startTransition(() => {
       setCurrentIndex((prev) => {
-        const newIndex = Math.min(prev + 1, images.length - 1);
-        if (newIndex !== prev && callbacks?.onImageChange) {
-          callbacks.onImageChange(newIndex, images[newIndex]);
-        }
+        const newIndex = prev + 1;
+        callbacks?.onImageChange?.(newIndex, images[newIndex]);
         return newIndex;
       });
     });
-  }, [images, callbacks]);
+  }, [currentIndex, images, callbacks]);
 
   const goToPrevious = useCallback(() => {
+    if (currentIndex <= 0) return; // Early return for boundary
+
     startTransition(() => {
       setCurrentIndex((prev) => {
-        const newIndex = Math.max(prev - 1, 0);
-        if (newIndex !== prev && callbacks?.onImageChange) {
-          callbacks.onImageChange(newIndex, images[newIndex]);
-        }
+        const newIndex = prev - 1;
+        callbacks?.onImageChange?.(newIndex, images[newIndex]);
         return newIndex;
       });
     });
-  }, [images, callbacks]);
+  }, [currentIndex, images, callbacks]);
 
-  // ズーム・回転関数
+  // React 19: Optimized zoom functions with memoized zoom levels
   const zoomIn = useCallback(() => {
+    const currentZoom = settings.zoom;
+    if (currentZoom >= 5) return; // Early return for boundary
+
     startTransition(() => {
       setSettings((prev) => {
         const newZoom = Math.min(prev.zoom * 1.2, 5);
@@ -113,9 +128,12 @@ export function ImageViewer({
         return { ...prev, zoom: newZoom };
       });
     });
-  }, [callbacks]);
+  }, [settings.zoom, callbacks]);
 
   const zoomOut = useCallback(() => {
+    const currentZoom = settings.zoom;
+    if (currentZoom <= 0.1) return; // Early return for boundary
+
     startTransition(() => {
       setSettings((prev) => {
         const newZoom = Math.max(prev.zoom / 1.2, 0.1);
@@ -123,16 +141,18 @@ export function ImageViewer({
         return { ...prev, zoom: newZoom };
       });
     });
-  }, [callbacks]);
+  }, [settings.zoom, callbacks]);
 
   const resetZoom = useCallback(() => {
+    if (settings.zoom === 1) return; // Early return if already at default
+
     startTransition(() => {
       setSettings((prev) => {
         callbacks?.onZoomChange?.(1);
         return { ...prev, zoom: 1 };
       });
     });
-  }, [callbacks]);
+  }, [settings.zoom, callbacks]);
 
   // キーボードマッピングの拡張
   // 画像数やコールバックの都合でonActionだけ差し替えたい場合は、親でKeyboardMappingを生成して渡す設計にする
@@ -147,7 +167,10 @@ export function ImageViewer({
     setLoading(isLoading);
   }, [isLoading]);
 
-  if (loading) {
+  // React 19: Combine loading states for better UX
+  const isViewerLoading = loading || isPending;
+
+  if (isViewerLoading) {
     return (
       <div
         className={`flex items-center justify-center ${className}`}
