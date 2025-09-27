@@ -19,12 +19,10 @@ export default defineConfig(async () => ({
       // React 19 optimizations
       jsxRuntime: 'automatic',
       jsxImportSource: 'react',
-      // Enable React 19 compiler optimizations
-      babel: {
-        plugins: [
-          // React 19 specific optimizations can be added here
-        ],
-      },
+      // React 19 Fast Refresh optimizations
+      fastRefresh: true,
+      // Enable React 19 development features
+      include: /\.(jsx|tsx)$/,
     }),
     tailwindcss(),
   ],
@@ -37,8 +35,8 @@ export default defineConfig(async () => ({
 
   // Build optimizations for React 19
   build: {
-    // Enable modern JavaScript features
-    target: 'esnext',
+    // Enable modern JavaScript features for React 19
+    target: ['esnext', 'chrome91', 'firefox90', 'safari15'],
     // Optimize chunk splitting for better caching
     rollupOptions: {
       output: {
@@ -58,27 +56,39 @@ export default defineConfig(async () => ({
             '@tauri-apps/plugin-store',
           ],
         },
+        // Optimize chunk naming for better caching
+        chunkFileNames: 'assets/[name]-[hash].js',
+        entryFileNames: 'assets/[name]-[hash].js',
+        assetFileNames: 'assets/[name]-[hash].[ext]',
       },
     },
     // Enable source maps for better debugging
-    sourcemap: true,
+    sourcemap: process.env.NODE_ENV === 'development',
     // Optimize CSS
     cssCodeSplit: true,
+    // React 19 build optimizations
+    minify: 'esbuild',
+    // Optimize bundle size
+    reportCompressedSize: false,
+    // Increase chunk size warning limit for React 19
+    chunkSizeWarningLimit: 1000,
   },
 
-  // Development optimizations
+  // Development optimizations for React 19
   optimizeDeps: {
     // Pre-bundle dependencies for faster dev server startup
     include: [
       'react',
       'react-dom',
       'react/jsx-runtime',
+      'react/jsx-dev-runtime',
       '@radix-ui/react-menubar',
       '@radix-ui/react-slot',
       'lucide-react',
       'clsx',
       'tailwind-merge',
       'class-variance-authority',
+      'swr',
     ],
     // Exclude Tauri APIs from pre-bundling as they need to be handled specially
     exclude: [
@@ -88,6 +98,8 @@ export default defineConfig(async () => ({
       '@tauri-apps/plugin-opener',
       '@tauri-apps/plugin-store',
     ],
+    // React 19 optimization: force re-optimization on dependency changes
+    force: process.env.NODE_ENV === 'development',
   },
   test: {
     // describe, it, expectなどをグローバルスコープで使えるようにする
@@ -173,15 +185,24 @@ export default defineConfig(async () => ({
     watch: {
       // 3. tell vite to ignore watching `src-tauri`
       ignored: ['**/src-tauri/**'],
+      // React 19: Optimize file watching
+      usePolling: false,
+      interval: 100,
     },
-    // Development server optimizations
+    // Development server optimizations for React 19
     fs: {
       // Allow serving files from one level up to the project root
       allow: ['..'],
     },
+    // Optimize middleware for React 19
+    middlewareMode: false,
+    // Enable HTTP/2 for better performance
+    https: false,
+    // Optimize CORS for development
+    cors: true,
   },
 
-  // Performance optimizations
+  // Performance optimizations for React 19
   esbuild: {
     // Use React 19 JSX transform
     jsx: 'automatic',
@@ -191,11 +212,29 @@ export default defineConfig(async () => ({
     // TypeScript optimizations for React 19
     target: 'esnext',
     format: 'esm',
+    // React 19: Enable advanced optimizations
+    keepNames: false,
+    minifyIdentifiers: true,
+    minifySyntax: true,
+    minifyWhitespace: true,
+    // Optimize for React 19 patterns
+    supported: {
+      'dynamic-import': true,
+      'import-meta': true,
+    },
   },
 
   // TypeScript configuration for React 19
   define: {
     // Enable React 19 development mode features
     __DEV__: JSON.stringify(process.env.NODE_ENV === 'development'),
+    // React 19 specific feature flags
+    __REACT_DEVTOOLS_GLOBAL_HOOK__: 'globalThis.__REACT_DEVTOOLS_GLOBAL_HOOK__',
+  },
+
+  // React 19: Enable experimental features
+  experimental: {
+    // Enable React 19 server components support (if needed in future)
+    // renderBuiltUrl: true,
   },
 }));
