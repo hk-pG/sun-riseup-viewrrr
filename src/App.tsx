@@ -18,11 +18,11 @@ interface AppState {
 }
 
 function App() {
-  // React 19: Consolidated state management with optimized initial state
-  const [appState, setAppState] = useState<AppState>(() => ({
+  // React 19: Consolidated state management
+  const [appState, setAppState] = useState<AppState>({
     currentFolderPath: '',
     initialImageIndex: 0,
-  }));
+  });
 
   // React 19: useTransition for non-urgent updates
   const [isPending, startTransition] = useTransition();
