@@ -7,7 +7,7 @@ import { ThemeSelector, ThemeToggle } from '../theme-toggle';
 // Mock the settings service
 vi.mock('../../../services/SettingsService', () => ({
   settingsService: {
-    loadTheme: vi.fn().mockResolvedValue('system'),
+    loadTheme: vi.fn(),
     saveTheme: vi.fn().mockResolvedValue(undefined),
   },
 }));
@@ -26,7 +26,18 @@ vi.mock('lucide-react', () => ({
 }));
 
 describe('ThemeToggle', () => {
-  beforeEach(() => {
+  beforeEach(async () => {
+    // Reset settings service mocks
+    const { settingsService } = await import(
+      '../../../services/SettingsService'
+    );
+    vi.mocked(settingsService.loadTheme)
+      .mockReset()
+      .mockResolvedValue('system');
+    vi.mocked(settingsService.saveTheme)
+      .mockReset()
+      .mockResolvedValue(undefined);
+
     // Mock matchMedia
     Object.defineProperty(window, 'matchMedia', {
       writable: true,
@@ -62,13 +73,19 @@ describe('ThemeToggle', () => {
   });
 
   it('should cycle through themes when clicked', async () => {
+    // Mock to return light theme for this test
+    const { settingsService } = await import(
+      '../../../services/SettingsService'
+    );
+    vi.mocked(settingsService.loadTheme).mockResolvedValue('light');
+
     render(
       <ThemeProvider defaultTheme="light">
         <ThemeToggle />
       </ThemeProvider>,
     );
 
-    await waitForUserPerceivedCompletion();
+    await waitForUserPerceivedCompletion(100);
     const button = screen.getByRole('button');
 
     // Should start with light theme (sun icon)
@@ -76,28 +93,34 @@ describe('ThemeToggle', () => {
 
     // Click to switch to dark
     fireEvent.click(button);
-    await waitForUserPerceivedCompletion();
+    await waitForUserPerceivedCompletion(50);
     expect(screen.getByTestId('moon-icon')).toBeInTheDocument();
 
     // Click to switch to system
     fireEvent.click(button);
-    await waitForUserPerceivedCompletion();
+    await waitForUserPerceivedCompletion(50);
     expect(screen.getByTestId('monitor-icon')).toBeInTheDocument();
 
     // Click to switch back to light
     fireEvent.click(button);
-    await waitForUserPerceivedCompletion();
+    await waitForUserPerceivedCompletion(50);
     expect(screen.getByTestId('sun-icon')).toBeInTheDocument();
   });
 
   it('should have correct aria-labels for each theme', async () => {
+    // Mock to return light theme for this test
+    const { settingsService } = await import(
+      '../../../services/SettingsService'
+    );
+    vi.mocked(settingsService.loadTheme).mockResolvedValue('light');
+
     render(
       <ThemeProvider defaultTheme="light">
         <ThemeToggle />
       </ThemeProvider>,
     );
 
-    await waitForUserPerceivedCompletion();
+    await waitForUserPerceivedCompletion(100);
     const button = screen.getByRole('button');
 
     // Light theme
@@ -105,18 +128,29 @@ describe('ThemeToggle', () => {
 
     // Switch to dark
     fireEvent.click(button);
-    await waitForUserPerceivedCompletion();
+    await waitForUserPerceivedCompletion(50);
     expect(button).toHaveAttribute('aria-label', 'Switch to system mode');
 
     // Switch to system
     fireEvent.click(button);
-    await waitForUserPerceivedCompletion();
+    await waitForUserPerceivedCompletion(50);
     expect(button).toHaveAttribute('aria-label', 'Switch to light mode');
   });
 });
 
 describe('ThemeSelector', () => {
-  beforeEach(() => {
+  beforeEach(async () => {
+    // Reset settings service mocks
+    const { settingsService } = await import(
+      '../../../services/SettingsService'
+    );
+    vi.mocked(settingsService.loadTheme)
+      .mockReset()
+      .mockResolvedValue('system');
+    vi.mocked(settingsService.saveTheme)
+      .mockReset()
+      .mockResolvedValue(undefined);
+
     // Mock matchMedia
     Object.defineProperty(window, 'matchMedia', {
       writable: true,
@@ -150,18 +184,24 @@ describe('ThemeSelector', () => {
   });
 
   it('should highlight the current theme', async () => {
+    // Mock to return dark theme for this test
+    const { settingsService } = await import(
+      '../../../services/SettingsService'
+    );
+    vi.mocked(settingsService.loadTheme).mockResolvedValue('dark');
+
     render(
       <ThemeProvider defaultTheme="dark">
         <ThemeSelector />
       </ThemeProvider>,
     );
 
-    await waitForUserPerceivedCompletion();
+    await waitForUserPerceivedCompletion(100);
     const darkButton = screen.getByLabelText('Dark mode');
     const lightButton = screen.getByLabelText('Light mode');
     const systemButton = screen.getByLabelText('System mode');
 
-    // Dark button should be selected (default variant)
+    // Dark button should be selected (default variant with bg-primary)
     expect(darkButton).toHaveClass('bg-primary');
     expect(lightButton).not.toHaveClass('bg-primary');
     expect(systemButton).not.toHaveClass('bg-primary');

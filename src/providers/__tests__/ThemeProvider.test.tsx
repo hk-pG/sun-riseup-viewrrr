@@ -48,11 +48,9 @@ describe('ThemeProvider', () => {
   let mockMatchMedia: ReturnType<typeof vi.fn>;
 
   beforeEach(async () => {
-    // Reset settings service mocks
+    // Reset settings service mocks without default values
     const { settingsService } = await import('../../services/SettingsService');
-    vi.mocked(settingsService.loadTheme)
-      .mockReset()
-      .mockResolvedValue('system');
+    vi.mocked(settingsService.loadTheme).mockReset();
     vi.mocked(settingsService.saveTheme)
       .mockReset()
       .mockResolvedValue(undefined);
@@ -82,13 +80,16 @@ describe('ThemeProvider', () => {
   });
 
   it('should provide default theme context', async () => {
+    const { settingsService } = await import('../../services/SettingsService');
+    vi.mocked(settingsService.loadTheme).mockResolvedValue('system');
+
     render(
       <ThemeProvider>
         <TestComponent />
       </ThemeProvider>,
     );
 
-    await waitForUserPerceivedCompletion();
+    await waitForUserPerceivedCompletion(100);
     expect(screen.getByTestId('current-theme')).toHaveTextContent('system');
     expect(screen.getByTestId('resolved-theme')).toHaveTextContent('light');
   });
@@ -124,6 +125,14 @@ describe('ThemeProvider', () => {
   });
 
   it('should respect system theme preference', async () => {
+    // Mock system theme preference and settings service
+    const { settingsService } = await import('../../services/SettingsService');
+    vi.mocked(settingsService.loadTheme).mockResolvedValue('system');
+    // Ensure saveTheme returns a Promise
+    vi.mocked(settingsService.saveTheme).mockImplementation(() =>
+      Promise.resolve(undefined),
+    );
+
     // Mock dark system preference
     mockMatchMedia.mockImplementation((query) => ({
       matches: query === '(prefers-color-scheme: dark)',
