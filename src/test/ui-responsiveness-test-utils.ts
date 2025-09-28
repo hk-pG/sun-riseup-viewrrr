@@ -1,15 +1,17 @@
 /**
- * React 19 Test Helpers
- * Simple utilities for testing React 19 features
+ * UI Responsiveness Test Utilities
+ * Tools for testing smooth user interactions and performance
+ * Ensures the app remains responsive during heavy operations
  */
 
 import { act, renderHook } from '@testing-library/react';
 import { startTransition } from 'react';
 
 /**
- * Test helper for useTransition
+ * Test helper for non-blocking UI updates
+ * Ensures heavy operations don't freeze the interface
  */
-export function testTransition<T>(callback: () => T): Promise<T> {
+export function testNonBlockingUpdate<T>(callback: () => T): Promise<T> {
   return new Promise((resolve, reject) => {
     let result: T;
 
@@ -27,9 +29,10 @@ export function testTransition<T>(callback: () => T): Promise<T> {
 }
 
 /**
- * Enhanced renderHook with act wrapping
+ * Test hook behavior with proper state synchronization
+ * Prevents test flakiness from async state updates
  */
-export function renderHookWithAct<Result, Props>(
+export function testHookBehavior<Result, Props>(
   hook: (props: Props) => Result,
   initialProps?: Props,
 ) {
@@ -51,9 +54,10 @@ export function renderHookWithAct<Result, Props>(
 }
 
 /**
- * Performance measurement helper
+ * User Experience Performance Tracker
+ * Measures how fast operations feel to users
  */
-export class PerformanceHelper {
+export class UserExperienceTracker {
   private measurements: Map<string, number[]> = new Map();
 
   measure<T>(name: string, fn: () => T): T {
@@ -82,9 +86,10 @@ export class PerformanceHelper {
 }
 
 /**
- * Concurrent update helper
+ * Smooth Interaction Coordinator
+ * Manages multiple UI updates without blocking user interactions
  */
-export class ConcurrentHelper {
+export class SmoothInteractionCoordinator {
   private updates: Promise<void>[] = [];
 
   addUpdate(updateFn: () => void): void {
@@ -106,9 +111,10 @@ export class ConcurrentHelper {
 }
 
 /**
- * Wait for async operations
+ * Wait for user-perceived loading completion
+ * Simulates real user waiting for operations to finish
  */
-export function waitForAsync(ms: number = 0): Promise<void> {
+export function waitForUserPerceivedCompletion(ms: number = 0): Promise<void> {
   return act(async () => {
     await new Promise((resolve) => setTimeout(resolve, ms));
   });
