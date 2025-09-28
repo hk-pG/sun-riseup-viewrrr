@@ -59,7 +59,7 @@ export function ImageViewer({
   className = '',
   style,
 }: ImageViewerProps) {
-  // React 19: Memoize merged settings to prevent unnecessary recalculations
+  // 設定オブジェクトの参照安定性を保ち、下流コンポーネントの不要な再レンダリングを防ぐ
   const mergedSettings = useMemo(
     () => ({
       ...defaultSettings,
@@ -71,14 +71,14 @@ export function ImageViewer({
   const { images = [], isLoading, error } = useImages(folderPath);
   const [loading, setLoading] = useState(true);
 
-  // React 19: Use useTransition for better loading state management
-  const [isPending, startTransition] = useTransition();
+  // 重い処理（ズーム）を非ブロッキングで実行、軽量操作（画像切り替え）には使用しない
+  const [, startTransition] = useTransition();
 
   const [currentIndex, setCurrentIndex] = useState(initialIndex);
   const [settings, setSettings] = useState<ViewerSettings>(mergedSettings);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // React 19: Memoize current image to prevent unnecessary re-renders
+  // 現在画像の参照安定性を保ち、ImageDisplayの不要な再レンダリングを防ぐ
   const currentImage = useMemo(
     () => images[currentIndex],
     [images, currentIndex],
@@ -91,35 +91,31 @@ export function ImageViewer({
     settings.controlsTimeout,
   );
 
-  // React 19: Optimized navigation functions with better boundary checks
+  // 画像ナビゲーション：早期リターンで境界チェック、直接状態更新で点滅を防ぐ
   const goToNext = useCallback(() => {
-    if (currentIndex >= images.length - 1) return; // Early return for boundary
+    if (currentIndex >= images.length - 1) return;
 
-    startTransition(() => {
-      setCurrentIndex((prev) => {
-        const newIndex = prev + 1;
-        callbacks?.onImageChange?.(newIndex, images[newIndex]);
-        return newIndex;
-      });
+    setCurrentIndex((prev) => {
+      const newIndex = prev + 1;
+      callbacks?.onImageChange?.(newIndex, images[newIndex]);
+      return newIndex;
     });
   }, [currentIndex, images, callbacks]);
 
   const goToPrevious = useCallback(() => {
-    if (currentIndex <= 0) return; // Early return for boundary
+    if (currentIndex <= 0) return;
 
-    startTransition(() => {
-      setCurrentIndex((prev) => {
-        const newIndex = prev - 1;
-        callbacks?.onImageChange?.(newIndex, images[newIndex]);
-        return newIndex;
-      });
+    setCurrentIndex((prev) => {
+      const newIndex = prev - 1;
+      callbacks?.onImageChange?.(newIndex, images[newIndex]);
+      return newIndex;
     });
   }, [currentIndex, images, callbacks]);
 
-  // React 19: Optimized zoom functions with memoized zoom levels
+  // ズーム操作：境界チェックで不要な処理を回避、startTransitionで重い再描画を非ブロッキング実行
   const zoomIn = useCallback(() => {
     const currentZoom = settings.zoom;
-    if (currentZoom >= 5) return; // Early return for boundary
+    if (currentZoom >= 5) return;
 
     startTransition(() => {
       setSettings((prev) => {
@@ -132,7 +128,7 @@ export function ImageViewer({
 
   const zoomOut = useCallback(() => {
     const currentZoom = settings.zoom;
-    if (currentZoom <= 0.1) return; // Early return for boundary
+    if (currentZoom <= 0.1) return;
 
     startTransition(() => {
       setSettings((prev) => {
@@ -144,7 +140,7 @@ export function ImageViewer({
   }, [settings.zoom, callbacks]);
 
   const resetZoom = useCallback(() => {
-    if (settings.zoom === 1) return; // Early return if already at default
+    if (settings.zoom === 1) return;
 
     startTransition(() => {
       setSettings((prev) => {
@@ -167,10 +163,7 @@ export function ImageViewer({
     setLoading(isLoading);
   }, [isLoading]);
 
-  // React 19: Combine loading states for better UX
-  const isViewerLoading = loading || isPending;
-
-  if (isViewerLoading) {
+  if (loading) {
     return (
       <div
         className={`flex items-center justify-center ${className}`}
