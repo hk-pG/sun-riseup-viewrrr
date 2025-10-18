@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import useSWR from 'swr';
 import { useServices } from '../../../shared/context/ServiceContext';
 import type { ImageSource } from '../../image-viewer/types/ImageSource';
@@ -25,6 +26,7 @@ async function fetchThumbnail(
 
 export function useThumbnail(folderPath: string) {
   const fs = useServices();
+
   const { data, isLoading, error } = useSWR(
     folderPath,
     (key) => fetchThumbnail(key, fs),
@@ -34,9 +36,12 @@ export function useThumbnail(folderPath: string) {
     },
   );
 
-  return {
-    thumbnail: data ?? null,
-    isLoading,
-    isError: !!error,
-  };
+  return useMemo(
+    () => ({
+      thumbnail: data ?? null,
+      isLoading,
+      isError: !!error,
+    }),
+    [data, isLoading, error],
+  );
 }

@@ -29,7 +29,7 @@ export const Default: Story = {
   },
   decorators: [
     (Story) => (
-      <div className="relative w-full h-screen bg-gray-900">
+      <div className="relative h-screen w-full bg-gray-900">
         <div className="absolute inset-0 flex items-center justify-center text-white">
           <p>ビューアエリア（コントロールは下部に表示）</p>
         </div>
@@ -48,7 +48,7 @@ export const MiddlePage: Story = {
   },
   decorators: [
     (Story) => (
-      <div className="relative w-full h-screen bg-gray-900">
+      <div className="relative h-screen w-full bg-gray-900">
         <div className="absolute inset-0 flex items-center justify-center text-white">
           <p>ビューアエリア（コントロールは下部に表示）</p>
         </div>
@@ -67,7 +67,7 @@ export const LastPage: Story = {
   },
   decorators: [
     (Story) => (
-      <div className="relative w-full h-screen bg-gray-900">
+      <div className="relative h-screen w-full bg-gray-900">
         <div className="absolute inset-0 flex items-center justify-center text-white">
           <p>ビューアエリア（コントロールは下部に表示）</p>
         </div>
@@ -86,7 +86,7 @@ export const ZoomedIn: Story = {
   },
   decorators: [
     (Story) => (
-      <div className="relative w-full h-screen bg-gray-900">
+      <div className="relative h-screen w-full bg-gray-900">
         <div className="absolute inset-0 flex items-center justify-center text-white">
           <p>ビューアエリア（コントロールは下部に表示）</p>
         </div>
@@ -105,7 +105,7 @@ export const ZoomedOut: Story = {
   },
   decorators: [
     (Story) => (
-      <div className="relative w-full h-screen bg-gray-900">
+      <div className="relative h-screen w-full bg-gray-900">
         <div className="absolute inset-0 flex items-center justify-center text-white">
           <p>ビューアエリア（コントロールは下部に表示）</p>
         </div>
@@ -124,7 +124,7 @@ export const Hidden: Story = {
   },
   decorators: [
     (Story) => (
-      <div className="relative w-full h-screen bg-gray-900">
+      <div className="relative h-screen w-full bg-gray-900">
         <div className="absolute inset-0 flex items-center justify-center text-white">
           <p>ビューアエリア（コントロールは非表示）</p>
         </div>
@@ -143,7 +143,7 @@ export const SingleImage: Story = {
   },
   decorators: [
     (Story) => (
-      <div className="relative w-full h-screen bg-gray-900">
+      <div className="relative h-screen w-full bg-gray-900">
         <div className="absolute inset-0 flex items-center justify-center text-white">
           <p>ビューアエリア（コントロールは下部に表示）</p>
         </div>
@@ -162,7 +162,7 @@ export const ManyImages: Story = {
   },
   decorators: [
     (Story) => (
-      <div className="relative w-full h-screen bg-gray-900">
+      <div className="relative h-screen w-full bg-gray-900">
         <div className="absolute inset-0 flex items-center justify-center text-white">
           <p>ビューアエリア（コントロールは下部に表示）</p>
         </div>

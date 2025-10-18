@@ -23,7 +23,6 @@ export const tauriFileSystemService: FileSystemService = {
 
     return null;
   },
-
   getBaseName: async (filePath: string): Promise<string> => {
     const basename = await tauriBasename(filePath);
     return basename;
@@ -32,27 +31,39 @@ export const tauriFileSystemService: FileSystemService = {
     const dirname = await tauriDirname(filePath);
     return dirname;
   },
+  convertFileSrc: (filePath: string): string => {
+    return tauriConvertFileSrc(filePath);
+  },
 
   openImageFileDialog: async (
     extensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'],
   ): Promise<string | null> => {
-    const selected = await tauriOpenDialog({
-      directory: false,
-      multiple: false,
-      filters: [{ name: 'Images', extensions }],
-    });
-    if (selected && typeof selected === 'string') {
-      return selected;
+    try {
+      const selected = await tauriOpenDialog({
+        directory: false,
+        multiple: false,
+        filters: [{ name: 'Images', extensions }],
+      });
+      if (selected && typeof selected === 'string') {
+        return selected;
+      }
+      return null;
+    } catch (error) {
+      throw new Error(`error occurred during open image file ${error}`);
     }
-    return null;
   },
 
   listImagesInFolder: async (folderPath: string): Promise<string[]> => {
-    const images = await invoke<string[]>('list_images_in_folder', {
-      folderPath,
-    });
+    try {
+      const images = await invoke<string[]>('list_images_in_folder', {
+        folderPath,
+      });
 
-    return images;
+      return images;
+    } catch (error) {
+      console.error(`Error listing images in folder ${folderPath}`, error);
+      return [];
+    }
   },
 
   getSiblingFolders: async (folderPath: string): Promise<string[]> => {
@@ -69,9 +80,5 @@ export const tauriFileSystemService: FileSystemService = {
       console.error('Error getting sibling folders:', error);
       return [];
     }
-  },
-
-  convertFileSrc: (filePath: string): string => {
-    return tauriConvertFileSrc(filePath);
   },
 };

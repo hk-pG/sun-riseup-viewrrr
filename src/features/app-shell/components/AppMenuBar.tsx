@@ -11,6 +11,7 @@ import {
   MenubarSubTrigger,
   MenubarTrigger,
 } from '@/shared/components/ui/menubar';
+import { ThemeToggle } from '../../../components/ui/theme-toggle';
 
 // AppMenuBarで使うイベントIDの型
 export type AppMenuBarEvent =
@@ -167,7 +168,7 @@ function renderMenuItems(
             {item.icon}
             {item.label}
           </MenubarSubTrigger>
-          <MenubarSubContent className="bg-white border-gray-200 shadow-lg">
+          <MenubarSubContent className="border-gray-200 bg-white shadow-lg">
             {renderMenuItems(item.children, onMenuAction)}
           </MenubarSubContent>
         </MenubarSub>
@@ -196,7 +197,7 @@ export const AppMenuBar = ({
 }: AppMenuBarProps) => {
   return (
     <header
-      className={`flex items-center justify-between bg-menubar border-b border-gray-200 px-4 py-2 ${className}`}
+      className={`flex items-center justify-between border-border border-b bg-background px-4 py-2 text-foreground ${className}`}
       style={style}
       {...(isDraggable ? { 'data-tauri-drag-region': true } : {})}
     >
@@ -204,19 +205,19 @@ export const AppMenuBar = ({
         {onOpenFolder && (
           <button
             type="button"
-            className="px-3 py-1 text-sm bg-blue-500 text-white rounded hover:bg-blue-600 mr-2"
+            className="mr-2 rounded bg-blue-500 px-3 py-1 text-sm text-white hover:bg-blue-600"
             onClick={onOpenFolder}
           >
             フォルダを開く
           </button>
         )}
-        <Menubar className="bg-white border-gray-200">
+        <Menubar className="border-gray-200 bg-white">
           <MenubarMenu>
             <MenubarTrigger className="flex items-center gap-1 hover:bg-gray-100 focus:bg-gray-100 data-[state=open]:bg-gray-100">
               <FileText className="h-4 w-4" />
               ファイル
             </MenubarTrigger>
-            <MenubarContent className="bg-white border-gray-200 shadow-lg">
+            <MenubarContent className="border-gray-200 bg-white shadow-lg">
               {renderMenuItems(fileMenu, onMenuAction)}
             </MenubarContent>
           </MenubarMenu>
@@ -225,12 +226,17 @@ export const AppMenuBar = ({
               <Eye className="h-4 w-4" />
               表示
             </MenubarTrigger>
-            <MenubarContent className="bg-white border-gray-200 shadow-lg">
+            <MenubarContent className="border-gray-200 bg-white shadow-lg">
               {renderMenuItems(viewMenu, onMenuAction)}
             </MenubarContent>
           </MenubarMenu>
           {/* ...他のメニューも同様にデータ化して適用可能... */}
         </Menubar>
+      </div>
+
+      {/* Theme toggle button */}
+      <div className="flex items-center">
+        <ThemeToggle />
       </div>
     </header>
   );

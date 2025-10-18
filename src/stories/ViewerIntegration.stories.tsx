@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
 import App from '@/App';
+import { ThemeProvider } from '@/providers/ThemeProvider';
 import {
   getMockImageFolders,
   mockImageSourcesByFolderPath,
@@ -35,7 +36,11 @@ const createMockFileSystemService = (): FileSystemService => ({
 
 const MockServiceProvider = ({ children }: { children: React.ReactNode }) => {
   const mockService = createMockFileSystemService();
-  return <ServicesProvider services={mockService}>{children}</ServicesProvider>;
+  return (
+    <ThemeProvider>
+      <ServicesProvider services={mockService}>{children}</ServicesProvider>
+    </ThemeProvider>
+  );
 };
 
 const meta: Meta = {
@@ -69,11 +74,11 @@ export const ViewerOnly: Story = {
     const [currentIndex, setCurrentIndex] = useState(0);
 
     return (
-      <div className="h-screen bg-gray-900">
+      <div className="h-screen bg-background">
         <ImageViewer
           folderPath="/mock/folder/path"
           initialIndex={currentIndex}
-          className="w-full h-full"
+          className="h-full w-full"
           callbacks={{
             onImageChange: (index) => {
               setCurrentIndex(index);
@@ -95,7 +100,7 @@ export const SidebarOnly: Story = {
     const folders = [...getMockImageFolders(), ...mockSidebarOnlyFolders];
     const [selectedFolder, setSelectedFolder] = useState(folders[0]);
     return (
-      <div className="h-screen bg-gray-100">
+      <div className="h-screen bg-background">
         <Sidebar
           folders={folders}
           selectedFolder={selectedFolder}
@@ -120,25 +125,27 @@ export const ResponsiveLayout: Story = {
       (folder) => folder.path === currentFolderPath,
     );
     return (
-      <div className="h-screen flex flex-col bg-gray-100">
+      <div className="flex h-screen flex-col bg-gray-100">
         {/* ヘッダー */}
-        <div className="bg-white border-b border-gray-200 p-4 flex items-center justify-between">
-          <h1 className="text-lg font-semibold">漫画ビューア</h1>
+        <div className="flex items-center justify-between border-gray-200 border-b bg-white p-4">
+          <h1 className="font-semibold text-lg">漫画ビューア</h1>
           <button
             type="button"
             onClick={() => setSidebarVisible(!sidebarVisible)}
-            className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
+            className="rounded bg-blue-500 px-3 py-1 text-white hover:bg-blue-600"
           >
             {sidebarVisible ? 'サイドバー非表示' : 'サイドバー表示'}
           </button>
         </div>
         {/* メインコンテンツ */}
-        <div className="flex-1 flex">
+        <div className="flex flex-1">
           {sidebarVisible && (
             <Sidebar
               folders={folders}
               selectedFolder={selectedFolder}
-              onFolderSelect={(folder) => setCurrentFolderPath(folder.path)}
+              onFolderSelect={(folder: any) =>
+                setCurrentFolderPath(folder.path)
+              }
               width={280}
             />
           )}

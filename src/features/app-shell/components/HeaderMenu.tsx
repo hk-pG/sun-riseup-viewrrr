@@ -23,17 +23,17 @@ export function HeaderMenu({
 
   return (
     <header
-      className={`flex items-center justify-between bg-white border-b border-gray-200 px-4 py-2 ${className}`}
+      className={`flex items-center justify-between border-gray-200 border-b bg-white px-4 py-2 ${className}`}
       style={style}
     >
       <div className="flex items-center gap-4">
-        <h1 className="text-lg font-semibold text-gray-800">{title}</h1>
+        <h1 className="font-semibold text-gray-800 text-lg">{title}</h1>
 
         <nav className="flex items-center">
           {onOpenFolder && (
             <button
               type="button"
-              className="px-3 py-1 text-sm bg-blue-500 text-white rounded hover:bg-blue-600 mr-2"
+              className="mr-2 rounded bg-blue-500 px-3 py-1 text-sm text-white hover:bg-blue-600"
               onClick={onOpenFolder}
             >
               📁 フォルダを開く
@@ -49,11 +49,7 @@ export function HeaderMenu({
                 <div key={action.id} className="relative">
                   <button
                     type="button"
-                    className={`
-                      px-3 py-1 text-sm hover:bg-gray-100 rounded
-                      disabled:opacity-50 disabled:cursor-not-allowed
-                      ${isOpen ? 'bg-gray-100' : ''}
-                    `}
+                    className={`rounded px-3 py-1 text-sm hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50 ${isOpen ? 'bg-gray-100' : ''} `}
                     disabled={action.disabled}
                     onClick={() =>
                       hasSubmenu

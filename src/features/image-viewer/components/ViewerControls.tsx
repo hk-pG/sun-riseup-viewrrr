@@ -13,41 +13,44 @@ export function ViewerControls({
   isVisible,
   className = '',
 }: ViewerControlsProps) {
+  const canGoNext = currentIndex < totalImages - 1;
+  const canGoPrevious = currentIndex > 0;
+  const displayIndex = currentIndex + 1;
+  const zoomPercentage = Math.round(zoom * 100);
+
   if (!isVisible) return null;
 
   return (
     <div
-      className={`absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-75 text-white rounded-lg px-4 py-2 flex items-center gap-4 ${className}`}
+      className={`-translate-x-1/2 absolute bottom-4 left-1/2 flex transform items-center gap-4 rounded-lg bg-background/75 px-4 py-2 text-foreground backdrop-blur-sm ${className}`}
     >
       <Button
         onClick={onNext}
-        disabled={currentIndex >= totalImages - 1}
+        disabled={!canGoNext}
         variant="secondary"
-        className="px-2 py-1 min-w-16"
+        className="min-w-16 px-2 py-1"
       >
         ◀ 次
       </Button>
       <span className="text-sm">
-        {currentIndex + 1} / {totalImages}
+        {displayIndex} / {totalImages}
       </span>
       <Button
         onClick={onPrevious}
-        disabled={currentIndex <= 0}
+        disabled={!canGoPrevious}
         variant="secondary"
-        className="px-2 py-1 min-w-16"
+        className="min-w-16 px-2 py-1"
       >
         前 ▶
       </Button>
 
-      <div className="w-px h-4 bg-white bg-opacity-30" />
+      <div className="h-4 w-px bg-border" />
 
       <Button onClick={onZoomOut} variant="ghost" className="px-2 py-1">
         ー
       </Button>
 
-      <span className="text-sm min-w-12 text-center">
-        {Math.round(zoom * 100)}%
-      </span>
+      <span className="min-w-12 text-center text-sm">{zoomPercentage}%</span>
 
       <Button onClick={onZoomIn} variant="ghost" className="px-2 py-1">
         ＋
