@@ -25,7 +25,7 @@ function App() {
   });
 
   // React 19: useTransition for non-urgent updates
-  const [, startTransition] = useTransition();
+  const [isPending, startTransition] = useTransition();
 
   // サイドバーの表示のために同階層のフォルダ情報を取得
   const { entries } = useSiblingFolders(appState.currentFolderPath);
@@ -51,7 +51,7 @@ function App() {
   const fss = useServices();
   const { openImageFile } = useOpenImageFile(fss);
 
-  // React 19: Optimized event handlers with useCallback
+  // React 19: Optimized event handlers with useCallback and better error handling
   const handleMenuAction = useCallback(
     async (actionId: string) => {
       // TODO: スケールを考えてストラテジーパターンへの移行を検討
@@ -61,26 +61,29 @@ function App() {
           if (folderPath) {
             // React 19: Use transition for non-urgent state updates
             startTransition(() => {
-              setAppState({
+              setAppState((prev) => ({
+                ...prev,
                 currentFolderPath: folderPath,
                 initialImageIndex: 0,
-              });
+              }));
             });
           }
         } else if (actionId === 'open-image') {
           const result = await openImageFile();
-          if (result && result.folderPath !== null) {
+          if (result?.folderPath) {
             startTransition(() => {
-              setAppState({
+              setAppState((prev) => ({
+                ...prev,
                 currentFolderPath: result.folderPath as string,
                 initialImageIndex: result.index,
-              });
+              }));
             });
           }
         }
         // 他のアクションは今まで通り（必要ならここに追加）
       } catch (error) {
         console.error('Menu action failed:', error);
+        // React 19: Better error handling could include error boundaries or user feedback
       }
     },
     [fss, openImageFile],
@@ -91,23 +94,25 @@ function App() {
       setAppState((prev) => ({
         ...prev,
         currentFolderPath: folder.path,
+        initialImageIndex: 0, // Reset image index when changing folders
       }));
     });
   }, []);
 
   return (
     <ErrorBoundary>
-      <div className="flex h-screen flex-col bg-white">
+      <div className="flex h-screen flex-col bg-background">
         <div data-tauri-drag-region className="draggable">
           <AppMenuBar isDraggable={true} onMenuAction={handleMenuAction} />
         </div>
 
-        <div className="flex h-screen bg-background">
+        <div className="flex h-screen bg-background text-foreground">
           <Sidebar
             folders={folderInfo}
             selectedFolder={selectedFolder}
             onFolderSelect={handleFolderSelect}
             width={280}
+            loading={isPending}
           />
           <ImageViewer
             key={appState.currentFolderPath}

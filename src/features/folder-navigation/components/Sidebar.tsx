@@ -1,5 +1,5 @@
-import { useMemo } from 'react';
-import type { SidebarProps } from '../types/folderTypes';
+import { useMemo, useTransition } from 'react';
+import type { FolderInfo, SidebarProps } from '../types/folderTypes';
 import { FolderList } from './FolderList';
 
 export function Sidebar({
@@ -15,11 +15,28 @@ export function Sidebar({
   className = '',
   style,
 }: SidebarProps) {
+  // フォルダ選択を非ブロッキングで処理、大量フォルダでもUIの応答性を維持
+  const [isPending, startTransition] = useTransition();
+
+  // フォルダ選択ハンドラーを最適化：大量フォルダでも応答性を維持
+  const handleFolderSelect = useMemo(() => {
+    if (!onFolderSelect) return onFolderSelect;
+    return (folder: FolderInfo) => {
+      startTransition(() => {
+        onFolderSelect(folder);
+      });
+    };
+  }, [onFolderSelect]);
+
+  // コンテンツ表示の最適化：ローディング状態を統合
   const content = useMemo(() => {
-    if (loading) {
+    // 初期読み込みまたはフォルダ選択処理中の表示
+    if (loading || isPending) {
       return (
         <div className="flex h-32 items-center justify-center">
-          <div className="text-muted-foreground">読み込み中...</div>
+          <div className="text-muted-foreground">
+            {loading ? '読み込み中...' : 'フォルダを切り替え中...'}
+          </div>
         </div>
       );
     }
@@ -38,7 +55,7 @@ export function Sidebar({
       <FolderList
         folders={folders}
         selectedFolder={selectedFolder}
-        onFolderSelect={onFolderSelect}
+        onFolderSelect={handleFolderSelect || onFolderSelect}
         onFolderDoubleClick={onFolderDoubleClick}
         thumbnailSize={thumbnailSize}
         showImageCount={showImageCount}
@@ -46,8 +63,10 @@ export function Sidebar({
     );
   }, [
     loading,
+    isPending,
     folders,
     selectedFolder,
+    handleFolderSelect,
     onFolderSelect,
     onFolderDoubleClick,
     thumbnailSize,

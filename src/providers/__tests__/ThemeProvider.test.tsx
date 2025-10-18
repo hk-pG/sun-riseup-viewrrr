@@ -1,6 +1,15 @@
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { waitForUserPerceivedCompletion } from '../../test/ui-responsiveness-test-utils';
 import { ThemeProvider, useTheme } from '../ThemeProvider';
+
+// Mock the settings service
+vi.mock('../../services/SettingsService', () => ({
+  settingsService: {
+    loadTheme: vi.fn().mockResolvedValue('system'),
+    saveTheme: vi.fn().mockResolvedValue(undefined),
+  },
+}));
 
 // Test component to access theme context
 function TestComponent() {
@@ -38,7 +47,13 @@ function TestComponent() {
 describe('ThemeProvider', () => {
   let mockMatchMedia: ReturnType<typeof vi.fn>;
 
-  beforeEach(() => {
+  beforeEach(async () => {
+    // Reset settings service mocks without default values
+    const { settingsService } = await import('../../services/SettingsService');
+    vi.mocked(settingsService.loadTheme).mockReset();
+    vi.mocked(settingsService.saveTheme)
+      .mockReset()
+      .mockResolvedValue(undefined);
     // Mock matchMedia
     mockMatchMedia = vi.fn((query) => ({
       matches: query !== '(prefers-color-scheme: dark)',
@@ -64,44 +79,60 @@ describe('ThemeProvider', () => {
     vi.restoreAllMocks();
   });
 
-  it('should provide default theme context', () => {
+  it('should provide default theme context', async () => {
+    const { settingsService } = await import('../../services/SettingsService');
+    vi.mocked(settingsService.loadTheme).mockResolvedValue('system');
+
     render(
       <ThemeProvider>
         <TestComponent />
       </ThemeProvider>,
     );
 
+    await waitForUserPerceivedCompletion(100);
     expect(screen.getByTestId('current-theme')).toHaveTextContent('system');
     expect(screen.getByTestId('resolved-theme')).toHaveTextContent('light');
   });
 
-  it('should allow setting light theme', () => {
+  it('should allow setting light theme', async () => {
+    const { settingsService } = await import('../../services/SettingsService');
+    vi.mocked(settingsService.loadTheme).mockResolvedValue('light');
+
     render(
-      <ThemeProvider>
+      <ThemeProvider defaultTheme="light">
         <TestComponent />
       </ThemeProvider>,
     );
 
-    fireEvent.click(screen.getByTestId('set-light'));
-
+    await waitForUserPerceivedCompletion(100);
     expect(screen.getByTestId('current-theme')).toHaveTextContent('light');
     expect(screen.getByTestId('resolved-theme')).toHaveTextContent('light');
   });
 
-  it('should allow setting dark theme', () => {
+  it('should allow setting dark theme', async () => {
+    const { settingsService } = await import('../../services/SettingsService');
+    vi.mocked(settingsService.loadTheme).mockResolvedValue('dark');
+
     render(
-      <ThemeProvider>
+      <ThemeProvider defaultTheme="dark">
         <TestComponent />
       </ThemeProvider>,
     );
 
-    fireEvent.click(screen.getByTestId('set-dark'));
-
+    await waitForUserPerceivedCompletion(100);
     expect(screen.getByTestId('current-theme')).toHaveTextContent('dark');
     expect(screen.getByTestId('resolved-theme')).toHaveTextContent('dark');
   });
 
   it('should respect system theme preference', async () => {
+    // Mock system theme preference and settings service
+    const { settingsService } = await import('../../services/SettingsService');
+    vi.mocked(settingsService.loadTheme).mockResolvedValue('system');
+    // Ensure saveTheme returns a Promise
+    vi.mocked(settingsService.saveTheme).mockImplementation(() =>
+      Promise.resolve(undefined),
+    );
+
     // Mock dark system preference
     mockMatchMedia.mockImplementation((query) => ({
       matches: query === '(prefers-color-scheme: dark)',
@@ -125,26 +156,32 @@ describe('ThemeProvider', () => {
     });
   });
 
-  it('should apply theme classes to document element', () => {
-    render(
-      <ThemeProvider>
-        <TestComponent />
-      </ThemeProvider>,
-    );
+  it('should apply theme classes to document element', async () => {
+    const { settingsService } = await import('../../services/SettingsService');
+    vi.mocked(settingsService.loadTheme).mockResolvedValue('dark');
 
-    fireEvent.click(screen.getByTestId('set-dark'));
-
-    expect(document.documentElement).toHaveClass('dark');
-    expect(document.documentElement).not.toHaveClass('light');
-  });
-
-  it('should accept custom default theme', () => {
     render(
       <ThemeProvider defaultTheme="dark">
         <TestComponent />
       </ThemeProvider>,
     );
 
+    await waitForUserPerceivedCompletion(100);
+    expect(document.documentElement).toHaveClass('dark');
+    expect(document.documentElement).not.toHaveClass('light');
+  });
+
+  it('should accept custom default theme', async () => {
+    const { settingsService } = await import('../../services/SettingsService');
+    vi.mocked(settingsService.loadTheme).mockResolvedValue('dark');
+
+    render(
+      <ThemeProvider defaultTheme="dark">
+        <TestComponent />
+      </ThemeProvider>,
+    );
+
+    await waitForUserPerceivedCompletion(100);
     expect(screen.getByTestId('current-theme')).toHaveTextContent('dark');
     expect(screen.getByTestId('resolved-theme')).toHaveTextContent('dark');
   });

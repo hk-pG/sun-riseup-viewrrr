@@ -149,6 +149,20 @@
           }
         }
       }
+    },
+    {
+      "includes": ["**/*.{ts,tsx}"],
+      "linter": {
+        "rules": {
+          "style": {
+            "useImportType": "error",
+            "useExportType": "error"
+          },
+          "correctness": {
+            "noUndeclaredVariables": "error"
+          }
+        }
+      }
     }
   ]
 }

@@ -33,6 +33,19 @@ export const setupTauriMocks = () => {
     readDir: vi.fn(),
     exists: vi.fn(),
   }));
+
+  // Mock Tauri store plugin
+  const mockStoreInstance = {
+    get: vi.fn().mockResolvedValue(null),
+    set: vi.fn().mockResolvedValue(undefined),
+    save: vi.fn().mockResolvedValue(undefined),
+  };
+
+  vi.mock('@tauri-apps/plugin-store', () => ({
+    Store: {
+      load: vi.fn().mockResolvedValue(mockStoreInstance),
+    },
+  }));
 };
 
 /**

@@ -15,14 +15,17 @@ class SettingsService {
         // Fallback for test environments or when Tauri is not available
         console.warn('Store.load failed, using fallback:', error);
 
-        // Create a mock store for testing
+        // Create a mock store for testing/fallback
+        const mockData: Record<string, unknown> = {};
         this.store = {
-          get: async () => null,
-          set: async () => {
-            // Mock implementation for testing
+          get: async (key: string) => {
+            return mockData[key] || null;
+          },
+          set: async (key: string, value: unknown) => {
+            mockData[key] = value;
           },
           save: async () => {
-            // Mock implementation for testing
+            // Mock save - no persistence in fallback mode
           },
         } as unknown as Store;
       }
