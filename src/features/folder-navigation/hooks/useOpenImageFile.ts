@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import type { FileSystemService } from '../services/FileSystemService';
 
 export interface OpenImageFileResult {
@@ -29,5 +29,5 @@ export function useOpenImageFile(fs: FileSystemService) {
       }
     }, [fs]);
 
-  return { openImageFile };
+  return useMemo(() => ({ openImageFile }), [openImageFile]);
 }

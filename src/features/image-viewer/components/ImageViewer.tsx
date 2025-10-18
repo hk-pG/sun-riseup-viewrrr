@@ -1,6 +1,13 @@
 'use client';
 
-import { useCallback, useEffect, useRef, useState } from 'react';
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  useTransition,
+} from 'react';
 import type { ImageSource } from '@/features/image-viewer/types/ImageSource';
 import type {
   KeyboardMapping,
@@ -52,15 +59,30 @@ export function ImageViewer({
   className = '',
   style,
 }: ImageViewerProps) {
+  // 設定オブジェクトの参照安定性を保ち、下流コンポーネントの不要な再レンダリングを防ぐ
+  const mergedSettings = useMemo(
+    () => ({
+      ...defaultSettings,
+      ...userSettings,
+    }),
+    [userSettings],
+  );
+
   const { images = [], isLoading, error } = useImages(folderPath);
   const [loading, setLoading] = useState(true);
 
+  // 重い処理（ズーム）を非ブロッキングで実行、軽量操作（画像切り替え）には使用しない
+  const [, startTransition] = useTransition();
+
   const [currentIndex, setCurrentIndex] = useState(initialIndex);
-  const [settings, setSettings] = useState<ViewerSettings>({
-    ...defaultSettings,
-    ...userSettings,
-  });
+  const [settings, setSettings] = useState<ViewerSettings>(mergedSettings);
   const containerRef = useRef<HTMLDivElement>(null);
+
+  // 現在画像の参照安定性を保ち、ImageDisplayの不要な再レンダリングを防ぐ
+  const currentImage = useMemo(
+    () => images[currentIndex],
+    [images, currentIndex],
+  );
 
   // コントロールの表示管理
   const { isVisible: controlsVisible, handleMouseMove } = useControlsVisibility(
@@ -69,50 +91,64 @@ export function ImageViewer({
     settings.controlsTimeout,
   );
 
-  // ナビゲーション関数
+  // 画像ナビゲーション：早期リターンで境界チェック、直接状態更新で点滅を防ぐ
   const goToNext = useCallback(() => {
+    if (currentIndex >= images.length - 1) return;
+
     setCurrentIndex((prev) => {
-      const newIndex = Math.min(prev + 1, images.length - 1);
-      if (newIndex !== prev && callbacks?.onImageChange) {
-        callbacks.onImageChange(newIndex, images[newIndex]);
-      }
+      const newIndex = prev + 1;
+      callbacks?.onImageChange?.(newIndex, images[newIndex]);
       return newIndex;
     });
-  }, [images, callbacks]);
+  }, [currentIndex, images, callbacks]);
 
   const goToPrevious = useCallback(() => {
+    if (currentIndex <= 0) return;
+
     setCurrentIndex((prev) => {
-      const newIndex = Math.max(prev - 1, 0);
-      if (newIndex !== prev && callbacks?.onImageChange) {
-        callbacks.onImageChange(newIndex, images[newIndex]);
-      }
+      const newIndex = prev - 1;
+      callbacks?.onImageChange?.(newIndex, images[newIndex]);
       return newIndex;
     });
-  }, [images, callbacks]);
+  }, [currentIndex, images, callbacks]);
 
-  // ズーム・回転関数
+  // ズーム操作：境界チェックで不要な処理を回避、startTransitionで重い再描画を非ブロッキング実行
   const zoomIn = useCallback(() => {
-    setSettings((prev) => {
-      const newZoom = Math.min(prev.zoom * 1.2, 5);
-      callbacks?.onZoomChange?.(newZoom);
-      return { ...prev, zoom: newZoom };
+    const currentZoom = settings.zoom;
+    if (currentZoom >= 5) return;
+
+    startTransition(() => {
+      setSettings((prev) => {
+        const newZoom = Math.min(prev.zoom * 1.2, 5);
+        callbacks?.onZoomChange?.(newZoom);
+        return { ...prev, zoom: newZoom };
+      });
     });
-  }, [callbacks]);
+  }, [settings.zoom, callbacks]);
 
   const zoomOut = useCallback(() => {
-    setSettings((prev) => {
-      const newZoom = Math.max(prev.zoom / 1.2, 0.1);
-      callbacks?.onZoomChange?.(newZoom);
-      return { ...prev, zoom: newZoom };
+    const currentZoom = settings.zoom;
+    if (currentZoom <= 0.1) return;
+
+    startTransition(() => {
+      setSettings((prev) => {
+        const newZoom = Math.max(prev.zoom / 1.2, 0.1);
+        callbacks?.onZoomChange?.(newZoom);
+        return { ...prev, zoom: newZoom };
+      });
     });
-  }, [callbacks]);
+  }, [settings.zoom, callbacks]);
 
   const resetZoom = useCallback(() => {
-    setSettings((prev) => {
-      callbacks?.onZoomChange?.(1);
-      return { ...prev, zoom: 1 };
+    if (settings.zoom === 1) return;
+
+    startTransition(() => {
+      setSettings((prev) => {
+        callbacks?.onZoomChange?.(1);
+        return { ...prev, zoom: 1 };
+      });
     });
-  }, [callbacks]);
+  }, [settings.zoom, callbacks]);
 
   // キーボードマッピングの拡張
   // 画像数やコールバックの都合でonActionだけ差し替えたい場合は、親でKeyboardMappingを生成して渡す設計にする
@@ -133,7 +169,7 @@ export function ImageViewer({
         className={`flex items-center justify-center ${className}`}
         style={{ backgroundColor: settings.backgroundColor, ...style }}
       >
-        <div className="text-white text-lg">読み込み中...</div>
+        <div className="text-foreground text-lg">読み込み中...</div>
       </div>
     );
   }
@@ -144,7 +180,7 @@ export function ImageViewer({
         className={`flex items-center justify-center ${className}`}
         style={{ backgroundColor: settings.backgroundColor, ...style }}
       >
-        <div className="text-red-400 text-lg">{String(error)}</div>
+        <div className="text-destructive text-lg">{String(error)}</div>
       </div>
     );
   }
@@ -155,12 +191,12 @@ export function ImageViewer({
         className={`flex items-center justify-center ${className}`}
         style={{ backgroundColor: settings.backgroundColor, ...style }}
       >
-        <div className="text-gray-400 text-lg">画像が選択されていません</div>
+        <div className="text-lg text-muted-foreground">
+          画像が選択されていません
+        </div>
       </div>
     );
   }
-
-  const currentImage = images[currentIndex];
 
   return (
     <div
@@ -176,7 +212,7 @@ export function ImageViewer({
         settings={settings}
         onLoad={() => callbacks?.onImageLoad?.(currentImage)}
         onError={(error) => callbacks?.onImageError?.(error, currentImage)}
-        className="w-full h-full"
+        className="h-full w-full"
         transitionType="fade"
       />
 

@@ -8,9 +8,24 @@ vi.mock('lucide-react', () => ({
   Eye: () => <span data-testid="eye-icon">Eye</span>,
   FileText: () => <span data-testid="file-text-icon">FileText</span>,
   FolderOpen: () => <span data-testid="folder-open-icon">FolderOpen</span>,
+  Monitor: () => <span data-testid="monitor-icon">Monitor</span>,
+  Moon: () => <span data-testid="moon-icon">Moon</span>,
+  Sun: () => <span data-testid="sun-icon">Sun</span>,
 }));
 
-describe('AppMenuBar Component', () => {
+// Mock ThemeProvider to avoid theme system dependencies
+vi.mock('../../../../providers/ThemeProvider', () => ({
+  ThemeProvider: ({ children }: { children: React.ReactNode }) => (
+    <>{children}</>
+  ),
+  useTheme: () => ({
+    theme: 'system',
+    setTheme: vi.fn(),
+    resolvedTheme: 'light',
+  }),
+}));
+
+describe('AppMenuBar Component (No Theme Dependencies)', () => {
   let mockOnMenuAction: ReturnType<typeof vi.fn>;
   let mockOnOpenFolder: ReturnType<typeof vi.fn>;
 
@@ -36,7 +51,6 @@ describe('AppMenuBar Component', () => {
       expect(screen.getByRole('banner')).toBeInTheDocument();
     });
 
-    // ドラッグできることはtauriアプリにおいて重要なテスト項目のため単体テストを用意する判断
     it('should set drag region attribute when isDraggable is true', () => {
       renderAppMenuBar({ isDraggable: true });
 
@@ -57,7 +71,6 @@ describe('AppMenuBar Component', () => {
       const customOnMenuAction = vi.fn();
       renderAppMenuBar({ onMenuAction: customOnMenuAction });
 
-      // Component should render without errors
       expect(screen.getByRole('banner')).toBeInTheDocument();
     });
 
@@ -65,7 +78,6 @@ describe('AppMenuBar Component', () => {
       const customOnOpenFolder = vi.fn();
       renderAppMenuBar({ onOpenFolder: customOnOpenFolder });
 
-      // Component should render without errors and show the button
       expect(screen.getByRole('banner')).toBeInTheDocument();
       expect(
         screen.getByRole('button', { name: 'フォルダを開く' }),
@@ -84,14 +96,12 @@ describe('AppMenuBar Component', () => {
     it('should have correct menu structure hierarchy', () => {
       renderAppMenuBar();
 
-      // Verify that menu items are properly nested
       const fileMenu = screen.getByText('ファイル');
       const viewMenu = screen.getByText('表示');
 
       expect(fileMenu).toBeInTheDocument();
       expect(viewMenu).toBeInTheDocument();
 
-      // Verify menubar structure
       const menubar = screen.getByRole('menubar');
       expect(menubar).toBeInTheDocument();
     });
@@ -99,14 +109,11 @@ describe('AppMenuBar Component', () => {
     it('should render menu items with proper accessibility', () => {
       renderAppMenuBar();
 
-      // Check that the main header has proper role
       expect(screen.getByRole('banner')).toBeInTheDocument();
 
-      // Check that menu triggers have proper roles
       const menuItems = screen.getAllByRole('menuitem');
       expect(menuItems.length).toBeGreaterThan(0);
 
-      // Check that buttons have proper roles when onOpenFolder is provided
       renderAppMenuBar({ onOpenFolder: mockOnOpenFolder });
       expect(
         screen.getByRole('button', { name: 'フォルダを開く' }),
@@ -139,7 +146,6 @@ describe('AppMenuBar Component', () => {
       });
       const menubar = screen.getByRole('menubar');
 
-      // All elements should be within the header
       expect(header).toContainElement(openFolderButton);
       expect(header).toContainElement(menubar);
     });

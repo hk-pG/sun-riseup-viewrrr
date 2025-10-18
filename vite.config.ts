@@ -1,9 +1,9 @@
-import { fileURLToPath } from 'node:url';
 import path from 'node:path';
-import { defineConfig } from 'vitest/config';
-import react from '@vitejs/plugin-react';
-import tailwindcss from '@tailwindcss/vite';
+import { fileURLToPath } from 'node:url';
 import { storybookTest } from '@storybook/addon-vitest/vitest-plugin';
+import tailwindcss from '@tailwindcss/vite';
+import react from '@vitejs/plugin-react';
+import { defineConfig } from 'vitest/config';
 
 const host = process.env.TAURI_DEV_HOST;
 
@@ -14,12 +14,31 @@ const dirname =
 
 // https://vitejs.dev/config/
 export default defineConfig(async () => ({
-  plugins: [react(), tailwindcss()],
+  plugins: [
+    react(),
+    tailwindcss(),
+  ],
   resolve: {
     alias: {
-      // エイリアス設定
       '@': path.resolve(__dirname, './src/'),
     },
+  },
+
+  // Essential build configuration
+  build: {
+    target: 'es2022',
+    sourcemap: process.env.NODE_ENV === 'development',
+  },
+
+  // Exclude Tauri APIs from pre-bundling
+  optimizeDeps: {
+    exclude: [
+      '@tauri-apps/api',
+      '@tauri-apps/plugin-dialog',
+      '@tauri-apps/plugin-fs',
+      '@tauri-apps/plugin-opener',
+      '@tauri-apps/plugin-store',
+    ],
   },
   test: {
     // describe, it, expectなどをグローバルスコープで使えるようにする
@@ -33,6 +52,11 @@ export default defineConfig(async () => ({
     projects: [
       // デフォルトのテストプロジェクト
       {
+        resolve: {
+          alias: {
+            '@': path.resolve(dirname, './src/'),
+          },
+        },
         test: {
           globals: true,
           environment: 'jsdom',
@@ -43,7 +67,10 @@ export default defineConfig(async () => ({
       // Storybookテストプロジェクト
       {
         plugins: [
-          react(),
+          react({
+            jsxRuntime: 'automatic',
+            jsxImportSource: 'react',
+          }),
           tailwindcss(),
           storybookTest({ configDir: path.join(dirname, '.storybook') }),
         ],
@@ -78,24 +105,20 @@ export default defineConfig(async () => ({
     ],
   },
 
-  // Vite options tailored for Tauri development and only applied in `tauri dev` or `tauri build`
-  //
-  // 1. prevent vite from obscuring rust errors
+  // Tauri development server configuration
   clearScreen: false,
-  // 2. tauri expects a fixed port, fail if that port is not available
   server: {
     port: 1420,
     strictPort: true,
     host: host || false,
     hmr: host
       ? {
-          protocol: 'ws',
-          host,
-          port: 1421,
-        }
+        protocol: 'ws',
+        host,
+        port: 1421,
+      }
       : undefined,
     watch: {
-      // 3. tell vite to ignore watching `src-tauri`
       ignored: ['**/src-tauri/**'],
     },
   },

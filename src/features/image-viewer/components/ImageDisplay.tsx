@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import type { ImageSource } from '../types/ImageSource';
 import type { ViewerSettings } from '../types/viewerTypes';
 
@@ -31,7 +31,8 @@ export function ImageDisplay({
     onError?.(new Error('画像の読み込みに失敗しました'));
   }, [onError]);
 
-  const getImageStyle = (): React.CSSProperties => {
+  // 画像スタイルの計算
+  const imageStyle = useMemo((): React.CSSProperties => {
     const baseStyle: React.CSSProperties = {
       transform: `rotate(${settings.rotation}deg) scale(${settings.zoom})`,
       transformOrigin: 'center',
@@ -48,7 +49,7 @@ export function ImageDisplay({
       default:
         return baseStyle;
     }
-  };
+  }, [settings.rotation, settings.zoom, settings.fitMode]);
 
   return (
     <div
@@ -58,7 +59,7 @@ export function ImageDisplay({
       <img
         src={image.assetUrl || '/placeholder.svg'}
         alt={image.name}
-        style={getImageStyle()}
+        style={imageStyle}
         onLoad={handleImageLoad}
         onError={handleImageError}
         className={`select-none ${transitionType === 'fade' ? 'image-fade' : ''}`}

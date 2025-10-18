@@ -1,3 +1,8 @@
+body {
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+}
+
 .draggable {
   display: flex;
   user-select: none;

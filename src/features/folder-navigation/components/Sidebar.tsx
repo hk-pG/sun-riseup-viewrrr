@@ -1,4 +1,5 @@
-import type { SidebarProps } from '../types/folderTypes';
+import { useMemo, useTransition } from 'react';
+import type { FolderInfo, SidebarProps } from '../types/folderTypes';
 import { FolderList } from './FolderList';
 
 export function Sidebar({
@@ -14,19 +15,36 @@ export function Sidebar({
   className = '',
   style,
 }: SidebarProps) {
-  const renderContent = () => {
-    if (loading) {
+  // フォルダ選択を非ブロッキングで処理、大量フォルダでもUIの応答性を維持
+  const [isPending, startTransition] = useTransition();
+
+  // フォルダ選択ハンドラーを最適化：大量フォルダでも応答性を維持
+  const handleFolderSelect = useMemo(() => {
+    if (!onFolderSelect) return onFolderSelect;
+    return (folder: FolderInfo) => {
+      startTransition(() => {
+        onFolderSelect(folder);
+      });
+    };
+  }, [onFolderSelect]);
+
+  // コンテンツ表示の最適化：ローディング状態を統合
+  const content = useMemo(() => {
+    // 初期読み込みまたはフォルダ選択処理中の表示
+    if (loading || isPending) {
       return (
-        <div className="flex items-center justify-center h-32">
-          <div className="text-gray-500">読み込み中...</div>
+        <div className="flex h-32 items-center justify-center">
+          <div className="text-muted-foreground">
+            {loading ? '読み込み中...' : 'フォルダを切り替え中...'}
+          </div>
         </div>
       );
     }
 
     if (folders.length === 0) {
       return (
-        <div className="flex items-center justify-center h-32 px-4">
-          <div className="text-gray-500 text-center text-sm">
+        <div className="flex h-32 items-center justify-center px-4">
+          <div className="text-center text-muted-foreground text-sm">
             {emptyMessage}
           </div>
         </div>
@@ -37,24 +55,35 @@ export function Sidebar({
       <FolderList
         folders={folders}
         selectedFolder={selectedFolder}
-        onFolderSelect={onFolderSelect}
+        onFolderSelect={handleFolderSelect || onFolderSelect}
         onFolderDoubleClick={onFolderDoubleClick}
         thumbnailSize={thumbnailSize}
         showImageCount={showImageCount}
       />
     );
-  };
+  }, [
+    loading,
+    isPending,
+    folders,
+    selectedFolder,
+    handleFolderSelect,
+    onFolderSelect,
+    onFolderDoubleClick,
+    thumbnailSize,
+    showImageCount,
+    emptyMessage,
+  ]);
 
   return (
     <aside
-      className={`bg-gray-50 border-r border-gray-200 overflow-y-auto ${className}`}
+      className={`overflow-y-auto border-sidebar-border border-r bg-sidebar text-sidebar-foreground ${className}`}
       style={{ width, ...style }}
     >
       <div className="p-2">
-        <h2 className="text-sm font-semibold text-gray-700 mb-3 px-2">
+        <h2 className="mb-3 px-2 font-semibold text-sidebar-foreground text-sm">
           フォルダ一覧
         </h2>
-        {renderContent()}
+        {content}
       </div>
     </aside>
   );
