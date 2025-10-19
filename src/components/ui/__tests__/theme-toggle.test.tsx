@@ -4,14 +4,6 @@ import { ThemeProvider } from '../../../providers/ThemeProvider';
 import { waitForUserPerceivedCompletion } from '../../../test/ui-responsiveness-test-utils';
 import { ThemeSelector, ThemeToggle } from '../theme-toggle';
 
-// Mock the settings service
-vi.mock('../../../services/SettingsService', () => ({
-  settingsService: {
-    loadTheme: vi.fn(),
-    saveTheme: vi.fn().mockResolvedValue(undefined),
-  },
-}));
-
 // Mock lucide-react icons
 vi.mock('lucide-react', () => ({
   Sun: ({ className }: { className?: string }) => (
@@ -26,18 +18,7 @@ vi.mock('lucide-react', () => ({
 }));
 
 describe('ThemeToggle', () => {
-  beforeEach(async () => {
-    // Reset settings service mocks
-    const { settingsService } = await import(
-      '../../../services/SettingsService'
-    );
-    vi.mocked(settingsService.loadTheme)
-      .mockReset()
-      .mockResolvedValue('system');
-    vi.mocked(settingsService.saveTheme)
-      .mockReset()
-      .mockResolvedValue(undefined);
-
+  beforeEach(() => {
     // Mock matchMedia
     Object.defineProperty(window, 'matchMedia', {
       writable: true,
@@ -73,12 +54,6 @@ describe('ThemeToggle', () => {
   });
 
   it('should cycle through themes when clicked', async () => {
-    // Mock to return light theme for this test
-    const { settingsService } = await import(
-      '../../../services/SettingsService'
-    );
-    vi.mocked(settingsService.loadTheme).mockResolvedValue('light');
-
     render(
       <ThemeProvider defaultTheme="light">
         <ThemeToggle />
@@ -108,12 +83,6 @@ describe('ThemeToggle', () => {
   });
 
   it('should have correct aria-labels for each theme', async () => {
-    // Mock to return light theme for this test
-    const { settingsService } = await import(
-      '../../../services/SettingsService'
-    );
-    vi.mocked(settingsService.loadTheme).mockResolvedValue('light');
-
     render(
       <ThemeProvider defaultTheme="light">
         <ThemeToggle />
@@ -139,18 +108,7 @@ describe('ThemeToggle', () => {
 });
 
 describe('ThemeSelector', () => {
-  beforeEach(async () => {
-    // Reset settings service mocks
-    const { settingsService } = await import(
-      '../../../services/SettingsService'
-    );
-    vi.mocked(settingsService.loadTheme)
-      .mockReset()
-      .mockResolvedValue('system');
-    vi.mocked(settingsService.saveTheme)
-      .mockReset()
-      .mockResolvedValue(undefined);
-
+  beforeEach(() => {
     // Mock matchMedia
     Object.defineProperty(window, 'matchMedia', {
       writable: true,
@@ -184,12 +142,6 @@ describe('ThemeSelector', () => {
   });
 
   it('should highlight the current theme', async () => {
-    // Mock to return dark theme for this test
-    const { settingsService } = await import(
-      '../../../services/SettingsService'
-    );
-    vi.mocked(settingsService.loadTheme).mockResolvedValue('dark');
-
     render(
       <ThemeProvider defaultTheme="dark">
         <ThemeSelector />
