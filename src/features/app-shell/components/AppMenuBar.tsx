@@ -157,18 +157,18 @@ function renderMenuItems(
       return (
         <MenubarSeparator
           key={`separator-${index}-${item.actionId}`}
-          className="bg-gray-200"
+          className="bg-border"
         />
       );
     }
     if (item.type === 'submenu' && item.children) {
       return (
         <MenubarSub key={item.label || `submenu-${index}`}>
-          <MenubarSubTrigger className="hover:bg-gray-100 focus:bg-gray-100">
+          <MenubarSubTrigger className="hover:bg-accent focus:bg-accent">
             {item.icon}
             {item.label}
           </MenubarSubTrigger>
-          <MenubarSubContent className="border-gray-200 bg-white shadow-lg">
+          <MenubarSubContent className="border-border bg-popover shadow-lg">
             {renderMenuItems(item.children, onMenuAction)}
           </MenubarSubContent>
         </MenubarSub>
@@ -178,7 +178,7 @@ function renderMenuItems(
       <MenubarItem
         key={item.actionId || `item-${index}`}
         onClick={() => item.actionId && onMenuAction(item.actionId)}
-        className="hover:bg-gray-100 focus:bg-gray-100"
+        className="hover:bg-accent focus:bg-accent"
       >
         {item.icon}
         {item.label}
@@ -205,28 +205,28 @@ export const AppMenuBar = ({
         {onOpenFolder && (
           <button
             type="button"
-            className="mr-2 rounded bg-blue-500 px-3 py-1 text-sm text-white hover:bg-blue-600"
+            className="mr-2 rounded bg-primary px-3 py-1 text-primary-foreground text-sm hover:bg-primary/90"
             onClick={onOpenFolder}
           >
             フォルダを開く
           </button>
         )}
-        <Menubar className="border-gray-200 bg-white">
+        <Menubar className="border-border bg-background">
           <MenubarMenu>
-            <MenubarTrigger className="flex items-center gap-1 hover:bg-gray-100 focus:bg-gray-100 data-[state=open]:bg-gray-100">
+            <MenubarTrigger className="flex items-center gap-1 hover:bg-accent focus:bg-accent data-[state=open]:bg-accent">
               <FileText className="h-4 w-4" />
               ファイル
             </MenubarTrigger>
-            <MenubarContent className="border-gray-200 bg-white shadow-lg">
+            <MenubarContent className="border-border bg-popover shadow-lg">
               {renderMenuItems(fileMenu, onMenuAction)}
             </MenubarContent>
           </MenubarMenu>
           <MenubarMenu>
-            <MenubarTrigger className="flex items-center gap-1 hover:bg-gray-100 focus:bg-gray-100 data-[state=open]:bg-gray-100">
+            <MenubarTrigger className="flex items-center gap-1 hover:bg-accent focus:bg-accent data-[state=open]:bg-accent">
               <Eye className="h-4 w-4" />
               表示
             </MenubarTrigger>
-            <MenubarContent className="border-gray-200 bg-white shadow-lg">
+            <MenubarContent className="border-border bg-popover shadow-lg">
               {renderMenuItems(viewMenu, onMenuAction)}
             </MenubarContent>
           </MenubarMenu>
