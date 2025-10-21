@@ -36,44 +36,51 @@ export function ThemeProvider({
 
   // システムテーマの検出とresolvedThemeの更新
   useEffect(() => {
-    // React 19対応のメディアクエリ処理（テスト環境でのフォールバック付き）
-    const updateResolvedTheme = () => {
-      if (theme !== 'system') {
-        // 'light'または'dark'が直接指定されている場合はそのまま使用
-        setResolvedTheme(theme);
-        return;
-      }
+    try {
+      // React 19対応のメディアクエリ処理（テスト環境でのフォールバック付き）
+      const updateResolvedTheme = () => {
+        if (theme !== 'system') {
+          // 'light'または'dark'が直接指定されている場合はそのまま使用
+          setResolvedTheme(theme);
+          return;
+        }
 
-      // テスト環境での安全なメディアクエリチェック
-      if (typeof window !== 'undefined' && window.matchMedia) {
-        // OSのダークモード設定を取得
+        // テスト環境での安全なメディアクエリチェック
+        if (typeof window !== 'undefined' && window.matchMedia) {
+          // OSのダークモード設定を取得
+          const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+          setResolvedTheme(mediaQuery.matches ? 'dark' : 'light');
+        } else {
+          // テスト環境でのフォールバック（ライトテーマを使用）
+          setResolvedTheme('light');
+        }
+      };
+
+      // 初回実行
+      updateResolvedTheme();
+
+      // システムテーマかつブラウザ環境の場合、OSの設定変更を監視
+      if (
+        theme === 'system' &&
+        typeof window !== 'undefined' &&
+        window.matchMedia
+      ) {
         const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-        setResolvedTheme(mediaQuery.matches ? 'dark' : 'light');
-      } else {
-        // テスト環境でのフォールバック（ライトテーマを使用）
-        setResolvedTheme('light');
+        // OSのテーマ設定変更時にupdateResolvedThemeを実行
+        mediaQuery.addEventListener('change', updateResolvedTheme);
+
+        // クリーンアップ関数：コンポーネントアンマウント時にイベントリスナーを削除
+        return () =>
+          mediaQuery.removeEventListener('change', updateResolvedTheme);
       }
-    };
 
-    // 初回実行
-    updateResolvedTheme();
-
-    // システムテーマかつブラウザ環境の場合、OSの設定変更を監視
-    if (
-      theme === 'system' &&
-      typeof window !== 'undefined' &&
-      window.matchMedia
-    ) {
-      const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-      // OSのテーマ設定変更時にupdateResolvedThemeを実行
-      mediaQuery.addEventListener('change', updateResolvedTheme);
-
-      // クリーンアップ関数：コンポーネントアンマウント時にイベントリスナーを削除
-      return () =>
-        mediaQuery.removeEventListener('change', updateResolvedTheme);
+      return undefined; // 何もクリーンアップしない場合
+    } catch (error) {
+      console.error('テーマの解決中にエラーが発生しました:', error);
+      // エラー発生時はデフォルトでライトテーマを設定
+      setResolvedTheme('light');
+      return undefined;
     }
-
-    return undefined; // 何もクリーンアップしない場合
   }, [theme]); // themeが変更された時に実行
 
   // 決定されたテーマをドキュメントのルート要素に適用

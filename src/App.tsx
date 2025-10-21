@@ -1,7 +1,7 @@
 import { useCallback, useMemo, useState, useTransition } from 'react';
 import './App.css';
 import { ErrorBoundary } from './components/ErrorBoundary';
-import { AppMenuBar } from './features/app-shell';
+import { AppMenuBar, type AppMenuBarEvent } from './features/app-shell';
 import {
   type FolderInfo,
   Sidebar,
@@ -9,6 +9,7 @@ import {
   useSiblingFolders,
 } from './features/folder-navigation';
 import { ImageViewer } from './features/image-viewer';
+import { useTheme } from './providers/ThemeProvider';
 import { useServices } from './shared/context/ServiceContext';
 
 // App state interface for better type safety
@@ -18,19 +19,20 @@ interface AppState {
 }
 
 function App() {
-  // React 19: Consolidated state management
   const [appState, setAppState] = useState<AppState>({
     currentFolderPath: '',
     initialImageIndex: 0,
   });
 
-  // React 19: useTransition for non-urgent updates
+  // useTransition for non-urgent updates
   const [isPending, startTransition] = useTransition();
+
+  // Theme API from provider (used for toggle-theme action)
+  const themeApi = useTheme();
 
   // サイドバーの表示のために同階層のフォルダ情報を取得
   const { entries } = useSiblingFolders(appState.currentFolderPath);
 
-  // React 19: Optimized memoization with useMemo
   const folderInfo: FolderInfo[] = useMemo(
     () =>
       entries.map((entry) => ({
@@ -51,9 +53,9 @@ function App() {
   const fss = useServices();
   const { openImageFile } = useOpenImageFile(fss);
 
-  // React 19: Optimized event handlers with useCallback and better error handling
+  // Optimized event handlers with useCallback and better error handling
   const handleMenuAction = useCallback(
-    async (actionId: string) => {
+    async (actionId: AppMenuBarEvent) => {
       // TODO: スケールを考えてストラテジーパターンへの移行を検討
       try {
         if (actionId === 'open-folder') {
@@ -79,6 +81,28 @@ function App() {
               }));
             });
           }
+        } else if (actionId === 'toggle-theme') {
+          try {
+            // useTheme is used below via closure; safe to call outside because hook must be used in component scope
+            const { theme: currentTheme, resolvedTheme, setTheme } = themeApi;
+
+            // テーマの切り替えルールを関数として純粋に定義
+            const getOppositeTheme = (
+              current: typeof currentTheme,
+              resolved: typeof resolvedTheme,
+            ) =>
+              current === 'system'
+                ? resolved === 'dark'
+                  ? 'light'
+                  : 'dark'
+                : current === 'dark'
+                  ? 'light'
+                  : 'dark';
+
+            setTheme(getOppositeTheme(currentTheme, resolvedTheme));
+          } catch (err) {
+            console.error('toggle-theme failed', err);
+          }
         }
         // 他のアクションは今まで通り（必要ならここに追加）
       } catch (error) {
@@ -86,7 +110,7 @@ function App() {
         // React 19: Better error handling could include error boundaries or user feedback
       }
     },
-    [fss, openImageFile],
+    [fss, openImageFile, themeApi],
   );
 
   const handleFolderSelect = useCallback((folder: FolderInfo) => {

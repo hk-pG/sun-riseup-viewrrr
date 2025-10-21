@@ -87,19 +87,6 @@
   --sidebar-ring: 216 12.2% 83.9%;
 }
 
-/* Global theme transition animations */
-* {
-  transition:
-    background-color 0.2s ease-in-out,
-    border-color 0.2s ease-in-out,
-    color 0.2s ease-in-out,
-    fill 0.2s ease-in-out,
-    stroke 0.2s ease-in-out,
-    opacity 0.2s ease-in-out,
-    box-shadow 0.2s ease-in-out,
-    transform 0.2s ease-in-out;
-}
-
 /* Application specific animations */
 .image-fade {
   opacity: 0;
