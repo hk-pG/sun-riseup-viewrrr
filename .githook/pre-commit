@@ -1,0 +1,13 @@
+#!/bin/sh
+
+echo "Do you want to run pre-commit checks? (y/n)"
+read -r is_run
+
+if [ "$is_run" != "y" ]; then
+    echo "Skipping pre-commit checks."
+    exit 0
+fi
+
+pnpm lint
+pnpm test
+cargo test
