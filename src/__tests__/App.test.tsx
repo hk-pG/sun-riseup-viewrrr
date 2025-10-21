@@ -5,6 +5,7 @@ import type { SidebarProps } from '@/features/folder-navigation';
 import type { ImageViewerProps } from '@/features/image-viewer';
 import App from '../App';
 import type { FileSystemService } from '../features/folder-navigation/services/FileSystemService';
+import { ThemeProvider } from '../providers/ThemeProvider';
 import { ServicesProvider } from '../shared/context/ServiceContext';
 import { resetAllMocks, setupTauriMocks } from '../test/mocks';
 
@@ -106,9 +107,12 @@ describe('App Component', () => {
 
   const renderApp = (services?: Partial<FileSystemService>) => {
     return render(
-      <ServicesProvider services={services}>
-        <App />
-      </ServicesProvider>,
+      <ThemeProvider>
+        <ServicesProvider services={services}>
+          <App />
+        </ServicesProvider>
+        ,
+      </ThemeProvider>,
     );
   };
 

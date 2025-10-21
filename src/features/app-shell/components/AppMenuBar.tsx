@@ -11,7 +11,6 @@ import {
   MenubarSubTrigger,
   MenubarTrigger,
 } from '@/shared/components/ui/menubar';
-import { ThemeToggle } from '../../../components/ui/theme-toggle';
 
 // AppMenuBarで使うイベントIDの型
 export type AppMenuBarEvent =
@@ -36,7 +35,8 @@ export type AppMenuBarEvent =
   | 'reset-rotation'
   | 'preferences'
   | 'shortcuts'
-  | 'about';
+  | 'about'
+  | 'toggle-theme';
 
 export interface AppMenuBarProps {
   onMenuAction: (actionId: AppMenuBarEvent) => void;
@@ -145,6 +145,11 @@ const viewMenu: MenuItemData[] = [
     shortcut: 'C',
     actionId: 'toggle-controls',
   },
+  {
+    type: 'item',
+    label: 'テーマ切り替え',
+    actionId: 'toggle-theme',
+  },
 ];
 
 // 汎用描画関数
@@ -157,18 +162,18 @@ function renderMenuItems(
       return (
         <MenubarSeparator
           key={`separator-${index}-${item.actionId}`}
-          className="bg-gray-200"
+          className="bg-border"
         />
       );
     }
     if (item.type === 'submenu' && item.children) {
       return (
         <MenubarSub key={item.label || `submenu-${index}`}>
-          <MenubarSubTrigger className="hover:bg-gray-100 focus:bg-gray-100">
+          <MenubarSubTrigger className="hover:bg-accent focus:bg-accent">
             {item.icon}
             {item.label}
           </MenubarSubTrigger>
-          <MenubarSubContent className="border-gray-200 bg-white shadow-lg">
+          <MenubarSubContent className="border-border bg-popover shadow-lg">
             {renderMenuItems(item.children, onMenuAction)}
           </MenubarSubContent>
         </MenubarSub>
@@ -178,7 +183,7 @@ function renderMenuItems(
       <MenubarItem
         key={item.actionId || `item-${index}`}
         onClick={() => item.actionId && onMenuAction(item.actionId)}
-        className="hover:bg-gray-100 focus:bg-gray-100"
+        className="hover:bg-accent focus:bg-accent"
       >
         {item.icon}
         {item.label}
@@ -197,7 +202,7 @@ export const AppMenuBar = ({
 }: AppMenuBarProps) => {
   return (
     <header
-      className={`flex items-center justify-between border-border border-b bg-background px-4 py-2 text-foreground ${className}`}
+      className={`flex items-center justify-between border-border bg-background px-4 py-2 text-foreground ${className}`}
       style={style}
       {...(isDraggable ? { 'data-tauri-drag-region': true } : {})}
     >
@@ -205,38 +210,33 @@ export const AppMenuBar = ({
         {onOpenFolder && (
           <button
             type="button"
-            className="mr-2 rounded bg-blue-500 px-3 py-1 text-sm text-white hover:bg-blue-600"
+            className="mr-2 rounded bg-primary px-3 py-1 text-primary-foreground text-sm hover:bg-primary/90"
             onClick={onOpenFolder}
           >
             フォルダを開く
           </button>
         )}
-        <Menubar className="border-gray-200 bg-white">
+        <Menubar className="border-border bg-background">
           <MenubarMenu>
-            <MenubarTrigger className="flex items-center gap-1 hover:bg-gray-100 focus:bg-gray-100 data-[state=open]:bg-gray-100">
+            <MenubarTrigger>
               <FileText className="h-4 w-4" />
               ファイル
             </MenubarTrigger>
-            <MenubarContent className="border-gray-200 bg-white shadow-lg">
+            <MenubarContent className="border-border bg-popover shadow-lg">
               {renderMenuItems(fileMenu, onMenuAction)}
             </MenubarContent>
           </MenubarMenu>
           <MenubarMenu>
-            <MenubarTrigger className="flex items-center gap-1 hover:bg-gray-100 focus:bg-gray-100 data-[state=open]:bg-gray-100">
+            <MenubarTrigger>
               <Eye className="h-4 w-4" />
               表示
             </MenubarTrigger>
-            <MenubarContent className="border-gray-200 bg-white shadow-lg">
+            <MenubarContent className="border-border bg-popover shadow-lg">
               {renderMenuItems(viewMenu, onMenuAction)}
             </MenubarContent>
           </MenubarMenu>
           {/* ...他のメニューも同様にデータ化して適用可能... */}
         </Menubar>
-      </div>
-
-      {/* Theme toggle button */}
-      <div className="flex items-center">
-        <ThemeToggle />
       </div>
     </header>
   );

@@ -76,7 +76,7 @@ export function Sidebar({
 
   return (
     <aside
-      className={`overflow-y-auto border-sidebar-border border-r bg-sidebar text-sidebar-foreground ${className}`}
+      className={`overflow-y-auto border-sidebar-border bg-sidebar text-sidebar-foreground ${className}`}
       style={{ width, ...style }}
     >
       <div className="p-2">
