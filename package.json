@@ -11,6 +11,7 @@
     "tauri": "tauri",
     "lint": "biome check ./src",
     "lint:apply": "biome check ./src --write",
+    "lint:unsafe": "biome check ./src --write --unsafe",
     "lint:ci": "biome ci ./src",
     "format": "biome format ./src --write",
     "format:check": "biome format ./src",
