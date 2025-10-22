@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState, useTransition } from 'react';
+import { useCallback, useState, useTransition } from 'react';
 import './App.css';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import { AppMenuBar, type AppMenuBarEvent } from './features/app-shell';
@@ -33,20 +33,14 @@ function App() {
   // サイドバーの表示のために同階層のフォルダ情報を取得
   const { entries } = useSiblingFolders(appState.currentFolderPath);
 
-  const folderInfo: FolderInfo[] = useMemo(
-    () =>
-      entries.map((entry) => ({
-        ...entry,
-        imageCount: undefined,
-        thumbnailImage: undefined,
-      })),
-    [entries],
-  );
+  const folderInfo: FolderInfo[] = entries.map((entry) => ({
+    ...entry,
+    imageCount: undefined,
+    thumbnailImage: undefined,
+  }));
 
-  const selectedFolder = useMemo(
-    () =>
-      folderInfo.find((folder) => folder.path === appState.currentFolderPath),
-    [folderInfo, appState.currentFolderPath],
+  const selectedFolder = folderInfo.find(
+    (folder) => folder.path === appState.currentFolderPath,
   );
 
   // ファイルシステムサービスを取得
