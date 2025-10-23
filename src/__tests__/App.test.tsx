@@ -103,6 +103,7 @@ describe('App Component', () => {
     setupTauriMocks();
     mockFileSystemService = createMockFileSystemService();
     mockOpenImageFile.mockReset();
+    vi.spyOn(console, 'error').mockImplementation(() => {});
   });
 
   const renderApp = (services?: Partial<FileSystemService>) => {
