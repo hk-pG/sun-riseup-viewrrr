@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useState } from 'react';
 import { useThumbnail } from '../hooks/useThumbnail';
 import type { FolderViewProps } from '../types/folderTypes';
 
@@ -13,15 +13,16 @@ export function FolderView({
 }: FolderViewProps) {
   const { thumbnail, isLoading } = useThumbnail(folder.path);
   const [imgError, setImgError] = useState(false);
-  const handleClick = useCallback(() => {
-    onClick(folder);
-  }, [onClick, folder]);
 
-  const handleDoubleClick = useCallback(() => {
+  const handleClick = () => {
+    onClick(folder);
+  };
+
+  const handleDoubleClick = () => {
     if (onDoubleClick) {
       onDoubleClick(folder);
     }
-  }, [onDoubleClick, folder]);
+  };
 
   return (
     <button
@@ -34,7 +35,7 @@ export function FolderView({
         className="mb-2 flex items-center justify-center overflow-hidden rounded-md bg-muted"
         style={{ width: thumbnailSize, height: thumbnailSize }}
       >
-        {useMemo(() => {
+        {(() => {
           if (isLoading) {
             return (
               <div
@@ -60,7 +61,7 @@ export function FolderView({
               <span className="text-4xl">📁</span>
             </div>
           );
-        }, [isLoading, thumbnail, imgError, folder.name])}
+        })()}
       </div>
 
       <div className="w-full text-center">

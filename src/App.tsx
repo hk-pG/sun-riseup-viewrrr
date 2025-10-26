@@ -1,4 +1,4 @@
-import { useCallback, useState, useTransition } from 'react';
+import { useState, useTransition } from 'react';
 import './App.css';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import { AppMenuBar, type AppMenuBarEvent } from './features/app-shell';
@@ -47,67 +47,62 @@ function App() {
   const fss = useServices();
   const { openImageFile } = useOpenImageFile(fss);
 
-  // Optimized event handlers with useCallback and better error handling
-  const handleMenuAction = useCallback(
-    async (actionId: AppMenuBarEvent) => {
-      // TODO: スケールを考えてストラテジーパターンへの移行を検討
-      try {
-        if (actionId === 'open-folder') {
-          const folderPath = await fss.openDirectoryDialog();
-          if (folderPath) {
-            // React 19: Use transition for non-urgent state updates
-            startTransition(() => {
-              setAppState((prev) => ({
-                ...prev,
-                currentFolderPath: folderPath,
-                initialImageIndex: 0,
-              }));
-            });
-          }
-        } else if (actionId === 'open-image') {
-          const result = await openImageFile();
-          if (result?.folderPath) {
-            startTransition(() => {
-              setAppState((prev) => ({
-                ...prev,
-                currentFolderPath: result.folderPath as string,
-                initialImageIndex: result.index,
-              }));
-            });
-          }
-        } else if (actionId === 'toggle-theme') {
-          try {
-            // useTheme is used below via closure; safe to call outside because hook must be used in component scope
-            const { theme: currentTheme, resolvedTheme, setTheme } = themeApi;
-
-            // テーマの切り替えルールを関数として純粋に定義
-            const getOppositeTheme = (
-              current: typeof currentTheme,
-              resolved: typeof resolvedTheme,
-            ) =>
-              current === 'system'
-                ? resolved === 'dark'
-                  ? 'light'
-                  : 'dark'
-                : current === 'dark'
-                  ? 'light'
-                  : 'dark';
-
-            setTheme(getOppositeTheme(currentTheme, resolvedTheme));
-          } catch (err) {
-            console.error('toggle-theme failed', err);
-          }
+  const handleMenuAction = async (actionId: AppMenuBarEvent) => {
+    // TODO: スケールを考えてストラテジーパターンへの移行を検討
+    try {
+      if (actionId === 'open-folder') {
+        const folderPath = await fss.openDirectoryDialog();
+        if (folderPath) {
+          startTransition(() => {
+            setAppState((prev) => ({
+              ...prev,
+              currentFolderPath: folderPath,
+              initialImageIndex: 0,
+            }));
+          });
         }
-        // 他のアクションは今まで通り（必要ならここに追加）
-      } catch (error) {
-        console.error('Menu action failed:', error);
-        // React 19: Better error handling could include error boundaries or user feedback
-      }
-    },
-    [fss, openImageFile, themeApi],
-  );
+      } else if (actionId === 'open-image') {
+        const result = await openImageFile();
+        if (result?.folderPath) {
+          startTransition(() => {
+            setAppState((prev) => ({
+              ...prev,
+              currentFolderPath: result.folderPath || '',
+              initialImageIndex: result.index,
+            }));
+          });
+        }
+      } else if (actionId === 'toggle-theme') {
+        try {
+          // useTheme is used below via closure; safe to call outside because hook must be used in component scope
+          const { theme: currentTheme, resolvedTheme, setTheme } = themeApi;
 
-  const handleFolderSelect = useCallback((folder: FolderInfo) => {
+          // テーマの切り替えルールを関数として純粋に定義
+          const getOppositeTheme = (
+            current: typeof currentTheme,
+            resolved: typeof resolvedTheme,
+          ) =>
+            current === 'system'
+              ? resolved === 'dark'
+                ? 'light'
+                : 'dark'
+              : current === 'dark'
+                ? 'light'
+                : 'dark';
+
+          setTheme(getOppositeTheme(currentTheme, resolvedTheme));
+        } catch (err) {
+          console.error('toggle-theme failed', err);
+        }
+      }
+      // 他のアクションは今まで通り（必要ならここに追加）
+    } catch (error) {
+      console.error('Menu action failed:', error);
+      // React 19: Better error handling could include error boundaries or user feedback
+    }
+  };
+
+  const handleFolderSelect = (folder: FolderInfo) => {
     startTransition(() => {
       setAppState((prev) => ({
         ...prev,
@@ -115,7 +110,7 @@ function App() {
         initialImageIndex: 0, // Reset image index when changing folders
       }));
     });
-  }, []);
+  };
 
   return (
     <ErrorBoundary>

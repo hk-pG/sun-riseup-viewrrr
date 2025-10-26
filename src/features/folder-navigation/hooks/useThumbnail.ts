@@ -1,4 +1,3 @@
-import { useMemo } from 'react';
 import useSWR from 'swr';
 import { useServices } from '../../../shared/context/ServiceContext';
 import type { ImageSource } from '../../image-viewer/types/ImageSource';
@@ -36,12 +35,9 @@ export function useThumbnail(folderPath: string) {
     },
   );
 
-  return useMemo(
-    () => ({
-      thumbnail: data ?? null,
-      isLoading,
-      isError: !!error,
-    }),
-    [data, isLoading, error],
-  );
+  return {
+    thumbnail: data ?? null,
+    isLoading,
+    isError: !!error,
+  };
 }
