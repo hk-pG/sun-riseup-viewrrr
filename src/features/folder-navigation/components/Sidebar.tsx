@@ -1,4 +1,4 @@
-import { useMemo, useTransition } from 'react';
+import { useTransition } from 'react';
 import type { FolderInfo, SidebarProps } from '../types/folderTypes';
 import { FolderList } from './FolderList';
 
@@ -18,18 +18,16 @@ export function Sidebar({
   // フォルダ選択を非ブロッキングで処理、大量フォルダでもUIの応答性を維持
   const [isPending, startTransition] = useTransition();
 
-  // フォルダ選択ハンドラーを最適化：大量フォルダでも応答性を維持
-  const handleFolderSelect = useMemo(() => {
-    if (!onFolderSelect) return onFolderSelect;
-    return (folder: FolderInfo) => {
-      startTransition(() => {
-        onFolderSelect(folder);
-      });
-    };
-  }, [onFolderSelect]);
+  // フォルダ選択ハンドラー：大量フォルダでも応答性を維持（非ブロッキング更新）
+  const handleFolderSelect = (folder: FolderInfo) => {
+    if (!onFolderSelect) return;
+    startTransition(() => {
+      onFolderSelect(folder);
+    });
+  };
 
-  // コンテンツ表示の最適化：ローディング状態を統合
-  const content = useMemo(() => {
+  // コンテンツ表示（ローディング状態を統合）
+  const content = (() => {
     // 初期読み込みまたはフォルダ選択処理中の表示
     if (loading || isPending) {
       return (
@@ -55,24 +53,13 @@ export function Sidebar({
       <FolderList
         folders={folders}
         selectedFolder={selectedFolder}
-        onFolderSelect={handleFolderSelect || onFolderSelect}
+        onFolderSelect={handleFolderSelect}
         onFolderDoubleClick={onFolderDoubleClick}
         thumbnailSize={thumbnailSize}
         showImageCount={showImageCount}
       />
     );
-  }, [
-    loading,
-    isPending,
-    folders,
-    selectedFolder,
-    handleFolderSelect,
-    onFolderSelect,
-    onFolderDoubleClick,
-    thumbnailSize,
-    showImageCount,
-    emptyMessage,
-  ]);
+  })();
 
   return (
     <aside
