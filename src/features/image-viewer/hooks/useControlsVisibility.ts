@@ -1,10 +1,4 @@
-import {
-  startTransition,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import { startTransition, useEffect, useRef, useState } from 'react';
 
 /**
  * 画像ビューアのコントロールの表示/非表示を管理するカスタムフック。
@@ -24,7 +18,7 @@ export const useControlsVisibility = (
 
   const shouldAutoHide = autoHide && timeout > 0;
 
-  const resetTimeout = useCallback(() => {
+  const resetTimeout = (): void => {
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
     }
@@ -37,9 +31,9 @@ export const useControlsVisibility = (
         });
       }, timeout);
     }
-  }, [shouldAutoHide, timeout]);
+  };
 
-  const handleMouseMove = useCallback(() => {
+  const handleMouseMove = (): void => {
     if (autoHide) {
       // 非緊急な表示状態更新
       startTransition(() => {
@@ -47,7 +41,7 @@ export const useControlsVisibility = (
       });
       resetTimeout();
     }
-  }, [autoHide, resetTimeout]);
+  };
 
   useEffect(() => {
     // 初期表示状態の設定
@@ -55,9 +49,17 @@ export const useControlsVisibility = (
       setIsVisible(showControls);
     });
     if (showControls && autoHide) {
-      resetTimeout();
+      // 依存関数にぶらさずに、このeffectの中でタイマーを張り直す
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+      if (timeout > 0) {
+        timeoutRef.current = setTimeout(() => {
+          startTransition(() => setIsVisible(false));
+        }, timeout);
+      }
     }
-  }, [showControls, autoHide, resetTimeout]);
+  }, [showControls, autoHide, timeout]);
 
   useEffect(() => {
     return () => {
