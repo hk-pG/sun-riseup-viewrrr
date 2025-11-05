@@ -180,3 +180,10 @@ handleMenuAction = (actionId) => executeAction(actionId);
 - `docs/state-management-analysis.md`: Zustand移行パス
 - React 19ドキュメント: https://react.dev/blog/2024/12/05/react-19
 - Tauri v2ドキュメント: https://v2.tauri.app/
+
+## Active Technologies
+- TypeScript 5.6+, React 19 + React 19 (React Compiler有効), Vite 6, Tailwind CSS 4, SWR, Tauri v2 (001-remove-manual-memoization)
+- N/A（ローカルファイルシステム経由の画像アクセス） (001-remove-manual-memoization)
+
+## Recent Changes
+- 001-remove-manual-memoization: Added TypeScript 5.6+, React 19 + React 19 (React Compiler有効), Vite 6, Tailwind CSS 4, SWR, Tauri v2
