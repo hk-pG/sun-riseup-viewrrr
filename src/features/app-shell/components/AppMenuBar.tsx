@@ -195,7 +195,6 @@ function renderMenuItems(
 
 export const AppMenuBar = ({
   onMenuAction,
-  onOpenFolder,
   isDraggable = true,
   className = '',
   style,
@@ -207,15 +206,6 @@ export const AppMenuBar = ({
       {...(isDraggable ? { 'data-tauri-drag-region': true } : {})}
     >
       <div className="flex items-center gap-4">
-        {onOpenFolder && (
-          <button
-            type="button"
-            className="mr-2 rounded bg-primary px-3 py-1 text-primary-foreground text-sm hover:bg-primary/90"
-            onClick={onOpenFolder}
-          >
-            フォルダを開く
-          </button>
-        )}
         <Menubar className="border-border bg-background">
           <MenubarMenu>
             <MenubarTrigger>
