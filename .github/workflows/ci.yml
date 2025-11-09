@@ -77,5 +77,5 @@ jobs:
           workspaces: "./src-tauri -> target"
 
       - name: Run Rust tests
-        run: cargo test
+        run: cargo test --workspace
         working-directory: ./src-tauri
