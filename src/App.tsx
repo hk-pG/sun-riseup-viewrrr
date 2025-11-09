@@ -1,6 +1,7 @@
 import { useState, useTransition } from 'react';
 import './App.css';
 import { ErrorBoundary } from './components/ErrorBoundary';
+import { useTheme } from './components/theme-provider';
 import { AppMenuBar, type AppMenuBarEvent } from './features/app-shell';
 import {
   type FolderInfo,
@@ -9,7 +10,6 @@ import {
   useSiblingFolders,
 } from './features/folder-navigation';
 import { ImageViewer } from './features/image-viewer';
-import { useTheme } from './providers/ThemeProvider';
 import { useServices } from './shared/context/ServiceContext';
 
 // App state interface for better type safety
@@ -75,22 +75,13 @@ function App() {
       } else if (actionId === 'toggle-theme') {
         try {
           // useTheme is used below via closure; safe to call outside because hook must be used in component scope
-          const { theme: currentTheme, resolvedTheme, setTheme } = themeApi;
+          const { theme: currentTheme, setTheme } = themeApi;
 
-          // テーマの切り替えルールを関数として純粋に定義
-          const getOppositeTheme = (
-            current: typeof currentTheme,
-            resolved: typeof resolvedTheme,
-          ) =>
-            current === 'system'
-              ? resolved === 'dark'
-                ? 'light'
-                : 'dark'
-              : current === 'dark'
-                ? 'light'
-                : 'dark';
+          // テーマの切り替えルールを関数として純粋に定義（light/darkのみ）
+          const getOppositeTheme = (current: typeof currentTheme) =>
+            current === 'dark' ? 'light' : 'dark';
 
-          setTheme(getOppositeTheme(currentTheme, resolvedTheme));
+          setTheme(getOppositeTheme(currentTheme));
         } catch (err) {
           console.error('toggle-theme failed', err);
         }

@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
 import App from '@/App';
-import { ThemeProvider } from '@/providers/ThemeProvider';
+import { ThemeProvider } from '@/components/theme-provider';
 import {
   getMockImageFolders,
   mockImageSourcesByFolderPath,

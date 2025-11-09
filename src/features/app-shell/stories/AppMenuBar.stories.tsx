@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { ThemeProvider } from '@/providers/ThemeProvider';
+import { ThemeProvider } from '@/components/theme-provider';
 import type { AppMenuBarEvent } from '../index';
 import { AppMenuBar } from '../index';
 

@@ -184,6 +184,8 @@ handleMenuAction = (actionId) => executeAction(actionId);
 ## Active Technologies
 - TypeScript 5.6+, React 19 + React 19 (React Compiler有効), Vite 6, Tailwind CSS 4, SWR, Tauri v2 (001-remove-manual-memoization)
 - N/A（ローカルファイルシステム経由の画像アクセス） (001-remove-manual-memoization)
+- TypeScript 5.6+, React 19 + shadcn/ui theme-provider, Tailwind CSS 4, Vite 6 (001-replace-theme-provider)
+- localStorage for theme persistence (001-replace-theme-provider)
 
 ## Recent Changes
 - 001-remove-manual-memoization: Added TypeScript 5.6+, React 19 + React 19 (React Compiler有効), Vite 6, Tailwind CSS 4, SWR, Tauri v2
