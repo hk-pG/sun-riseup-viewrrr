@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
 import './index.css';
-import { ThemeProvider } from './providers/ThemeProvider';
+import { ThemeProvider } from './components/theme-provider';
 import { ServicesProvider } from './shared/context/ServiceContext';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(

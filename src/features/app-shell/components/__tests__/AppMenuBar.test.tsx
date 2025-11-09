@@ -14,14 +14,13 @@ vi.mock('lucide-react', () => ({
 }));
 
 // Mock ThemeProvider to avoid theme system dependencies
-vi.mock('../../../../providers/ThemeProvider', () => ({
+vi.mock('../../../../../components/theme-provider', () => ({
   ThemeProvider: ({ children }: { children: React.ReactNode }) => (
     <>{children}</>
   ),
   useTheme: () => ({
-    theme: 'system',
+    theme: 'dark',
     setTheme: vi.fn(),
-    resolvedTheme: 'light',
   }),
 }));
 

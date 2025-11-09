@@ -4,8 +4,8 @@ import type { AppMenuBarProps } from '@/features/app-shell';
 import type { SidebarProps } from '@/features/folder-navigation';
 import type { ImageViewerProps } from '@/features/image-viewer';
 import App from '../App';
+import { ThemeProvider } from '../components/theme-provider';
 import type { FileSystemService } from '../features/folder-navigation/services/FileSystemService';
-import { ThemeProvider } from '../providers/ThemeProvider';
 import { ServicesProvider } from '../shared/context/ServiceContext';
 import { resetAllMocks, setupTauriMocks } from '../test/mocks';
 
