@@ -15,7 +15,11 @@ const dirname =
 // https://vitejs.dev/config/
 export default defineConfig(async () => ({
   plugins: [
-    react(),
+    react({
+      babel: {
+        plugins: ['babel-plugin-react-compiler']
+      }
+    }),
     tailwindcss(),
   ],
   resolve: {

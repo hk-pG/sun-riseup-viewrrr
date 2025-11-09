@@ -14,14 +14,13 @@ vi.mock('lucide-react', () => ({
 }));
 
 // Mock ThemeProvider to avoid theme system dependencies
-vi.mock('../../../../providers/ThemeProvider', () => ({
+vi.mock('../../../../../components/theme-provider', () => ({
   ThemeProvider: ({ children }: { children: React.ReactNode }) => (
     <>{children}</>
   ),
   useTheme: () => ({
-    theme: 'system',
+    theme: 'dark',
     setTheme: vi.fn(),
-    resolvedTheme: 'light',
   }),
 }));
 
@@ -74,16 +73,6 @@ describe('AppMenuBar Component (No Theme Dependencies)', () => {
       expect(screen.getByRole('banner')).toBeInTheDocument();
     });
 
-    it('should accept onOpenFolder prop', () => {
-      const customOnOpenFolder = vi.fn();
-      renderAppMenuBar({ onOpenFolder: customOnOpenFolder });
-
-      expect(screen.getByRole('banner')).toBeInTheDocument();
-      expect(
-        screen.getByRole('button', { name: 'フォルダを開く' }),
-      ).toBeInTheDocument();
-    });
-
     it('should accept isDraggable prop', () => {
       renderAppMenuBar({ isDraggable: true });
 
@@ -104,20 +93,6 @@ describe('AppMenuBar Component (No Theme Dependencies)', () => {
 
       const menubar = screen.getByRole('menubar');
       expect(menubar).toBeInTheDocument();
-    });
-
-    it('should render menu items with proper accessibility', () => {
-      renderAppMenuBar();
-
-      expect(screen.getByRole('banner')).toBeInTheDocument();
-
-      const menuItems = screen.getAllByRole('menuitem');
-      expect(menuItems.length).toBeGreaterThan(0);
-
-      renderAppMenuBar({ onOpenFolder: mockOnOpenFolder });
-      expect(
-        screen.getByRole('button', { name: 'フォルダを開く' }),
-      ).toBeInTheDocument();
     });
   });
 
@@ -141,12 +116,8 @@ describe('AppMenuBar Component (No Theme Dependencies)', () => {
       renderAppMenuBar({ onOpenFolder: mockOnOpenFolder });
 
       const header = screen.getByRole('banner');
-      const openFolderButton = screen.getByRole('button', {
-        name: 'フォルダを開く',
-      });
       const menubar = screen.getByRole('menubar');
 
-      expect(header).toContainElement(openFolderButton);
       expect(header).toContainElement(menubar);
     });
   });

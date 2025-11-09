@@ -1,7 +1,8 @@
-import { useCallback, useMemo, useState, useTransition } from 'react';
+import { useState, useTransition } from 'react';
 import './App.css';
 import { ErrorBoundary } from './components/ErrorBoundary';
-import { AppMenuBar } from './features/app-shell';
+import { useTheme } from './components/theme-provider';
+import { AppMenuBar, type AppMenuBarEvent } from './features/app-shell';
 import {
   type FolderInfo,
   Sidebar,
@@ -18,78 +19,81 @@ interface AppState {
 }
 
 function App() {
-  // React 19: Consolidated state management
   const [appState, setAppState] = useState<AppState>({
     currentFolderPath: '',
     initialImageIndex: 0,
   });
 
-  // React 19: useTransition for non-urgent updates
+  // useTransition for non-urgent updates
   const [isPending, startTransition] = useTransition();
+
+  // Theme API from provider (used for toggle-theme action)
+  const themeApi = useTheme();
 
   // サイドバーの表示のために同階層のフォルダ情報を取得
   const { entries } = useSiblingFolders(appState.currentFolderPath);
 
-  // React 19: Optimized memoization with useMemo
-  const folderInfo: FolderInfo[] = useMemo(
-    () =>
-      entries.map((entry) => ({
-        ...entry,
-        imageCount: undefined,
-        thumbnailImage: undefined,
-      })),
-    [entries],
-  );
+  const folderInfo: FolderInfo[] = entries.map((entry) => ({
+    ...entry,
+    imageCount: undefined,
+    thumbnailImage: undefined,
+  }));
 
-  const selectedFolder = useMemo(
-    () =>
-      folderInfo.find((folder) => folder.path === appState.currentFolderPath),
-    [folderInfo, appState.currentFolderPath],
+  const selectedFolder = folderInfo.find(
+    (folder) => folder.path === appState.currentFolderPath,
   );
 
   // ファイルシステムサービスを取得
   const fss = useServices();
   const { openImageFile } = useOpenImageFile(fss);
 
-  // React 19: Optimized event handlers with useCallback and better error handling
-  const handleMenuAction = useCallback(
-    async (actionId: string) => {
-      // TODO: スケールを考えてストラテジーパターンへの移行を検討
-      try {
-        if (actionId === 'open-folder') {
-          const folderPath = await fss.openDirectoryDialog();
-          if (folderPath) {
-            // React 19: Use transition for non-urgent state updates
-            startTransition(() => {
-              setAppState((prev) => ({
-                ...prev,
-                currentFolderPath: folderPath,
-                initialImageIndex: 0,
-              }));
-            });
-          }
-        } else if (actionId === 'open-image') {
-          const result = await openImageFile();
-          if (result?.folderPath) {
-            startTransition(() => {
-              setAppState((prev) => ({
-                ...prev,
-                currentFolderPath: result.folderPath as string,
-                initialImageIndex: result.index,
-              }));
-            });
-          }
+  const handleMenuAction = async (actionId: AppMenuBarEvent) => {
+    // TODO: スケールを考えてストラテジーパターンへの移行を検討
+    try {
+      if (actionId === 'open-folder') {
+        const folderPath = await fss.openDirectoryDialog();
+        if (folderPath) {
+          startTransition(() => {
+            setAppState((prev) => ({
+              ...prev,
+              currentFolderPath: folderPath,
+              initialImageIndex: 0,
+            }));
+          });
         }
-        // 他のアクションは今まで通り（必要ならここに追加）
-      } catch (error) {
-        console.error('Menu action failed:', error);
-        // React 19: Better error handling could include error boundaries or user feedback
-      }
-    },
-    [fss, openImageFile],
-  );
+      } else if (actionId === 'open-image') {
+        const result = await openImageFile();
+        if (result?.folderPath) {
+          startTransition(() => {
+            setAppState((prev) => ({
+              ...prev,
+              currentFolderPath: result.folderPath || '',
+              initialImageIndex: result.index,
+            }));
+          });
+        }
+      } else if (actionId === 'toggle-theme') {
+        try {
+          // useTheme is used below via closure; safe to call outside because hook must be used in component scope
+          const { theme: currentTheme, setTheme } = themeApi;
 
-  const handleFolderSelect = useCallback((folder: FolderInfo) => {
+          // テーマの切り替えルールを関数として純粋に定義（light/darkのみ）
+          const getOppositeTheme = (current: typeof currentTheme) =>
+            current === 'dark' ? 'light' : 'dark';
+
+          setTheme(getOppositeTheme(currentTheme));
+        } catch (err) {
+          console.error('toggle-theme failed', err);
+        }
+      }
+      // 他のアクションは今まで通り（必要ならここに追加）
+    } catch (error) {
+      console.error('Menu action failed:', error);
+      // React 19: Better error handling could include error boundaries or user feedback
+    }
+  };
+
+  const handleFolderSelect = (folder: FolderInfo) => {
     startTransition(() => {
       setAppState((prev) => ({
         ...prev,
@@ -97,7 +101,7 @@ function App() {
         initialImageIndex: 0, // Reset image index when changing folders
       }));
     });
-  }, []);
+  };
 
   return (
     <ErrorBoundary>

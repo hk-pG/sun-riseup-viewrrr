@@ -11,7 +11,6 @@ import {
   MenubarSubTrigger,
   MenubarTrigger,
 } from '@/shared/components/ui/menubar';
-import { ThemeToggle } from '../../../components/ui/theme-toggle';
 
 // AppMenuBarで使うイベントIDの型
 export type AppMenuBarEvent =
@@ -36,7 +35,8 @@ export type AppMenuBarEvent =
   | 'reset-rotation'
   | 'preferences'
   | 'shortcuts'
-  | 'about';
+  | 'about'
+  | 'toggle-theme';
 
 export interface AppMenuBarProps {
   onMenuAction: (actionId: AppMenuBarEvent) => void;
@@ -145,6 +145,11 @@ const viewMenu: MenuItemData[] = [
     shortcut: 'C',
     actionId: 'toggle-controls',
   },
+  {
+    type: 'item',
+    label: 'テーマ切り替え',
+    actionId: 'toggle-theme',
+  },
 ];
 
 // 汎用描画関数
@@ -190,30 +195,20 @@ function renderMenuItems(
 
 export const AppMenuBar = ({
   onMenuAction,
-  onOpenFolder,
   isDraggable = true,
   className = '',
   style,
 }: AppMenuBarProps) => {
   return (
     <header
-      className={`flex items-center justify-between border-border border-b bg-background px-4 py-2 text-foreground ${className}`}
+      className={`flex items-center justify-between border-border bg-background px-4 py-2 text-foreground ${className}`}
       style={style}
       {...(isDraggable ? { 'data-tauri-drag-region': true } : {})}
     >
       <div className="flex items-center gap-4">
-        {onOpenFolder && (
-          <button
-            type="button"
-            className="mr-2 rounded bg-primary px-3 py-1 text-primary-foreground text-sm hover:bg-primary/90"
-            onClick={onOpenFolder}
-          >
-            フォルダを開く
-          </button>
-        )}
         <Menubar className="border-border bg-background">
           <MenubarMenu>
-            <MenubarTrigger className="flex items-center gap-1 hover:bg-accent focus:bg-accent data-[state=open]:bg-accent">
+            <MenubarTrigger>
               <FileText className="h-4 w-4" />
               ファイル
             </MenubarTrigger>
@@ -222,7 +217,7 @@ export const AppMenuBar = ({
             </MenubarContent>
           </MenubarMenu>
           <MenubarMenu>
-            <MenubarTrigger className="flex items-center gap-1 hover:bg-accent focus:bg-accent data-[state=open]:bg-accent">
+            <MenubarTrigger>
               <Eye className="h-4 w-4" />
               表示
             </MenubarTrigger>
@@ -232,11 +227,6 @@ export const AppMenuBar = ({
           </MenubarMenu>
           {/* ...他のメニューも同様にデータ化して適用可能... */}
         </Menubar>
-      </div>
-
-      {/* Theme toggle button */}
-      <div className="flex items-center">
-        <ThemeToggle />
       </div>
     </header>
   );

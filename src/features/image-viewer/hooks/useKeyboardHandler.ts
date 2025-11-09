@@ -1,6 +1,6 @@
 import type React from 'react';
 
-import { useCallback, useEffect } from 'react';
+import { useEffect } from 'react';
 import type {
   ActionType,
   KeyboardMapping,
@@ -34,52 +34,44 @@ export const useKeyboardHandler = (
   keyboardMapping: KeyboardMapping | undefined,
   containerRef: React.RefObject<HTMLElement | HTMLButtonElement | null>,
 ) => {
-  const isEnabled = keyboardMapping?.enabled ?? false;
+  // イベントリスナーの登録・解除（containerRefやkeyboardMappingの変更時に再登録）
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
 
-  // あらかじめ定義したショートカットと押下されたキーイベントが一致するか判定
-  const isKeyboardEventMatch = useCallback(
-    (event: KeyboardEvent, shortcut: KeyboardShortcut): boolean => {
-      // key, 各種modifier(ctrl/shift/alt/meta)が全て一致する場合のみtrue
-      return (
-        // key
-        event.key === shortcut.key &&
-        // modifier keys
-        !!event.ctrlKey === !!shortcut.ctrlKey &&
-        !!event.shiftKey === !!shortcut.shiftKey &&
-        !!event.altKey === !!shortcut.altKey &&
-        !!event.metaKey === !!shortcut.metaKey
-      );
-    },
-    [],
-  );
+    // イベントハンドラをuseEffect内に定義して、最新のkeyboardMappingを参照する
+    const onKeyDown = (event: KeyboardEvent) => {
+      // キーボードショートカットが無効なら何もしない
+      const enabled = keyboardMapping?.enabled ?? false;
+      if (!enabled) return;
 
-  // イベントにマッチするアクション名をショートカット定義から検索
-  const findMatchingAction = useCallback(
-    (
-      event: KeyboardEvent,
-      shortcuts: Map<ActionType, KeyboardShortcut[]>,
-    ): ActionType | null => {
-      for (const [action, shortcutList] of shortcuts.entries()) {
-        for (const shortcut of shortcutList) {
-          if (isKeyboardEventMatch(event, shortcut)) {
-            // 最初に一致したアクション名を返す
-            return action;
+      const isKeyboardEventMatch = (
+        event: KeyboardEvent,
+        shortcut: KeyboardShortcut,
+      ): boolean => {
+        return (
+          event.key === shortcut.key &&
+          !!event.ctrlKey === !!shortcut.ctrlKey &&
+          !!event.shiftKey === !!shortcut.shiftKey &&
+          !!event.altKey === !!shortcut.altKey &&
+          !!event.metaKey === !!shortcut.metaKey
+        );
+      };
+
+      const findMatchingAction = (
+        event: KeyboardEvent,
+        shortcuts: Map<ActionType, KeyboardShortcut[]>,
+      ): ActionType | null => {
+        for (const [action, shortcutList] of shortcuts.entries()) {
+          for (const shortcut of shortcutList) {
+            if (isKeyboardEventMatch(event, shortcut)) {
+              return action;
+            }
           }
         }
-      }
-      // 一致しなければnull
-      return null;
-    },
-    [isKeyboardEventMatch],
-  );
+        return null;
+      };
 
-  // keydownイベントハンドラ本体
-  const handleKeyDown = useCallback(
-    (event: KeyboardEvent) => {
-      // キーボードショートカットが無効なら何もしない
-      if (!isEnabled) return;
-
-      // マッチするアクションを検索
       const matchedAction = findMatchingAction(
         event,
         keyboardMapping?.shortcuts ?? new Map(),
@@ -87,42 +79,27 @@ export const useKeyboardHandler = (
 
       if (!matchedAction) return;
 
-      const isPreventDefault = (
-        keyboardMapping: KeyboardMapping | undefined,
-        matchedAction: string,
-      ) => {
-        // return keyboardMapping.shortcuts.get(matchedAction)?.[0]?.preventDefault !== false
-        // 0番目ではなく、マッチしたショートカットのpreventDefaultを参照するように修正
-        return keyboardMapping?.shortcuts
-          .get(matchedAction)
-          ?.find((shortcut) => isKeyboardEventMatch(event, shortcut))
-          ?.preventDefault;
-      };
+      const isPreventDefault = keyboardMapping?.shortcuts
+        .get(matchedAction)
+        ?.find((shortcut) =>
+          isKeyboardEventMatch(event, shortcut),
+        )?.preventDefault;
 
-      // preventDefaultが明示的にfalseでなければデフォルト動作を抑止
-      if (isPreventDefault(keyboardMapping, matchedAction)) {
+      if (isPreventDefault) {
         event.preventDefault();
       }
-      // 対応するアクションをコールバックで通知
+
       keyboardMapping?.onAction(matchedAction, event);
-    },
-    [keyboardMapping, findMatchingAction, isKeyboardEventMatch, isEnabled],
-  );
-
-  // イベントリスナーの登録・解除（containerRefが変わるたびに再登録）
-  useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
-
-    // keydownイベントをcontainerに登録
-    container.addEventListener('keydown', (e) => {
-      handleKeyDown(e as KeyboardEvent);
-    });
-    return () => {
-      // クリーンアップ時にイベントリスナーを解除
-      container.removeEventListener('keydown', (e) => {
-        handleKeyDown(e as KeyboardEvent);
-      });
     };
-  }, [handleKeyDown, containerRef]);
+
+    container.addEventListener('keydown', onKeyDown as EventListener);
+    return () => {
+      container.removeEventListener('keydown', onKeyDown as EventListener);
+    };
+  }, [
+    containerRef,
+    keyboardMapping?.enabled,
+    keyboardMapping?.shortcuts,
+    keyboardMapping?.onAction,
+  ]);
 };

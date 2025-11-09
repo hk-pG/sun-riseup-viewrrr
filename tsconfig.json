@@ -24,7 +24,6 @@
     "exactOptionalPropertyTypes": false,
 
     /* Paths */
-    "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
     }

@@ -1,13 +1,6 @@
 'use client';
 
-import {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-  useTransition,
-} from 'react';
+import { useEffect, useRef, useState, useTransition } from 'react';
 import type { ImageSource } from '@/features/image-viewer/types/ImageSource';
 import type {
   KeyboardMapping,
@@ -59,14 +52,10 @@ export function ImageViewer({
   className = '',
   style,
 }: ImageViewerProps) {
-  // 設定オブジェクトの参照安定性を保ち、下流コンポーネントの不要な再レンダリングを防ぐ
-  const mergedSettings = useMemo(
-    () => ({
-      ...defaultSettings,
-      ...userSettings,
-    }),
-    [userSettings],
-  );
+  const mergedSettings = {
+    ...defaultSettings,
+    ...userSettings,
+  };
 
   const { images = [], isLoading, error } = useImages(folderPath);
   const [loading, setLoading] = useState(true);
@@ -78,11 +67,7 @@ export function ImageViewer({
   const [settings, setSettings] = useState<ViewerSettings>(mergedSettings);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // 現在画像の参照安定性を保ち、ImageDisplayの不要な再レンダリングを防ぐ
-  const currentImage = useMemo(
-    () => images[currentIndex],
-    [images, currentIndex],
-  );
+  const currentImage = images[currentIndex];
 
   // コントロールの表示管理
   const { isVisible: controlsVisible, handleMouseMove } = useControlsVisibility(
@@ -91,8 +76,7 @@ export function ImageViewer({
     settings.controlsTimeout,
   );
 
-  // 画像ナビゲーション：早期リターンで境界チェック、直接状態更新で点滅を防ぐ
-  const goToNext = useCallback(() => {
+  const goToNext = () => {
     if (currentIndex >= images.length - 1) return;
 
     setCurrentIndex((prev) => {
@@ -100,9 +84,9 @@ export function ImageViewer({
       callbacks?.onImageChange?.(newIndex, images[newIndex]);
       return newIndex;
     });
-  }, [currentIndex, images, callbacks]);
+  };
 
-  const goToPrevious = useCallback(() => {
+  const goToPrevious = () => {
     if (currentIndex <= 0) return;
 
     setCurrentIndex((prev) => {
@@ -110,10 +94,9 @@ export function ImageViewer({
       callbacks?.onImageChange?.(newIndex, images[newIndex]);
       return newIndex;
     });
-  }, [currentIndex, images, callbacks]);
+  };
 
-  // ズーム操作：境界チェックで不要な処理を回避、startTransitionで重い再描画を非ブロッキング実行
-  const zoomIn = useCallback(() => {
+  const zoomIn = () => {
     const currentZoom = settings.zoom;
     if (currentZoom >= 5) return;
 
@@ -124,9 +107,9 @@ export function ImageViewer({
         return { ...prev, zoom: newZoom };
       });
     });
-  }, [settings.zoom, callbacks]);
+  };
 
-  const zoomOut = useCallback(() => {
+  const zoomOut = () => {
     const currentZoom = settings.zoom;
     if (currentZoom <= 0.1) return;
 
@@ -137,9 +120,9 @@ export function ImageViewer({
         return { ...prev, zoom: newZoom };
       });
     });
-  }, [settings.zoom, callbacks]);
+  };
 
-  const resetZoom = useCallback(() => {
+  const resetZoom = () => {
     if (settings.zoom === 1) return;
 
     startTransition(() => {
@@ -148,7 +131,7 @@ export function ImageViewer({
         return { ...prev, zoom: 1 };
       });
     });
-  }, [settings.zoom, callbacks]);
+  };
 
   // キーボードマッピングの拡張
   // 画像数やコールバックの都合でonActionだけ差し替えたい場合は、親でKeyboardMappingを生成して渡す設計にする

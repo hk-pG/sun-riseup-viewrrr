@@ -1,0 +1,17 @@
+#!/bin/sh
+
+# Check if there are any frontend related changes
+if git diff --cached --name-only | grep "^src/" | grep -v "^src-tauri/" > /dev/null; then
+    echo "Frontend changes detected. Running frontend checks..."
+    pnpm build || exit 1
+    pnpm lint || exit 1
+    pnpm test || exit 1
+fi
+
+# Check if there are any Rust changes in core_logic
+if git diff --cached --name-only | grep -E "^src-tauri/core_logic(\.rs|/.*\.rs)$" > /dev/null; then
+    echo "Core logic Rust changes detected. Running Rust tests..."
+    (cd src-tauri/core_logic && cargo test) || exit 1
+fi
+
+exit 0

@@ -1,4 +1,4 @@
-import { startTransition, useEffect, useMemo, useState } from 'react';
+import { startTransition, useEffect, useState } from 'react';
 import { useServices } from '../../../shared/context/ServiceContext';
 import type { FileSystemService } from '..';
 import { getSiblingFolderEntries } from '../services/getSiblingFolders';
@@ -60,6 +60,5 @@ export function useSiblingFolders(currentFolderPath: string) {
     };
   }, [currentFolderPath, fs]);
 
-  // フォルダエントリ一覧を返す（安定化）
-  return useMemo(() => ({ entries }), [entries]);
+  return { entries };
 }

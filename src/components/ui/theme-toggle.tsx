@@ -1,6 +1,6 @@
-import { Monitor, Moon, Sun } from 'lucide-react';
+import { Moon, Sun } from 'lucide-react';
 import { Button } from '@/shared/components/ui/button';
-import { useTheme } from '../../providers/ThemeProvider';
+import { useTheme } from '../theme-provider';
 
 export function ThemeToggle() {
   const { theme, setTheme } = useTheme();
@@ -11,9 +11,6 @@ export function ThemeToggle() {
         setTheme('dark');
         break;
       case 'dark':
-        setTheme('system');
-        break;
-      case 'system':
         setTheme('light');
         break;
     }
@@ -25,8 +22,6 @@ export function ThemeToggle() {
         return <Sun className="h-[1.2rem] w-[1.2rem]" />;
       case 'dark':
         return <Moon className="h-[1.2rem] w-[1.2rem]" />;
-      case 'system':
-        return <Monitor className="h-[1.2rem] w-[1.2rem]" />;
     }
   };
 
@@ -35,8 +30,6 @@ export function ThemeToggle() {
       case 'light':
         return 'Switch to dark mode';
       case 'dark':
-        return 'Switch to system mode';
-      case 'system':
         return 'Switch to light mode';
     }
   };
@@ -76,15 +69,6 @@ export function ThemeSelector() {
       >
         <Moon className="mr-2 h-4 w-4" />
         Dark
-      </Button>
-      <Button
-        variant={theme === 'system' ? 'default' : 'outline'}
-        size="sm"
-        onClick={() => setTheme('system')}
-        aria-label="System mode"
-      >
-        <Monitor className="mr-2 h-4 w-4" />
-        System
       </Button>
     </div>
   );

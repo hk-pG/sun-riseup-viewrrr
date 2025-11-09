@@ -1,3 +1,7 @@
+[workspace]
+members = [".", "core_logic"]
+default-members = ["."]
+
 [package]
 name = "sun-riseup-viewrrr"
 version = "0.1.0"

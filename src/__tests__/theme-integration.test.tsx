@@ -6,16 +6,13 @@ import {
   waitFor,
 } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { ThemeProvider } from '../components/theme-provider';
 import { ThemeToggle } from '../components/ui/theme-toggle';
-import { ThemeProvider } from '../providers/ThemeProvider';
 
 // SettingsServiceは使用しないため、モックを削除
 
 // Mock lucide-react icons
 vi.mock('lucide-react', () => ({
-  Monitor: ({ className }: { className?: string }) => (
-    <div data-testid="monitor-icon" className={className} />
-  ),
   Moon: ({ className }: { className?: string }) => (
     <div data-testid="moon-icon" className={className} />
   ),
@@ -28,6 +25,9 @@ describe('Theme System Integration', () => {
   beforeEach(() => {
     // Reset mocks
     vi.clearAllMocks();
+
+    // Clear localStorage
+    localStorage.clear();
 
     // Mock matchMedia
     Object.defineProperty(window, 'matchMedia', {
@@ -78,64 +78,34 @@ describe('Theme System Integration', () => {
     });
   });
 
-  it('should handle system theme detection', async () => {
-    // Test dark system preference
-    const mockMatchMedia = vi.fn().mockImplementation((query) => ({
-      matches: query === '(prefers-color-scheme: dark)',
-      media: query,
-      onchange: null,
-      addListener: vi.fn(),
-      removeListener: vi.fn(),
-      addEventListener: vi.fn(),
-      removeEventListener: vi.fn(),
-      dispatchEvent: vi.fn(),
-    }));
-
-    Object.defineProperty(window, 'matchMedia', {
-      writable: true,
-      value: mockMatchMedia,
-    });
-
+  it('should handle dark theme as default', async () => {
     await act(async () => {
       render(
-        <ThemeProvider defaultTheme="system">
+        <ThemeProvider defaultTheme="dark">
           <ThemeToggle />
         </ThemeProvider>,
       );
     });
 
-    // Should detect dark system theme
+    // Should apply dark theme by default
     expect(document.documentElement).toHaveClass('dark');
     expect(document.documentElement).not.toHaveClass('light');
   });
 
-  it('should handle light system theme detection', async () => {
-    // Test light system preference
-    Object.defineProperty(window, 'matchMedia', {
-      writable: true,
-      value: vi.fn().mockImplementation((query) => ({
-        matches: false, // Light theme
-        media: query,
-        onchange: null,
-        addListener: vi.fn(),
-        removeListener: vi.fn(),
-        addEventListener: vi.fn(),
-        removeEventListener: vi.fn(),
-        dispatchEvent: vi.fn(),
-      })),
-    });
-
+  it('should handle light theme explicitly', async () => {
     await act(async () => {
       render(
-        <ThemeProvider defaultTheme="system">
+        <ThemeProvider defaultTheme="light">
           <ThemeToggle />
         </ThemeProvider>,
       );
     });
 
-    // Should detect light system theme
-    expect(document.documentElement).toHaveClass('light');
-    expect(document.documentElement).not.toHaveClass('dark');
+    // Wait for initial theme to be applied
+    await waitFor(() => {
+      expect(document.documentElement).toHaveClass('light');
+      expect(document.documentElement).not.toHaveClass('dark');
+    });
   });
 
   it('should maintain theme state without persistence', async () => {
@@ -155,19 +125,17 @@ describe('Theme System Integration', () => {
     const button = screen.getByRole('button');
 
     await act(async () => {
-      fireEvent.click(button); // Switch theme
+      fireEvent.click(button); // Switch to dark theme
     });
 
-    // Verify theme switching still works (just without persistence)
+    // Verify theme switched to dark
     await waitFor(() => {
-      const hasThemeClass =
-        document.documentElement.classList.contains('light') ||
-        document.documentElement.classList.contains('dark');
-      expect(hasThemeClass).toBe(true);
+      expect(document.documentElement).toHaveClass('dark');
+      expect(document.documentElement).not.toHaveClass('light');
     });
   });
 
-  it('should use system theme as default', async () => {
+  it('should use dark theme as default', async () => {
     await act(async () => {
       render(
         <ThemeProvider>
@@ -176,9 +144,9 @@ describe('Theme System Integration', () => {
       );
     });
 
-    // Should default to system theme and resolve to light (based on mock)
+    // Should default to dark theme (our new default)
     await waitFor(() => {
-      expect(document.documentElement).toHaveClass('light');
+      expect(document.documentElement).toHaveClass('dark');
     });
   });
 });

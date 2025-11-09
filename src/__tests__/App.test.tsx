@@ -4,6 +4,7 @@ import type { AppMenuBarProps } from '@/features/app-shell';
 import type { SidebarProps } from '@/features/folder-navigation';
 import type { ImageViewerProps } from '@/features/image-viewer';
 import App from '../App';
+import { ThemeProvider } from '../components/theme-provider';
 import type { FileSystemService } from '../features/folder-navigation/services/FileSystemService';
 import { ServicesProvider } from '../shared/context/ServiceContext';
 import { resetAllMocks, setupTauriMocks } from '../test/mocks';
@@ -102,13 +103,17 @@ describe('App Component', () => {
     setupTauriMocks();
     mockFileSystemService = createMockFileSystemService();
     mockOpenImageFile.mockReset();
+    vi.spyOn(console, 'error').mockImplementation(() => {});
   });
 
   const renderApp = (services?: Partial<FileSystemService>) => {
     return render(
-      <ServicesProvider services={services}>
-        <App />
-      </ServicesProvider>,
+      <ThemeProvider>
+        <ServicesProvider services={services}>
+          <App />
+        </ServicesProvider>
+        ,
+      </ThemeProvider>,
     );
   };
 
