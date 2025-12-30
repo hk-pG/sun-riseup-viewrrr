@@ -22,7 +22,7 @@ export function ViewerControls({
 
   return (
     <div
-      className={`-translate-x-1/2 absolute bottom-4 left-1/2 flex transform items-center gap-4 rounded-lg bg-background/75 px-4 py-2 text-foreground backdrop-blur-sm ${className}`}
+      className={`absolute bottom-4 left-1/2 flex -translate-x-1/2 transform items-center gap-4 rounded-lg bg-background/75 px-4 py-2 text-foreground backdrop-blur-sm ${className}`}
     >
       <Button
         onClick={onNext}
