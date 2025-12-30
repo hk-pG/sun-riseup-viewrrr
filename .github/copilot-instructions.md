@@ -87,6 +87,22 @@ pnpm storybook            # コンポーネントプレイグラウンド
 
 ### コミットメッセージ
 
+**Conventional Commits** に従ってください。
+
+形式: `type(scope): subject`
+
+主な type:
+- `feat`: 新機能
+- `fix`: バグ修正
+- `docs`: ドキュメントのみの変更
+- `style`: コードの動作に影響しない変更（空白、フォーマットなど）
+- `refactor`: バグ修正や機能追加を含まないコードの変更
+- `perf`: パフォーマンスを向上させる変更
+- `test`: テストの追加や修正
+- `chore`: ビルドプロセスやツールの変更
+
+例:
+
 ```bash
 git commit -m "feat: 機能追加の説明
 
