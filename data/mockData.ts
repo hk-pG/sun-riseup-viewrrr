@@ -60,3 +60,20 @@ export const mockSidebarOnlyFolders: Array<{ path: string; name: string }> = [
   { path: '/mock/about', name: 'このアプリについて' },
 ];
 
+// かさ増し用ダミーフォルダ群
+export const generateDummyEmptyFolders = (count: number): Array<{ path: string; name: string }> => {
+  return Array.from({ length: count }, (_, index) => ({
+    path: `/mock/dummy-folder-${index + 1}`,
+    name: `ダミーフォルダ ${index + 1}`,
+  }));
+};
+
+// 長いフォルダ名のテスト用データ
+export const generateLongNameFolders = (): Array<{ path: string; name: string }> => {
+  return [
+    {
+      name: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+      path: '/mock/long-name-folder-1',
+    }
+  ];
+}

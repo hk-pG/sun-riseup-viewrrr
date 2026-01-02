@@ -3,6 +3,8 @@ import { useState } from 'react';
 import App from '@/App';
 import { ThemeProvider } from '@/components/theme-provider';
 import {
+  generateDummyEmptyFolders,
+  generateLongNameFolders,
   getMockImageFolders,
   mockImageSourcesByFolderPath,
   mockSidebarOnlyFolders,
@@ -116,11 +118,15 @@ export const SidebarOnly: Story = {
 export const ResponsiveLayout: Story = {
   render: () => {
     // レスポンシブテストでも画像付き・画像なし両方のフォルダをサイドバーに表示
-    const folders = [...getMockImageFolders(), ...mockSidebarOnlyFolders];
+    const folders = [
+      ...getMockImageFolders(),
+      ...mockSidebarOnlyFolders,
+      ...generateDummyEmptyFolders(30),
+      ...generateLongNameFolders(),
+    ];
     const [currentFolderPath, setCurrentFolderPath] = useState(
       folders[0]?.path || '',
     );
-    const [sidebarVisible, setSidebarVisible] = useState(true);
     const selectedFolder = folders.find(
       (folder) => folder.path === currentFolderPath,
     );
@@ -129,26 +135,15 @@ export const ResponsiveLayout: Story = {
         {/* ヘッダー */}
         <div className="flex items-center justify-between border-gray-200 border-b bg-white p-4">
           <h1 className="font-semibold text-lg">漫画ビューア</h1>
-          <button
-            type="button"
-            onClick={() => setSidebarVisible(!sidebarVisible)}
-            className="rounded bg-blue-500 px-3 py-1 text-white hover:bg-blue-600"
-          >
-            {sidebarVisible ? 'サイドバー非表示' : 'サイドバー表示'}
-          </button>
         </div>
         {/* メインコンテンツ */}
         <div className="flex flex-1">
-          {sidebarVisible && (
-            <Sidebar
-              folders={folders}
-              selectedFolder={selectedFolder}
-              onFolderSelect={(folder: any) =>
-                setCurrentFolderPath(folder.path)
-              }
-              width={280}
-            />
-          )}
+          <Sidebar
+            folders={folders}
+            selectedFolder={selectedFolder}
+            onFolderSelect={(folder: any) => setCurrentFolderPath(folder.path)}
+            width={280}
+          />
           <ImageViewer
             folderPath={currentFolderPath}
             initialIndex={0}
