@@ -114,43 +114,60 @@ export const SidebarOnly: Story = {
   },
 };
 
+// Define rich folders for responsive test
+const richFolders = [
+  ...getMockImageFolders(),
+  ...mockSidebarOnlyFolders,
+  ...generateDummyEmptyFolders(30),
+  ...generateLongNameFolders(),
+];
+
+const folderNameMap = richFolders.reduce(
+  (acc, folder) => {
+    acc[folder.path] = folder.name;
+    return acc;
+  },
+  {} as Record<string, string>,
+);
+
+const createRichMockFileSystemService = (): FileSystemService => {
+  const base = createMockFileSystemService();
+  return {
+    ...base,
+    getSiblingFolders: async (currentPath: string) =>
+      richFolders.map((f) => f.path).filter((path) => path !== currentPath),
+    getBaseName: async (filePath: string) => {
+      return folderNameMap[filePath] || filePath.split('/').pop() || '';
+    },
+  };
+};
+
+const RichMockServiceProvider = ({
+  children,
+}: {
+  children: React.ReactNode;
+}) => {
+  const mockService = createRichMockFileSystemService();
+  return <ServicesProvider services={mockService}>{children}</ServicesProvider>;
+};
+
 // レスポンシブテスト
 export const ResponsiveLayout: Story = {
+  decorators: [
+    (Story) => (
+      <RichMockServiceProvider>
+        <Story />
+      </RichMockServiceProvider>
+    ),
+  ],
   render: () => {
-    // レスポンシブテストでも画像付き・画像なし両方のフォルダをサイドバーに表示
-    const folders = [
-      ...getMockImageFolders(),
-      ...mockSidebarOnlyFolders,
-      ...generateDummyEmptyFolders(30),
-      ...generateLongNameFolders(),
-    ];
-    const [currentFolderPath, setCurrentFolderPath] = useState(
-      folders[0]?.path || '',
-    );
-    const selectedFolder = folders.find(
-      (folder) => folder.path === currentFolderPath,
-    );
+    const initialFolder = richFolders[0];
     return (
-      <div className="flex h-screen flex-col bg-gray-100">
-        {/* ヘッダー */}
-        <div className="flex items-center justify-between border-gray-200 border-b bg-white p-4">
-          <h1 className="font-semibold text-lg">漫画ビューア</h1>
-        </div>
-        {/* メインコンテンツ */}
-        <div className="flex flex-1">
-          <Sidebar
-            folders={folders}
-            selectedFolder={selectedFolder}
-            onFolderSelect={(folder: any) => setCurrentFolderPath(folder.path)}
-            width={280}
-          />
-          <ImageViewer
-            folderPath={currentFolderPath}
-            initialIndex={0}
-            className="flex-1"
-          />
-        </div>
-      </div>
+      <App
+        initialState={{
+          currentFolderPath: initialFolder?.path || '',
+        }}
+      />
     );
   },
 };

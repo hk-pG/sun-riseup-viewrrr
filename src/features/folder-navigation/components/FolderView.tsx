@@ -1,3 +1,4 @@
+import { LucideFolder } from 'lucide-react';
 import { useState } from 'react';
 import {
   Tooltip,
@@ -64,7 +65,9 @@ export function FolderView({
 
           return (
             <div className="flex h-full w-full items-center justify-center text-muted-foreground">
-              <span className="text-4xl">📁</span>
+              <span className="text-4xl">
+                <LucideFolder />
+              </span>
             </div>
           );
         })()}

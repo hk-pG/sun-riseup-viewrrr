@@ -249,6 +249,8 @@ handleMenuAction = (actionId) => executeAction(actionId);
 - Tauri v2 ドキュメント: https://v2.tauri.app/
 
 ## Active Technologies
+- TypeScript 5.6+, React 19, Rust (Tauri v2) + Vite 6, Tailwind CSS 4, SWR（既存利用、今回の変更は主にレイアウト調整） (003-fix-sidebar-scroll)
+- なし（ローカルファイル閲覧のみで新規永続化は不要） (003-fix-sidebar-scroll)
 
 - TypeScript 5.6+, React 19 + React 19 (React Compiler 有効), Vite 6, Tailwind CSS 4, SWR, Tauri v2 (001-remove-manual-memoization)
 - N/A（ローカルファイルシステム経由の画像アクセス） (001-remove-manual-memoization)

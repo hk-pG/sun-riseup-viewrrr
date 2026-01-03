@@ -13,15 +13,21 @@ import { ImageViewer } from './features/image-viewer';
 import { useServices } from './shared/context/ServiceContext';
 
 // App state interface for better type safety
-interface AppState {
+export interface AppState {
   currentFolderPath: string;
   initialImageIndex: number;
 }
 
-function App() {
+/**
+ * アプリケーションのルートコンポーネント
+ *
+ * @param props.initialState - テストやStorybook用の初期状態（オプション）。
+ *                             初期フォルダパスや画像インデックスを注入できます。
+ */
+function App({ initialState }: { initialState?: Partial<AppState> }) {
   const [appState, setAppState] = useState<AppState>({
-    currentFolderPath: '',
-    initialImageIndex: 0,
+    currentFolderPath: initialState?.currentFolderPath || '',
+    initialImageIndex: initialState?.initialImageIndex || 0,
   });
 
   // useTransition for non-urgent updates
@@ -89,7 +95,6 @@ function App() {
       // 他のアクションは今まで通り（必要ならここに追加）
     } catch (error) {
       console.error('Menu action failed:', error);
-      // React 19: Better error handling could include error boundaries or user feedback
     }
   };
 
@@ -110,7 +115,7 @@ function App() {
           <AppMenuBar isDraggable={true} onMenuAction={handleMenuAction} />
         </div>
 
-        <div className="flex h-screen bg-background text-foreground">
+        <div className="flex flex-1 overflow-hidden bg-background text-foreground">
           <Sidebar
             folders={folderInfo}
             selectedFolder={selectedFolder}
