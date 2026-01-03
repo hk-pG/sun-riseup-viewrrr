@@ -30,7 +30,7 @@ export function ViewerControls({
         variant="secondary"
         className="min-w-16 px-2 py-1"
       >
-        ◀ 次
+        <ArrowBigLeft />
       </Button>
       <span className="text-sm">
         {displayIndex} / {totalImages}
@@ -41,7 +41,7 @@ export function ViewerControls({
         variant="secondary"
         className="min-w-16 px-2 py-1"
       >
-        前 ▶
+        <ArrowBigRight />
       </Button>
 
       <div className="h-4 w-px bg-border" />
