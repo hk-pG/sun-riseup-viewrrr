@@ -1,6 +1,7 @@
 // サムネイル生成のユーティリティ関数
 
 use blake3;
+use directories::ProjectDirs;
 
 /// 画像パスからBLAKE3ハッシュを生成してサムネイルIDを作成
 ///
@@ -16,59 +17,25 @@ pub fn hash_path(image_path: &str) -> String {
 
 /// サムネイルキャッシュディレクトリのパスを取得
 ///
+/// `directories`クレートを使用してOS標準のキャッシュディレクトリを取得します。
+///
 /// # Returns
 /// プラットフォーム固有のキャッシュディレクトリパス
-/// - Linux: `$XDG_CACHE_HOME/sun-riseup-viewrrr/thumbnails` または `~/.cache/sun-riseup-viewrrr/thumbnails`
+/// - Linux: `~/.cache/sun-riseup-viewrrr/thumbnails`
 /// - macOS: `~/Library/Caches/sun-riseup-viewrrr/thumbnails`
-/// - Windows: `%LOCALAPPDATA%\sun-riseup-viewrrr\cache\thumbnails`
+/// - Windows: `%LOCALAPPDATA%\sun-riseup-viewrrr\thumbnails`
 ///
 /// # Errors
-/// ホームディレクトリが取得できない場合にエラーを返す
+/// プロジェクトディレクトリが取得できない場合、またはディレクトリ作成に失敗した場合にエラーを返す
 pub fn get_cache_dir() -> std::io::Result<std::path::PathBuf> {
-    let cache_base = if cfg!(target_os = "linux") {
-        // Linux: XDG Base Directory仕様に従う
-        std::env::var("XDG_CACHE_HOME")
-            .ok()
-            .map(std::path::PathBuf::from)
-            .or_else(|| {
-                std::env::var("HOME")
-                    .ok()
-                    .map(|h| std::path::Path::new(&h).join(".cache"))
-            })
-            .ok_or_else(|| {
-                std::io::Error::new(
-                    std::io::ErrorKind::NotFound,
-                    "Could not determine cache directory",
-                )
-            })?
-    } else if cfg!(target_os = "macos") {
-        // macOS: ~/Library/Caches
-        std::env::var("HOME")
-            .ok()
-            .map(|h| std::path::Path::new(&h).join("Library").join("Caches"))
-            .ok_or_else(|| {
-                std::io::Error::new(
-                    std::io::ErrorKind::NotFound,
-                    "Could not determine home directory",
-                )
-            })?
-    } else if cfg!(target_os = "windows") {
-        // Windows: %LOCALAPPDATA%
-        std::env::var("LOCALAPPDATA")
-            .ok()
-            .map(std::path::PathBuf::from)
-            .ok_or_else(|| {
-                std::io::Error::new(
-                    std::io::ErrorKind::NotFound,
-                    "Could not determine local app data directory",
-                )
-            })?
-    } else {
-        // その他のプラットフォーム: フォールバック
-        std::env::temp_dir()
-    };
+    let proj_dirs = ProjectDirs::from("com", "sun-riseup", "viewrrr").ok_or_else(|| {
+        std::io::Error::new(
+            std::io::ErrorKind::NotFound,
+            "Could not determine project directories",
+        )
+    })?;
 
-    let thumbnail_dir = cache_base.join("sun-riseup-viewrrr").join("thumbnails");
+    let thumbnail_dir = proj_dirs.cache_dir().join("thumbnails");
 
     // ディレクトリが存在しない場合は作成
     std::fs::create_dir_all(&thumbnail_dir)?;
@@ -108,9 +75,11 @@ mod tests {
             cache_dir.exists(),
             "Cache directory should be created if it doesn't exist"
         );
+        // directoriesクレートは"viewrrr/thumbnails"という構造を作る
         assert!(
-            cache_dir.ends_with("sun-riseup-viewrrr/thumbnails"),
-            "Cache directory should end with app-specific path"
+            cache_dir.ends_with("viewrrr/thumbnails"),
+            "Cache directory should end with app-specific path: {:?}",
+            cache_dir
         );
     }
 }

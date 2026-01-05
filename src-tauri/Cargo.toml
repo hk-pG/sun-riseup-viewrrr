@@ -32,10 +32,11 @@ tauri-plugin-fs = "2"
 tauri-plugin-store = "2"
 
 # Thumbnail optimization dependencies (001-rust-thumbnail-optimization)
-image = { version = "0.25", default-features = false, features = ["png", "jpeg"] }
+image = { version = "0.25", default-features = false, features = ["png", "jpeg", "webp"] }
 rayon = "1.11"
 blake3 = "1.8"
 thiserror = "2.0"
+directories = "5.0"
 
 [profile.dev]
 debug = true

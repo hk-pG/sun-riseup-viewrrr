@@ -27,10 +27,12 @@ pub async fn get_or_create_thumbnail(image_path: String) -> std::result::Result<
         .get_or_create_thumbnail(&image_path)
         .map_err(|e| e.to_string())?;
 
-    cache_path
+    let path_str = cache_path
         .to_str()
         .map(|s| s.to_string())
-        .ok_or_else(|| "Failed to convert path to string".to_string())
+        .ok_or_else(|| "Failed to convert path to string".to_string())?;
+
+    Ok(path_str)
 }
 
 /// 複数の画像のサムネイルをバッチ生成する

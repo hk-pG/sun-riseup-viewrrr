@@ -29,11 +29,7 @@ async function fetchThumbnail(
         name,
         assetUrl: fs.convertFileSrc(thumbnailPath),
       };
-    } catch (error) {
-      console.warn(
-        'Failed to generate thumbnail, falling back to original:',
-        error,
-      );
+    } catch (_error) {
       // フォールバック: 元の画像を使用
       return {
         id: first,
