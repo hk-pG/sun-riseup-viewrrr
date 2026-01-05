@@ -55,3 +55,20 @@ export const resetAllMocks = () => {
   vi.resetAllMocks();
   vi.clearAllTimers();
 };
+
+/**
+ * Create a mock FileSystemService for thumbnail testing (001-rust-thumbnail-optimization)
+ */
+export const createMockFileSystemServiceWithThumbnails = () => ({
+  openDirectoryDialog: vi.fn().mockResolvedValue('/mock/path'),
+  getBaseName: vi.fn().mockResolvedValue('mockfile.jpg'),
+  getDirName: vi.fn().mockResolvedValue('/mock'),
+  convertFileSrc: vi.fn((path: string) => `asset://${path}`),
+  listImagesInFolder: vi.fn().mockResolvedValue([]),
+  getSiblingFolders: vi.fn().mockResolvedValue([]),
+  getOrCreateThumbnail: vi.fn().mockResolvedValue('/mock/cache/thumbnail.jpg'),
+  batchCreateThumbnails: vi
+    .fn()
+    .mockResolvedValue({ '/mock/image1.jpg': '/mock/cache/thumb1.jpg' }),
+  clearThumbnailCache: vi.fn().mockResolvedValue(undefined),
+});
