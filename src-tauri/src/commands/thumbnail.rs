@@ -16,12 +16,17 @@ use tauri::command;
 ///
 /// # Arguments
 /// * `image_path` - ソース画像のフルパス
+/// * `app_handle` - Tauriアプリケーションハンドル（自動注入）
 ///
 /// # Returns
 /// サムネイルのキャッシュパス（成功時）
 #[command]
-pub async fn get_or_create_thumbnail(image_path: String) -> std::result::Result<String, String> {
-    let generator = ThumbnailGenerator::with_default_config().map_err(|e| e.to_string())?;
+pub async fn get_or_create_thumbnail(
+    image_path: String,
+    app_handle: tauri::AppHandle,
+) -> std::result::Result<String, String> {
+    let generator =
+        ThumbnailGenerator::with_default_config(app_handle).map_err(|e| e.to_string())?;
 
     let cache_path = generator
         .get_or_create_thumbnail(&image_path)

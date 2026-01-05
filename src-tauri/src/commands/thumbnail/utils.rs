@@ -1,7 +1,7 @@
 // サムネイル生成のユーティリティ関数
 
 use blake3;
-use directories::ProjectDirs;
+use tauri::{AppHandle, Manager};
 
 /// 画像パスからBLAKE3ハッシュを生成してサムネイルIDを作成
 ///
@@ -17,25 +17,27 @@ pub fn hash_path(image_path: &str) -> String {
 
 /// サムネイルキャッシュディレクトリのパスを取得
 ///
-/// `directories`クレートを使用してOS標準のキャッシュディレクトリを取得します。
+/// Tauri PathResolverを使用してOS標準のキャッシュディレクトリを取得します。
+/// これは`tauri.conf.json`の`$CACHE`変数と一貫性があります。
+///
+/// # Arguments
+/// * `app_handle` - Tauriアプリケーションハンドル
 ///
 /// # Returns
 /// プラットフォーム固有のキャッシュディレクトリパス
 /// - Linux: `~/.cache/sun-riseup-viewrrr/thumbnails`
 /// - macOS: `~/Library/Caches/sun-riseup-viewrrr/thumbnails`
-/// - Windows: `%LOCALAPPDATA%\sun-riseup-viewrrr\thumbnails`
+/// - Windows: `%LOCALAPPDATA%\sun-riseup-viewrrr\cache\thumbnails`
 ///
 /// # Errors
-/// プロジェクトディレクトリが取得できない場合、またはディレクトリ作成に失敗した場合にエラーを返す
-pub fn get_cache_dir() -> std::io::Result<std::path::PathBuf> {
-    let proj_dirs = ProjectDirs::from("com", "sun-riseup", "viewrrr").ok_or_else(|| {
-        std::io::Error::new(
-            std::io::ErrorKind::NotFound,
-            "Could not determine project directories",
-        )
-    })?;
+/// ディレクトリの取得または作成に失敗した場合にエラーを返す
+pub fn get_cache_dir(app_handle: &AppHandle) -> std::io::Result<std::path::PathBuf> {
+    let cache_dir = app_handle
+        .path()
+        .app_cache_dir()
+        .map_err(|e| std::io::Error::new(std::io::ErrorKind::NotFound, e))?;
 
-    let thumbnail_dir = proj_dirs.cache_dir().join("thumbnails");
+    let thumbnail_dir = cache_dir.join("thumbnails");
 
     // ディレクトリが存在しない場合は作成
     std::fs::create_dir_all(&thumbnail_dir)?;
@@ -68,18 +70,6 @@ mod tests {
         );
     }
 
-    #[test]
-    fn test_get_cache_dir_creates_directory() {
-        let cache_dir = get_cache_dir().expect("Should get cache directory");
-        assert!(
-            cache_dir.exists(),
-            "Cache directory should be created if it doesn't exist"
-        );
-        // directoriesクレートは"viewrrr/thumbnails"という構造を作る
-        assert!(
-            cache_dir.ends_with("viewrrr/thumbnails"),
-            "Cache directory should end with app-specific path: {:?}",
-            cache_dir
-        );
-    }
+    // Note: get_cache_dir()のテストはAppHandleが必要なため、
+    // 統合テストで実施します（src-tauri/tests/）
 }
