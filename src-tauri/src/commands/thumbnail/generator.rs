@@ -21,7 +21,7 @@ impl ThumbnailGenerator {
     }
 
     /// デフォルト設定でThumbnailGeneratorを作成
-    pub fn default() -> Result<Self> {
+    pub fn with_default_config() -> Result<Self> {
         Self::new(ThumbnailConfig::default())
     }
 
@@ -141,7 +141,7 @@ mod tests {
 
     #[test]
     fn test_calculate_thumbnail_dimensions_landscape() {
-        let generator = ThumbnailGenerator::default().unwrap();
+        let generator = ThumbnailGenerator::with_default_config().unwrap();
 
         // 横長の画像（4000x3000）
         let (width, height) = generator.calculate_thumbnail_dimensions(4000, 3000);
@@ -151,7 +151,7 @@ mod tests {
 
     #[test]
     fn test_calculate_thumbnail_dimensions_portrait() {
-        let generator = ThumbnailGenerator::default().unwrap();
+        let generator = ThumbnailGenerator::with_default_config().unwrap();
 
         // 縦長の画像（3000x4000）
         let (width, height) = generator.calculate_thumbnail_dimensions(3000, 4000);
@@ -161,7 +161,7 @@ mod tests {
 
     #[test]
     fn test_calculate_thumbnail_dimensions_square() {
-        let generator = ThumbnailGenerator::default().unwrap();
+        let generator = ThumbnailGenerator::with_default_config().unwrap();
 
         // 正方形の画像（3000x3000）
         let (width, height) = generator.calculate_thumbnail_dimensions(3000, 3000);
@@ -171,7 +171,7 @@ mod tests {
 
     #[test]
     fn test_image_not_found_error() {
-        let generator = ThumbnailGenerator::default().unwrap();
+        let generator = ThumbnailGenerator::with_default_config().unwrap();
         let result = generator.get_or_create_thumbnail("/nonexistent/image.jpg");
         assert!(result.is_err());
         match result.unwrap_err() {

@@ -29,7 +29,7 @@ pub fn get_cache_dir() -> std::io::Result<std::path::PathBuf> {
         // Linux: XDG Base Directory仕様に従う
         std::env::var("XDG_CACHE_HOME")
             .ok()
-            .map(|p| std::path::PathBuf::from(p))
+            .map(std::path::PathBuf::from)
             .or_else(|| {
                 std::env::var("HOME")
                     .ok()
@@ -56,7 +56,7 @@ pub fn get_cache_dir() -> std::io::Result<std::path::PathBuf> {
         // Windows: %LOCALAPPDATA%
         std::env::var("LOCALAPPDATA")
             .ok()
-            .map(|p| std::path::PathBuf::from(p))
+            .map(std::path::PathBuf::from)
             .ok_or_else(|| {
                 std::io::Error::new(
                     std::io::ErrorKind::NotFound,

@@ -21,7 +21,7 @@ use tauri::command;
 /// サムネイルのキャッシュパス（成功時）
 #[command]
 pub async fn get_or_create_thumbnail(image_path: String) -> std::result::Result<String, String> {
-    let generator = ThumbnailGenerator::default().map_err(|e| e.to_string())?;
+    let generator = ThumbnailGenerator::with_default_config().map_err(|e| e.to_string())?;
 
     let cache_path = generator
         .get_or_create_thumbnail(&image_path)
