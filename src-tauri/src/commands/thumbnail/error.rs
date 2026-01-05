@@ -28,7 +28,17 @@ pub enum ThumbnailError {
     /// 画像処理エラー
     #[error("Image processing error: {0}")]
     ImageError(#[from] image::ImageError),
+
+    /// 設定バリデーションエラー
+    #[error("Configuration validation error: {0}")]
+    ConfigError(String),
 }
 
-/// ResultのエイリアスでThumbnailErrorをデフォルトのエラー型として使用
+impl From<String> for ThumbnailError {
+    fn from(s: String) -> Self {
+        ThumbnailError::ConfigError(s)
+    }
+}
+
+/// Resultのエイリアスでth<bbnailErrorをデフォルトのエラー型として使用
 pub type Result<T> = std::result::Result<T, ThumbnailError>;

@@ -2,10 +2,12 @@
 
 mod config;
 mod error;
+mod generator;
 mod utils;
 
 pub use config::ThumbnailConfig;
 pub use error::{Result, ThumbnailError};
+pub use generator::ThumbnailGenerator;
 pub use utils::{get_cache_dir, hash_path};
 
 use tauri::command;
@@ -19,8 +21,16 @@ use tauri::command;
 /// サムネイルのキャッシュパス（成功時）
 #[command]
 pub async fn get_or_create_thumbnail(image_path: String) -> std::result::Result<String, String> {
-    // TODO: Phase 3でThumbnailGeneratorを実装
-    Err("Not implemented yet".to_string())
+    let generator = ThumbnailGenerator::default().map_err(|e| e.to_string())?;
+
+    let cache_path = generator
+        .get_or_create_thumbnail(&image_path)
+        .map_err(|e| e.to_string())?;
+
+    cache_path
+        .to_str()
+        .map(|s| s.to_string())
+        .ok_or_else(|| "Failed to convert path to string".to_string())
 }
 
 /// 複数の画像のサムネイルをバッチ生成する

@@ -29,7 +29,7 @@ pub fn get_cache_dir() -> std::io::Result<std::path::PathBuf> {
         // Linux: XDG Base Directory仕様に従う
         std::env::var("XDG_CACHE_HOME")
             .ok()
-            .and_then(|p| Some(std::path::PathBuf::from(p)))
+            .map(|p| std::path::PathBuf::from(p))
             .or_else(|| {
                 std::env::var("HOME")
                     .ok()
