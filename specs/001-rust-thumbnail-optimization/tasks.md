@@ -20,9 +20,9 @@
 
 **Purpose**: Project initialization and dependency setup
 
-- [ ] T001 Add Rust dependencies to src-tauri/core_logic/Cargo.toml (image 0.25, rayon 1.11, blake3 1.8, thiserror 2.0, num_cpus 1.16)
-- [ ] T002 [P] Verify dependencies build successfully with `cargo build` in src-tauri/
-- [ ] T003 [P] Create src-tauri/core_logic/src/thumbnail.rs module file with basic structure
+- [X] T001 Add Rust dependencies to src-tauri/core_logic/Cargo.toml (image 0.25, rayon 1.11, blake3 1.8, thiserror 2.0, num_cpus 1.16)
+- [X] T002 [P] Verify dependencies build successfully with `cargo build` in src-tauri/
+- [X] T003 [P] Create src-tauri/core_logic/src/thumbnail.rs module file with basic structure
 
 ---
 
@@ -34,17 +34,17 @@
 
 ### Rust Core Infrastructure
 
-- [ ] T004 Implement ThumbnailError enum with thiserror in src-tauri/core_logic/src/thumbnail.rs
-- [ ] T005 [P] Implement hash_path() function using blake3 in src-tauri/core_logic/src/thumbnail.rs
-- [ ] T006 [P] Implement ThumbnailConfig struct with Default trait in src-tauri/core_logic/src/thumbnail.rs
-- [ ] T007 Implement get_cache_dir() function using Tauri path API in src-tauri/src/commands/fs.rs
-- [ ] T008 [P] Export thumbnail module in src-tauri/core_logic/src/lib.rs
+- [X] T004 Implement ThumbnailError enum with thiserror in src-tauri/core_logic/src/thumbnail.rs
+- [X] T005 [P] Implement hash_path() function using blake3 in src-tauri/core_logic/src/thumbnail.rs
+- [X] T006 [P] Implement ThumbnailConfig struct with Default trait in src-tauri/core_logic/src/thumbnail.rs
+- [X] T007 Implement get_cache_dir() function using Tauri path API in src-tauri/src/commands/fs.rs
+- [X] T008 [P] Export thumbnail module in src-tauri/core_logic/src/lib.rs
 
 ### TypeScript Service Layer Infrastructure
 
-- [ ] T009 Extend FileSystemService interface with getOrCreateThumbnail method in src/shared/context/ServiceContext.tsx
-- [ ] T010 [P] Add Thumbnail type to src/features/folder-navigation/types/folderTypes.ts (if not already exists)
-- [ ] T011 [P] Update mock FileSystemService with getOrCreateThumbnail in src/test/mocks.ts
+- [X] T009 Extend FileSystemService interface with getOrCreateThumbnail method in src/shared/context/ServiceContext.tsx
+- [X] T010 [P] Add Thumbnail type to src/features/folder-navigation/types/folderTypes.ts (if not already exists)
+- [X] T011 [P] Update mock FileSystemService with getOrCreateThumbnail in src/test/mocks.ts
 
 **Checkpoint**: Foundation ready - user story implementation can now begin in parallel
 
@@ -60,20 +60,20 @@
 
 ### Rust Backend Implementation (US1)
 
-- [ ] T012 [P] [US1] Implement generate_thumbnail() function with image crate in src-tauri/core_logic/src/thumbnail.rs
-- [ ] T013 [P] [US1] Implement ThumbnailGenerator struct with Lanczos3 resize in src-tauri/core_logic/src/thumbnail.rs
-- [ ] T014 [US1] Implement get_or_create_thumbnail Tauri command in src-tauri/src/commands/fs.rs (depends on T012, T013)
-- [ ] T015 [US1] Add cache validation logic (check modified_time) in get_or_create_thumbnail command
-- [ ] T016 [US1] Register get_or_create_thumbnail command in src-tauri/src/lib.rs invoke_handler
-- [ ] T017 [US1] Add error handling for unsupported formats and decode errors in get_or_create_thumbnail
+- [X] T012 [P] [US1] Implement generate_thumbnail() function with image crate in src-tauri/core_logic/src/thumbnail.rs
+- [X] T013 [P] [US1] Implement ThumbnailGenerator struct with Lanczos3 resize in src-tauri/core_logic/src/thumbnail.rs
+- [X] T014 [US1] Implement get_or_create_thumbnail Tauri command in src-tauri/src/commands/fs.rs (depends on T012, T013)
+- [X] T015 [US1] Add cache validation logic (check modified_time) in get_or_create_thumbnail command
+- [X] T016 [US1] Register get_or_create_thumbnail command in src-tauri/src/lib.rs invoke_handler
+- [X] T017 [US1] Add error handling for unsupported formats and decode errors in get_or_create_thumbnail
 
 ### TypeScript Frontend Integration (US1)
 
-- [ ] T018 [US1] Implement Tauri adapter for getOrCreateThumbnail in src/shared/adapters/tauriAdapters.ts
-- [ ] T019 [US1] Update useThumbnail hook to call new Tauri command in src/features/folder-navigation/hooks/useThumbnail.ts
-- [ ] T020 [US1] Configure SWR caching strategy (revalidateOnFocus: false, dedupingInterval: 60000) in useThumbnail
-- [ ] T021 [US1] Update FolderView component to use updated useThumbnail hook in src/features/folder-navigation/components/FolderView.tsx
-- [ ] T022 [US1] Add error boundary for thumbnail loading failures in FolderView component
+- [X] T018 [US1] Implement Tauri adapter for getOrCreateThumbnail in src/shared/adapters/tauriAdapters.ts
+- [X] T019 [US1] Update useThumbnail hook to call new Tauri command in src/features/folder-navigation/hooks/useThumbnail.ts
+- [X] T020 [US1] Configure SWR caching strategy (revalidateOnFocus: false, dedupingInterval: 60000) in useThumbnail
+- [X] T021 [US1] Update FolderView component to use updated useThumbnail hook in src/features/folder-navigation/components/FolderView.tsx
+- [X] T022 [US1] Add error boundary for thumbnail loading failures in FolderView component
 
 ### Manual Testing (US1)
 
