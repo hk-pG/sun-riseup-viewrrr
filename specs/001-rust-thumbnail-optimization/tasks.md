@@ -95,10 +95,10 @@
 
 ### Parallel Processing Implementation (US2)
 
-- [ ] T026 [P] [US2] Implement rayon thread pool initialization with dynamic thread count in src-tauri/core_logic/src/thumbnail.rs
-- [ ] T027 [US2] Implement batch_create_thumbnails Tauri command using rayon parallel iterator in src-tauri/src/commands/fs.rs
-- [ ] T028 [US2] Add priority-based task scheduling (visible thumbnails first) in batch_create_thumbnails
-- [ ] T029 [US2] Register batch_create_thumbnails command in src-tauri/src/lib.rs invoke_handler
+- [X] T026 [P] [US2] Implement rayon thread pool initialization with dynamic thread count in src-tauri/core_logic/src/thumbnail.rs
+- [X] T027 [US2] Implement batch_create_thumbnails Tauri command using rayon parallel iterator in src-tauri/src/commands/fs.rs
+- [X] T028 [US2] Add priority-based task scheduling (visible thumbnails first) in batch_create_thumbnails
+- [X] T029 [US2] Register batch_create_thumbnails command in src-tauri/src/lib.rs invoke_handler
 
 ### TypeScript Batch Processing Integration (US2)
 
