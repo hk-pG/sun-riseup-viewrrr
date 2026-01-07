@@ -99,14 +99,17 @@ export const tauriFileSystemService: FileSystemService = {
 
   batchCreateThumbnails: async (
     imagePaths: string[],
-  ): Promise<Record<string, string>> => {
+    visibleCount?: number,
+  ): Promise<
+    Record<string, { success: boolean; path?: string; error?: string }>
+  > => {
     try {
-      const result = await invoke<Record<string, string>>(
-        'batch_create_thumbnails',
-        {
-          imagePaths,
-        },
-      );
+      const result = await invoke<
+        Record<string, { success: boolean; path?: string; error?: string }>
+      >('batch_create_thumbnails', {
+        imagePaths,
+        visibleCount,
+      });
       return result;
     } catch (error) {
       throw new Error(`Failed to batch create thumbnails: ${error}`);
