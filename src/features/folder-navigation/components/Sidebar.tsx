@@ -48,13 +48,16 @@ export function Sidebar({
 
   // バッチプリフェッチ: 可視領域のサムネイルを優先生成
   // UIの初期表示を優先するため、少し遅延させてバックグラウンド実行
+  // Fire-and-Forget: プリフェッチ結果を待たず、完全にバックグラウンドで実行
   useEffect(() => {
     if (folders.length === 0 || !fs.batchCreateThumbnails) return;
 
     // UIの初期レンダリング完了後にプリフェッチ開始（100ms遅延）
     const timeoutId = setTimeout(() => {
-      const prefetchThumbnails = async () => {
-        const visibleFolders = getVisibleFolderPaths(folders, 10);
+      // Fire-and-Forget: async関数を起動するがawaitしない
+      (async () => {
+        // FolderListの初期表示件数（20件）に合わせてプリフェッチ
+        const visibleFolders = getVisibleFolderPaths(folders, 20);
 
         // 各フォルダの最初の画像パスを取得
         const imagePathPromises = visibleFolders.map((folderPath) =>
@@ -67,14 +70,13 @@ export function Sidebar({
         if (imagePaths.length === 0) return;
 
         // バッチ生成を実行（優先度付き）
+        // Fire-and-Forget: 結果を待たずバックグラウンド実行
         try {
           await fs.batchCreateThumbnails?.(imagePaths, imagePaths.length);
         } catch (error) {
           console.warn('Batch thumbnail prefetch failed:', error);
         }
-      };
-
-      prefetchThumbnails();
+      })(); // IIFE (Immediately Invoked Function Expression) で即時実行
     }, 100);
 
     return () => clearTimeout(timeoutId);
