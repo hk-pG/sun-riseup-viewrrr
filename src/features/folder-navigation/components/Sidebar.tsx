@@ -47,31 +47,37 @@ export function Sidebar({
   const [isPending, startTransition] = useTransition();
 
   // バッチプリフェッチ: 可視領域のサムネイルを優先生成
+  // UIの初期表示を優先するため、少し遅延させてバックグラウンド実行
   useEffect(() => {
     if (folders.length === 0 || !fs.batchCreateThumbnails) return;
 
-    const prefetchThumbnails = async () => {
-      const visibleFolders = getVisibleFolderPaths(folders, 10);
+    // UIの初期レンダリング完了後にプリフェッチ開始（100ms遅延）
+    const timeoutId = setTimeout(() => {
+      const prefetchThumbnails = async () => {
+        const visibleFolders = getVisibleFolderPaths(folders, 10);
 
-      // 各フォルダの最初の画像パスを取得
-      const imagePathPromises = visibleFolders.map((folderPath) =>
-        getFirstImagePath(folderPath, fs),
-      );
-      const imagePaths = (await Promise.all(imagePathPromises)).filter(
-        (path): path is string => path !== null,
-      );
+        // 各フォルダの最初の画像パスを取得
+        const imagePathPromises = visibleFolders.map((folderPath) =>
+          getFirstImagePath(folderPath, fs),
+        );
+        const imagePaths = (await Promise.all(imagePathPromises)).filter(
+          (path): path is string => path !== null,
+        );
 
-      if (imagePaths.length === 0) return;
+        if (imagePaths.length === 0) return;
 
-      // バッチ生成を実行（優先度付き）
-      try {
-        await fs.batchCreateThumbnails?.(imagePaths, imagePaths.length);
-      } catch (error) {
-        console.warn('Batch thumbnail prefetch failed:', error);
-      }
-    };
+        // バッチ生成を実行（優先度付き）
+        try {
+          await fs.batchCreateThumbnails?.(imagePaths, imagePaths.length);
+        } catch (error) {
+          console.warn('Batch thumbnail prefetch failed:', error);
+        }
+      };
 
-    prefetchThumbnails();
+      prefetchThumbnails();
+    }, 100);
+
+    return () => clearTimeout(timeoutId);
   }, [folders, fs]);
 
   // フォルダ選択ハンドラー：大量フォルダでも応答性を維持（非ブロッキング更新）
