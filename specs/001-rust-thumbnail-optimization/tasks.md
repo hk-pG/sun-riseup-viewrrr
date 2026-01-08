@@ -104,13 +104,13 @@
 
 - [X] T030 [US2] Extend FileSystemService interface with batchCreateThumbnails method in src/shared/context/ServiceContext.tsx
 - [X] T031 [US2] Implement Tauri adapter for batchCreateThumbnails in src/shared/adapters/tauriAdapters.ts
-- [ ] T032 [US2] Update useThumbnail hook to support batch mode (optional optimization) in src/features/folder-navigation/hooks/useThumbnail.ts
-- [ ] T033 [US2] Add batch prefetch logic for visible folders in Sidebar component in src/features/folder-navigation/components/Sidebar.tsx
+- [X] T032 [US2] Update useThumbnail hook to support batch mode (optional optimization) in src/features/folder-navigation/hooks/useThumbnail.ts
+- [X] T033 [US2] Add batch prefetch logic for visible folders in Sidebar component in src/features/folder-navigation/components/Sidebar.tsx
 
 ### Background Processing & UI Responsiveness (US2)
 
 - [X] T034 [US2] Wrap rayon tasks with tokio::spawn_blocking for non-blocking execution in batch_create_thumbnails
-- [ ] T035 [US2] Add loading state UI for thumbnail generation progress in FolderView component
+- [X] T035 [US2] Add loading state UI for thumbnail generation progress in FolderView component
 - [X] T036 [US2] Update mock service with batchCreateThumbnails in src/test/mocks.ts
 
 ### Manual Testing (US2)
