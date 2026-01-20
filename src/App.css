@@ -1,3 +1,8 @@
+:root {
+  /* macOS環境だと真っ白の背景が表示されるため、スクロールの挙動を抑制 */
+  overscroll-behavior: none;
+}
+
 body {
   background-color: hsl(var(--background));
   color: hsl(var(--foreground));
