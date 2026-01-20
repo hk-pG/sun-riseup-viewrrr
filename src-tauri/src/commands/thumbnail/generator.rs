@@ -139,8 +139,6 @@ impl ThumbnailGenerator {
 
 #[cfg(test)]
 mod tests {
-    use super::*;
-
     // Note: ThumbnailGeneratorのテストはAppHandleが必要なため、
     // 統合テストで実施します（src-tauri/tests/）
     // 現在はcalculate_thumbnail_dimensions()のロジックのみユニットテスト可能

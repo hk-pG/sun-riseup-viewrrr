@@ -41,10 +41,16 @@ export interface FileSystemService {
   /**
    * 複数の画像のサムネイルをバッチ生成する
    * @param imagePaths ソース画像のパスの配列
-   * @returns {Promise<Record<string, string>>} 各画像パスに対応するサムネイルキャッシュパスのマップ
+   * @param visibleCount 可視領域の画像数（優先度High）
+   * @returns {Promise<Record<string, { success: boolean; path?: string; error?: string }>>} 各画像パスに対応する生成結果のマップ
    * @throws {Error} サムネイル生成中にエラーが発生した場合
    */
-  batchCreateThumbnails?(imagePaths: string[]): Promise<Record<string, string>>;
+  batchCreateThumbnails?(
+    imagePaths: string[],
+    visibleCount?: number,
+  ): Promise<
+    Record<string, { success: boolean; path?: string; error?: string }>
+  >;
 
   /**
    * サムネイルキャッシュをクリアする（デバッグ用）
