@@ -81,4 +81,46 @@ export const tauriFileSystemService: FileSystemService = {
       return [];
     }
   },
+
+  // Thumbnail optimization methods (001-rust-thumbnail-optimization)
+
+  getOrCreateThumbnail: async (imagePath: string): Promise<string> => {
+    try {
+      const cachePath = await invoke<string>('get_or_create_thumbnail', {
+        imagePath,
+      });
+      return cachePath;
+    } catch (error) {
+      throw new Error(
+        `Failed to get or create thumbnail for ${imagePath}: ${error}`,
+      );
+    }
+  },
+
+  batchCreateThumbnails: async (
+    imagePaths: string[],
+    visibleCount?: number,
+  ): Promise<
+    Record<string, { success: boolean; path?: string; error?: string }>
+  > => {
+    try {
+      const result = await invoke<
+        Record<string, { success: boolean; path?: string; error?: string }>
+      >('batch_create_thumbnails', {
+        imagePaths,
+        visibleCount,
+      });
+      return result;
+    } catch (error) {
+      throw new Error(`Failed to batch create thumbnails: ${error}`);
+    }
+  },
+
+  clearThumbnailCache: async (): Promise<void> => {
+    try {
+      await invoke('clear_thumbnail_cache');
+    } catch (error) {
+      throw new Error(`Failed to clear thumbnail cache: ${error}`);
+    }
+  },
 };

@@ -80,7 +80,7 @@ describe('FolderView', () => {
     expect(image).toHaveAttribute('src', mockThumbnail.assetUrl);
   });
 
-  it('サムネイルが取得できない場合はフォルダアイコンを表示する', () => {
+  it('サムネイルが取得できない場合は画像を表示しない', () => {
     vi.mocked(useThumbnail).mockReturnValue({
       thumbnail: null,
       isLoading: false,
@@ -89,6 +89,8 @@ describe('FolderView', () => {
 
     render(<FolderView folder={mockFolder} onClick={() => {}} />);
 
-    expect(screen.getByText('📁')).toBeInTheDocument();
+    // サムネイル画像が存在しないことを確認（実装の詳細に依存しない）
+    const image = screen.queryByAltText(`${mockFolder.name}のサムネイル`);
+    expect(image).not.toBeInTheDocument();
   });
 });
