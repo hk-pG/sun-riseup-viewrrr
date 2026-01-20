@@ -33,84 +33,84 @@
         }
       }
     },
-    "nodejs@latest": {
+    "nodejs@22": {
       "last_modified": "2026-01-14T04:14:06Z",
       "plugin_version": "0.0.2",
-      "resolved": "github:NixOS/nixpkgs/ea30586ee015f37f38783006a9bc9e4aa64d7d61#nodejs_25",
+      "resolved": "github:NixOS/nixpkgs/ea30586ee015f37f38783006a9bc9e4aa64d7d61#nodejs_22",
       "source": "devbox-search",
-      "version": "25.3.0",
+      "version": "22.22.0",
       "systems": {
         "aarch64-darwin": {
           "outputs": [
             {
               "name": "out",
-              "path": "/nix/store/k6m3ycx0d199wj6k25w0v464ylq4rxq7-nodejs-25.3.0",
+              "path": "/nix/store/7rgrqwip7bkn9d0y6x9iif8mgbikl5cv-nodejs-22.22.0",
               "default": true
             },
             {
               "name": "dev",
-              "path": "/nix/store/nzgf44hn9zr0fzg3l3n1adisrrs4ajmv-nodejs-25.3.0-dev"
+              "path": "/nix/store/j7h8k39id2wb8fbz9ax91mi63dg06k10-nodejs-22.22.0-dev"
             },
             {
               "name": "libv8",
-              "path": "/nix/store/71gkz93f07cczgilyxpc8kvrbfj30h6w-nodejs-25.3.0-libv8"
+              "path": "/nix/store/q7618l77mxsypv872z7w90dpnchkz1sm-nodejs-22.22.0-libv8"
             }
           ],
-          "store_path": "/nix/store/k6m3ycx0d199wj6k25w0v464ylq4rxq7-nodejs-25.3.0"
+          "store_path": "/nix/store/7rgrqwip7bkn9d0y6x9iif8mgbikl5cv-nodejs-22.22.0"
         },
         "aarch64-linux": {
           "outputs": [
             {
               "name": "out",
-              "path": "/nix/store/dmqgxh2hgbxygqc86kg1s14032hvq9nz-nodejs-25.3.0",
+              "path": "/nix/store/7i0syr6kw3bz87hqpngkwp0zkzsdd7h9-nodejs-22.22.0",
               "default": true
             },
             {
               "name": "dev",
-              "path": "/nix/store/kdgcbcb8yh3pa4cbbr4cv8k9c8d3zfjw-nodejs-25.3.0-dev"
+              "path": "/nix/store/s9anwghh9cjd1bldwqvas3vb6k5msi6a-nodejs-22.22.0-dev"
             },
             {
               "name": "libv8",
-              "path": "/nix/store/pmscxpbp2bpy3fqhl0kgnlvm6hbjvpj5-nodejs-25.3.0-libv8"
+              "path": "/nix/store/aq9apnfyvdgf6q84c1f2sl94mdvwbbwr-nodejs-22.22.0-libv8"
             }
           ],
-          "store_path": "/nix/store/dmqgxh2hgbxygqc86kg1s14032hvq9nz-nodejs-25.3.0"
+          "store_path": "/nix/store/7i0syr6kw3bz87hqpngkwp0zkzsdd7h9-nodejs-22.22.0"
         },
         "x86_64-darwin": {
           "outputs": [
             {
               "name": "out",
-              "path": "/nix/store/5wjyfay85d8qnxh61phfvan2wzcnihpn-nodejs-25.3.0",
+              "path": "/nix/store/cws429hrqc4c04m3g4c4nl0k881i984w-nodejs-22.22.0",
               "default": true
             },
             {
               "name": "dev",
-              "path": "/nix/store/h51crf2a9a01ixck84kach1h3fp924pa-nodejs-25.3.0-dev"
+              "path": "/nix/store/dmw051cm6g9xadv6rd3sr98aph2k5h2d-nodejs-22.22.0-dev"
             },
             {
               "name": "libv8",
-              "path": "/nix/store/h2r78kcgxkp7absbyzlsnjw99ljckjxh-nodejs-25.3.0-libv8"
+              "path": "/nix/store/jn4izxmibz80cv3rssapf4by3x6491wr-nodejs-22.22.0-libv8"
             }
           ],
-          "store_path": "/nix/store/5wjyfay85d8qnxh61phfvan2wzcnihpn-nodejs-25.3.0"
+          "store_path": "/nix/store/cws429hrqc4c04m3g4c4nl0k881i984w-nodejs-22.22.0"
         },
         "x86_64-linux": {
           "outputs": [
             {
               "name": "out",
-              "path": "/nix/store/mnidlfk3ld1n0dll0zdd4mhzbq9phn9n-nodejs-25.3.0",
+              "path": "/nix/store/bf45nflf0wylnscwwa2xgliib91x226l-nodejs-22.22.0",
               "default": true
             },
             {
               "name": "dev",
-              "path": "/nix/store/hj75q4m68bh0hf4vgvfj2qdi9gnszw08-nodejs-25.3.0-dev"
+              "path": "/nix/store/7mmihld0lbixr6rflgxnbcihhnw5mqi3-nodejs-22.22.0-dev"
             },
             {
               "name": "libv8",
-              "path": "/nix/store/icqs2k7jmm6bnykpgyjk3bng65hxs8rq-nodejs-25.3.0-libv8"
+              "path": "/nix/store/39gb2qhbkm125jsklm5z53ldraszj3ps-nodejs-22.22.0-libv8"
             }
           ],
-          "store_path": "/nix/store/mnidlfk3ld1n0dll0zdd4mhzbq9phn9n-nodejs-25.3.0"
+          "store_path": "/nix/store/bf45nflf0wylnscwwa2xgliib91x226l-nodejs-22.22.0"
         }
       }
     },
