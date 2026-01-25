@@ -76,7 +76,7 @@ impl BatchThumbnailGenerator {
     pub fn new(config: ThumbnailConfig, app_handle: AppHandle) -> Result<Self> {
         // 動的スレッド数の計算: min(max(2, num_cpus), 8)
         let num_cpus = num_cpus::get();
-        let thread_count = num_cpus.max(2).min(8);
+        let thread_count = num_cpus.clamp(2, 8);
 
         // rayon ThreadPoolの初期化
         let thread_pool = ThreadPoolBuilder::new()
