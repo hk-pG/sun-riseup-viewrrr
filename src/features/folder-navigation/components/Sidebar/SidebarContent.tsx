@@ -7,7 +7,7 @@ interface SidebarContentProps {
   /** 選択中のフォルダ */
   selectedFolder?: FolderInfo;
   /** フォルダ選択時のコールバック */
-  onFolderSelect?: (folder: FolderInfo) => void;
+  onFolderSelect: (folder: FolderInfo) => void;
   /** フォルダダブルクリック時のコールバック */
   onFolderDoubleClick?: (folder: FolderInfo) => void;
   /** サムネイルサイズ（px） */
@@ -64,12 +64,7 @@ export function SidebarContent({
     <FolderList
       folders={folders}
       selectedFolder={selectedFolder}
-      onFolderSelect={
-        onFolderSelect ??
-        (() => {
-          /* noop */
-        })
-      }
+      onFolderSelect={onFolderSelect}
       onFolderDoubleClick={onFolderDoubleClick}
       thumbnailSize={thumbnailSize}
       showImageCount={showImageCount}
