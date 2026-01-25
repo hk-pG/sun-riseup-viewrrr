@@ -1,4 +1,4 @@
-import { createContext, useContext } from 'react';
+import { createContext, use } from 'react';
 import type { FileSystemService } from '../../features/folder-navigation';
 import { tauriFileSystemService } from '../adapters/tauriAdapters';
 
@@ -10,7 +10,7 @@ const servicesContext = createContext<FileSystemService>(
  * ファイル取得に関する実装を提供するコンテキストを取得するフック
  * @returns ファイルシステムサービスの実装
  */
-export const useServices = (): FileSystemService => useContext(servicesContext);
+export const useServices = (): FileSystemService => use(servicesContext);
 
 interface ServicesProviderProps {
   children: React.ReactNode;
