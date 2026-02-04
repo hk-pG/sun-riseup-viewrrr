@@ -34,3 +34,7 @@ Please refer to the official Tauri documentation for the prerequisites specific 
     ```bash
     pnpm tauri build
     ```
+
+## Documentation
+
+- **[計画管理ガイド](docs/planning-with-github.md)**: GitHub機能を使った中期的な計画の立て方と管理方法
