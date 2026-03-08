@@ -34,6 +34,7 @@ export function FolderView({
   return (
     <button
       type="button"
+      aria-pressed={isSelected}
       className={`flex w-full cursor-pointer flex-col items-center rounded-lg p-3 transition-colors hover:bg-sidebar-accent ${isSelected ? 'border-2 border-sidebar-primary bg-sidebar-accent' : 'border-2 border-transparent'} ${className} `}
       onClick={handleClick}
       onDoubleClick={handleDoubleClick}
