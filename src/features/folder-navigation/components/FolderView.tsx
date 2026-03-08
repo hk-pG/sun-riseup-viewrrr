@@ -1,4 +1,11 @@
+import { LucideFolder } from 'lucide-react';
 import { useState } from 'react';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 import { useThumbnail } from '../hooks/useThumbnail';
 import type { FolderViewProps } from '../types/folderTypes';
 
@@ -27,7 +34,8 @@ export function FolderView({
   return (
     <button
       type="button"
-      className={`flex cursor-pointer flex-col items-center rounded-lg p-3 transition-colors hover:bg-sidebar-accent ${isSelected ? 'border-2 border-sidebar-primary bg-sidebar-accent' : 'border-2 border-transparent'} ${className} `}
+      aria-pressed={isSelected}
+      className={`flex w-full cursor-pointer flex-col items-center rounded-lg p-3 transition-colors hover:bg-sidebar-accent ${isSelected ? 'border-2 border-sidebar-primary bg-sidebar-accent' : 'border-2 border-transparent'} ${className} `}
       onClick={handleClick}
       onDoubleClick={handleDoubleClick}
     >
@@ -58,16 +66,27 @@ export function FolderView({
 
           return (
             <div className="flex h-full w-full items-center justify-center text-muted-foreground">
-              <span className="text-4xl">📁</span>
+              <span className="text-4xl">
+                <LucideFolder />
+              </span>
             </div>
           );
         })()}
       </div>
 
-      <div className="w-full text-center">
-        <p className="break-words text-sidebar-foreground text-sm leading-tight">
-          {folder.name}
-        </p>
+      <div className="w-full min-w-0 overflow-hidden px-1 text-center">
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <p className="cursor-help truncate text-sidebar-foreground text-sm leading-tight">
+                {folder.name}
+              </p>
+            </TooltipTrigger>
+            <TooltipContent side="bottom" className="max-w-xs break-words">
+              {folder.name}
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
         {showImageCount && folder.imageCount !== undefined && (
           <p className="mt-1 text-muted-foreground text-xs">
             {folder.imageCount}枚
