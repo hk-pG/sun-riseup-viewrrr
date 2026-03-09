@@ -39,10 +39,7 @@ export function useSiblingFolders(currentFolderPath: string) {
 
     // 指定フォルダと同階層のフォルダ一覧を取得し、各フォルダ名を取得してstateにセットする
     async function load() {
-      if (!mounted) {
-        setEntries([]);
-        return;
-      }
+      if (!mounted) return;
 
       try {
         // エラーをリセット
@@ -51,11 +48,14 @@ export function useSiblingFolders(currentFolderPath: string) {
         // 各フォルダパスからフォルダ名を取得し、FolderEntry配列を生成
         const entries = await getSiblingFolderEntries(currentFolderPath, fs);
 
+        if (!mounted) return;
+
         // 非緊急な状態更新
         startTransition(() => {
           setEntries(entries);
         });
       } catch (err) {
+        if (!mounted) return;
         setError(err instanceof Error ? err : new Error(String(err)));
       }
     }

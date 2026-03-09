@@ -58,11 +58,15 @@ export const tauriFileSystemService: FileSystemService = {
       const images = await invoke<string[]>('list_images_in_folder', {
         folderPath,
       });
-
+      if (!isStringArray(images)) {
+        throw new Error(
+          `Invalid response from listImagesInFolder: expected string array, got ${typeof images}`,
+        );
+      }
       return images;
     } catch (error) {
       throw new Error(
-        `Failed to list images in folder "${folderPath}": ${error}`,
+        `Failed to list images in folder "${folderPath}": ${error instanceof Error ? error.message : String(error)}`,
       );
     }
   },
@@ -80,7 +84,7 @@ export const tauriFileSystemService: FileSystemService = {
       return folders;
     } catch (error) {
       throw new Error(
-        `Failed to get sibling folders for "${folderPath}": ${error}`,
+        `Failed to get sibling folders for "${folderPath}": ${error instanceof Error ? error.message : String(error)}`,
       );
     }
   },

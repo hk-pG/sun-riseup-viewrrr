@@ -15,7 +15,7 @@ import type { FileSystemService } from './FileSystemService';
  * @returns FolderEntry[] - 同階層のフォルダ情報（パス・名前）の配列（現在のフォルダを含む、ソート済み）
  *
  * - currentFolderPathが空の場合は空配列を返す
- * - 取得や変換でエラーが発生した場合も空配列を返す
+ * - 取得や変換でエラーが発生した場合は呼び出し元に伝播させる
  * - 現在のフォルダの作成に失敗した場合でも、兄弟フォルダは返す
  */
 export async function getSiblingFolderEntries(
