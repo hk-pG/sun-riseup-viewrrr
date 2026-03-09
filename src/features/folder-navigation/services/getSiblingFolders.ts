@@ -28,28 +28,22 @@ export async function getSiblingFolderEntries(
     return [];
   }
 
+  // エラーは呼び出し元に伝播させる（外側のtry-catchを削除）
+  const paths = await fs.getSiblingFolders(currentFolderPath);
+
+  // 各フォルダパスからベース名を取得し、FolderEntry配列を生成
+  const entries: FolderEntry[] = await Promise.all(
+    paths.map(async (dirPath) => createFolderEntry(dirPath, fs)),
+  );
+
+  // 現在のフォルダも追加（エラーが発生しても兄弟フォルダは返す）
   try {
-    // 同階層のフォルダパス一覧を取得
-    const paths = await fs.getSiblingFolders(currentFolderPath);
-
-    // 各フォルダパスからベース名を取得し、FolderEntry配列を生成
-    const entries: FolderEntry[] = await Promise.all(
-      paths.map(async (dirPath) => createFolderEntry(dirPath, fs)),
-    );
-
-    // 現在のフォルダも追加（エラーが発生しても兄弟フォルダは返す）
-    try {
-      const currentEntry = await createFolderEntry(currentFolderPath, fs);
-      entries.push(currentEntry);
-    } catch (currentFolderError) {
-      console.error('Error creating current folder entry:', currentFolderError);
-    }
-
-    // ソート関数を適用して返す
-    return entries.sort(sortFn);
-  } catch (error) {
-    // 取得や変換でエラーが発生した場合はエラーを出力し、空配列を返す
-    console.error('Error fetching folder entries:', error);
-    return [];
+    const currentEntry = await createFolderEntry(currentFolderPath, fs);
+    entries.push(currentEntry);
+  } catch (currentFolderError) {
+    console.error('Error creating current folder entry:', currentFolderError);
   }
+
+  // ソート関数を適用して返す
+  return entries.sort(sortFn);
 }

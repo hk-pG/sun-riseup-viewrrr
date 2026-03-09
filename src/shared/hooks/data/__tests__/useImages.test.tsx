@@ -64,8 +64,7 @@ describe('useImages', () => {
     });
   });
 
-  it('存在しないフォルダを指定した場合、空の配列を返す', async () => {
-    vi.spyOn(console, 'error').mockImplementation(() => {});
+  it('存在しないフォルダを指定した場合、エラーが返される', async () => {
     mockFileSystemService.listImagesInFolder = vi.fn().mockReturnValue(null);
 
     const { result } = renderHook(() => useImages('invalid/folder'), {
@@ -73,14 +72,13 @@ describe('useImages', () => {
     });
 
     await waitFor(() => {
-      expect(result.current.images).toEqual([]);
-      expect(result.current.error).toBeUndefined();
+      expect(result.current.images).toBeUndefined();
+      expect(result.current.error).toBeDefined();
       expect(result.current.isLoading).toBe(false);
     });
   });
 
-  it('ファイルアクセスで例外が発生した場合、空の配列を返す', async () => {
-    vi.spyOn(console, 'error').mockImplementation(() => {});
+  it('ファイルアクセスで例外が発生した場合、エラーが返される', async () => {
     mockFileSystemService.listImagesInFolder = vi
       .fn()
       .mockRejectedValue(new Error('File access error'));
@@ -89,8 +87,8 @@ describe('useImages', () => {
     });
 
     await waitFor(() => {
-      expect(result.current.images).toEqual([]);
-      expect(result.current.error).toBeUndefined();
+      expect(result.current.images).toBeUndefined();
+      expect(result.current.error).toBeDefined();
       expect(result.current.isLoading).toBe(false);
     });
   });

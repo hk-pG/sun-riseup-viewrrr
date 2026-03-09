@@ -61,8 +61,9 @@ export const tauriFileSystemService: FileSystemService = {
 
       return images;
     } catch (error) {
-      console.error(`Error listing images in folder ${folderPath}`, error);
-      return [];
+      throw new Error(
+        `Failed to list images in folder "${folderPath}": ${error}`,
+      );
     }
   },
 
@@ -72,13 +73,15 @@ export const tauriFileSystemService: FileSystemService = {
         folderPath,
       });
       if (!isStringArray(folders)) {
-        console.error('Invalid response from getSiblingFolders:', folders);
-        return [];
+        throw new Error(
+          `Invalid response from getSiblingFolders: expected string array, got ${typeof folders}`,
+        );
       }
       return folders;
     } catch (error) {
-      console.error('Error getting sibling folders:', error);
-      return [];
+      throw new Error(
+        `Failed to get sibling folders for "${folderPath}": ${error}`,
+      );
     }
   },
 

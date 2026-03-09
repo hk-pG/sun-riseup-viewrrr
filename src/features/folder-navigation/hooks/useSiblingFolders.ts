@@ -28,6 +28,8 @@ export async function createFolderEntry(
 export function useSiblingFolders(currentFolderPath: string) {
   // 同階層のフォルダ情報（パス・名前）のリストを保持するstate
   const [entries, setEntries] = useState<FolderEntry[]>([]);
+  // エラー状態を保持するstate
+  const [error, setError] = useState<Error | null>(null);
 
   // ファイルシステム関連のサービスを取得
   const fs = useServices();
@@ -42,13 +44,20 @@ export function useSiblingFolders(currentFolderPath: string) {
         return;
       }
 
-      // 各フォルダパスからフォルダ名を取得し、FolderEntry配列を生成
-      const entries = await getSiblingFolderEntries(currentFolderPath, fs);
+      try {
+        // エラーをリセット
+        setError(null);
 
-      // 非緊急な状態更新
-      startTransition(() => {
-        setEntries(entries);
-      });
+        // 各フォルダパスからフォルダ名を取得し、FolderEntry配列を生成
+        const entries = await getSiblingFolderEntries(currentFolderPath, fs);
+
+        // 非緊急な状態更新
+        startTransition(() => {
+          setEntries(entries);
+        });
+      } catch (err) {
+        setError(err instanceof Error ? err : new Error(String(err)));
+      }
     }
 
     // 副作用としてデータ取得処理を実行
@@ -60,5 +69,5 @@ export function useSiblingFolders(currentFolderPath: string) {
     };
   }, [currentFolderPath, fs]);
 
-  return { entries };
+  return { entries, error };
 }
