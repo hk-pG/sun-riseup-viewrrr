@@ -143,38 +143,23 @@ describe('getSiblingFolderEntries', () => {
     consoleErrorSpy.mockRestore();
   });
 
-  it('should return empty array when getSiblingFolders fails', async () => {
+  it('should propagate error when getSiblingFolders fails', async () => {
     const currentPath = '/path/to/current';
-
-    const consoleErrorSpy = vi
-      .spyOn(console, 'error')
-      .mockImplementation(() => {});
 
     mockFileSystemService.getSiblingFolders = vi
       .fn()
-      .mockRejectedValue(new Error('Failed to get siblings'));
+      .mockRejectedValue(
+        new Error('Failed to get sibling folders for "/path/to/current"'),
+      );
 
-    const result = await getSiblingFolderEntries(
-      currentPath,
-      mockFileSystemService,
-    );
-
-    expect(result).toEqual([]);
-    expect(consoleErrorSpy).toHaveBeenCalledWith(
-      'Error fetching folder entries:',
-      expect.any(Error),
-    );
-
-    consoleErrorSpy.mockRestore();
+    await expect(
+      getSiblingFolderEntries(currentPath, mockFileSystemService),
+    ).rejects.toThrow('Failed to get sibling folders');
   });
 
-  it('should return empty array when sibling folder name resolution fails', async () => {
+  it('should propagate error when sibling folder name resolution fails', async () => {
     const currentPath = '/path/to/current';
     const siblingPaths = ['/path/to/apple', '/path/to/invalid'];
-
-    const consoleErrorSpy = vi
-      .spyOn(console, 'error')
-      .mockImplementation(() => {});
 
     mockFileSystemService.getSiblingFolders = vi
       .fn()
@@ -188,19 +173,10 @@ describe('getSiblingFolderEntries', () => {
         return '';
       });
 
-    // This should return empty array because Promise.all will reject and be caught
-    const result = await getSiblingFolderEntries(
-      currentPath,
-      mockFileSystemService,
-    );
-
-    expect(result).toEqual([]);
-    expect(consoleErrorSpy).toHaveBeenCalledWith(
-      'Error fetching folder entries:',
-      expect.any(Error),
-    );
-
-    consoleErrorSpy.mockRestore();
+    // Promise.all がrejectし、エラーが伝播される
+    await expect(
+      getSiblingFolderEntries(currentPath, mockFileSystemService),
+    ).rejects.toThrow();
   });
 
   it('should handle numeric folder names correctly with natural sort', async () => {

@@ -110,9 +110,6 @@ describe('useFolderNavigator', () => {
   });
 
   it('getSiblingFolders がエラーをスローした場合、entries は空配列になること', async () => {
-    const consoleErrorSpy = vi
-      .spyOn(console, 'error')
-      .mockImplementation(() => {});
     mockFileSystemService.getSiblingFolders = vi
       .fn()
       .mockRejectedValue(new Error('Failed to get sibling folders'));
@@ -127,8 +124,25 @@ describe('useFolderNavigator', () => {
     expect(mockFileSystemService.getSiblingFolders).toHaveBeenCalledWith(
       TEST_CURRENT_PATH,
     );
-    expect(consoleErrorSpy).toHaveBeenCalled();
-    consoleErrorSpy.mockRestore();
+  });
+
+  it('getSiblingFolders がエラーの場合、error ステートに格納される', async () => {
+    const errorMessage = 'Failed to get sibling folders';
+    mockFileSystemService.getSiblingFolders = vi
+      .fn()
+      .mockRejectedValue(new Error(errorMessage));
+
+    const { result } = renderHook(() => useSiblingFolders(TEST_CURRENT_PATH), {
+      wrapper: ServicesWrapper,
+    });
+
+    await waitFor(() => {
+      expect(result.current.entries).toEqual([]);
+      expect(result.current.error).toBeInstanceOf(Error);
+      expect(result.current.error?.message).toContain(
+        'Failed to get sibling folders',
+      );
+    });
   });
 
   it('フックがアンマウントされた場合、進行中の処理がキャンセルされること (setEntries が呼ばれないこと)', async () => {
