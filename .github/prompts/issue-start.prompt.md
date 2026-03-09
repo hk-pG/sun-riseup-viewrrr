@@ -1,7 +1,7 @@
 ---
 description: "GitHub Issue の作業を開始する。ブランチ作成・現状調査・TDDサイクル準備を行う"
 argument-hint: "Issue番号（例: 13）"
-agent: "agent"
+agent: "Orchestrator"
 ---
 
 # Issue 作業開始ワークフロー
