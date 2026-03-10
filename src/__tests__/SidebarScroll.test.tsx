@@ -18,21 +18,22 @@ const mockFolders = Array.from({ length: FOLDERS_NEEDING_SCROLL }, (_, i) => ({
  *   を検証することはできない。実際のスクロール動作の確認は Storybook または E2E テストで行うこと。
  *   実装方式を変更する場合（例: Tailwind クラス → inline style）はこのテストも合わせて更新すること。
  */
-describe('SidebarScroll - US2: Sidebar container has correct scroll classes', () => {
+describe('SidebarScroll - スクロール可能な状態が維持されること（リグレッション検知）', () => {
   beforeEach(() => {
     resetAllMocks();
     // useThumbnailPrefetch が内部で Tauri API を呼ぶため、モックが必要
     setupTauriMocks();
   });
 
-  it('T009/T009b: フォルダが20件超のとき、スクロールを可能にするスタイル条件が満たされている（リグレッション検知）', () => {
+  it('フォルダが20件超のとき、スクロールを可能にするスタイル条件が満たされている', () => {
+    // Test ID: T009/T009b
     render(<Sidebar folders={mockFolders} onFolderSelect={() => {}} />);
     const sidebarAside = screen.getByRole('complementary');
 
     expect(sidebarAside).toBeInTheDocument();
     // overflow-y-auto: スクロール許可
-    expect(sidebarAside.classList.contains('overflow-y-auto')).toBe(true);
+    expect(sidebarAside).toHaveClass('overflow-y-auto');
     // min-h-0: Flexbox 子要素のデフォルト min-height: auto を上書きし、overflow が機能するようにする
-    expect(sidebarAside.classList.contains('min-h-0')).toBe(true);
+    expect(sidebarAside).toHaveClass('min-h-0');
   });
 });
