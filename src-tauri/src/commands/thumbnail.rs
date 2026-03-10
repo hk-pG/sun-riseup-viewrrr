@@ -3,12 +3,14 @@
 mod batch;
 mod config;
 mod error;
+mod folder;
 mod generator;
 mod utils;
 
 pub use batch::{BatchResult, BatchTask, BatchThumbnailGenerator, TaskPriority};
 pub use config::ThumbnailConfig;
 pub use error::{Result, ThumbnailError};
+pub use folder::FolderThumbnailResult;
 pub use generator::ThumbnailGenerator;
 pub use utils::{get_cache_dir, hash_path};
 
