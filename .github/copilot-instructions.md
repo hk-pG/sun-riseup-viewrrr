@@ -116,7 +116,8 @@ git checkout -b {type}/issue-{番号}-{短い説明}
 **作業ワークフロー**: 詳細な手順は `.github/prompts/` のプロンプトファイルを参照。
 
 - **作業開始**: `.github/prompts/issue-start.prompt.md` — Issue 情報取得・ブランチ作成・現状調査・TDD 計画
-- **作業完了**: `.github/prompts/issue-finish.prompt.md` — 品質チェック・コミット・PR 作成・Issue クローズ
+- **作業完了**: `.github/prompts/issue-finish.prompt.md` — 品質チェック・コミット・コードレビュー（Senior Reviewer）・PR 作成・Copilot レビュー依頼・Issue クローズ
+- **レビュー依頼**: `.github/prompts/review-request.prompt.md` — 修正内容に対して Senior Reviewer によるレビューと GitHub Copilot レビュー依頼を実施
 
 ### コミットメッセージ
 
