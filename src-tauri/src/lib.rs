@@ -1,7 +1,8 @@
 pub mod commands;
 use commands::fs::{get_sibling_folders, list_images_in_folder};
 use commands::thumbnail::{
-    batch_create_thumbnails, clear_thumbnail_cache, get_or_create_thumbnail,
+    batch_create_thumbnails, clear_thumbnail_cache, get_folder_thumbnail, get_or_create_thumbnail,
+    prefetch_folder_thumbnails,
 };
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
@@ -16,7 +17,9 @@ pub fn run() {
             get_sibling_folders,
             get_or_create_thumbnail,
             batch_create_thumbnails,
-            clear_thumbnail_cache
+            clear_thumbnail_cache,
+            get_folder_thumbnail,
+            prefetch_folder_thumbnails
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

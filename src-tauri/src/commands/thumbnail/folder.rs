@@ -18,13 +18,22 @@ pub struct FolderThumbnailResult {
 /// - 10-29: Normal（近傍）
 /// - 30+: Low（バックグラウンド）
 pub fn assign_priority(index: usize) -> TaskPriority {
-    todo!("RED: GREEN フェーズで実装")
+    if index < 10 {
+        TaskPriority::High
+    } else if index < 30 {
+        TaskPriority::Normal
+    } else {
+        TaskPriority::Low
+    }
 }
 
 /// フォルダ内の最初の画像ファイルパスを取得
 /// core_logic::list_images_in_folder を内部で使用
 pub fn get_first_image_in_folder(folder_path: &str) -> Result<Option<String>, String> {
-    todo!("RED: GREEN フェーズで実装")
+    let images = core_logic::list_images_in_folder(folder_path.to_string())
+        .map_err(|e| format!("Failed to list images: {:?}", e))?;
+
+    Ok(images.into_iter().next())
 }
 
 #[cfg(test)]
