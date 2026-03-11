@@ -15,6 +15,8 @@ const createMockFileSystemService = (): FileSystemService => ({
   listImagesInFolder: vi.fn(),
   getSiblingFolders: vi.fn(),
   convertFileSrc: vi.fn(),
+  getFolderThumbnail: vi.fn().mockResolvedValue(null),
+  prefetchFolderThumbnails: vi.fn().mockResolvedValue(undefined),
 });
 
 describe('ImageViewer', () => {

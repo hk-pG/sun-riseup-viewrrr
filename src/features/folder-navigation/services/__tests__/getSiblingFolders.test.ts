@@ -11,6 +11,8 @@ const mockFileSystemService: FileSystemService = {
   convertFileSrc: vi.fn(),
   getBaseName: vi.fn(),
   getDirName: vi.fn(),
+  getFolderThumbnail: vi.fn().mockResolvedValue(null),
+  prefetchFolderThumbnails: vi.fn().mockResolvedValue(undefined),
 };
 
 describe('getSiblingFolderEntries', () => {

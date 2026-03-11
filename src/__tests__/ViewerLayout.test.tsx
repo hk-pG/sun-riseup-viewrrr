@@ -27,6 +27,8 @@ describe('ViewerLayout - US1: Viewer displays full image without scrolling', () 
       listImagesInFolder: vi.fn(),
       getSiblingFolders: vi.fn(),
       convertFileSrc: vi.fn((path: string) => `asset://${path}`),
+      getFolderThumbnail: vi.fn().mockResolvedValue(null),
+      prefetchFolderThumbnails: vi.fn().mockResolvedValue(undefined),
     };
 
     // Mock feature components to keep layout structure

@@ -75,31 +75,6 @@ describe('useThumbnail', () => {
     expect(result.current.thumbnail).toBeNull();
   });
 
-  // テスト3: getFolderThumbnail未定義時のフォールバック
-  it('getFolderThumbnailが未定義の場合、従来のAPIにフォールバックする', async () => {
-    const mockService: Partial<FileSystemService> = {
-      // getFolderThumbnail は未定義（ServicesProviderのデフォルトを上書き）
-      getFolderThumbnail: undefined,
-      listImagesInFolder: vi
-        .fn()
-        .mockResolvedValue(['/photos/folder1/image1.jpg']),
-      getBaseName: vi.fn().mockResolvedValue('image1.jpg'),
-      getOrCreateThumbnail: vi.fn().mockResolvedValue('/cache/thumb.jpg'),
-      convertFileSrc: (path: string) => `asset://${path}`,
-    };
-
-    const { result } = renderHook(() => useThumbnail('/photos/folder1'), {
-      wrapper: createWrapper(mockService),
-    });
-
-    await waitFor(() => {
-      expect(result.current.isLoading).toBe(false);
-    });
-
-    expect(result.current.thumbnail).toBeTruthy();
-    expect(mockService.listImagesInFolder).toHaveBeenCalled();
-  });
-
   // テスト4: ローディング状態
   it('サムネイル取得中はisLoadingがtrueを返す', () => {
     const mockService: Partial<FileSystemService> = {

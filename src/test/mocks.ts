@@ -66,10 +66,6 @@ export const createMockFileSystemServiceWithThumbnails = () => ({
   convertFileSrc: vi.fn((path: string) => `asset://${path}`),
   listImagesInFolder: vi.fn().mockResolvedValue([]),
   getSiblingFolders: vi.fn().mockResolvedValue([]),
-  getOrCreateThumbnail: vi.fn().mockResolvedValue('/mock/cache/thumbnail.jpg'),
-  batchCreateThumbnails: vi.fn().mockResolvedValue({
-    '/mock/image1.jpg': { success: true, path: '/mock/cache/thumb1.jpg' },
-  }),
   clearThumbnailCache: vi.fn().mockResolvedValue(undefined),
   getFolderThumbnail: vi.fn().mockResolvedValue({
     imagePath: '/mock/image.jpg',

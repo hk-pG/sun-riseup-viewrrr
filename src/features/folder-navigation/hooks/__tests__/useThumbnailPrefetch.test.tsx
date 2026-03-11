@@ -90,23 +90,4 @@ describe('useThumbnailPrefetch', () => {
 
     expect(mockService.prefetchFolderThumbnails).not.toHaveBeenCalled();
   });
-
-  // テスト4: フォールバック（新API未定義 → 旧API）
-  it('prefetchFolderThumbnailsが未定義の場合、従来のbatchCreateThumbnailsにフォールバックする', async () => {
-    const mockService: Partial<FileSystemService> = {
-      // prefetchFolderThumbnails は未定義（ServicesProviderのデフォルトを上書き）
-      prefetchFolderThumbnails: undefined,
-      listImagesInFolder: vi.fn().mockResolvedValue(['/mock/image.jpg']),
-      batchCreateThumbnails: vi.fn().mockResolvedValue({}),
-      convertFileSrc: (path: string) => `asset://${path}`,
-    };
-
-    renderHook(() => useThumbnailPrefetch(mockFolders, { delay: 0 }), {
-      wrapper: createWrapper(mockService),
-    });
-
-    await vi.advanceTimersByTimeAsync(100); // デフォルトdelay + 処理時間
-
-    expect(mockService.batchCreateThumbnails).toHaveBeenCalled();
-  });
 });

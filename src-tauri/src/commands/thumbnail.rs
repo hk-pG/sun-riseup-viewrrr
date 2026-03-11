@@ -24,6 +24,7 @@ use tauri::command;
 ///
 /// # Returns
 /// サムネイルのキャッシュパス（成功時）
+#[allow(dead_code)]
 #[command]
 pub async fn get_or_create_thumbnail(
     image_path: String,
@@ -53,6 +54,7 @@ pub async fn get_or_create_thumbnail(
 ///
 /// # Returns
 /// 各画像パスに対応するサムネイルキャッシュパスまたはエラーメッセージのマップ
+#[allow(dead_code)]
 #[command]
 pub async fn batch_create_thumbnails(
     image_paths: Vec<String>,
