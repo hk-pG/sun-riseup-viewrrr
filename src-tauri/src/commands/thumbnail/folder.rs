@@ -31,7 +31,7 @@ pub fn assign_priority(index: usize) -> TaskPriority {
 /// core_logic::list_images_in_folder を内部で使用
 pub fn get_first_image_in_folder(folder_path: &str) -> Result<Option<String>, String> {
     let images = core_logic::list_images_in_folder(folder_path.to_string())
-        .map_err(|e| format!("Failed to list images: {:?}", e))?;
+        .map_err(|e| format!("Failed to list images in '{}': {:?}", folder_path, e))?;
 
     Ok(images.into_iter().next())
 }

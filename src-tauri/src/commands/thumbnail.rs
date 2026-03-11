@@ -157,6 +157,8 @@ pub async fn get_folder_thumbnail(
             .map_err(|e| e.to_string())?;
 
         // 3. basenameを取得
+        // get_first_image_in_folder が画像ファイルパスのみ返すため
+        // file_name() が None になるケースは実質到達しない（防御的フォールバック）
         let image_name = std::path::Path::new(&image_path)
             .file_name()
             .and_then(|n| n.to_str())

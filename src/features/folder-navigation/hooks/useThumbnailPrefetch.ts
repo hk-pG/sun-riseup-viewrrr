@@ -25,6 +25,9 @@ export function useThumbnailPrefetch(
   const { delay = SIDEBAR_CONFIG.PREFETCH_DELAY_MS, disabled = false } =
     options ?? {};
 
+  // NOTE: folders の参照安定性に依存。React Compiler が有効な場合は自動メモ化される。
+  // 無効な環境では、親コンポーネントが毎レンダリングで新配列を渡すと
+  // timer の setup/teardown が頻発する可能性がある。
   useEffect(() => {
     if (disabled || folders.length === 0) return;
 
