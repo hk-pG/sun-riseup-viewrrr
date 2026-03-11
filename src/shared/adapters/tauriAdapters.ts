@@ -7,6 +7,7 @@ import {
   dirname as tauriDirname,
 } from '@tauri-apps/api/path';
 import { open as tauriOpenDialog } from '@tauri-apps/plugin-dialog';
+import type { FolderThumbnailResult } from '@/features/folder-navigation/types/folderTypes';
 import type { FileSystemService } from '../../features/folder-navigation';
 import { isStringArray } from '../utils/isStringArray';
 
@@ -128,6 +129,34 @@ export const tauriFileSystemService: FileSystemService = {
       await invoke('clear_thumbnail_cache');
     } catch (error) {
       throw new Error(`Failed to clear thumbnail cache: ${error}`);
+    }
+  },
+
+  // 016-thumbnail-backend-responsibility
+
+  getFolderThumbnail: async (
+    folderPath: string,
+  ): Promise<FolderThumbnailResult | null> => {
+    try {
+      const result = await invoke<FolderThumbnailResult | null>(
+        'get_folder_thumbnail',
+        { folderPath },
+      );
+      return result;
+    } catch (error) {
+      throw new Error(
+        `Failed to get folder thumbnail for "${folderPath}": ${error instanceof Error ? error.message : String(error)}`,
+      );
+    }
+  },
+
+  prefetchFolderThumbnails: async (folderPaths: string[]): Promise<void> => {
+    try {
+      await invoke('prefetch_folder_thumbnails', { folderPaths });
+    } catch (error) {
+      throw new Error(
+        `Failed to prefetch folder thumbnails: ${error instanceof Error ? error.message : String(error)}`,
+      );
     }
   },
 };

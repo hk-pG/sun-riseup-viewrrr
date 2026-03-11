@@ -1,3 +1,5 @@
+import type { FolderThumbnailResult } from '../types/folderTypes';
+
 export interface FileSystemService {
   openDirectoryDialog: () => Promise<string | null>;
   openImageFileDialog?: (extensions?: string[]) => Promise<string | null>;
@@ -58,4 +60,10 @@ export interface FileSystemService {
    * @throws {Error} キャッシュクリア中にエラーが発生した場合
    */
   clearThumbnailCache?(): Promise<void>;
+
+  // 016-thumbnail-backend-responsibility
+  getFolderThumbnail?(
+    folderPath: string,
+  ): Promise<FolderThumbnailResult | null>;
+  prefetchFolderThumbnails?(folderPaths: string[]): Promise<void>;
 }

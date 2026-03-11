@@ -11,6 +11,18 @@ async function fetchThumbnail(
   folderPath: string,
   fs: FileSystemService,
 ): Promise<ImageSource | null> {
+  // 新API: get_folder_thumbnail（IPC 1回で完結）
+  if (fs.getFolderThumbnail) {
+    const result = await fs.getFolderThumbnail(folderPath);
+    if (!result) return null;
+    return {
+      id: result.imagePath,
+      name: result.imageName,
+      assetUrl: fs.convertFileSrc(result.thumbnailPath),
+    };
+  }
+
+  // フォールバック: 旧API（3回のIPC）
   const files = await fs.listImagesInFolder(folderPath);
 
   if (files.length < 1) {

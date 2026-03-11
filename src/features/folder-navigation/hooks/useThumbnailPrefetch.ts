@@ -50,11 +50,24 @@ export function useThumbnailPrefetch(
     // 無効化されている場合は何もしない
     if (disabled) return;
 
-    // フォルダがない、またはバッチAPI未対応の場合はスキップ
-    if (folders.length === 0 || !fs.batchCreateThumbnails) return;
+    // フォルダがない場合はスキップ
+    if (folders.length === 0) return;
+
+    // バッチAPI（新旧どちらも）未対応の場合はスキップ
+    if (!fs.prefetchFolderThumbnails && !fs.batchCreateThumbnails) return;
 
     // UIの初期レンダリング完了後にプリフェッチ開始
     const timeoutId = setTimeout(() => {
+      // 新API: prefetch_folder_thumbnails（バックエンド一括処理）
+      if (fs.prefetchFolderThumbnails) {
+        const folderPaths = folders.map((f) => f.path);
+        void fs
+          .prefetchFolderThumbnails(folderPaths)
+          .catch((err) => console.warn('Prefetch failed:', err));
+        return;
+      }
+
+      // フォールバック: 旧API
       // Fire-and-Forget: async関数を起動するがawaitしない
       void (async () => {
         // 可視領域のフォルダパスを取得

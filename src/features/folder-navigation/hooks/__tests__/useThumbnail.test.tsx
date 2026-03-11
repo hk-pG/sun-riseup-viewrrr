@@ -64,10 +64,9 @@ describe('useThumbnail', () => {
       convertFileSrc: (path: string) => `asset://${path}`,
     };
 
-    const { result } = renderHook(
-      () => useThumbnail('/photos/empty-folder'),
-      { wrapper: createWrapper(mockService) },
-    );
+    const { result } = renderHook(() => useThumbnail('/photos/empty-folder'), {
+      wrapper: createWrapper(mockService),
+    });
 
     await waitFor(() => {
       expect(result.current.isLoading).toBe(false);
@@ -79,7 +78,8 @@ describe('useThumbnail', () => {
   // テスト3: getFolderThumbnail未定義時のフォールバック
   it('getFolderThumbnailが未定義の場合、従来のAPIにフォールバックする', async () => {
     const mockService: Partial<FileSystemService> = {
-      // getFolderThumbnail は未定義
+      // getFolderThumbnail は未定義（ServicesProviderのデフォルトを上書き）
+      getFolderThumbnail: undefined,
       listImagesInFolder: vi
         .fn()
         .mockResolvedValue(['/photos/folder1/image1.jpg']),
