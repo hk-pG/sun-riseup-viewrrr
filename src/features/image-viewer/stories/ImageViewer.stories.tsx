@@ -21,6 +21,8 @@ const createMockFileSystemService = (
   getBaseName: async (filePath: string) => filePath.split('/').pop() || '',
   getDirName: async (filePath: string) =>
     filePath.substring(0, filePath.lastIndexOf('/')),
+  getFolderThumbnail: async () => null,
+  prefetchFolderThumbnails: async () => {},
 });
 
 const MockServiceProvider = ({

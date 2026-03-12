@@ -41,6 +41,8 @@ const createMockFileSystemService = (): FileSystemService => ({
   convertFileSrc: (_filePath: string): string => {
     throw new Error('Function not implemented.');
   },
+  getFolderThumbnail: async () => null,
+  prefetchFolderThumbnails: async () => {},
 });
 
 const MockServiceProvider = ({ children }: { children: React.ReactNode }) => {

@@ -33,6 +33,8 @@ const mockFileSystemService: FileSystemService = {
     return foundMock ? foundMock.assetUrl : 'asset://unknown';
   }),
   openImageFileDialog: vi.fn(),
+  getFolderThumbnail: vi.fn().mockResolvedValue(null),
+  prefetchFolderThumbnails: vi.fn().mockResolvedValue(undefined),
 };
 
 const ServicesWrapper = ({ children }: { children: React.ReactNode }) => {

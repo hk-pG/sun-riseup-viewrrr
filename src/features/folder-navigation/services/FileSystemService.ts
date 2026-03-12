@@ -1,3 +1,5 @@
+import type { FolderThumbnailResult } from '../types/folderTypes';
+
 export interface FileSystemService {
   openDirectoryDialog: () => Promise<string | null>;
   openImageFileDialog?: (extensions?: string[]) => Promise<string | null>;
@@ -28,34 +30,24 @@ export interface FileSystemService {
    */
   convertFileSrc(filePath: string): string;
 
-  // Thumbnail optimization methods (001-rust-thumbnail-optimization)
-
-  /**
-   * 画像のサムネイルを取得または生成する
-   * @param imagePath ソース画像のフルパス
-   * @returns {Promise<string>} サムネイルのキャッシュパス
-   * @throws {Error} サムネイル生成中にエラーが発生した場合
-   */
-  getOrCreateThumbnail?(imagePath: string): Promise<string>;
-
-  /**
-   * 複数の画像のサムネイルをバッチ生成する
-   * @param imagePaths ソース画像のパスの配列
-   * @param visibleCount 可視領域の画像数（優先度High）
-   * @returns {Promise<Record<string, { success: boolean; path?: string; error?: string }>>} 各画像パスに対応する生成結果のマップ
-   * @throws {Error} サムネイル生成中にエラーが発生した場合
-   */
-  batchCreateThumbnails?(
-    imagePaths: string[],
-    visibleCount?: number,
-  ): Promise<
-    Record<string, { success: boolean; path?: string; error?: string }>
-  >;
-
   /**
    * サムネイルキャッシュをクリアする（デバッグ用）
    * @returns {Promise<void>}
    * @throws {Error} キャッシュクリア中にエラーが発生した場合
    */
   clearThumbnailCache?(): Promise<void>;
+
+  /**
+   * フォルダのサムネイル（代表画像）を取得する
+   * バックエンドが画像選択・サムネイル生成を一括処理
+   * @param folderPath フォルダのパス
+   * @returns {Promise<FolderThumbnailResult | null>} サムネイル情報、画像なしの場合null
+   */
+  getFolderThumbnail(folderPath: string): Promise<FolderThumbnailResult | null>;
+
+  /**
+   * 複数フォルダのサムネイルをバックグラウンドでプリフェッチする
+   * @param folderPaths フォルダパスの配列
+   */
+  prefetchFolderThumbnails(folderPaths: string[]): Promise<void>;
 }

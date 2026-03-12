@@ -68,3 +68,13 @@ export interface SidebarProps {
   className?: string;
   style?: React.CSSProperties;
 }
+
+/**
+ * フォルダサムネイル取得結果の型（016-thumbnail-backend-responsibility）
+ * - バックエンドが1回のIPCで画像選択・サムネイル生成を完結する新APIの返却型
+ */
+export interface FolderThumbnailResult {
+  imagePath: string;
+  thumbnailPath: string;
+  imageName: string;
+}

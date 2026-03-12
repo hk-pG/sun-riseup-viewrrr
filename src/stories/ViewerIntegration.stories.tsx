@@ -34,6 +34,8 @@ const createMockFileSystemService = (): FileSystemService => ({
     const parts = filePath.split('/');
     return parts.slice(0, -1).join('/');
   },
+  getFolderThumbnail: async () => null,
+  prefetchFolderThumbnails: async () => {},
 });
 
 const MockServiceProvider = ({ children }: { children: React.ReactNode }) => {
