@@ -44,6 +44,7 @@ impl ThumbnailGenerator {
         // サムネイルのキャッシュパスを計算
         let cache_path = self.get_thumbnail_cache_path(image_path)?;
 
+        // TODO: ifのネストが深い。優先度は低いが、将来的にリファクタリングして早期リターンを増やすことを検討
         // キャッシュが存在し、ソースより新しい場合はそれを返す
         if cache_path.exists() {
             if let (Ok(cache_metadata), Ok(source_metadata)) = (
