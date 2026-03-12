@@ -20,6 +20,8 @@ export interface AppState {
 
 /**
  * アプリケーションのルートコンポーネント
+ * TODO: 状態管理が複雑化している。appStateでの管理に無理が生じ始めている。
+ * TODO: App.tsx自体が肥大化してきている。状態管理とUIロジックの分離を検討。
  *
  * @param props.initialState - テストやStorybook用の初期状態（オプション）。
  *                             初期フォルダパスや画像インデックスを注入できます。
