@@ -8,6 +8,7 @@
     "opener:default",
     "dialog:default",
     "fs:default",
+    "updater:default",
     {
       "identifier": "fs:scope",
       "allow": [

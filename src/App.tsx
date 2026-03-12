@@ -11,6 +11,7 @@ import {
 } from './features/folder-navigation';
 import { ImageViewer } from './features/image-viewer';
 import { useServices } from './shared/context/ServiceContext';
+import { useAutoUpdate } from './shared/hooks/useAutoUpdate';
 
 // App state interface for better type safety
 export interface AppState {
@@ -32,6 +33,9 @@ function App({ initialState }: { initialState?: Partial<AppState> }) {
 
   // useTransition for non-urgent updates
   const [isPending, startTransition] = useTransition();
+
+  // アプリ起動時に自動アップデートをチェック（本番環境のみ）
+  useAutoUpdate();
 
   // Theme API from provider (used for toggle-theme action)
   const themeApi = useTheme();

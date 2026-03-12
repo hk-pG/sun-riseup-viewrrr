@@ -30,6 +30,7 @@ serde_json = "1"
 tauri-plugin-dialog = "2"
 tauri-plugin-fs = "2"
 tauri-plugin-store = "2"
+tauri-plugin-updater = "2"
 tokio = { version = "1", features = ["rt-multi-thread", "macros"] }
 
 # Thumbnail optimization dependencies (001-rust-thumbnail-optimization)

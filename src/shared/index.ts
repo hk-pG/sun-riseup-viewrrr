@@ -28,6 +28,7 @@ export {
 export { ServicesProvider, useServices } from './context/ServiceContext';
 // Hooks
 export { useImages } from './hooks/data/useImages';
+export { useAutoUpdate } from './hooks/useAutoUpdate';
 export type { FolderSortFunction } from './types/FolderSortFunction';
 // Types
 export type { SortFunction } from './types/SortFunction';
