@@ -67,16 +67,5 @@
       "icons/icon.icns",
       "icons/icon.ico"
     ]
-  },
-  "plugins": {
-    "updater": {
-      "pubkey": "REPLACE_WITH_YOUR_TAURI_SIGNING_PUBLIC_KEY",
-      "endpoints": [
-        "https://github.com/hk-pG/sun-riseup-viewrrr/releases/latest/download/latest.json"
-      ],
-      "windows": {
-        "installMode": "passive"
-      }
-    }
   }
 }
