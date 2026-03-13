@@ -2,7 +2,7 @@ import { useState, useTransition } from 'react';
 import './App.css';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import { useTheme } from './components/theme-provider';
-import { AppMenuBar, type AppMenuBarEvent } from './features/app-shell';
+import { AppMenuBar, useAppActions } from './features/app-shell';
 import {
   type FolderInfo,
   Sidebar,
@@ -55,50 +55,16 @@ function App({ initialState }: { initialState?: Partial<AppState> }) {
   const fss = useServices();
   const { openImageFile } = useOpenImageFile(fss);
 
-  const handleMenuAction = async (actionId: AppMenuBarEvent) => {
-    // TODO: スケールを考えてストラテジーパターンへの移行を検討
-    try {
-      if (actionId === 'open-folder') {
-        const folderPath = await fss.openDirectoryDialog();
-        if (folderPath) {
-          startTransition(() => {
-            setAppState((prev) => ({
-              ...prev,
-              currentFolderPath: folderPath,
-              initialImageIndex: 0,
-            }));
-          });
-        }
-      } else if (actionId === 'open-image') {
-        const result = await openImageFile();
-        if (result?.folderPath) {
-          startTransition(() => {
-            setAppState((prev) => ({
-              ...prev,
-              currentFolderPath: result.folderPath || '',
-              initialImageIndex: result.index,
-            }));
-          });
-        }
-      } else if (actionId === 'toggle-theme') {
-        try {
-          // useTheme is used below via closure; safe to call outside because hook must be used in component scope
-          const { theme: currentTheme, setTheme } = themeApi;
+  // Command Registry パターンによるメニューアクション処理
+  const { executeAction } = useAppActions({
+    fss,
+    openImageFile,
+    themeApi,
+    startTransition,
+    setAppState,
+  });
 
-          // テーマの切り替えルールを関数として純粋に定義（light/darkのみ）
-          const getOppositeTheme = (current: typeof currentTheme) =>
-            current === 'dark' ? 'light' : 'dark';
-
-          setTheme(getOppositeTheme(currentTheme));
-        } catch (err) {
-          console.error('toggle-theme failed', err);
-        }
-      }
-      // 他のアクションは今まで通り（必要ならここに追加）
-    } catch (error) {
-      console.error('Menu action failed:', error);
-    }
-  };
+  const handleMenuAction = executeAction;
 
   const handleFolderSelect = (folder: FolderInfo) => {
     startTransition(() => {

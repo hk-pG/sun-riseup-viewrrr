@@ -14,27 +14,31 @@ const mockOpenImageFile = vi.fn();
 
 // Mock the feature components
 // For testing rendering App's children and their interactions
-vi.mock('../features/app-shell', () => ({
-  AppMenuBar: ({ onMenuAction, isDraggable }: AppMenuBarProps) => (
-    <div data-testid="app-menu-bar" data-draggable={isDraggable}>
-      {/* For testing parameter 'onMenuAction' handling */}
-      <button
-        type="button"
-        data-testid="open-folder-btn"
-        onClick={() => onMenuAction('open-folder')}
-      >
-        Open Folder
-      </button>
-      <button
-        type="button"
-        data-testid="open-image-btn"
-        onClick={() => onMenuAction('open-image')}
-      >
-        Open Image
-      </button>
-    </div>
-  ),
-}));
+vi.mock('../features/app-shell', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('../features/app-shell')>();
+  return {
+    ...actual,
+    AppMenuBar: ({ onMenuAction, isDraggable }: AppMenuBarProps) => (
+      <div data-testid="app-menu-bar" data-draggable={isDraggable}>
+        {/* For testing parameter 'onMenuAction' handling */}
+        <button
+          type="button"
+          data-testid="open-folder-btn"
+          onClick={() => onMenuAction('open-folder')}
+        >
+          Open Folder
+        </button>
+        <button
+          type="button"
+          data-testid="open-image-btn"
+          onClick={() => onMenuAction('open-image')}
+        >
+          Open Image
+        </button>
+      </div>
+    ),
+  };
+});
 
 vi.mock('../features/folder-navigation', () => ({
   Sidebar: ({
