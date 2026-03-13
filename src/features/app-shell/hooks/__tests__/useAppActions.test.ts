@@ -1,27 +1,8 @@
 import { renderHook } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { createMockContext } from '../../__tests__/helpers';
 import type { ActionContext } from '../../actions/types';
 import { useAppActions } from '../useAppActions';
-
-function createMockContext(overrides?: Partial<ActionContext>): ActionContext {
-  return {
-    fss: {
-      openDirectoryDialog: vi.fn().mockResolvedValue(null),
-      getBaseName: vi.fn(),
-      getDirName: vi.fn(),
-      listImagesInFolder: vi.fn(),
-      getSiblingFolders: vi.fn(),
-      convertFileSrc: vi.fn(),
-      getFolderThumbnail: vi.fn().mockResolvedValue(null),
-      prefetchFolderThumbnails: vi.fn().mockResolvedValue(undefined),
-    },
-    openImageFile: vi.fn().mockResolvedValue(null),
-    themeApi: { theme: 'dark', setTheme: vi.fn() },
-    startTransition: vi.fn((cb: () => void) => cb()),
-    setAppState: vi.fn(),
-    ...overrides,
-  };
-}
 
 describe('useAppActions', () => {
   let ctx: ActionContext;
@@ -62,7 +43,10 @@ describe('useAppActions', () => {
     const { result } = renderHook(() => useAppActions(ctx));
     await result.current.executeAction('open-folder');
 
-    expect(errorSpy).toHaveBeenCalledWith('Menu action failed:', error);
+    expect(errorSpy).toHaveBeenCalledWith(
+      'Menu action failed [open-folder]:',
+      error,
+    );
     errorSpy.mockRestore();
   });
 });
