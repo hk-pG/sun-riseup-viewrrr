@@ -1,5 +1,7 @@
 // App Shell Feature Exports
 
+// Actions
+export type { ActionContext, ActionHandler, ActionRegistry } from './actions';
 export type {
   AppMenuBarEvent,
   AppMenuBarProps,
@@ -11,7 +13,8 @@ export { HeaderMenu } from './components/HeaderMenu';
 export { KeyboardShortcutHelp } from './components/KeyboardShortcutHelp';
 export { MenuDropdown } from './components/MenuDropdown';
 export { MenuItem } from './components/MenuItem';
-
+// Hooks
+export { useAppActions } from './hooks/useAppActions';
 // Settings
 export {
   createCustomKeyboardMapping,

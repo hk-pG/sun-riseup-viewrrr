@@ -32,19 +32,24 @@ describe('ViewerLayout - US1: Viewer displays full image without scrolling', () 
     };
 
     // Mock feature components to keep layout structure
-    vi.mock('@/features/app-shell', () => ({
-      AppMenuBar: ({ onMenuAction, isDraggable }: any) => (
-        <div data-testid="app-menu-bar" data-draggable={isDraggable}>
-          <button
-            type="button"
-            data-testid="open-folder-btn"
-            onClick={() => onMenuAction('open-folder')}
-          >
-            Open Folder
-          </button>
-        </div>
-      ),
-    }));
+    vi.mock('@/features/app-shell', async (importOriginal) => {
+      const actual =
+        await importOriginal<typeof import('@/features/app-shell')>();
+      return {
+        ...actual,
+        AppMenuBar: ({ onMenuAction, isDraggable }: any) => (
+          <div data-testid="app-menu-bar" data-draggable={isDraggable}>
+            <button
+              type="button"
+              data-testid="open-folder-btn"
+              onClick={() => onMenuAction('open-folder')}
+            >
+              Open Folder
+            </button>
+          </div>
+        ),
+      };
+    });
 
     vi.mock('@/features/folder-navigation', () => ({
       Sidebar: ({ folders, selectedFolder, onFolderSelect, width }: any) => (
