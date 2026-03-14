@@ -22,6 +22,7 @@
     "type-check:dev": "tsc --noEmit --project tsconfig.dev.json",
     "test:watch": "vitest",
     "test": "vitest --run",
+    "test:e2e": "vitest --run --project storybook",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
