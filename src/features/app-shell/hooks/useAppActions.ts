@@ -25,6 +25,12 @@ export function applyResult(
     case 'theme-toggled':
       applier.setTheme(result.theme);
       break;
+    default: {
+      const _exhaustive: never = result;
+      throw new Error(
+        `Unhandled result type: ${(_exhaustive as { type: string }).type}`,
+      );
+    }
   }
 }
 
