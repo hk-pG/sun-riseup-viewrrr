@@ -43,26 +43,3 @@ export interface ResultApplier {
   setAppState: React.Dispatch<React.SetStateAction<AppState>>;
   setTheme: (theme: 'dark' | 'light') => void;
 }
-
-// ============================================================
-// 旧型（Phase 3 で削除予定）
-// ============================================================
-
-/**
- * @deprecated Result パターン移行後に削除予定。ActionDependencies + ResultApplier に分割された。
- */
-export interface ActionContext {
-  fss: FileSystemService;
-  openImageFile: () => Promise<OpenImageFileResult | null>;
-  themeApi: {
-    theme: 'dark' | 'light';
-    setTheme: (theme: 'dark' | 'light') => void;
-  };
-  startTransition: (callback: () => void) => void;
-  setAppState: React.Dispatch<React.SetStateAction<AppState>>;
-}
-
-/**
- * @deprecated Result パターン移行後に削除予定。BoundActionHandler に置換された。
- */
-export type ActionHandler = (context: ActionContext) => Promise<void>;
