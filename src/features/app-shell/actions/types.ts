@@ -3,9 +3,53 @@ import type { OpenImageFileResult } from '@/features/folder-navigation/hooks/use
 import type { FileSystemService } from '@/features/folder-navigation/services/FileSystemService';
 import type { AppMenuBarEvent } from '../components/AppMenuBar';
 
+// ============================================================
+// Result 型（discriminated union）
+// ============================================================
+
+export interface FolderSelectedResult {
+  type: 'folder-selected';
+  folderPath: string;
+  initialImageIndex: number;
+}
+
+export interface ThemeToggledResult {
+  type: 'theme-toggled';
+  theme: 'dark' | 'light';
+}
+
+export type ActionResult = FolderSelectedResult | ThemeToggledResult;
+
+// ============================================================
+// Handler 型
+// ============================================================
+
+export type BoundActionHandler = () => Promise<ActionResult | null>;
+
+export type ActionRegistry = Map<AppMenuBarEvent, BoundActionHandler>;
+
+// ============================================================
+// 依存型
+// ============================================================
+
+export interface ActionDependencies {
+  fss: FileSystemService;
+  openImageFile: () => Promise<OpenImageFileResult | null>;
+  currentTheme: 'dark' | 'light';
+}
+
+export interface ResultApplier {
+  startTransition: (callback: () => void) => void;
+  setAppState: React.Dispatch<React.SetStateAction<AppState>>;
+  setTheme: (theme: 'dark' | 'light') => void;
+}
+
+// ============================================================
+// 旧型（Phase 3 で削除予定）
+// ============================================================
+
 /**
- * アクションハンドラーが受け取るコンテキスト。
- * App コンポーネントが持つ依存を集約したもの。
+ * @deprecated Result パターン移行後に削除予定。ActionDependencies + ResultApplier に分割された。
  */
 export interface ActionContext {
   fss: FileSystemService;
@@ -19,11 +63,6 @@ export interface ActionContext {
 }
 
 /**
- * 個別アクションハンドラーの型。
+ * @deprecated Result パターン移行後に削除予定。BoundActionHandler に置換された。
  */
 export type ActionHandler = (context: ActionContext) => Promise<void>;
-
-/**
- * アクション ID → ハンドラー関数の Map 型。
- */
-export type ActionRegistry = Map<AppMenuBarEvent, ActionHandler>;

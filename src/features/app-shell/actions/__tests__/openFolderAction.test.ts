@@ -1,49 +1,41 @@
-import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { createMockContext } from '../../__tests__/helpers';
+import type { FileSystemService } from '@/features/folder-navigation/services/FileSystemService';
+import { describe, expect, it, vi } from 'vitest';
 import { openFolderAction } from '../openFolderAction';
-import type { ActionContext } from '../types';
+
+function createMockFss(
+  dialogResult: string | null = null,
+): FileSystemService {
+  return {
+    openDirectoryDialog: vi.fn().mockResolvedValue(dialogResult),
+  } as unknown as FileSystemService;
+}
 
 describe('openFolderAction', () => {
-  let ctx: ActionContext;
+  it('フォルダ選択成功時: FolderSelectedResult を返す', async () => {
+    const fss = createMockFss('/some/folder');
 
-  beforeEach(() => {
-    ctx = createMockContext();
+    const result = await openFolderAction(fss);
+
+    expect(result).toEqual({
+      type: 'folder-selected',
+      folderPath: '/some/folder',
+      initialImageIndex: 0,
+    });
   });
 
-  it('calls setAppState via startTransition when dialog returns a path', async () => {
-    vi.mocked(ctx.fss.openDirectoryDialog).mockResolvedValue('/some/folder');
+  it('フォルダ選択成功時: initialImageIndex は常に 0', async () => {
+    const fss = createMockFss('/another/folder');
 
-    await openFolderAction(ctx);
+    const result = await openFolderAction(fss);
 
-    expect(ctx.startTransition).toHaveBeenCalledOnce();
-    expect(ctx.setAppState).toHaveBeenCalledOnce();
+    expect(result?.initialImageIndex).toBe(0);
   });
 
-  it('sets currentFolderPath and initialImageIndex: 0', async () => {
-    vi.mocked(ctx.fss.openDirectoryDialog).mockResolvedValue('/some/folder');
+  it('キャンセル時（null）: null を返す', async () => {
+    const fss = createMockFss(null);
 
-    await openFolderAction(ctx);
+    const result = await openFolderAction(fss);
 
-    const updater = vi.mocked(ctx.setAppState).mock.calls[0][0];
-    // updater is a callback; invoke it with a dummy prev state
-    const prev = { currentFolderPath: '', initialImageIndex: 5 };
-    const next =
-      typeof updater === 'function' ? updater(prev as never) : updater;
-
-    expect(next).toEqual(
-      expect.objectContaining({
-        currentFolderPath: '/some/folder',
-        initialImageIndex: 0,
-      }),
-    );
-  });
-
-  it('does not call setAppState when dialog is cancelled (null)', async () => {
-    vi.mocked(ctx.fss.openDirectoryDialog).mockResolvedValue(null);
-
-    await openFolderAction(ctx);
-
-    expect(ctx.setAppState).not.toHaveBeenCalled();
-    expect(ctx.startTransition).not.toHaveBeenCalled();
+    expect(result).toBeNull();
   });
 });
