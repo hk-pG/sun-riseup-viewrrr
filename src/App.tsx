@@ -56,13 +56,18 @@ function App({ initialState }: { initialState?: Partial<AppState> }) {
   const { openImageFile } = useOpenImageFile(fss);
 
   // Command Registry パターンによるメニューアクション処理
-  const { executeAction } = useAppActions({
-    fss,
-    openImageFile,
-    themeApi,
-    startTransition,
-    setAppState,
-  });
+  const { executeAction } = useAppActions(
+    {
+      fss,
+      openImageFile,
+      currentTheme: themeApi.theme,
+    },
+    {
+      startTransition,
+      setAppState,
+      setTheme: themeApi.setTheme,
+    },
+  );
 
   const handleMenuAction = executeAction;
 

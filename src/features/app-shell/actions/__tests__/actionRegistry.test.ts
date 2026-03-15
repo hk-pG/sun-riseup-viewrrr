@@ -1,31 +1,67 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
+import { createMockDeps } from '../../__tests__/helpers';
 import { createActionRegistry } from '../actionRegistry';
-import { openFolderAction } from '../openFolderAction';
-import { openImageAction } from '../openImageAction';
-import { toggleThemeAction } from '../toggleThemeAction';
 
 describe('createActionRegistry', () => {
-  it('registers 3 actions', () => {
-    const registry = createActionRegistry();
+  it('3つのアクションが登録される', () => {
+    const deps = createMockDeps();
+    const registry = createActionRegistry(deps);
 
     expect(registry.size).toBe(3);
   });
 
-  it('maps open-folder to openFolderAction', () => {
-    const registry = createActionRegistry();
+  it('open-folder / open-image / toggle-theme のキーが存在する', () => {
+    const deps = createMockDeps();
+    const registry = createActionRegistry(deps);
 
-    expect(registry.get('open-folder')).toBe(openFolderAction);
+    expect(registry.has('open-folder')).toBe(true);
+    expect(registry.has('open-image')).toBe(true);
+    expect(registry.has('toggle-theme')).toBe(true);
   });
 
-  it('maps open-image to openImageAction', () => {
-    const registry = createActionRegistry();
+  it('各ハンドラーは BoundActionHandler（引数なし関数）である', () => {
+    const deps = createMockDeps();
+    const registry = createActionRegistry(deps);
 
-    expect(registry.get('open-image')).toBe(openImageAction);
+    for (const handler of registry.values()) {
+      expect(typeof handler).toBe('function');
+      expect(handler.length).toBe(0);
+    }
   });
 
-  it('maps toggle-theme to toggleThemeAction', () => {
-    const registry = createActionRegistry();
+  it('open-folder ハンドラーが fss.openDirectoryDialog を呼ぶ', async () => {
+    const deps = createMockDeps();
+    vi.mocked(deps.fss.openDirectoryDialog).mockResolvedValue('/test');
 
-    expect(registry.get('toggle-theme')).toBe(toggleThemeAction);
+    const registry = createActionRegistry(deps);
+    const result = await registry.get('open-folder')!();
+
+    expect(deps.fss.openDirectoryDialog).toHaveBeenCalledOnce();
+    expect(result).toEqual({
+      type: 'folder-selected',
+      folderPath: '/test',
+      initialImageIndex: 0,
+    });
+  });
+
+  it('toggle-theme ハンドラーが currentTheme に基づいて結果を返す', async () => {
+    const deps = createMockDeps({ currentTheme: 'light' });
+
+    const registry = createActionRegistry(deps);
+    const result = await registry.get('toggle-theme')!();
+
+    expect(result).toEqual({
+      type: 'theme-toggled',
+      theme: 'dark',
+    });
+  });
+
+  it('キャンセル時: ハンドラーが null を返す', async () => {
+    const deps = createMockDeps();
+
+    const registry = createActionRegistry(deps);
+    const result = await registry.get('open-folder')!();
+
+    expect(result).toBeNull();
   });
 });

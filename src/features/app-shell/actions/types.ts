@@ -3,27 +3,43 @@ import type { OpenImageFileResult } from '@/features/folder-navigation/hooks/use
 import type { FileSystemService } from '@/features/folder-navigation/services/FileSystemService';
 import type { AppMenuBarEvent } from '../components/AppMenuBar';
 
-/**
- * アクションハンドラーが受け取るコンテキスト。
- * App コンポーネントが持つ依存を集約したもの。
- */
-export interface ActionContext {
-  fss: FileSystemService;
-  openImageFile: () => Promise<OpenImageFileResult | null>;
-  themeApi: {
-    theme: 'dark' | 'light';
-    setTheme: (theme: 'dark' | 'light') => void;
-  };
-  startTransition: (callback: () => void) => void;
-  setAppState: React.Dispatch<React.SetStateAction<AppState>>;
+// ============================================================
+// Result 型（discriminated union）
+// ============================================================
+
+export interface FolderSelectedResult {
+  type: 'folder-selected';
+  folderPath: string;
+  initialImageIndex: number;
 }
 
-/**
- * 個別アクションハンドラーの型。
- */
-export type ActionHandler = (context: ActionContext) => Promise<void>;
+export interface ThemeToggledResult {
+  type: 'theme-toggled';
+  theme: 'dark' | 'light';
+}
 
-/**
- * アクション ID → ハンドラー関数の Map 型。
- */
-export type ActionRegistry = Map<AppMenuBarEvent, ActionHandler>;
+export type ActionResult = FolderSelectedResult | ThemeToggledResult;
+
+// ============================================================
+// Handler 型
+// ============================================================
+
+export type BoundActionHandler = () => Promise<ActionResult | null>;
+
+export type ActionRegistry = Map<AppMenuBarEvent, BoundActionHandler>;
+
+// ============================================================
+// 依存型
+// ============================================================
+
+export interface ActionDependencies {
+  fss: FileSystemService;
+  openImageFile: () => Promise<OpenImageFileResult | null>;
+  currentTheme: 'dark' | 'light';
+}
+
+export interface ResultApplier {
+  startTransition: (callback: () => void) => void;
+  setAppState: React.Dispatch<React.SetStateAction<AppState>>;
+  setTheme: (theme: 'dark' | 'light') => void;
+}

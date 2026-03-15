@@ -1,9 +1,9 @@
 import { vi } from 'vitest';
-import type { ActionContext } from '../actions/types';
+import type { ActionDependencies, ResultApplier } from '../actions/types';
 
-export function createMockContext(
-  overrides?: Partial<ActionContext>,
-): ActionContext {
+export function createMockDeps(
+  overrides?: Partial<ActionDependencies>,
+): ActionDependencies {
   return {
     fss: {
       openDirectoryDialog: vi.fn().mockResolvedValue(null),
@@ -16,9 +16,18 @@ export function createMockContext(
       prefetchFolderThumbnails: vi.fn().mockResolvedValue(undefined),
     },
     openImageFile: vi.fn().mockResolvedValue(null),
-    themeApi: { theme: 'dark', setTheme: vi.fn() },
+    currentTheme: 'dark',
+    ...overrides,
+  };
+}
+
+export function createMockApplier(
+  overrides?: Partial<ResultApplier>,
+): ResultApplier {
+  return {
     startTransition: vi.fn((cb: () => void) => cb()),
     setAppState: vi.fn(),
+    setTheme: vi.fn(),
     ...overrides,
   };
 }

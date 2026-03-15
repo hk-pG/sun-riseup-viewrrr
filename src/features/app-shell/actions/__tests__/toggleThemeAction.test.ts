@@ -1,30 +1,22 @@
-import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { createMockContext } from '../../__tests__/helpers';
+import { describe, expect, it } from 'vitest';
 import { toggleThemeAction } from '../toggleThemeAction';
-import type { ActionContext } from '../types';
 
 describe('toggleThemeAction', () => {
-  let ctx: ActionContext;
+  it('dark → light: ThemeToggledResult を返す', () => {
+    const result = toggleThemeAction('dark');
 
-  beforeEach(() => {
-    ctx = createMockContext();
-  });
-
-  it('switches from dark to light', async () => {
-    ctx = createMockContext({ themeApi: { theme: 'dark', setTheme: vi.fn() } });
-
-    await toggleThemeAction(ctx);
-
-    expect(ctx.themeApi.setTheme).toHaveBeenCalledWith('light');
-  });
-
-  it('switches from light to dark', async () => {
-    ctx = createMockContext({
-      themeApi: { theme: 'light', setTheme: vi.fn() },
+    expect(result).toEqual({
+      type: 'theme-toggled',
+      theme: 'light',
     });
+  });
 
-    await toggleThemeAction(ctx);
+  it('light → dark: ThemeToggledResult を返す', () => {
+    const result = toggleThemeAction('light');
 
-    expect(ctx.themeApi.setTheme).toHaveBeenCalledWith('dark');
+    expect(result).toEqual({
+      type: 'theme-toggled',
+      theme: 'dark',
+    });
   });
 });

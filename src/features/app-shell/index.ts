@@ -1,7 +1,15 @@
 // App Shell Feature Exports
 
 // Actions
-export type { ActionContext, ActionHandler, ActionRegistry } from './actions';
+export type {
+  ActionDependencies,
+  ActionRegistry,
+  ActionResult,
+  BoundActionHandler,
+  FolderSelectedResult,
+  ResultApplier,
+  ThemeToggledResult,
+} from './actions';
 export type {
   AppMenuBarEvent,
   AppMenuBarProps,
