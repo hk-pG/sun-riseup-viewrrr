@@ -1,9 +1,6 @@
 import { renderHook } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import {
-  createMockApplier,
-  createMockDeps,
-} from '../../__tests__/helpers';
+import { createMockApplier, createMockDeps } from '../../__tests__/helpers';
 import type { ActionDependencies, ResultApplier } from '../../actions/types';
 import { applyResult, useAppActions } from '../useAppActions';
 
@@ -129,9 +126,7 @@ describe('useAppActions', () => {
     const error = new Error('boom');
     vi.mocked(deps.fss.openDirectoryDialog).mockRejectedValue(error);
 
-    const errorSpy = vi
-      .spyOn(console, 'error')
-      .mockImplementation(() => {});
+    const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
 
     const { result } = renderHook(() => useAppActions(deps, applier));
     await result.current.executeAction('open-folder');

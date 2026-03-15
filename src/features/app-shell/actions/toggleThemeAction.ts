@@ -1,7 +1,10 @@
-import type { ActionHandler } from './types';
+import type { ThemeToggledResult } from './types';
 
-export const toggleThemeAction: ActionHandler = async (ctx) => {
-  const { theme: currentTheme, setTheme } = ctx.themeApi;
-  const nextTheme = currentTheme === 'dark' ? 'light' : 'dark';
-  setTheme(nextTheme);
+export const toggleThemeAction = (
+  currentTheme: 'dark' | 'light',
+): ThemeToggledResult => {
+  return {
+    type: 'theme-toggled',
+    theme: currentTheme === 'dark' ? 'light' : 'dark',
+  };
 };

@@ -1,10 +1,8 @@
-import type { FileSystemService } from '@/features/folder-navigation/services/FileSystemService';
 import { describe, expect, it, vi } from 'vitest';
+import type { FileSystemService } from '@/features/folder-navigation/services/FileSystemService';
 import { openFolderAction } from '../openFolderAction';
 
-function createMockFss(
-  dialogResult: string | null = null,
-): FileSystemService {
+function createMockFss(dialogResult: string | null = null): FileSystemService {
   return {
     openDirectoryDialog: vi.fn().mockResolvedValue(dialogResult),
   } as unknown as FileSystemService;

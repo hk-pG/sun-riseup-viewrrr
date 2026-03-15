@@ -1,15 +1,14 @@
-import type { ActionHandler } from './types';
+import type { OpenImageFileResult } from '@/features/folder-navigation/hooks/useOpenImageFile';
+import type { FolderSelectedResult } from './types';
 
-export const openImageAction: ActionHandler = async (ctx) => {
-  const result = await ctx.openImageFile();
-  const folderPath = result?.folderPath;
-  if (folderPath) {
-    ctx.startTransition(() => {
-      ctx.setAppState((prev) => ({
-        ...prev,
-        currentFolderPath: folderPath,
-        initialImageIndex: result.index,
-      }));
-    });
-  }
+export const openImageAction = async (
+  openImageFile: () => Promise<OpenImageFileResult | null>,
+): Promise<FolderSelectedResult | null> => {
+  const result = await openImageFile();
+  if (!result?.folderPath) return null;
+  return {
+    type: 'folder-selected',
+    folderPath: result.folderPath,
+    initialImageIndex: result.index,
+  };
 };
