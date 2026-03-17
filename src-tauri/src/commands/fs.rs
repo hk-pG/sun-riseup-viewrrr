@@ -1,4 +1,5 @@
 use core_logic::{
+    get_sibling_containers as core_get_sibling_containers,
     get_sibling_folders as core_get_sibling_folders,
     list_images_in_folder as core_list_images_in_folder, CommandError,
 };
@@ -20,6 +21,12 @@ pub async fn list_images_in_folder(folder_path: String) -> Result<Vec<String>, C
 #[command]
 pub async fn get_sibling_folders(folder_path: String) -> Result<Vec<String>, CommandError> {
     tokio::task::spawn_blocking(move || core_get_sibling_folders(folder_path))
+        .await
+        .map_err(|e| CommandError::Io(format!("Task join error: {}", e)))?
+}
+
+pub async fn get_sibling_containers(container_path: String) -> Result<Vec<String>, CommandError> {
+    tokio::task::spawn_blocking(move || core_get_sibling_containers(container_path))
         .await
         .map_err(|e| CommandError::Io(format!("Task join error: {}", e)))?
 }
