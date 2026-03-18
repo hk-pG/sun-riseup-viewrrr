@@ -1,5 +1,5 @@
 pub mod commands;
-use commands::fs::{get_sibling_folders, list_images_in_folder};
+use commands::fs::{get_sibling_containers, list_images_in_folder};
 use commands::thumbnail::{
     clear_thumbnail_cache, get_folder_thumbnail, prefetch_folder_thumbnails,
 };
@@ -13,7 +13,7 @@ pub fn run() {
         .plugin(tauri_plugin_store::Builder::default().build())
         .invoke_handler(tauri::generate_handler![
             list_images_in_folder,
-            get_sibling_folders,
+            get_sibling_containers,
             clear_thumbnail_cache,
             get_folder_thumbnail,
             prefetch_folder_thumbnails

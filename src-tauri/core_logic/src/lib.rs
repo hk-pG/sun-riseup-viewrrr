@@ -59,7 +59,7 @@ pub fn list_images_in_folder(folder_path: String) -> Result<Vec<String>, Command
 /// let siblings = get_sibling_folders("/path/to/current/folder".to_string());
 /// // siblings: Ok(["/path/to/current/folder/../sibling1", "/path/to/current/folder/../sibling2"])
 /// ```
-pub fn get_sibling_folders(folder_path: String) -> Result<Vec<String>, CommandError> {
+fn get_sibling_folders(folder_path: String) -> Result<Vec<String>, CommandError> {
     let current = PathBuf::from(&folder_path);
 
     if !current.exists() {
