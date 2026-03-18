@@ -19,13 +19,13 @@ export async function createFolderEntry(
 }
 
 /**
- * 指定のフォルダと同階層にあるフォルダを取得し、
- * 各フォルダの最初の画像を使ったサムネイルを取得する
+ * 指定のコンテナと同階層にあるフォルダを取得し、
+ * 各コンテナの最初の画像を使ったサムネイルを取得する
  *
- * @param currentFolderPath - 現在のフォルダのパス
+ * @param currentContainerPath - 現在のコンテナのパス
  * @returns - 同階層のフォルダのパスと、各フォルダのサムネイル
  */
-export function useSiblingFolders(currentFolderPath: string) {
+export function useSiblingContainers(currentContainerPath: string) {
   // 同階層のフォルダ情報（パス・名前）のリストを保持するstate
   const [entries, setEntries] = useState<FolderEntry[]>([]);
   // エラー状態を保持するstate
@@ -46,7 +46,7 @@ export function useSiblingFolders(currentFolderPath: string) {
         setError(null);
 
         // 各フォルダパスからフォルダ名を取得し、FolderEntry配列を生成
-        const entries = await getSiblingFolderEntries(currentFolderPath, fs);
+        const entries = await getSiblingFolderEntries(currentContainerPath, fs);
 
         if (!mounted) return;
 
@@ -67,7 +67,7 @@ export function useSiblingFolders(currentFolderPath: string) {
     return () => {
       mounted = false;
     };
-  }, [currentFolderPath, fs]);
+  }, [currentContainerPath, fs]);
 
   return { entries, error };
 }

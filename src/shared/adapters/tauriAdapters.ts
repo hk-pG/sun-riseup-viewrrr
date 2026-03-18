@@ -72,6 +72,9 @@ export const tauriFileSystemService: FileSystemService = {
     }
   },
 
+  /**
+   * @deprecated
+   */
   getSiblingFolders: async (folderPath: string): Promise<string[]> => {
     try {
       const folders = await invoke<string[]>('get_sibling_folders', {
@@ -86,6 +89,26 @@ export const tauriFileSystemService: FileSystemService = {
     } catch (error) {
       throw new Error(
         `Failed to get sibling folders for "${folderPath}": ${error instanceof Error ? error.message : String(error)}`,
+      );
+    }
+  },
+
+  getSiblingContainers: async (
+    currentContainerPath: string,
+  ): Promise<string[]> => {
+    try {
+      const containers = await invoke<string[]>('get_sibling_containers', {
+        currentContainerPath,
+      });
+      if (!isStringArray(containers)) {
+        throw new Error(
+          `Invalid response from getSiblingContainers: expected string array, got ${typeof containers}`,
+        );
+      }
+      return containers;
+    } catch (error) {
+      throw new Error(
+        `Failed to get sibling containers for "${currentContainerPath}": ${error instanceof Error ? error.message : String(error)}`,
       );
     }
   },

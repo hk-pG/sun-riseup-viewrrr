@@ -2,7 +2,7 @@ import { type FolderSortFunction, naturalFolderSort } from '../../../shared';
 import {
   createFolderEntry,
   type FolderEntry,
-} from '../hooks/useSiblingFolders';
+} from '../hooks/useSiblingContainers';
 import type { FileSystemService } from './FileSystemService';
 
 /**

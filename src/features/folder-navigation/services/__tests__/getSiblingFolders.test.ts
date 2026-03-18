@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import type { FolderEntry } from '../../hooks/useSiblingFolders';
+import type { FolderEntry } from '../../hooks/useSiblingContainers';
 import type { FileSystemService } from '../FileSystemService';
 import { getSiblingFolderEntries } from '../getSiblingFolders';
 

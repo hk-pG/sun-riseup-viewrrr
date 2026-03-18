@@ -2,7 +2,10 @@ import { act, renderHook, waitFor } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { ServicesProvider } from '../../../../shared/context/ServiceContext';
 import type { FileSystemService } from '../../services/FileSystemService';
-import { type FolderEntry, useSiblingFolders } from '../useSiblingFolders';
+import {
+  type FolderEntry,
+  useSiblingContainers,
+} from '../useSiblingContainers';
 
 // --- 定数 ---
 const TEST_CURRENT_PATH = '/path/to/current';
@@ -39,7 +42,7 @@ describe('useFolderNavigator', () => {
   });
 
   it('初期状態または currentFolderPath が空文字列の場合、entries は空配列であり、フォルダ取得処理は実行されない', async () => {
-    const { result } = renderHook(() => useSiblingFolders(''), {
+    const { result } = renderHook(() => useSiblingContainers(''), {
       wrapper: ServicesWrapper,
     });
 
@@ -73,9 +76,12 @@ describe('useFolderNavigator', () => {
         return '';
       });
 
-    const { result } = renderHook(() => useSiblingFolders(TEST_CURRENT_PATH), {
-      wrapper: ServicesWrapper,
-    });
+    const { result } = renderHook(
+      () => useSiblingContainers(TEST_CURRENT_PATH),
+      {
+        wrapper: ServicesWrapper,
+      },
+    );
 
     await waitFor(() => {
       expect(result.current.entries).toEqual(mockEntries);
@@ -99,9 +105,12 @@ describe('useFolderNavigator', () => {
         return '';
       });
 
-    const { result } = renderHook(() => useSiblingFolders(TEST_CURRENT_PATH), {
-      wrapper: ServicesWrapper,
-    });
+    const { result } = renderHook(
+      () => useSiblingContainers(TEST_CURRENT_PATH),
+      {
+        wrapper: ServicesWrapper,
+      },
+    );
 
     await waitFor(() => {
       expect(result.current.entries).toEqual(expectedEntries);
@@ -116,9 +125,12 @@ describe('useFolderNavigator', () => {
       .fn()
       .mockRejectedValue(new Error('Failed to get sibling folders'));
 
-    const { result } = renderHook(() => useSiblingFolders(TEST_CURRENT_PATH), {
-      wrapper: ServicesWrapper,
-    });
+    const { result } = renderHook(
+      () => useSiblingContainers(TEST_CURRENT_PATH),
+      {
+        wrapper: ServicesWrapper,
+      },
+    );
 
     await waitFor(() => {
       expect(result.current.entries).toEqual([]);
@@ -134,9 +146,12 @@ describe('useFolderNavigator', () => {
       .fn()
       .mockRejectedValue(new Error(errorMessage));
 
-    const { result } = renderHook(() => useSiblingFolders(TEST_CURRENT_PATH), {
-      wrapper: ServicesWrapper,
-    });
+    const { result } = renderHook(
+      () => useSiblingContainers(TEST_CURRENT_PATH),
+      {
+        wrapper: ServicesWrapper,
+      },
+    );
 
     await waitFor(() => {
       expect(result.current.entries).toEqual([]);
@@ -159,7 +174,7 @@ describe('useFolderNavigator', () => {
       );
 
     const { unmount, result } = renderHook(
-      () => useSiblingFolders(TEST_CURRENT_PATH),
+      () => useSiblingContainers(TEST_CURRENT_PATH),
       {
         wrapper: ServicesWrapper,
       },

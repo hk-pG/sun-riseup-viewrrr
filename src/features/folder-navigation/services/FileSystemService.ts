@@ -19,9 +19,18 @@ export interface FileSystemService {
   /**
    * 指定されたフォルダと同じ階層にあるフォルダのリストを取得する
    * @param currentFolderPath 現在のフォルダのパス
+   * @deprecated このメソッドは将来的に削除される予定です。代わりにgetSiblingContainersを使用してください。
    * @return {Promise<string[]>} 同じ階層にあるフォルダのパスの配列
    */
   getSiblingFolders(currentFolderPath: string): Promise<string[]>;
+
+  /**
+   * 指定されたコンテナと同じ階層にあるコンテナのリストを取得する。
+   * **コンテナ**は、フォルダに加えてアーカイブを含む。
+   * @param currentContainerPath 現在のコンテナパス
+   * @returns {Promise<string[]>} 同じ階層にあるコンテナのパス配列
+   */
+  getSiblingContainers(currentContainerPath: string): Promise<string[]>;
 
   /**
    * ファイルのパスをリソースURLに変換する
