@@ -1,7 +1,7 @@
 import { startTransition, useEffect, useState } from 'react';
 import { useServices } from '../../../shared/context/ServiceContext';
 import type { FileSystemService } from '..';
-import { getSiblingFolderEntries } from '../services/getSiblingFolders';
+import { getSiblingContainerEntries } from '../services/getSiblingContainers';
 
 export type FolderEntry = {
   name: string;
@@ -46,7 +46,10 @@ export function useSiblingContainers(currentContainerPath: string) {
         setError(null);
 
         // 各フォルダパスからフォルダ名を取得し、FolderEntry配列を生成
-        const entries = await getSiblingFolderEntries(currentContainerPath, fs);
+        const entries = await getSiblingContainerEntries(
+          currentContainerPath,
+          fs,
+        );
 
         if (!mounted) return;
 

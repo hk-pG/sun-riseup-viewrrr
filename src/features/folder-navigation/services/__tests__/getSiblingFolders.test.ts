@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import type { FolderEntry } from '../../hooks/useSiblingContainers';
 import type { FileSystemService } from '../FileSystemService';
-import { getSiblingFolderEntries } from '../getSiblingFolders';
+import { getSiblingContainerEntries } from '../getSiblingContainers';
 
 // Mock FileSystemService
 const mockFileSystemService: FileSystemService = {
@@ -21,7 +21,7 @@ describe('getSiblingFolderEntries', () => {
   });
 
   it('should return empty array when currentFolderPath is empty', async () => {
-    const result = await getSiblingFolderEntries('', mockFileSystemService);
+    const result = await getSiblingContainerEntries('', mockFileSystemService);
 
     expect(result).toEqual([]);
     expect(mockFileSystemService.getSiblingFolders).not.toHaveBeenCalled();
@@ -43,7 +43,7 @@ describe('getSiblingFolderEntries', () => {
         return '';
       });
 
-    const result = await getSiblingFolderEntries(
+    const result = await getSiblingContainerEntries(
       currentPath,
       mockFileSystemService,
     );
@@ -75,7 +75,7 @@ describe('getSiblingFolderEntries', () => {
         return '';
       });
 
-    const result = await getSiblingFolderEntries(
+    const result = await getSiblingContainerEntries(
       currentPath,
       mockFileSystemService,
       reverseSortFn,
@@ -99,7 +99,7 @@ describe('getSiblingFolderEntries', () => {
         return '';
       });
 
-    const result = await getSiblingFolderEntries(
+    const result = await getSiblingContainerEntries(
       currentPath,
       mockFileSystemService,
     );
@@ -128,7 +128,7 @@ describe('getSiblingFolderEntries', () => {
         return '';
       });
 
-    const result = await getSiblingFolderEntries(
+    const result = await getSiblingContainerEntries(
       currentPath,
       mockFileSystemService,
     );
@@ -155,7 +155,7 @@ describe('getSiblingFolderEntries', () => {
       );
 
     await expect(
-      getSiblingFolderEntries(currentPath, mockFileSystemService),
+      getSiblingContainerEntries(currentPath, mockFileSystemService),
     ).rejects.toThrow('Failed to get sibling folders');
   });
 
@@ -177,7 +177,7 @@ describe('getSiblingFolderEntries', () => {
 
     // Promise.all がrejectし、エラーが伝播される
     await expect(
-      getSiblingFolderEntries(currentPath, mockFileSystemService),
+      getSiblingContainerEntries(currentPath, mockFileSystemService),
     ).rejects.toThrow();
   });
 
@@ -197,7 +197,7 @@ describe('getSiblingFolderEntries', () => {
         return '';
       });
 
-    const result = await getSiblingFolderEntries(
+    const result = await getSiblingContainerEntries(
       currentPath,
       mockFileSystemService,
     );

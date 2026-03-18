@@ -18,7 +18,7 @@ import type { FileSystemService } from './FileSystemService';
  * - 取得や変換でエラーが発生した場合は呼び出し元に伝播させる
  * - 現在のフォルダの作成に失敗した場合でも、兄弟フォルダは返す
  */
-export async function getSiblingFolderEntries(
+export async function getSiblingContainerEntries(
   currentFolderPath: string,
   fs: FileSystemService,
   sortFn: FolderSortFunction = naturalFolderSort,
