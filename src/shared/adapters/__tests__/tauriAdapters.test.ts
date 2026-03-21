@@ -16,17 +16,11 @@ vi.mock('@tauri-apps/plugin-dialog', () => ({
   open: vi.fn(),
 }));
 
-vi.mock('../../utils/isStringArray', () => ({
-  isStringArray: vi.fn(),
-}));
-
 import { invoke } from '@tauri-apps/api/core';
 import { open as tauriOpenDialog } from '@tauri-apps/plugin-dialog';
-import { isStringArray } from '../../utils/isStringArray';
 
 const mockInvoke = vi.mocked(invoke);
 const mockTauriOpenDialog = vi.mocked(tauriOpenDialog);
-const mockIsStringArray = vi.mocked(isStringArray);
 
 describe('tauriAdapters - Core Functionality', () => {
   beforeEach(() => {
@@ -96,7 +90,6 @@ describe('tauriAdapters - Core Functionality', () => {
         '/Users/test/images/photo3.gif',
       ];
       mockInvoke.mockResolvedValue(expectedImages);
-      mockIsStringArray.mockReturnValue(true);
 
       const result =
         await tauriFileSystemService.listImagesInFolder(folderPath);
@@ -110,7 +103,6 @@ describe('tauriAdapters - Core Functionality', () => {
     it('should return empty array when folder has no images', async () => {
       const folderPath = '/Users/test/empty';
       mockInvoke.mockResolvedValue([]);
-      mockIsStringArray.mockReturnValue(true);
 
       const result =
         await tauriFileSystemService.listImagesInFolder(folderPath);
@@ -127,7 +119,6 @@ describe('tauriAdapters - Core Functionality', () => {
         '/Users/test/フォルダ with spaces & symbols!/image.jpg',
       ];
       mockInvoke.mockResolvedValue(expectedImages);
-      mockIsStringArray.mockReturnValue(true);
 
       const result =
         await tauriFileSystemService.listImagesInFolder(folderPath);
@@ -226,19 +217,16 @@ describe('tauriAdapters - Error Handling', () => {
       const folderPath = '/valid/path';
       const invalidResponse = 'not an array';
       mockInvoke.mockResolvedValue(invalidResponse);
-      mockIsStringArray.mockReturnValue(false);
 
       await expect(
         tauriFileSystemService.getSiblingFolders(folderPath),
       ).rejects.toThrow('Failed to get sibling folders');
-      expect(mockIsStringArray).toHaveBeenCalledWith(invalidResponse);
     });
 
     it('should handle null response from getSiblingFolders', async () => {
       const folderPath = '/valid/path';
       const nullResponse = null;
       mockInvoke.mockResolvedValue(nullResponse);
-      mockIsStringArray.mockReturnValue(false);
 
       await expect(
         tauriFileSystemService.getSiblingFolders(folderPath),
@@ -249,7 +237,6 @@ describe('tauriAdapters - Error Handling', () => {
       const folderPath = '/valid/path';
       const mixedResponse = ['valid', 123, null, 'another'];
       mockInvoke.mockResolvedValue(mixedResponse);
-      mockIsStringArray.mockReturnValue(false);
 
       await expect(
         tauriFileSystemService.getSiblingFolders(folderPath),
@@ -259,12 +246,10 @@ describe('tauriAdapters - Error Handling', () => {
     it('should propagate invalid response from listImagesInFolder', async () => {
       const folderPath = '/valid/path';
       mockInvoke.mockResolvedValue(null);
-      mockIsStringArray.mockReturnValue(false);
 
       await expect(
         tauriFileSystemService.listImagesInFolder(folderPath),
       ).rejects.toThrow(`Failed to list images in folder "${folderPath}"`);
-      expect(mockIsStringArray).toHaveBeenCalledWith(null);
     });
   });
 
@@ -323,7 +308,6 @@ describe('tauriAdapters - Path Operations', () => {
         '/Users/test/music',
       ];
       mockInvoke.mockResolvedValue(expectedFolders);
-      mockIsStringArray.mockReturnValue(true);
 
       const result = await tauriFileSystemService.getSiblingFolders(folderPath);
 
@@ -331,14 +315,12 @@ describe('tauriAdapters - Path Operations', () => {
       expect(mockInvoke).toHaveBeenCalledWith('get_sibling_folders', {
         folderPath,
       });
-      expect(mockIsStringArray).toHaveBeenCalledWith(expectedFolders);
     });
 
     it('should return empty array when no sibling folders exist', async () => {
       const folderPath = '/Users/test/isolated';
       const expectedFolders: string[] = [];
       mockInvoke.mockResolvedValue(expectedFolders);
-      mockIsStringArray.mockReturnValue(true);
 
       const result = await tauriFileSystemService.getSiblingFolders(folderPath);
 
@@ -355,7 +337,6 @@ describe('tauriAdapters - Path Operations', () => {
         '/Users/test/folder with symbols @#$',
       ];
       mockInvoke.mockResolvedValue(expectedFolders);
-      mockIsStringArray.mockReturnValue(true);
 
       const result = await tauriFileSystemService.getSiblingFolders(folderPath);
 
@@ -369,19 +350,16 @@ describe('tauriAdapters - Path Operations', () => {
       const folderPath = '/Users/test/documents';
       const validFolders = ['/Users/test/folder1', '/Users/test/folder2'];
       mockInvoke.mockResolvedValue(validFolders);
-      mockIsStringArray.mockReturnValue(true);
 
       const result = await tauriFileSystemService.getSiblingFolders(folderPath);
 
       expect(result).toEqual(validFolders);
-      expect(mockIsStringArray).toHaveBeenCalledWith(validFolders);
     });
 
     it('should handle root-level folder paths', async () => {
       const rootFolderPath = '/Users';
       const expectedFolders = ['/Applications', '/System', '/Library'];
       mockInvoke.mockResolvedValue(expectedFolders);
-      mockIsStringArray.mockReturnValue(true);
 
       const result =
         await tauriFileSystemService.getSiblingFolders(rootFolderPath);
