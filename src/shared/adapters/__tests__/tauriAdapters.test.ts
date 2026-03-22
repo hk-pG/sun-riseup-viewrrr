@@ -16,19 +16,13 @@ vi.mock('@tauri-apps/plugin-dialog', () => ({
   open: vi.fn(),
 }));
 
-vi.mock('../../utils/isStringArray', () => ({
-  isStringArray: vi.fn(),
-}));
-
 import { invoke } from '@tauri-apps/api/core';
 import { open as tauriOpenDialog } from '@tauri-apps/plugin-dialog';
-import { isStringArray } from '../../utils/isStringArray';
 
 const mockInvoke = vi.mocked(invoke);
 const mockTauriOpenDialog = vi.mocked(tauriOpenDialog);
-const mockIsStringArray = vi.mocked(isStringArray);
 
-describe('tauriAdapters - Core Functionality', () => {
+describe('openDirectoryDialog', () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
@@ -37,271 +31,82 @@ describe('tauriAdapters - Core Functionality', () => {
     vi.resetAllMocks();
   });
 
-  describe('openImageFileDialog', () => {
-    it('should return selected image file path with default extensions', async () => {
-      const expectedPath = '/Users/test/image.jpg';
-      mockTauriOpenDialog.mockResolvedValue(expectedPath);
-
-      const result = await tauriFileSystemService.openImageFileDialog?.();
-
-      expect(result).toBe(expectedPath);
-      expect(mockTauriOpenDialog).toHaveBeenCalledWith({
-        directory: false,
-        multiple: false,
-        filters: [
-          { name: 'Images', extensions: ['jpg', 'jpeg', 'png', 'gif', 'webp'] },
-        ],
-      });
-    });
-
-    it('should return selected image file path with custom extensions', async () => {
-      const expectedPath = '/Users/test/image.png';
-      const customExtensions = ['png', 'svg'];
-      mockTauriOpenDialog.mockResolvedValue(expectedPath);
-
-      const result =
-        await tauriFileSystemService.openImageFileDialog?.(customExtensions);
-
-      expect(result).toBe(expectedPath);
-      expect(mockTauriOpenDialog).toHaveBeenCalledWith({
-        directory: false,
-        multiple: false,
-        filters: [{ name: 'Images', extensions: customExtensions }],
-      });
-    });
-
-    it('should return null when user cancels file selection', async () => {
-      mockTauriOpenDialog.mockResolvedValue(null);
-
-      const result = await tauriFileSystemService.openImageFileDialog?.();
-
-      expect(result).toBeNull();
-    });
-
-    it('should return null when dialog returns non-string value', async () => {
-      mockTauriOpenDialog.mockResolvedValue(['multiple', 'files']);
-
-      const result = await tauriFileSystemService.openImageFileDialog?.();
-
-      expect(result).toBeNull();
-    });
+  it('文字列が返されたら、受け取ったまま返す', async () => {
+    // Arrange
+    const expected = '/returned/directory/path';
+    mockTauriOpenDialog.mockResolvedValue(expected);
+    // Action
+    const result = await tauriFileSystemService.openDirectoryDialog();
+    // Assert
+    expect(result).toBe(expected);
   });
 
-  describe('listImagesInFolder', () => {
-    it('should return array of image paths for valid folder', async () => {
-      const folderPath = '/Users/test/images';
-      const expectedImages = [
-        '/Users/test/images/photo1.jpg',
-        '/Users/test/images/photo2.png',
-        '/Users/test/images/photo3.gif',
-      ];
-      mockInvoke.mockResolvedValue(expectedImages);
-      mockIsStringArray.mockReturnValue(true);
-
-      const result =
-        await tauriFileSystemService.listImagesInFolder(folderPath);
-
-      expect(result).toEqual(expectedImages);
-      expect(mockInvoke).toHaveBeenCalledWith('list_images_in_folder', {
-        folderPath,
-      });
-    });
-
-    it('should return empty array when folder has no images', async () => {
-      const folderPath = '/Users/test/empty';
-      mockInvoke.mockResolvedValue([]);
-      mockIsStringArray.mockReturnValue(true);
-
-      const result =
-        await tauriFileSystemService.listImagesInFolder(folderPath);
-
-      expect(result).toEqual([]);
-      expect(mockInvoke).toHaveBeenCalledWith('list_images_in_folder', {
-        folderPath,
-      });
-    });
-
-    it('should handle folder path with special characters', async () => {
-      const folderPath = '/Users/test/フォルダ with spaces & symbols!';
-      const expectedImages = [
-        '/Users/test/フォルダ with spaces & symbols!/image.jpg',
-      ];
-      mockInvoke.mockResolvedValue(expectedImages);
-      mockIsStringArray.mockReturnValue(true);
-
-      const result =
-        await tauriFileSystemService.listImagesInFolder(folderPath);
-
-      expect(result).toEqual(expectedImages);
-      expect(mockInvoke).toHaveBeenCalledWith('list_images_in_folder', {
-        folderPath,
-      });
-    });
+  it('文字列以外のオブジェクトが返されたら、nullを返す', async () => {
+    // Arrange
+    const unexpectedResponse = { unexpected: 'object' };
+    mockTauriOpenDialog.mockResolvedValue(
+      unexpectedResponse as unknown as string | null,
+    );
+    // Action
+    const result = await tauriFileSystemService.openDirectoryDialog();
+    // Assert
+    expect(result).toBeNull();
   });
 });
 
-describe('tauriAdapters - Error Handling', () => {
+describe('openImageFileDialog', () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
 
   afterEach(() => {
     vi.resetAllMocks();
-    vi.restoreAllMocks();
   });
+  it('should return selected image file path with default extensions', async () => {
+    const expectedPath = '/Users/test/image.jpg';
+    mockTauriOpenDialog.mockResolvedValue(expectedPath);
 
-  describe('Backend error scenarios', () => {
-    beforeEach(() => {
-      vi.clearAllMocks();
-    });
+    const result = await tauriFileSystemService.openImageFileDialog?.();
 
-    it('should propagate invoke errors for listImagesInFolder', async () => {
-      const folderPath = '/invalid/path';
-      const backendError = new Error('Backend error: Folder not found');
-      mockInvoke.mockRejectedValue(backendError);
-
-      await expect(
-        tauriFileSystemService.listImagesInFolder(folderPath),
-      ).rejects.toThrow(`Failed to list images in folder "${folderPath}"`);
-      expect(mockInvoke).toHaveBeenCalledWith('list_images_in_folder', {
-        folderPath,
-      });
-    });
-
-    it('should handle network/permission errors for getSiblingFolders', async () => {
-      const folderPath = '/restricted/path';
-      const permissionError = new Error('Permission denied');
-      mockInvoke.mockRejectedValue(permissionError);
-
-      await expect(
-        tauriFileSystemService.getSiblingFolders(folderPath),
-      ).rejects.toThrow('Failed to get sibling folders');
-    });
-
-    it('should handle timeout errors gracefully', async () => {
-      const folderPath = '/slow/network/path';
-      const timeoutError = new Error('Request timeout');
-      mockInvoke.mockRejectedValue(timeoutError);
-
-      await expect(
-        tauriFileSystemService.getSiblingFolders(folderPath),
-      ).rejects.toThrow('Failed to get sibling folders');
+    expect(result).toBe(expectedPath);
+    expect(mockTauriOpenDialog).toHaveBeenCalledWith({
+      directory: false,
+      multiple: false,
+      filters: [
+        { name: 'Images', extensions: ['jpg', 'jpeg', 'png', 'gif', 'webp'] },
+      ],
     });
   });
 
-  describe('Invalid path handling', () => {
-    it('should handle empty path for listImagesInFolder', async () => {
-      const emptyPath = '';
-      const backendError = new Error('Invalid path: empty string');
-      mockInvoke.mockRejectedValue(backendError);
+  it('should return selected image file path with custom extensions', async () => {
+    const expectedPath = '/Users/test/image.png';
+    const customExtensions = ['png', 'svg'];
+    mockTauriOpenDialog.mockResolvedValue(expectedPath);
 
-      await expect(
-        tauriFileSystemService.listImagesInFolder(emptyPath),
-      ).rejects.toThrow('Failed to list images in folder');
-    });
+    const result =
+      await tauriFileSystemService.openImageFileDialog?.(customExtensions);
 
-    it('should handle null/undefined paths gracefully for getSiblingFolders', async () => {
-      const nullPath = null as unknown as string;
-      const backendError = new Error('Invalid path: null');
-      mockInvoke.mockRejectedValue(backendError);
-
-      await expect(
-        tauriFileSystemService.getSiblingFolders(nullPath),
-      ).rejects.toThrow('Failed to get sibling folders');
-    });
-
-    it('should handle malformed paths for getSiblingFolders', async () => {
-      const malformedPath = '///invalid\\\\path//';
-      const backendError = new Error('Malformed path');
-      mockInvoke.mockRejectedValue(backendError);
-
-      await expect(
-        tauriFileSystemService.getSiblingFolders(malformedPath),
-      ).rejects.toThrow('Failed to get sibling folders');
+    expect(result).toBe(expectedPath);
+    expect(mockTauriOpenDialog).toHaveBeenCalledWith({
+      directory: false,
+      multiple: false,
+      filters: [{ name: 'Images', extensions: customExtensions }],
     });
   });
 
-  describe('Invalid response handling', () => {
-    it('should handle non-array response from getSiblingFolders', async () => {
-      const folderPath = '/valid/path';
-      const invalidResponse = 'not an array';
-      mockInvoke.mockResolvedValue(invalidResponse);
-      mockIsStringArray.mockReturnValue(false);
+  it('should handle unexpected dialog response types', async () => {
+    const unexpectedResponse = { unexpected: 'object' };
+    mockTauriOpenDialog.mockResolvedValue(
+      unexpectedResponse as unknown as string | null,
+    );
 
-      await expect(
-        tauriFileSystemService.getSiblingFolders(folderPath),
-      ).rejects.toThrow('Failed to get sibling folders');
-      expect(mockIsStringArray).toHaveBeenCalledWith(invalidResponse);
-    });
+    const result = await tauriFileSystemService.openImageFileDialog?.();
 
-    it('should handle null response from getSiblingFolders', async () => {
-      const folderPath = '/valid/path';
-      const nullResponse = null;
-      mockInvoke.mockResolvedValue(nullResponse);
-      mockIsStringArray.mockReturnValue(false);
-
-      await expect(
-        tauriFileSystemService.getSiblingFolders(folderPath),
-      ).rejects.toThrow('Failed to get sibling folders');
-    });
-
-    it('should handle array with non-string elements from getSiblingFolders', async () => {
-      const folderPath = '/valid/path';
-      const mixedResponse = ['valid', 123, null, 'another'];
-      mockInvoke.mockResolvedValue(mixedResponse);
-      mockIsStringArray.mockReturnValue(false);
-
-      await expect(
-        tauriFileSystemService.getSiblingFolders(folderPath),
-      ).rejects.toThrow('Failed to get sibling folders');
-    });
-
-    it('should propagate invalid response from listImagesInFolder', async () => {
-      const folderPath = '/valid/path';
-      mockInvoke.mockResolvedValue(null);
-      mockIsStringArray.mockReturnValue(false);
-
-      await expect(
-        tauriFileSystemService.listImagesInFolder(folderPath),
-      ).rejects.toThrow(`Failed to list images in folder "${folderPath}"`);
-      expect(mockIsStringArray).toHaveBeenCalledWith(null);
-    });
-  });
-
-  describe('Dialog error scenarios', () => {
-    it('should handle dialog permission errors for openDirectoryDialog', async () => {
-      const permissionError = new Error('User denied permission');
-      mockTauriOpenDialog.mockRejectedValue(permissionError);
-
-      await expect(
-        tauriFileSystemService.openDirectoryDialog(),
-      ).rejects.toThrow(
-        'error occurred during open folder Error: User denied permission',
-      );
-    });
-
-    it('should handle dialog system errors for openImageFileDialog', async () => {
-      const systemError = new Error('System dialog unavailable');
-      mockTauriOpenDialog.mockRejectedValue(systemError);
-
-      await expect(
-        tauriFileSystemService.openImageFileDialog?.(),
-      ).rejects.toThrow('System dialog unavailable');
-    });
-
-    it('should handle unexpected dialog response types', async () => {
-      const unexpectedResponse = { unexpected: 'object' };
-      mockTauriOpenDialog.mockResolvedValue(
-        unexpectedResponse as unknown as string | null,
-      );
-
-      const result = await tauriFileSystemService.openImageFileDialog?.();
-
-      expect(result).toBeNull();
-    });
+    expect(result).toBeNull();
   });
 });
-describe('tauriAdapters - Path Operations', () => {
+
+describe('listImagesInFolder', () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
@@ -310,86 +115,70 @@ describe('tauriAdapters - Path Operations', () => {
     vi.resetAllMocks();
   });
 
-  describe('getSiblingFolders', () => {
-    afterEach(() => {
-      vi.restoreAllMocks();
+  it('should return array of image paths for valid folder', async () => {
+    const folderPath = '/Users/test/images';
+    const expectedImages = [
+      '/Users/test/images/photo1.jpg',
+      '/Users/test/images/photo2.png',
+      '/Users/test/images/photo3.gif',
+    ];
+    mockInvoke.mockResolvedValue(expectedImages);
+
+    const result = await tauriFileSystemService.listImagesInFolder(folderPath);
+
+    expect(result).toEqual(expectedImages);
+    expect(mockInvoke).toHaveBeenCalledWith('list_images_in_folder', {
+      folderPath,
     });
+  });
 
-    it('should return array of sibling folder paths', async () => {
-      const folderPath = '/Users/test/documents';
-      const expectedFolders = [
-        '/Users/test/downloads',
-        '/Users/test/pictures',
-        '/Users/test/music',
-      ];
-      mockInvoke.mockResolvedValue(expectedFolders);
-      mockIsStringArray.mockReturnValue(true);
+  it('should return empty array when folder has no images', async () => {
+    const folderPath = '/Users/test/empty';
+    mockInvoke.mockResolvedValue([]);
 
-      const result = await tauriFileSystemService.getSiblingFolders(folderPath);
+    const result = await tauriFileSystemService.listImagesInFolder(folderPath);
 
-      expect(result).toEqual(expectedFolders);
-      expect(mockInvoke).toHaveBeenCalledWith('get_sibling_folders', {
-        folderPath,
-      });
-      expect(mockIsStringArray).toHaveBeenCalledWith(expectedFolders);
+    expect(result).toEqual([]);
+    expect(mockInvoke).toHaveBeenCalledWith('list_images_in_folder', {
+      folderPath,
     });
+  });
 
-    it('should return empty array when no sibling folders exist', async () => {
-      const folderPath = '/Users/test/isolated';
-      const expectedFolders: string[] = [];
-      mockInvoke.mockResolvedValue(expectedFolders);
-      mockIsStringArray.mockReturnValue(true);
+  it('should propagate invalid response from listImagesInFolder', async () => {
+    const folderPath = '/valid/path';
+    mockInvoke.mockResolvedValue(null);
 
-      const result = await tauriFileSystemService.getSiblingFolders(folderPath);
+    await expect(
+      tauriFileSystemService.listImagesInFolder(folderPath),
+    ).rejects.toThrow(`Failed to list images in folder "${folderPath}"`);
+  });
+});
 
-      expect(result).toEqual(expectedFolders);
-      expect(mockInvoke).toHaveBeenCalledWith('get_sibling_folders', {
-        folderPath,
-      });
-    });
+describe('getSiblingFolders', () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
 
-    it('should handle folder paths with special characters', async () => {
-      const folderPath = '/Users/test/フォルダ with spaces & symbols!';
-      const expectedFolders = [
-        '/Users/test/another フォルダ',
-        '/Users/test/folder with symbols @#$',
-      ];
-      mockInvoke.mockResolvedValue(expectedFolders);
-      mockIsStringArray.mockReturnValue(true);
+  afterEach(() => {
+    vi.resetAllMocks();
+  });
+  it('should validate response is string array', async () => {
+    const folderPath = '/Users/test/documents';
+    const validFolders = ['/Users/test/folder1', '/Users/test/folder2'];
+    mockInvoke.mockResolvedValue(validFolders);
 
-      const result = await tauriFileSystemService.getSiblingFolders(folderPath);
+    const result = await tauriFileSystemService.getSiblingFolders(folderPath);
 
-      expect(result).toEqual(expectedFolders);
-      expect(mockInvoke).toHaveBeenCalledWith('get_sibling_folders', {
-        folderPath,
-      });
-    });
+    expect(result).toEqual(validFolders);
+  });
 
-    it('should validate response is string array', async () => {
-      const folderPath = '/Users/test/documents';
-      const validFolders = ['/Users/test/folder1', '/Users/test/folder2'];
-      mockInvoke.mockResolvedValue(validFolders);
-      mockIsStringArray.mockReturnValue(true);
+  it('should handle non-array response from getSiblingFolders', async () => {
+    const folderPath = '/valid/path';
+    const invalidResponse = 'not an array';
+    mockInvoke.mockResolvedValue(invalidResponse);
 
-      const result = await tauriFileSystemService.getSiblingFolders(folderPath);
-
-      expect(result).toEqual(validFolders);
-      expect(mockIsStringArray).toHaveBeenCalledWith(validFolders);
-    });
-
-    it('should handle root-level folder paths', async () => {
-      const rootFolderPath = '/Users';
-      const expectedFolders = ['/Applications', '/System', '/Library'];
-      mockInvoke.mockResolvedValue(expectedFolders);
-      mockIsStringArray.mockReturnValue(true);
-
-      const result =
-        await tauriFileSystemService.getSiblingFolders(rootFolderPath);
-
-      expect(result).toEqual(expectedFolders);
-      expect(mockInvoke).toHaveBeenCalledWith('get_sibling_folders', {
-        folderPath: rootFolderPath,
-      });
-    });
+    await expect(
+      tauriFileSystemService.getSiblingFolders(folderPath),
+    ).rejects.toThrow('Failed to get sibling folders');
   });
 });

@@ -15,7 +15,7 @@ export const tauriFileSystemService: FileSystemService = {
   openDirectoryDialog: async (): Promise<string | null> => {
     try {
       const selected = await tauriOpenDialog({ directory: true });
-      if (selected) {
+      if (selected && typeof selected === 'string') {
         return selected as string;
       }
     } catch (error) {
