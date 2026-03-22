@@ -22,6 +22,38 @@ import { open as tauriOpenDialog } from '@tauri-apps/plugin-dialog';
 const mockInvoke = vi.mocked(invoke);
 const mockTauriOpenDialog = vi.mocked(tauriOpenDialog);
 
+describe('openDirectoryDialog', () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  afterEach(() => {
+    vi.resetAllMocks();
+  });
+
+  it('文字列が返されたら、受け取ったまま返す', async () => {
+    // Arrange
+    const expected = '/returned/directory/path';
+    mockTauriOpenDialog.mockResolvedValue(expected);
+    // Action
+    const result = await tauriFileSystemService.openDirectoryDialog();
+    // Assert
+    expect(result).toBe(expected);
+  });
+
+  it('文字列以外のオブジェクトが返されたら、nullを返す', async () => {
+    // Arrange
+    const unexpectedResponse = { unexpected: 'object' };
+    mockTauriOpenDialog.mockResolvedValue(
+      unexpectedResponse as unknown as string | null,
+    );
+    // Action
+    const result = await tauriFileSystemService.openDirectoryDialog();
+    // Assert
+    expect(result).toBeNull();
+  });
+});
+
 describe('openImageFileDialog', () => {
   beforeEach(() => {
     vi.clearAllMocks();
