@@ -22,67 +22,6 @@ import { open as tauriOpenDialog } from '@tauri-apps/plugin-dialog';
 const mockInvoke = vi.mocked(invoke);
 const mockTauriOpenDialog = vi.mocked(tauriOpenDialog);
 
-describe('listImagesInFolder', () => {
-  beforeEach(() => {
-    vi.clearAllMocks();
-  });
-
-  afterEach(() => {
-    vi.resetAllMocks();
-  });
-
-  it('should return array of image paths for valid folder', async () => {
-    const folderPath = '/Users/test/images';
-    const expectedImages = [
-      '/Users/test/images/photo1.jpg',
-      '/Users/test/images/photo2.png',
-      '/Users/test/images/photo3.gif',
-    ];
-    mockInvoke.mockResolvedValue(expectedImages);
-
-    const result = await tauriFileSystemService.listImagesInFolder(folderPath);
-
-    expect(result).toEqual(expectedImages);
-    expect(mockInvoke).toHaveBeenCalledWith('list_images_in_folder', {
-      folderPath,
-    });
-  });
-
-  it('should return empty array when folder has no images', async () => {
-    const folderPath = '/Users/test/empty';
-    mockInvoke.mockResolvedValue([]);
-
-    const result = await tauriFileSystemService.listImagesInFolder(folderPath);
-
-    expect(result).toEqual([]);
-    expect(mockInvoke).toHaveBeenCalledWith('list_images_in_folder', {
-      folderPath,
-    });
-  });
-
-  it('should propagate invoke errors for listImagesInFolder', async () => {
-    const folderPath = '/invalid/path';
-    const backendError = new Error('Backend error: Folder not found');
-    mockInvoke.mockRejectedValue(backendError);
-
-    await expect(
-      tauriFileSystemService.listImagesInFolder(folderPath),
-    ).rejects.toThrow(`Failed to list images in folder "${folderPath}"`);
-    expect(mockInvoke).toHaveBeenCalledWith('list_images_in_folder', {
-      folderPath,
-    });
-  });
-
-  it('should propagate invalid response from listImagesInFolder', async () => {
-    const folderPath = '/valid/path';
-    mockInvoke.mockResolvedValue(null);
-
-    await expect(
-      tauriFileSystemService.listImagesInFolder(folderPath),
-    ).rejects.toThrow(`Failed to list images in folder "${folderPath}"`);
-  });
-});
-
 describe('openImageFileDialog', () => {
   beforeEach(() => {
     vi.clearAllMocks();
@@ -148,6 +87,67 @@ describe('openImageFileDialog', () => {
     const result = await tauriFileSystemService.openImageFileDialog?.();
 
     expect(result).toBeNull();
+  });
+});
+
+describe('listImagesInFolder', () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  afterEach(() => {
+    vi.resetAllMocks();
+  });
+
+  it('should return array of image paths for valid folder', async () => {
+    const folderPath = '/Users/test/images';
+    const expectedImages = [
+      '/Users/test/images/photo1.jpg',
+      '/Users/test/images/photo2.png',
+      '/Users/test/images/photo3.gif',
+    ];
+    mockInvoke.mockResolvedValue(expectedImages);
+
+    const result = await tauriFileSystemService.listImagesInFolder(folderPath);
+
+    expect(result).toEqual(expectedImages);
+    expect(mockInvoke).toHaveBeenCalledWith('list_images_in_folder', {
+      folderPath,
+    });
+  });
+
+  it('should return empty array when folder has no images', async () => {
+    const folderPath = '/Users/test/empty';
+    mockInvoke.mockResolvedValue([]);
+
+    const result = await tauriFileSystemService.listImagesInFolder(folderPath);
+
+    expect(result).toEqual([]);
+    expect(mockInvoke).toHaveBeenCalledWith('list_images_in_folder', {
+      folderPath,
+    });
+  });
+
+  it('should propagate invoke errors for listImagesInFolder', async () => {
+    const folderPath = '/invalid/path';
+    const backendError = new Error('Backend error: Folder not found');
+    mockInvoke.mockRejectedValue(backendError);
+
+    await expect(
+      tauriFileSystemService.listImagesInFolder(folderPath),
+    ).rejects.toThrow(`Failed to list images in folder "${folderPath}"`);
+    expect(mockInvoke).toHaveBeenCalledWith('list_images_in_folder', {
+      folderPath,
+    });
+  });
+
+  it('should propagate invalid response from listImagesInFolder', async () => {
+    const folderPath = '/valid/path';
+    mockInvoke.mockResolvedValue(null);
+
+    await expect(
+      tauriFileSystemService.listImagesInFolder(folderPath),
+    ).rejects.toThrow(`Failed to list images in folder "${folderPath}"`);
   });
 });
 
