@@ -1,5 +1,6 @@
 use core_logic::{
     get_sibling_containers as core_get_sibling_containers,
+    list_images_in_container as core_list_images_in_container,
     list_images_in_folder as core_list_images_in_folder, CommandError,
 };
 use tauri::command;
@@ -10,6 +11,13 @@ use tauri::command;
 #[command]
 pub async fn list_images_in_folder(folder_path: String) -> Result<Vec<String>, CommandError> {
     tokio::task::spawn_blocking(move || core_list_images_in_folder(folder_path))
+        .await
+        .map_err(|e| CommandError::Io(format!("Task join error: {}", e)))?
+}
+
+#[tauri::command]
+pub async fn list_images_in_container(container_path: String) -> Result<Vec<String>, CommandError> {
+    tokio::task::spawn_blocking(move || core_list_images_in_container(container_path))
         .await
         .map_err(|e| CommandError::Io(format!("Task join error: {}", e)))?
 }

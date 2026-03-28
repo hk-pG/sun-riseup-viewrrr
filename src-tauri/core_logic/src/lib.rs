@@ -49,6 +49,10 @@ pub fn list_images_in_folder(folder_path: String) -> Result<Vec<String>, Command
     Ok(images)
 }
 
+pub fn list_images_in_container(container_path: String) -> Result<Vec<String>, CommandError> {
+    list_images_in_folder(container_path)
+}
+
 /// `get_sibling_folders` コマンドは、指定されたパスの兄弟フォルダを取得します。
 /// 自分自身のフォルダは除外されます。
 ///
