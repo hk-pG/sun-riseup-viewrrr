@@ -50,7 +50,15 @@ pub fn list_images_in_folder(folder_path: String) -> Result<Vec<String>, Command
 }
 
 pub fn list_images_in_container(container_path: String) -> Result<Vec<String>, CommandError> {
-    list_images_in_folder(container_path)
+    // Check if the container exists
+    if !PathBuf::from(&container_path).exists() {
+        return Err(CommandError::PathNotFound(container_path));
+    }
+    // if the container is directory, list images in the directory
+    if PathBuf::from(&container_path).is_dir() {
+        return list_images_in_folder(container_path);
+    }
+    Ok(vec![])
 }
 
 /// `get_sibling_folders` コマンドは、指定されたパスの兄弟フォルダを取得します。
@@ -230,9 +238,37 @@ mod list_images_in_container_test {
     }
 
     #[test]
-    fn test_list_images_in_folder_not_found() {
-        let result = list_images_in_folder("non_existent_path_for_images".to_string());
-        assert!(matches!(result, Err(CommandError::Io(_))));
+    fn should_returns_error_when_folder_not_found() {
+        let result = list_images_in_container("non_existent_path_for_images".to_string());
+        assert!(matches!(result, Err(CommandError::PathNotFound(_))));
+    }
+
+    #[test]
+    #[ignore]
+    fn should_returns_images_in_zip_container() {
+        // arrange
+        // テストのため、画像ファイル(中身は空)を作成し、それをzipファイルに圧縮する
+        let temp_dir = TempTestDir::new_random();
+        let image_path = temp_dir.path().join("image_in_zip.jpg");
+        File::create(&image_path).unwrap();
+        let zip_path = temp_dir.path().join("container.zip");
+        {
+            let file = File::create(&zip_path).unwrap();
+            let mut zip = zip::ZipWriter::new(file);
+            let options =
+                SimpleFileOptions::default().compression_method(zip::CompressionMethod::Stored);
+            zip.start_file("image_in_zip.jpg", options).unwrap();
+            let mut image_file = File::open(&image_path).unwrap();
+            std::io::copy(&mut image_file, &mut zip).unwrap();
+            zip.finish().unwrap();
+        }
+
+        // act
+        let images = list_images_in_container(zip_path.to_string_lossy().to_string()).unwrap();
+
+        // assert
+        assert_eq!(images.len(), 1);
+        assert!(images.iter().any(|p| p.ends_with("image_in_zip.jpg")));
     }
 }
 
