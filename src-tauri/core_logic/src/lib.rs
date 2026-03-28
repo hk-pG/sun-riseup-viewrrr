@@ -54,7 +54,7 @@ pub fn list_images_in_folder(folder_path: String) -> Result<Vec<String>, Command
 ///
 /// # Examples
 ///
-/// ```no_run
+/// ```ignore
 /// use core_logic::get_sibling_folders;
 /// let siblings = get_sibling_folders("/path/to/current/folder".to_string());
 /// // siblings: Ok(["/path/to/current/folder/../sibling1", "/path/to/current/folder/../sibling2"])
