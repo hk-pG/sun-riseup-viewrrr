@@ -148,23 +148,30 @@ mod test_helpers {
         path::PathBuf,
     };
 
-    pub struct TempTestDir(pub PathBuf);
+    pub struct TempTestDir {
+        pub path: PathBuf,
+    }
 
     impl TempTestDir {
         pub fn new(name: &str) -> Self {
             let path = temp_dir().join(name);
             create_dir_all(&path).unwrap();
-            TempTestDir(path)
+            TempTestDir { path }
+        }
+
+        pub fn new_random() -> Self {
+            let name = uuid::Uuid::new_v4().to_string();
+            Self::new(&name)
         }
 
         pub fn path(&self) -> &PathBuf {
-            &self.0
+            &self.path
         }
     }
 
     impl Drop for TempTestDir {
         fn drop(&mut self) {
-            let _ = remove_dir_all(&self.0);
+            let _ = remove_dir_all(&self.path);
         }
     }
 }
