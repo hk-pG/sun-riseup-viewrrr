@@ -2,6 +2,42 @@ use std::{fs, path::PathBuf};
 
 use crate::CommandError;
 
+/// `get_sibling_folders` コマンドは、指定されたパスの兄弟フォルダを取得します。
+/// 自分自身のフォルダは除外されます。
+///
+/// # Examples
+///
+/// ```ignore
+/// use core_logic::get_sibling_folders;
+/// let siblings = get_sibling_folders("/path/to/current/folder".to_string());
+/// // siblings: Ok(["/path/to/current/folder/../sibling1", "/path/to/current/folder/../sibling2"])
+/// ```
+pub fn get_sibling_folders(folder_path: String) -> Result<Vec<String>, CommandError> {
+    let current = PathBuf::from(&folder_path);
+
+    if !current.exists() {
+        return Err(CommandError::PathNotFound(folder_path));
+    }
+
+    let parent = current.parent().ok_or(CommandError::NoParent)?;
+
+    let siblings = fs::read_dir(parent)?
+        .filter_map(|entry| {
+            entry.ok().and_then(|e| {
+                let path = e.path();
+                // Exclude the current folder itself
+                if path.is_dir() && path != current {
+                    Some(path.to_string_lossy().to_string())
+                } else {
+                    None
+                }
+            })
+        })
+        .collect();
+
+    Ok(siblings)
+}
+
 /// Lists all image files in a specified folder.
 ///
 /// This function scans the given folder and returns a list of file paths
@@ -36,7 +72,7 @@ pub fn list_images_in_folder(folder_path: String) -> Result<Vec<String>, Command
     Ok(images)
 }
 
-fn get_sibling_archives(container_path: String) -> Result<Vec<String>, CommandError> {
+pub fn get_sibling_archives(container_path: String) -> Result<Vec<String>, CommandError> {
     let current = PathBuf::from(&container_path);
     if !current.exists() {
         return Err(CommandError::PathNotFound(container_path));
@@ -62,4 +98,39 @@ fn get_sibling_archives(container_path: String) -> Result<Vec<String>, CommandEr
         .collect();
 
     Ok(archives)
+}
+
+#[cfg(test)]
+mod test {
+
+    use crate::test_helper::test_helpers::TempTestDir;
+
+    use super::*;
+    use std::fs::create_dir_all;
+
+    #[test]
+    fn test_get_sibling_folders_success() {
+        let base = TempTestDir::new("test_siblings_success");
+        create_dir_all(base.path().join("A")).unwrap();
+        create_dir_all(base.path().join("B")).unwrap();
+        create_dir_all(base.path().join("C")).unwrap();
+
+        let current_path = base.path().join("B").to_string_lossy().to_string();
+        let mut result = get_sibling_folders(current_path).unwrap();
+        result.sort(); // Sort for stable assertion
+
+        let mut expected = vec![
+            base.path().join("A").to_string_lossy().to_string(),
+            base.path().join("C").to_string_lossy().to_string(),
+        ];
+        expected.sort();
+
+        assert_eq!(result, expected);
+    }
+
+    #[test]
+    fn test_get_sibling_folders_not_found() {
+        let result = get_sibling_folders("non_existent_path_for_siblings".to_string());
+        assert!(matches!(result, Err(CommandError::PathNotFound(_))));
+    }
 }
