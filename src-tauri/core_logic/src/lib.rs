@@ -1,6 +1,7 @@
 use std::fs;
 use std::path::PathBuf;
 pub mod image_container;
+pub mod test_helper;
 
 // A custom error type for command errors
 #[derive(Debug, serde::Serialize, PartialEq)]
@@ -156,44 +157,9 @@ pub fn get_sibling_containers(container_path: String) -> Result<Vec<String>, Com
 }
 
 #[cfg(test)]
-mod test_helpers {
-    use std::{
-        env::temp_dir,
-        fs::{create_dir_all, remove_dir_all},
-        path::PathBuf,
-    };
-
-    pub struct TempTestDir {
-        pub path: PathBuf,
-    }
-
-    impl TempTestDir {
-        pub fn new(name: &str) -> Self {
-            let path = temp_dir().join(name);
-            create_dir_all(&path).unwrap();
-            TempTestDir { path }
-        }
-
-        pub fn new_random() -> Self {
-            let name = uuid::Uuid::new_v4().to_string();
-            Self::new(&name)
-        }
-
-        pub fn path(&self) -> &PathBuf {
-            &self.path
-        }
-    }
-
-    impl Drop for TempTestDir {
-        fn drop(&mut self) {
-            let _ = remove_dir_all(&self.path);
-        }
-    }
-}
-
-#[cfg(test)]
 mod tests {
-    use super::test_helpers::TempTestDir;
+    use crate::test_helper::test_helpers::TempTestDir;
+
     use super::*;
     use std::fs::create_dir_all;
 
@@ -222,138 +188,135 @@ mod tests {
         let result = get_sibling_folders("non_existent_path_for_siblings".to_string());
         assert!(matches!(result, Err(CommandError::PathNotFound(_))));
     }
-}
 
-#[cfg(test)]
-mod list_images_in_container_test {
+    #[cfg(test)]
+    mod list_images_in_container_test {
+        use super::*;
+        use std::fs::File;
 
-    use super::*;
-    use crate::test_helpers::TempTestDir;
-    use std::fs::File;
+        #[test]
+        fn should_returns_images_in_folder() {
+            let temp_dir = TempTestDir::new("test_list_images_success");
+            File::create(temp_dir.path().join("image1.jpg")).unwrap();
+            File::create(temp_dir.path().join("image2.PNG")).unwrap(); // Uppercase extension
+            File::create(temp_dir.path().join("document.txt")).unwrap();
 
-    #[test]
-    fn should_returns_images_in_folder() {
-        let temp_dir = TempTestDir::new("test_list_images_success");
-        File::create(temp_dir.path().join("image1.jpg")).unwrap();
-        File::create(temp_dir.path().join("image2.PNG")).unwrap(); // Uppercase extension
-        File::create(temp_dir.path().join("document.txt")).unwrap();
+            let images =
+                list_images_in_container(temp_dir.path().to_string_lossy().to_string()).unwrap();
 
-        let images =
-            list_images_in_container(temp_dir.path().to_string_lossy().to_string()).unwrap();
+            assert_eq!(images.len(), 2);
+            assert!(images.iter().any(|p| p.ends_with("image1.jpg")));
+            assert!(images.iter().any(|p| p.ends_with("image2.PNG")));
+        }
 
-        assert_eq!(images.len(), 2);
-        assert!(images.iter().any(|p| p.ends_with("image1.jpg")));
-        assert!(images.iter().any(|p| p.ends_with("image2.PNG")));
+        #[test]
+        fn should_returns_error_when_folder_not_found() {
+            let result = list_images_in_container("non_existent_path_for_images".to_string());
+            assert!(matches!(result, Err(CommandError::PathNotFound(_))));
+        }
+
+        // #[test]
+        // fn should_returns_a_image_file_in_zip_container() {
+        //     // 画像ファイルを1つだけ含むzipファイルを作成する。
+        //     let temp_dir = TempTestDir::new_random();
+        //     let config =
+        //         ArchiveImageContainerConfig::new(temp_dir.path().to_string_lossy().to_string());
+        //     let zip_image_container = ArchiveImageContainer::from("/aaa/bbb/file.zip", config);
+        //     let images_in_container =
+        //         list_images_in_container("/aaa/bbb/file.zip".to_string()).unwrap();
+
+        //     assert_eq!(images_in_container.len(), 1);
+        // }
     }
 
-    #[test]
-    fn should_returns_error_when_folder_not_found() {
-        let result = list_images_in_container("non_existent_path_for_images".to_string());
-        assert!(matches!(result, Err(CommandError::PathNotFound(_))));
-    }
-
-    // #[test]
-    // fn should_returns_a_image_file_in_zip_container() {
-    //     // 画像ファイルを1つだけ含むzipファイルを作成する。
-    //     let temp_dir = TempTestDir::new_random();
-    //     let config =
-    //         ArchiveImageContainerConfig::new(temp_dir.path().to_string_lossy().to_string());
-    //     let zip_image_container = ArchiveImageContainer::from("/aaa/bbb/file.zip", config);
-    //     let images_in_container =
-    //         list_images_in_container("/aaa/bbb/file.zip".to_string()).unwrap();
-
-    //     assert_eq!(images_in_container.len(), 1);
-    // }
-}
-
-#[cfg(test)]
-mod get_sibling_containers_test {
-    use super::test_helpers::TempTestDir;
-    use super::*;
-    use std::{
-        env::temp_dir,
-        fs::{create_dir_all, File},
-    };
-
-    #[test]
-    fn should_returns_folders_and_compressed_files() {
-        // Arrange
-        let base = TempTestDir::new(&uuid::Uuid::new_v4().to_string());
-        create_dir_all(base.path().join("A")).unwrap();
-        create_dir_all(base.path().join("B")).unwrap();
-        File::create(base.path().join("a.zip")).unwrap();
-        File::create(base.path().join("b.ZIP")).unwrap();
-        // Act
-        let current_path = base.path().join("B").to_string_lossy().to_string();
-        let mut result = get_sibling_containers(current_path).unwrap();
-        result.sort();
-        // Assert
-        let mut expected = vec![
-            base.path().join("A").to_string_lossy().to_string(),
-            // B is the current folder, so it should be excluded
-            base.path().join("a.zip").to_string_lossy().to_string(),
-            base.path().join("b.ZIP").to_string_lossy().to_string(),
-        ];
-        expected.sort();
-        assert_eq!(expected, result);
-    }
-
-    #[test]
-    fn should_returns_error_when_path_not_exists() {
-        // Arrange
-        let non_existent_path = temp_dir()
-            .join(uuid::Uuid::new_v4().to_string())
-            .to_string_lossy()
-            .to_string();
-        // Act
-        let result = get_sibling_containers(non_existent_path.clone());
-        // Assert
-        assert_eq!(result, Err(CommandError::PathNotFound(non_existent_path)));
-    }
-
-    #[test]
-    fn should_returns_error_when_path_has_no_parent() {
-        let root_path = if cfg!(target_os = "windows") {
-            "C:\\".to_string()
-        } else {
-            "/".to_string()
+    #[cfg(test)]
+    mod get_sibling_containers_test {
+        use super::*;
+        use std::{
+            env::temp_dir,
+            fs::{create_dir_all, File},
         };
-        let result = get_sibling_containers(root_path.clone());
-        assert_eq!(result, Err(CommandError::NoParent));
-    }
 
-    #[test]
-    fn should_returns_just_folders_when_no_compressed_files() {
-        // Arrange
-        let base = TempTestDir::new(&uuid::Uuid::new_v4().to_string());
-        create_dir_all(base.path().join("A")).unwrap();
-        create_dir_all(base.path().join("B")).unwrap();
-        let current_path = base.path().join("B").to_string_lossy().to_string();
-        // Act
-        let mut result = get_sibling_containers(current_path).unwrap();
-        result.sort();
-        // Assert
-        let mut expected = vec![base.path().join("A").to_string_lossy().to_string()];
-        expected.sort();
-        assert_eq!(expected, result);
-    }
+        #[test]
+        fn should_returns_folders_and_compressed_files() {
+            // Arrange
+            let base = TempTestDir::new(&uuid::Uuid::new_v4().to_string());
+            create_dir_all(base.path().join("A")).unwrap();
+            create_dir_all(base.path().join("B")).unwrap();
+            File::create(base.path().join("a.zip")).unwrap();
+            File::create(base.path().join("b.ZIP")).unwrap();
+            // Act
+            let current_path = base.path().join("B").to_string_lossy().to_string();
+            let mut result = get_sibling_containers(current_path).unwrap();
+            result.sort();
+            // Assert
+            let mut expected = vec![
+                base.path().join("A").to_string_lossy().to_string(),
+                // B is the current folder, so it should be excluded
+                base.path().join("a.zip").to_string_lossy().to_string(),
+                base.path().join("b.ZIP").to_string_lossy().to_string(),
+            ];
+            expected.sort();
+            assert_eq!(expected, result);
+        }
 
-    #[test]
-    fn should_returns_just_compressed_files_when_no_folders() {
-        // Arrange
-        let base = TempTestDir::new(&uuid::Uuid::new_v4().to_string());
-        File::create(base.path().join("a.zip")).unwrap();
-        File::create(base.path().join("b.ZIP")).unwrap();
-        let current_path = base.path().join("b.ZIP").to_string_lossy().to_string();
-        // Act
-        let mut result = get_sibling_containers(current_path).unwrap();
-        result.sort();
-        // Assert
-        let mut expected = vec![
-            base.path().join("a.zip").to_string_lossy().to_string(),
-            // b.ZIP is the current file, so it should be excluded
-        ];
-        expected.sort();
-        assert_eq!(expected, result);
+        #[test]
+        fn should_returns_error_when_path_not_exists() {
+            // Arrange
+            let non_existent_path = temp_dir()
+                .join(uuid::Uuid::new_v4().to_string())
+                .to_string_lossy()
+                .to_string();
+            // Act
+            let result = get_sibling_containers(non_existent_path.clone());
+            // Assert
+            assert_eq!(result, Err(CommandError::PathNotFound(non_existent_path)));
+        }
+
+        #[test]
+        fn should_returns_error_when_path_has_no_parent() {
+            let root_path = if cfg!(target_os = "windows") {
+                "C:\\".to_string()
+            } else {
+                "/".to_string()
+            };
+            let result = get_sibling_containers(root_path.clone());
+            assert_eq!(result, Err(CommandError::NoParent));
+        }
+
+        #[test]
+        fn should_returns_just_folders_when_no_compressed_files() {
+            // Arrange
+            let base = TempTestDir::new(&uuid::Uuid::new_v4().to_string());
+            create_dir_all(base.path().join("A")).unwrap();
+            create_dir_all(base.path().join("B")).unwrap();
+            let current_path = base.path().join("B").to_string_lossy().to_string();
+            // Act
+            let mut result = get_sibling_containers(current_path).unwrap();
+            result.sort();
+            // Assert
+            let mut expected = vec![base.path().join("A").to_string_lossy().to_string()];
+            expected.sort();
+            assert_eq!(expected, result);
+        }
+
+        #[test]
+        fn should_returns_just_compressed_files_when_no_folders() {
+            // Arrange
+            let base = TempTestDir::new(&uuid::Uuid::new_v4().to_string());
+            File::create(base.path().join("a.zip")).unwrap();
+            File::create(base.path().join("b.ZIP")).unwrap();
+            let current_path = base.path().join("b.ZIP").to_string_lossy().to_string();
+            // Act
+            let mut result = get_sibling_containers(current_path).unwrap();
+            result.sort();
+            // Assert
+            let mut expected = vec![
+                base.path().join("a.zip").to_string_lossy().to_string(),
+                // b.ZIP is the current file, so it should be excluded
+            ];
+            expected.sort();
+            assert_eq!(expected, result);
+        }
     }
 }
