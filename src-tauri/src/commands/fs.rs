@@ -1,4 +1,4 @@
-use core_logic::{
+use core_logic::image_container::{
     get_sibling_containers as core_get_sibling_containers,
     list_images_in_container as core_list_images_in_container,
     list_images_in_folder as core_list_images_in_folder, CommandError,
