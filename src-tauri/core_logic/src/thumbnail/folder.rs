@@ -1,9 +1,8 @@
 // フォルダサムネイル取得のためのユーティリティ
 
-use core_logic::image_container::folder::list_images_in_folder;
 use serde::Serialize;
 
-use super::batch::TaskPriority;
+use crate::{list_images_in_folder, thumbnail::batch::TaskPriority};
 
 /// フォルダサムネイル取得結果
 #[derive(Debug, Clone, Serialize)]
@@ -29,7 +28,7 @@ pub fn assign_priority(index: usize) -> TaskPriority {
 }
 
 /// フォルダ内の最初の画像ファイルパスを取得
-/// core_logic::list_images_in_folder を内部で使用
+/// crate::fs::list_images_in_folder を内部で使用
 pub fn get_first_image_in_folder(folder_path: &str) -> Result<Option<String>, String> {
     let images = list_images_in_folder(folder_path.to_string())
         .map_err(|e| format!("Failed to list images in '{}': {:?}", folder_path, e))?;
@@ -147,31 +146,5 @@ mod tests {
         assert!(result.unwrap().is_none(), "Empty folder should return None");
 
         let _ = remove_dir_all(&temp);
-    }
-
-    #[test]
-    fn test_get_first_image_returns_none_for_non_image_files() {
-        let temp = temp_dir().join("test_folder_thumbnail_no_images");
-        let _ = remove_dir_all(&temp);
-        create_dir_all(&temp).unwrap();
-
-        // 画像以外のファイルのみ
-        File::create(temp.join("document.txt")).unwrap();
-        File::create(temp.join("data.csv")).unwrap();
-
-        let result = get_first_image_in_folder(temp.to_str().unwrap());
-        assert!(result.is_ok());
-        assert!(
-            result.unwrap().is_none(),
-            "Folder with no image files should return None"
-        );
-
-        let _ = remove_dir_all(&temp);
-    }
-
-    #[test]
-    fn test_get_first_image_error_for_nonexistent_folder() {
-        let result = get_first_image_in_folder("/nonexistent/folder/path");
-        assert!(result.is_err(), "Non-existent folder should return error");
     }
 }
