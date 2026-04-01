@@ -30,8 +30,9 @@ pub async fn get_or_create_thumbnail(
     image_path: String,
     app_handle: tauri::AppHandle,
 ) -> std::result::Result<String, String> {
+    let cache_dir = get_cache_dir(&app_handle).map_err(|e| e.to_string())?;
     let generator =
-        ThumbnailGenerator::with_default_config(app_handle).map_err(|e| e.to_string())?;
+        ThumbnailGenerator::with_default_config(cache_dir).map_err(|e| e.to_string())?;
 
     let cache_path = generator
         .get_or_create_thumbnail(&image_path)
@@ -62,10 +63,11 @@ pub async fn batch_create_thumbnails(
     app_handle: tauri::AppHandle,
 ) -> std::result::Result<std::collections::HashMap<String, serde_json::Value>, String> {
     // tokio::spawn_blockingで非同期に実行（UIをブロックしない）
+    let cache_dir = get_cache_dir(&app_handle).map_err(|e| e.to_string())?;
     tokio::task::spawn_blocking(move || {
         // BatchThumbnailGeneratorの初期化
         let batch_generator =
-            BatchThumbnailGenerator::with_default_config(app_handle).map_err(|e| e.to_string())?;
+            BatchThumbnailGenerator::with_default_config(cache_dir).map_err(|e| e.to_string())?;
 
         // タスクリストの作成（優先度付き）
         let visible_count = visible_count.unwrap_or(10);
@@ -140,6 +142,7 @@ pub async fn get_folder_thumbnail(
     folder_path: String,
     app_handle: tauri::AppHandle,
 ) -> std::result::Result<Option<folder::FolderThumbnailResult>, String> {
+    let cache_dir = get_cache_dir(&app_handle).map_err(|e| e.to_string())?;
     let result = tokio::task::spawn_blocking(move || {
         // 1. フォルダ内の最初の画像を取得
         let first_image = folder::get_first_image_in_folder(&folder_path)?;
@@ -151,7 +154,7 @@ pub async fn get_folder_thumbnail(
 
         // 2. サムネイルを生成
         let generator =
-            ThumbnailGenerator::with_default_config(app_handle).map_err(|e| e.to_string())?;
+            ThumbnailGenerator::with_default_config(cache_dir).map_err(|e| e.to_string())?;
         let cache_path = generator
             .get_or_create_thumbnail(&image_path)
             .map_err(|e| e.to_string())?;
@@ -196,6 +199,7 @@ pub async fn prefetch_folder_thumbnails(
     folder_paths: Vec<String>,
     app_handle: tauri::AppHandle,
 ) -> std::result::Result<(), String> {
+    let cache_dir = get_cache_dir(&app_handle).map_err(|e| e.to_string())?;
     tokio::task::spawn_blocking(move || {
         // 1. 各フォルダから最初の画像パスを取得
         let image_entries: Vec<(usize, String)> = folder_paths
@@ -224,7 +228,7 @@ pub async fn prefetch_folder_thumbnails(
 
         // 3. バッチ生成を実行
         let batch_generator =
-            BatchThumbnailGenerator::with_default_config(app_handle).map_err(|e| e.to_string())?;
+            BatchThumbnailGenerator::with_default_config(cache_dir).map_err(|e| e.to_string())?;
         let _results = batch_generator.batch_create_thumbnails(tasks);
 
         Ok(())

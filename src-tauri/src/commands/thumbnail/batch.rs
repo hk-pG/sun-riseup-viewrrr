@@ -6,7 +6,6 @@ use super::generator::ThumbnailGenerator;
 use rayon::{ThreadPool, ThreadPoolBuilder};
 use std::path::PathBuf;
 use std::sync::Arc;
-use tauri::AppHandle;
 
 /// 優先度レベル
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
@@ -69,11 +68,11 @@ impl BatchThumbnailGenerator {
     ///
     /// # Arguments
     /// * `config` - サムネイル設定
-    /// * `app_handle` - Tauriアプリハンドル
+    /// * `cache_dir` - サムネイルキャッシュディレクトリのパス
     ///
     /// # Returns
     /// 初期化されたBatchThumbnailGenerator
-    pub fn new(config: ThumbnailConfig, app_handle: AppHandle) -> Result<Self> {
+    pub fn new(config: ThumbnailConfig, cache_dir: PathBuf) -> Result<Self> {
         // 動的スレッド数の計算: min(max(2, num_cpus), 8)
         let num_cpus = num_cpus::get();
         let thread_count = num_cpus.clamp(2, 8);
@@ -88,7 +87,7 @@ impl BatchThumbnailGenerator {
             })?;
 
         // ThumbnailGeneratorの作成
-        let generator = ThumbnailGenerator::new(config, app_handle)?;
+        let generator = ThumbnailGenerator::new(config, cache_dir)?;
 
         Ok(Self {
             thread_pool: Arc::new(thread_pool),
@@ -97,8 +96,8 @@ impl BatchThumbnailGenerator {
     }
 
     /// デフォルト設定でBatchThumbnailGeneratorを作成
-    pub fn with_default_config(app_handle: AppHandle) -> Result<Self> {
-        Self::new(ThumbnailConfig::default(), app_handle)
+    pub fn with_default_config(cache_dir: PathBuf) -> Result<Self> {
+        Self::new(ThumbnailConfig::default(), cache_dir)
     }
 
     /// 複数の画像のサムネイルをバッチ生成

@@ -2,29 +2,28 @@
 
 use super::config::ThumbnailConfig;
 use super::error::{Result, ThumbnailError};
-use super::utils::{get_cache_dir, hash_path};
+use super::utils::hash_path;
 use image::imageops::FilterType;
 use image::{GenericImageView, ImageFormat};
 use std::path::{Path, PathBuf};
-use tauri::AppHandle;
 
 /// サムネイル画像の生成と管理
 pub struct ThumbnailGenerator {
     config: ThumbnailConfig,
-    app_handle: AppHandle,
+    cache_dir: PathBuf,
 }
 
 impl ThumbnailGenerator {
     /// 新しいThumbnailGeneratorを作成
-    pub fn new(config: ThumbnailConfig, app_handle: AppHandle) -> Result<Self> {
+    pub fn new(config: ThumbnailConfig, cache_dir: PathBuf) -> Result<Self> {
         config.validate_quality()?;
         config.validate_size()?;
-        Ok(Self { config, app_handle })
+        Ok(Self { config, cache_dir })
     }
 
     /// デフォルト設定でThumbnailGeneratorを作成
-    pub fn with_default_config(app_handle: AppHandle) -> Result<Self> {
-        Self::new(ThumbnailConfig::default(), app_handle)
+    pub fn with_default_config(cache_dir: PathBuf) -> Result<Self> {
+        Self::new(ThumbnailConfig::default(), cache_dir)
     }
 
     /// 画像のサムネイルを生成または取得
@@ -42,7 +41,7 @@ impl ThumbnailGenerator {
         }
 
         // サムネイルのキャッシュパスを計算
-        let cache_path = self.get_thumbnail_cache_path(image_path)?;
+        let cache_path = self.get_thumbnail_cache_path(image_path);
 
         // TODO: ifのネストが深い。優先度は低いが、将来的にリファクタリングして早期リターンを増やすことを検討
         // キャッシュが存在し、ソースより新しい場合はそれを返す
@@ -67,11 +66,10 @@ impl ThumbnailGenerator {
     }
 
     /// サムネイルのキャッシュパスを計算
-    fn get_thumbnail_cache_path(&self, image_path: &str) -> Result<PathBuf> {
-        let cache_dir = get_cache_dir(&self.app_handle)?;
+    fn get_thumbnail_cache_path(&self, image_path: &str) -> PathBuf {
         let hash = hash_path(image_path);
         let cache_file = format!("{}.jpg", hash);
-        Ok(cache_dir.join(cache_file))
+        self.cache_dir.join(cache_file)
     }
 
     /// サムネイルを生成してキャッシュに保存
