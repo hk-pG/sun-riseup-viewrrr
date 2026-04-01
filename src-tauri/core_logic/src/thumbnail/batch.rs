@@ -1,8 +1,8 @@
 // バッチサムネイル生成のための並列処理実装
 
-use super::config::ThumbnailConfig;
-use super::error::{Result, ThumbnailError};
-use super::generator::ThumbnailGenerator;
+use crate::thumbnail::config::ThumbnailConfig;
+use crate::thumbnail::error::{Result, ThumbnailError};
+use crate::thumbnail::generator::ThumbnailGenerator;
 use rayon::{ThreadPool, ThreadPoolBuilder};
 use std::path::PathBuf;
 use std::sync::Arc;

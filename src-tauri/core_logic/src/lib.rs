@@ -1,5 +1,6 @@
 pub mod error;
 pub mod fs;
+pub mod thumbnail;
 
 // 後方互換性のための再エクスポート
 pub use error::CommandError;
