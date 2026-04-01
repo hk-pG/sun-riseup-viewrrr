@@ -1,8 +1,9 @@
 pub mod archive;
 pub mod folder;
 
-use crate::image_container::folder::{get_sibling_archives, get_sibling_folders};
-use std::fs;
+use crate::image_container::folder::{
+    get_sibling_archives, get_sibling_folders, list_images_in_folder,
+};
 use std::path::PathBuf;
 
 // A custom error type for command errors
@@ -17,40 +18,6 @@ impl From<std::io::Error> for CommandError {
     fn from(err: std::io::Error) -> Self {
         CommandError::Io(err.to_string())
     }
-}
-
-/// Lists all image files in a specified folder.
-///
-/// This function scans the given folder and returns a list of file paths
-/// for all image files found. Supported image formats are JPG, JPEG, PNG, GIF, and WEBP.
-///
-/// # Arguments
-///
-/// * `folder_path` - A string slice that holds the path to the folder to be scanned.
-///
-/// # Returns
-///
-/// A `Result` containing either a `Vec<String>` with the full paths of all image files
-/// or a `CommandError` if an error occurs.
-pub fn list_images_in_folder(folder_path: String) -> Result<Vec<String>, CommandError> {
-    const SUPPORTED_EXTENSIONS: &[&str] = &["jpg", "jpeg", "png", "gif", "webp"];
-
-    let entries = fs::read_dir(&folder_path)?;
-
-    let images = entries
-        .filter_map(|entry| {
-            let path = entry.ok()?.path();
-            if path.is_file() {
-                let ext = path.extension()?.to_str()?.to_lowercase();
-                if SUPPORTED_EXTENSIONS.contains(&ext.as_str()) {
-                    return Some(path.to_string_lossy().to_string());
-                }
-            }
-            None
-        })
-        .collect();
-
-    Ok(images)
 }
 
 pub fn list_images_in_container(container_path: String) -> Result<Vec<String>, CommandError> {
@@ -102,6 +69,11 @@ mod tests {
     #[cfg(test)]
     mod list_images_in_container_test {
 
+        use crate::{
+            image_container::archive::{ArchiveImageContainer, ArchiveImageContainerConfig},
+            test_helper::test_helpers::create_zip,
+        };
+
         use super::*;
         use std::fs::File;
 
@@ -126,18 +98,47 @@ mod tests {
             assert!(matches!(result, Err(CommandError::PathNotFound(_))));
         }
 
-        // #[test]
-        // fn should_returns_a_image_file_in_zip_container() {
-        //     // 画像ファイルを1つだけ含むzipファイルを作成する。
-        //     let temp_dir = TempTestDir::new_random();
-        //     let config =
-        //         ArchiveImageContainerConfig::new(temp_dir.path().to_string_lossy().to_string());
-        //     let zip_image_container = ArchiveImageContainer::from("/aaa/bbb/file.zip", config);
-        //     let images_in_container =
-        //         list_images_in_container("/aaa/bbb/file.zip".to_string()).unwrap();
+        #[test]
+        #[ignore]
+        fn should_returns_a_image_file_in_zip_container() {
+            // Arrange
+            // テスト用の一時ディレクトリを作成する
+            let temp_dir = TempTestDir::new_random();
 
-        //     assert_eq!(images_in_container.len(), 1);
-        // }
+            // 一時ディレクトリに画像ファイルを作成する
+            let image_file_path = temp_dir.path().join("image_in_zip.jpg");
+            File::create(&image_file_path).unwrap();
+            // 一時ディレクトリにzipファイルを作成する
+            let zip_file_path = temp_dir.path().join("file.zip");
+            // zipファイルに画像ファイルを書き込む
+            create_zip(&zip_file_path, vec![&image_file_path]).unwrap();
+
+            // zipファイルを展開する場所を指定する設定を作成する
+            let config = ArchiveImageContainerConfig::new(temp_dir.path());
+            // zipファイルをコンテナとして扱うためにArchiveImageContainerを作成する
+            let zip_image_container =
+                ArchiveImageContainer::new("/aaa/bbb/file.zip", config).unwrap();
+
+            // Act
+            let images_in_container = zip_image_container
+                .list_images_in_container("/aaa/bbb/file.zip")
+                .unwrap();
+
+            // Assert
+            assert_eq!(images_in_container.len(), 1);
+        }
+
+        #[test]
+        fn should_returns_error_when_zip_container_not_found() {
+            // Arrange
+            let config = ArchiveImageContainerConfig::new("/some/extract/dir");
+
+            // Act
+            let result = ArchiveImageContainer::new("/non_existent_path_for_zip.zip", config);
+
+            // Assert
+            assert!(matches!(result, Err(CommandError::PathNotFound(_))));
+        }
     }
 
     #[cfg(test)]
