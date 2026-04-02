@@ -128,7 +128,7 @@ const mockFs = { ...createMinimalMock(), ...mockPresets.thumbnail };
 | 総テストケース数 | 約160+ |
 | 🟢 良いテスト | 約150+ (94%) |
 | 🟡 要注意テスト | 約10 (6%) |
-| 🔴 問題のあるテスト | 2 (<1%) |
+| 🔴 問題のあるテスト | 0（Issue #33 で削除済み） |
 
 ### 3.2 評価基準
 
@@ -148,9 +148,10 @@ const mockFs = { ...createMinimalMock(), ...mockPresets.thumbnail };
 
 ### 3.3 問題のあるテスト（🔴）
 
-| ファイル | 問題 |
-|----------|------|
-| `src/test/__tests__/mocks.test.ts` | `expect(true).toBe(true)`で実質何も検証していない |
+Issue #33 で以下の問題テストを削除済み:
+
+- `src/test/__tests__/mocks.test.ts` — `expect(setupTauriMocks).toBeDefined()` のみで実質検証ゼロ。モック自体の動作は利用側テストで間接的に検証されている
+- `src/__tests__/ViewerLayout.test.tsx` — jsdom にレイアウトエンジンがなく `scrollHeight`/`clientHeight` が常に 0 を返すため、テスト価値ゼロ。レイアウト検証が必要な場合は E2E テストに委譲すべき
 
 ### 3.4 要注意テスト（🟡）の例
 
@@ -177,7 +178,7 @@ const mockFs = { ...createMinimalMock(), ...mockPresets.thumbnail };
 
 | アクション | 詳細 |
 |------------|------|
-| `mocks.test.ts`の修正 | モックが実際に動作することを検証するか、削除を検討 |
+| ~~`mocks.test.ts`の修正~~ | ~~モックが実際に動作することを検証するか、削除を検討~~ → Issue #33 で削除済み |
 | モック定義の一元化 | `setup.ts`と`mocks.ts`の重複を解消 |
 
 ### 4.2 優先度: 中
