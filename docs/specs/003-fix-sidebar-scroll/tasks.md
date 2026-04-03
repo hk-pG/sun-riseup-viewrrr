@@ -1,6 +1,6 @@
 # Tasks: サイドバーとビューアのスクロール動作修正
 
-**Input**: Design documents from `/specs/003-fix-sidebar-scroll/`
+**Input**: Design documents from `/docs/specs/003-fix-sidebar-scroll/`
 **Prerequisites**: plan.md, spec.md, research.md, data-model.md, contracts/
 
 ## Phase 1: Setup (Shared Infrastructure)
@@ -84,8 +84,8 @@
 
 ## Phase 6: Polish & Cross-Cutting Concerns
 
-- [ ] T016 [P] quickstart.md の手順に沿った動作確認結果を追記 in specs/003-fix-sidebar-scroll/quickstart.md
-- [ ] T017 ドキュメント（plan/spec）で変更点があれば更新 in specs/003-fix-sidebar-scroll/
+- [ ] T016 [P] quickstart.md の手順に沿った動作確認結果を追記 in docs/specs/003-fix-sidebar-scroll/quickstart.md
+- [ ] T017 ドキュメント（plan/spec）で変更点があれば更新 in docs/specs/003-fix-sidebar-scroll/
 - [ ] T018 品質ゲート実行: `pnpm type-check && pnpm lint && pnpm test`（必要に応じ `pnpm build`） in repo root
 
 ---

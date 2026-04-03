@@ -1,7 +1,7 @@
 # Tasks: Rust Backend Thumbnail Optimization
 
 **Feature**: 001-rust-thumbnail-optimization  
-**Input**: Design documents from `/specs/001-rust-thumbnail-optimization/`  
+**Input**: Design documents from `/docs/specs/001-rust-thumbnail-optimization/`  
 **Prerequisites**: plan.md, spec.md, research.md, data-model.md, contracts/typescript-api-contracts.md
 
 **Organization**: Tasks are grouped by user story to enable independent implementation and testing of each story.
@@ -142,7 +142,7 @@
 - [ ] T043 [P] [US3] Create benchmark script for FPS measurement during scroll in scripts/benchmark-fps.js
 - [ ] T044 [P] [US3] Create benchmark script for initial load time measurement in scripts/benchmark-load.js
 - [ ] T045 [US3] Create test data generator (100 folders with 5MB images) in scripts/generate-test-data.sh
-- [ ] T046 [US3] Document benchmark execution steps in specs/001-rust-thumbnail-optimization/BENCHMARK.md
+- [ ] T046 [US3] Document benchmark execution steps in docs/specs/001-rust-thumbnail-optimization/BENCHMARK.md
 
 ### Manual Testing (US3)
 
@@ -176,7 +176,7 @@
 
 ### Documentation
 
-- [ ] T060 [P] Document performance comparison results in specs/001-rust-thumbnail-optimization/BENCHMARK.md
+- [ ] T060 [P] Document performance comparison results in docs/specs/001-rust-thumbnail-optimization/BENCHMARK.md
 - [ ] T061 [P] Create comparison table: Frontend optimization vs Rust backend optimization
 - [ ] T062 [P] Update README.md with Rust backend thumbnail feature description
 

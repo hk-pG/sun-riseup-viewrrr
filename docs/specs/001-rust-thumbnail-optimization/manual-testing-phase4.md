@@ -145,8 +145,8 @@ ls ~/.cache/com.sun-riseup-viewrrr/thumbnails/ | wc -l
 
 ## 参考情報
 
-- **仕様書**: `specs/001-rust-thumbnail-optimization/spec.md`
-- **タスク一覧**: `specs/001-rust-thumbnail-optimization/tasks.md`
+- **仕様書**: `docs/specs/001-rust-thumbnail-optimization/spec.md`
+- **タスク一覧**: `docs/specs/001-rust-thumbnail-optimization/tasks.md`
 - **実装詳細**: 
   - Rust: `src-tauri/src/commands/thumbnail/batch.rs`
   - TypeScript: `src/features/folder-navigation/components/Sidebar.tsx`

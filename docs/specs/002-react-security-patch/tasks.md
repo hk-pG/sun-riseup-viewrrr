@@ -1,6 +1,6 @@
 # Tasks: React 19セキュリティパッチ適用
 
-**Input**: Design documents from `/specs/002-react-security-patch/`  
+**Input**: Design documents from `/docs/specs/002-react-security-patch/`  
 **Prerequisites**: plan.md, spec.md, research.md, data-model.md, contracts/, quickstart.md
 
 **Tests**: テストタスクは仕様書で明示的に要求されていないため含まれていません。全ての品質ゲート（type-check, lint, test, build）は各フェーズの検証タスクで実行されます。
