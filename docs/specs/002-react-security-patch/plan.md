@@ -1,7 +1,7 @@
 # Implementation Plan: React 19セキュリティパッチ適用
 
 **Branch**: `002-react-security-patch` | **Date**: 2025-12-30 | **Spec**: [spec.md](./spec.md)
-**Input**: Feature specification from `/specs/002-react-security-patch/spec.md`
+**Input**: Feature specification from `/docs/specs/002-react-security-patch/spec.md`
 
 **Note**: This template is filled in by the `/speckit.plan` command. See `.specify/templates/commands/plan.md` for the execution workflow.
 
@@ -68,7 +68,7 @@ React 19のセキュリティ脆弱性（CVE-2025-55182: CVSS 10.0、CVE-2025-55
 ### Documentation (this feature)
 
 ```text
-specs/[###-feature]/
+docs/specs/[###-feature]/
 ├── plan.md              # This file (/speckit.plan command output)
 ├── research.md          # Phase 0 output (/speckit.plan command)
 ├── data-model.md        # Phase 1 output (/speckit.plan command)
@@ -223,7 +223,7 @@ Phase 1の設計完了後、constitution gateを再確認：
 ### Branch Information
 - **Branch Name**: `002-react-security-patch`
 - **Base Branch**: `main`
-- **Spec Directory**: `/home/hk-p/repo/sun-riseup-viewrrr/specs/002-react-security-patch/`
+- **Spec Directory**: `/home/hk-p/repo/sun-riseup-viewrrr/docs/specs/002-react-security-patch/`
 
 ### Next Steps
 Phase 1完了により、以下が可能になりました：

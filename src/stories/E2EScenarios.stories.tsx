@@ -5,7 +5,7 @@ import { ThemeProvider } from '@/components/theme-provider';
 import {
   getMockImageFolders,
   mockImageSourcesByFolderPath,
-} from '../../data/mockData';
+} from '../../tests/fixtures/data/mockData';
 import type { FileSystemService } from '../features/folder-navigation';
 import { ServicesProvider } from '../shared/context/ServiceContext';
 
@@ -67,7 +67,9 @@ type Story = StoryObj;
 export const FolderListDisplay: Story = {
   name: 'シナリオ1: フォルダ一覧の表示',
   render: () => (
-    <App initialState={{ currentFolderPath: '/test_images/folder_1' }} />
+    <App
+      initialState={{ currentFolderPath: '/tests/fixtures/images/folder_1' }}
+    />
   ),
   play: async ({ canvasElement, step }) => {
     const canvas = within(canvasElement);
@@ -100,7 +102,9 @@ export const FolderListDisplay: Story = {
 export const FolderSelectShowsImage: Story = {
   name: 'シナリオ2: フォルダ選択で画像表示',
   render: () => (
-    <App initialState={{ currentFolderPath: '/test_images/folder_1' }} />
+    <App
+      initialState={{ currentFolderPath: '/tests/fixtures/images/folder_1' }}
+    />
   ),
   play: async ({ canvasElement, step }) => {
     const canvas = within(canvasElement);
@@ -146,7 +150,9 @@ export const FolderSelectShowsImage: Story = {
 export const ImageNavigation: Story = {
   name: 'シナリオ3: 画像ナビゲーション',
   render: () => (
-    <App initialState={{ currentFolderPath: '/test_images/folder_1' }} />
+    <App
+      initialState={{ currentFolderPath: '/tests/fixtures/images/folder_1' }}
+    />
   ),
   play: async ({ canvasElement, step }) => {
     let initialSrc: string | null | undefined;
@@ -197,7 +203,9 @@ export const ImageNavigation: Story = {
 export const ThemeToggle: Story = {
   name: 'シナリオ4: テーマ切り替え',
   render: () => (
-    <App initialState={{ currentFolderPath: '/test_images/folder_1' }} />
+    <App
+      initialState={{ currentFolderPath: '/tests/fixtures/images/folder_1' }}
+    />
   ),
   play: async ({ canvasElement, step }) => {
     const canvas = within(canvasElement);

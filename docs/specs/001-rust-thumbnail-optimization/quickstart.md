@@ -115,7 +115,7 @@ src-tauri/                              # バックエンド
     └── src/
         └── thumbnail.rs               # [NEW] サムネイル生成ロジック
 
-specs/001-rust-thumbnail-optimization/  # 仕様書
+docs/specs/001-rust-thumbnail-optimization/  # 仕様書
 ├── spec.md                            # 機能仕様
 ├── plan.md                            # 実装計画
 ├── research.md                        # 技術調査
