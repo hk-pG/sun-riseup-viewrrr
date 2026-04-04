@@ -1,7 +1,7 @@
 # Implementation Plan: サイドバーとビューアのスクロール動作修正
 
-**Branch**: `003-fix-sidebar-scroll` | **Date**: 2026年1月3日 | **Spec**: [specs/003-fix-sidebar-scroll/spec.md](specs/003-fix-sidebar-scroll/spec.md)
-**Input**: Feature specification from `/specs/003-fix-sidebar-scroll/spec.md`
+**Branch**: `003-fix-sidebar-scroll` | **Date**: 2026年1月3日 | **Spec**: [docs/specs/003-fix-sidebar-scroll/spec.md](docs/specs/003-fix-sidebar-scroll/spec.md)
+**Input**: Feature specification from `/docs/specs/003-fix-sidebar-scroll/spec.md`
 
 ## Summary
 
@@ -34,7 +34,7 @@
 ### Documentation (this feature)
 
 ```text
-specs/003-fix-sidebar-scroll/
+docs/specs/003-fix-sidebar-scroll/
 ├── plan.md              # このファイル
 ├── research.md          # Phase 0 output
 ├── data-model.md        # Phase 1 output
@@ -55,7 +55,7 @@ src/
 ├── shared/                 # 共通UI・コンテキスト・ユーティリティ
 └── test/                   # テストセットアップ/モック
 
-specs/                      # 機能別ドキュメント
+docs/specs/                      # 機能別ドキュメント
 ```
 
 **Structure Decision**: 既存の単一プロジェクト構成（Tauri + React）を継続し、レイアウト調整は `App.tsx` と該当機能（app-shell/folder-navigation/image-viewer）のコンポーネント内で完結させる。新規パッケージやサブプロジェクトの追加は不要。

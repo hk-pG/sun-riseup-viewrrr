@@ -416,7 +416,7 @@ async function fetchThumbnail(folderPath: string, fs: FileSystemService) {
 ### 前提条件
 - `core_logic::list_images_in_folder` が Rust コマンド内部から直接呼び出せること（確認済み — `core_logic` クレートとして分離されている）
 - `ThumbnailGenerator` と `BatchThumbnailGenerator` の既存内部APIは変更不要
-- テストで使用する `test_images/` フォルダが利用可能
+- テストで使用する `tests/fixtures/images/` フォルダが利用可能
 
 ---
 
@@ -436,7 +436,7 @@ async function fetchThumbnail(folderPath: string, fs: FileSystemService) {
 - `convertFileSrc` はフロント側の責務として維持（Tauri の asset protocol 変換）
 
 ### テスト
-- Rust 統合テストには `test_images/` の実画像ファイルを使用
+- Rust 統合テストには `tests/fixtures/images/` の実画像ファイルを使用
 - フロントエンドテストは `renderHook` + `ServicesProvider` パターン（既存の `FolderView.test.tsx` を参考）
 - `useThumbnailPrefetch` テストでは `vi.useFakeTimers()` で delay 制御
 

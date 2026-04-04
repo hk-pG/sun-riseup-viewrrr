@@ -1,4 +1,7 @@
-import type { FolderInfo, ImageFile } from '@/features/folder-navigation/types/folderTypes';
+import type {
+  FolderInfo,
+  ImageFile,
+} from '@/features/folder-navigation/types/folderTypes';
 import type { ImageSource } from '@/features/image-viewer/types/ImageSource';
 
 // モック画像データ
@@ -23,7 +26,7 @@ export const createMockImageSources = (
   return Array.from({ length: count }, (_, index) => ({
     id: `${folderNum}-${index + 1}.png`,
     name: `${folderNum}-${index + 1}.png`,
-    assetUrl: `/test_images/${folderName}/${folderNum}-${index + 1}.png`,
+    assetUrl: `/tests/fixtures/images/${folderName}/${folderNum}-${index + 1}.png`,
   }));
 };
 
@@ -31,17 +34,26 @@ export const createMockImageSources = (
 // テスト用にimageCountと実データ数を揃える（例: 20件ずつ）
 const TEST_IMAGE_COUNT = 10;
 export const mockImageSourcesByFolderPath: Record<string, ImageSource[]> = {
-  '/test_images/folder_1': createMockImageSources('folder_1', TEST_IMAGE_COUNT),
-  '/test_images/folder_2': createMockImageSources('folder_2', TEST_IMAGE_COUNT),
-  '/test_images/folder_3': createMockImageSources('folder_3', TEST_IMAGE_COUNT),
+  '/tests/fixtures/images/folder_1': createMockImageSources(
+    'folder_1',
+    TEST_IMAGE_COUNT,
+  ),
+  '/tests/fixtures/images/folder_2': createMockImageSources(
+    'folder_2',
+    TEST_IMAGE_COUNT,
+  ),
+  '/tests/fixtures/images/folder_3': createMockImageSources(
+    'folder_3',
+    TEST_IMAGE_COUNT,
+  ),
 };
 
 // 画像付きフォルダ情報はmockImageSourcesByFolderPathからのみ生成
 export const getMockImageFolders = (): FolderInfo[] => {
   const folderNames: Record<string, string> = {
-    '/test_images/folder_1': 'ワンピース 第1巻',
-    '/test_images/folder_2': 'NARUTO -ナルト- 第1巻',
-    '/test_images/folder_3': '進撃の巨人 第1巻',
+    '/tests/fixtures/images/folder_1': 'ワンピース 第1巻',
+    '/tests/fixtures/images/folder_2': 'NARUTO -ナルト- 第1巻',
+    '/tests/fixtures/images/folder_3': '進撃の巨人 第1巻',
   };
   return Object.entries(mockImageSourcesByFolderPath).map(([path, images]) => ({
     path,
@@ -61,7 +73,9 @@ export const mockSidebarOnlyFolders: Array<{ path: string; name: string }> = [
 ];
 
 // かさ増し用ダミーフォルダ群
-export const generateDummyEmptyFolders = (count: number): Array<{ path: string; name: string }> => {
+export const generateDummyEmptyFolders = (
+  count: number,
+): Array<{ path: string; name: string }> => {
   return Array.from({ length: count }, (_, index) => ({
     path: `/mock/dummy-folder-${index + 1}`,
     name: `ダミーフォルダ ${index + 1}`,
@@ -69,11 +83,14 @@ export const generateDummyEmptyFolders = (count: number): Array<{ path: string; 
 };
 
 // 長いフォルダ名のテスト用データ
-export const generateLongNameFolders = (): Array<{ path: string; name: string }> => {
+export const generateLongNameFolders = (): Array<{
+  path: string;
+  name: string;
+}> => {
   return [
     {
       name: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
       path: '/mock/long-name-folder-1',
-    }
+    },
   ];
-}
+};

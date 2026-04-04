@@ -8,7 +8,7 @@ import {
   getMockImageFolders,
   mockImageSourcesByFolderPath,
   mockSidebarOnlyFolders,
-} from '../../data/mockData';
+} from '../../tests/fixtures/data/mockData';
 import { type FileSystemService, Sidebar } from '../features/folder-navigation';
 import { ImageViewer } from '../features/image-viewer';
 import { ServicesProvider } from '../shared/context/ServiceContext';

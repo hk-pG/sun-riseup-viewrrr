@@ -33,3 +33,4 @@ coverage/
 .serena/
 target/
 .pnpm-store/
+tests/fixtures/images-large/

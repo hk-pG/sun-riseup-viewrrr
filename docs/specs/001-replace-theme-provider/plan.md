@@ -1,7 +1,7 @@
 # Implementation Plan: Replace Theme Provider with shadcn/ui Version
 
 **Branch**: `001-replace-theme-provider` | **Date**: November 9, 2025 | **Spec**: [spec.md](./spec.md)
-**Input**: Feature specification from `/specs/001-replace-theme-provider/spec.md`
+**Input**: Feature specification from `/docs/specs/001-replace-theme-provider/spec.md`
 
 **Note**: This template is filled in by the `/speckit.plan` command. See `.specify/templates/commands/plan.md` for the execution workflow.
 
@@ -55,7 +55,7 @@ Replace the custom ThemeProvider implementation with shadcn/ui version while rem
 ### Documentation (this feature)
 
 ```text
-specs/[###-feature]/
+docs/specs/[###-feature]/
 ├── plan.md              # This file (/speckit.plan command output)
 ├── research.md          # Phase 0 output (/speckit.plan command)
 ├── data-model.md        # Phase 1 output (/speckit.plan command)

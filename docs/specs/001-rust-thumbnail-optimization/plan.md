@@ -1,7 +1,7 @@
 # Implementation Plan: Rust Backend Thumbnail Optimization
 
 **Branch**: `001-rust-thumbnail-optimization` | **Date**: 2026-01-05 | **Spec**: [spec.md](./spec.md)
-**Input**: Feature specification from `/specs/001-rust-thumbnail-optimization/spec.md`
+**Input**: Feature specification from `/docs/specs/001-rust-thumbnail-optimization/spec.md`
 
 **Note**: This template is filled in by the `/speckit.plan` command. See `.specify/templates/commands/plan.md` for the execution workflow.
 
@@ -104,7 +104,7 @@ pnpm test          # Vitest + cargo test
 ### Documentation (this feature)
 
 ```text
-specs/001-rust-thumbnail-optimization/
+docs/specs/001-rust-thumbnail-optimization/
 ├── spec.md              # Feature specification (completed)
 ├── plan.md              # This file (/speckit.plan command output)
 ├── research.md          # Phase 0 output (/speckit.plan command)

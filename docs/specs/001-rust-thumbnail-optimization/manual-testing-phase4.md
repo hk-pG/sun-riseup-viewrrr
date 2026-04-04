@@ -9,7 +9,7 @@
 ## 事前準備
 
 - [X] テストデータ作成: 100フォルダ（各3画像）
-  - パス: `/home/hk-p/repo/sun-riseup-viewrrr/test_images_large`
+  - パス: `/home/hk-p/repo/sun-riseup-viewrrr/tests/fixtures/images-large`
 - [X] アプリケーション起動: `pnpm tauri dev`
 - [ ] キャッシュクリア（初回テスト用）:
   ```bash
@@ -25,7 +25,7 @@
 ### 手順
 
 1. [ ] アプリケーションで「フォルダを開く」をクリック
-2. [ ] `test_images_large` ディレクトリを選択
+2. [ ] `tests/fixtures/images-large` ディレクトリを選択
 3. [ ] タイマー開始（フォルダ選択した瞬間）
 4. [ ] 可視領域（上位10フォルダ）のサムネイル表示を確認
 5. [ ] タイマー停止（10件目のサムネイル表示完了時）
@@ -85,9 +85,9 @@
 
 ### 手順
 
-1. [ ] T037/T038で使用した `test_images_large` を一度閉じる
+1. [ ] T037/T038で使用した `tests/fixtures/images-large` を一度閉じる
 2. [ ] 別のディレクトリを開く（任意）
-3. [ ] 再度「フォルダを開く」で `test_images_large` を選択
+3. [ ] 再度「フォルダを開く」で `tests/fixtures/images-large` を選択
 4. [ ] タイマー開始（フォルダ選択した瞬間）
 5. [ ] 全100フォルダのサムネイル表示を確認
 6. [ ] タイマー停止（スクロールして最後のサムネイル確認時）
@@ -145,8 +145,8 @@ ls ~/.cache/com.sun-riseup-viewrrr/thumbnails/ | wc -l
 
 ## 参考情報
 
-- **仕様書**: `specs/001-rust-thumbnail-optimization/spec.md`
-- **タスク一覧**: `specs/001-rust-thumbnail-optimization/tasks.md`
+- **仕様書**: `docs/specs/001-rust-thumbnail-optimization/spec.md`
+- **タスク一覧**: `docs/specs/001-rust-thumbnail-optimization/tasks.md`
 - **実装詳細**: 
   - Rust: `src-tauri/src/commands/thumbnail/batch.rs`
   - TypeScript: `src/features/folder-navigation/components/Sidebar.tsx`
