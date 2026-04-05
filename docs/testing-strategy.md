@@ -12,12 +12,17 @@
 
 ### 1.1 モック定義の重複
 
-| ファイル | 問題 |
-|---------|------|
-| `src/test/setup.ts` | Tauri APIのvi.mock()定義 |
-| `src/test/mocks.ts` | 同じAPIを再度モック（重複） |
+> ✅ **Issue #35 で解消済み**
 
-**影響**: モック設定が分散しており、一貫性を保ちにくい。
+現在の構成:
+
+| ファイル | 役割 |
+|---------|------|
+| `src/test/mocks.ts` | Tauri APIモックの**シングルソースオブトゥルース** |
+| `src/test/setup.ts` | `mocks.ts` の `setupTauriMocks()` を呼び出す形に統合済み |
+
+- `invoke` のデフォルト値は `mockResolvedValue(null)` に統一
+- モック設定は `mocks.ts` に一元化され、一貫性が確保されている
 
 ### 1.2 FileSystemServiceの型とモックの乖離リスク
 
@@ -78,20 +83,19 @@ export interface FileSystemService {
 
 ### 2.2 推奨アプローチ: 最小モック + プリセット
 
+現在の `src/test/mocks.ts` は以下の構成で実装済み:
+
+| エクスポート | 役割 |
+|------------|------|
+| `setupTauriMocks()` | 全 Tauri API モックのセットアップ（`setup.ts` から自動呼び出し） |
+| `resetAllMocks()` | モックリセットユーティリティ |
+| `createMockFileSystemServiceWithThumbnails()` | サムネイル用プリセット（将来用） |
+| `mockStoreInstance` | Store モックインスタンス（export済み、テストから直接参照可能） |
+
+今後、機能別プリセットが必要になった場合は以下のパターンで拡張可能:
+
 ```typescript
-// src/test/mocks.ts に追加
-
-// 最小限のデフォルト実装
-export const createMinimalMock = (): FileSystemService => ({
-  openDirectoryDialog: vi.fn(),
-  getBaseName: vi.fn().mockImplementation((path) => path.split('/').pop() || ''),
-  getDirName: vi.fn().mockImplementation((path) => path.split('/').slice(0, -1).join('/') || '/'),
-  listImagesInFolder: vi.fn().mockResolvedValue([]),
-  getSiblingFolders: vi.fn().mockResolvedValue([]),
-  convertFileSrc: vi.fn((path) => `asset://${path}`),
-});
-
-// 機能別プリセット
+// 機能別プリセットの拡張例
 export const mockPresets = {
   thumbnail: { 
     getOrCreateThumbnail: vi.fn().mockResolvedValue('/cache/thumb.jpg') 
@@ -104,9 +108,6 @@ export const mockPresets = {
     getSiblingFolders: vi.fn().mockResolvedValue(['/folder1', '/folder2']),
   },
 };
-
-// 使用例
-const mockFs = { ...createMinimalMock(), ...mockPresets.thumbnail };
 ```
 
 ### 2.3 実装ステップ
@@ -179,7 +180,7 @@ Issue #33 で以下の問題テストを削除済み:
 | アクション | 詳細 |
 |------------|------|
 | ~~`mocks.test.ts`の修正~~ | ~~モックが実際に動作することを検証するか、削除を検討~~ → Issue #33 で削除済み |
-| モック定義の一元化 | `setup.ts`と`mocks.ts`の重複を解消 |
+| ~~モック定義の一元化~~ | ~~`setup.ts`と`mocks.ts`の重複を解消~~ → ✅ 完了（Issue #35） |
 
 ### 4.2 優先度: 中
 
