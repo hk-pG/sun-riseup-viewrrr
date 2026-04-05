@@ -1,15 +1,20 @@
 import { vi } from 'vitest';
 
+// Default implementations for path utilities - extracted to avoid duplication
+// between initialization and resetAllMocks() re-application
+const convertFileSrcImpl = (path: string) => `asset://${path}`;
+const basenameImpl = (path: string) => path.split('/').pop() || '';
+const dirnameImpl = (path: string) =>
+  path.split('/').slice(0, -1).join('/') || '/';
+
 // Mock function instances at module scope.
 // Vitest hoists variables prefixed with "mock" alongside vi.mock calls,
 // so these can be safely referenced inside vi.mock factory functions.
 const mockInvoke = vi.fn().mockResolvedValue(null);
-const mockConvertFileSrc = vi.fn((path: string) => `asset://${path}`);
+const mockConvertFileSrc = vi.fn().mockImplementation(convertFileSrcImpl);
 const mockDialogOpen = vi.fn().mockResolvedValue(null);
-const mockBasename = vi.fn((path: string) => path.split('/').pop() || '');
-const mockDirname = vi.fn(
-  (path: string) => path.split('/').slice(0, -1).join('/') || '/',
-);
+const mockBasename = vi.fn().mockImplementation(basenameImpl);
+const mockDirname = vi.fn().mockImplementation(dirnameImpl);
 const mockOpenerOpen = vi.fn();
 const mockReadDir = vi.fn().mockResolvedValue([]);
 const mockExists = vi.fn().mockResolvedValue(false);
@@ -77,14 +82,10 @@ export const resetAllMocks = () => {
 
   // Re-apply default implementations after reset
   mockInvoke.mockResolvedValue(null);
-  mockConvertFileSrc.mockImplementation((path: string) => `asset://${path}`);
+  mockConvertFileSrc.mockImplementation(convertFileSrcImpl);
   mockDialogOpen.mockResolvedValue(null);
-  mockBasename.mockImplementation(
-    (path: string) => path.split('/').pop() || '',
-  );
-  mockDirname.mockImplementation(
-    (path: string) => path.split('/').slice(0, -1).join('/') || '/',
-  );
+  mockBasename.mockImplementation(basenameImpl);
+  mockDirname.mockImplementation(dirnameImpl);
   mockReadDir.mockResolvedValue([]);
   mockExists.mockResolvedValue(false);
   mockStoreLoad.mockResolvedValue(mockStoreInstance);
