@@ -9,6 +9,7 @@ const mockFs = {
   getDirName: vi.fn(),
   listImagesInFolder: vi.fn(),
   getSiblingFolders: vi.fn(),
+  getSiblingContainers: vi.fn(),
   convertFileSrc: vi.fn(),
   getFolderThumbnail: vi.fn().mockResolvedValue(null),
   prefetchFolderThumbnails: vi.fn().mockResolvedValue(undefined),

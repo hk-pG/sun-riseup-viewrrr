@@ -1,23 +1,15 @@
 import { render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import type { FileSystemService } from '@/features/folder-navigation';
 import { ServicesProvider } from '../../../../shared/context/ServiceContext';
 import { useImages } from '../../../../shared/hooks/data/useImages';
-import { resetAllMocks, setupTauriMocks } from '../../../../test/mocks';
+import {
+  createMockFileSystemService,
+  resetAllMocks,
+  setupTauriMocks,
+} from '../../../../test/mocks';
 import { ImageViewer } from '../..';
 
 vi.mock('../../../../shared/hooks/data/useImages');
-
-const createMockFileSystemService = (): FileSystemService => ({
-  openDirectoryDialog: vi.fn(),
-  getBaseName: vi.fn(),
-  getDirName: vi.fn(),
-  listImagesInFolder: vi.fn(),
-  getSiblingFolders: vi.fn(),
-  convertFileSrc: vi.fn(),
-  getFolderThumbnail: vi.fn().mockResolvedValue(null),
-  prefetchFolderThumbnails: vi.fn().mockResolvedValue(undefined),
-});
 
 describe('ImageViewer', () => {
   beforeEach(() => {

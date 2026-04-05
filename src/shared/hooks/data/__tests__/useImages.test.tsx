@@ -1,8 +1,8 @@
 import { renderHook, waitFor } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import type { FileSystemService } from '@/features/folder-navigation';
 import type { ImageSource } from '@/features/image-viewer';
 import { ServicesProvider, useImages } from '@/shared';
+import { createMockFileSystemService } from '../../../../test/mocks';
 
 // モックデータ
 const mockImageSources: ImageSource[] = [
@@ -19,23 +19,16 @@ const mockImageSources: ImageSource[] = [
 ];
 
 // Tauri APIのモック
-const mockFileSystemService: FileSystemService = {
+const mockFileSystemService = createMockFileSystemService({
   getBaseName: vi.fn(async (filePath: string) => {
     const foundMock = mockImageSources.find((img) => img.id === filePath);
     return foundMock ? foundMock.name : 'unknown';
   }),
-  getDirName: vi.fn(),
-  openDirectoryDialog: vi.fn(),
-  listImagesInFolder: vi.fn(),
-  getSiblingFolders: vi.fn(),
   convertFileSrc: vi.fn((filePath: string) => {
     const foundMock = mockImageSources.find((img) => img.id === filePath);
     return foundMock ? foundMock.assetUrl : 'asset://unknown';
   }),
-  openImageFileDialog: vi.fn(),
-  getFolderThumbnail: vi.fn().mockResolvedValue(null),
-  prefetchFolderThumbnails: vi.fn().mockResolvedValue(undefined),
-};
+});
 
 const ServicesWrapper = ({ children }: { children: React.ReactNode }) => {
   return (

@@ -1,7 +1,7 @@
 import { act, renderHook, waitFor } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { ServicesProvider } from '../../../../shared/context/ServiceContext';
-import type { FileSystemService } from '../../services/FileSystemService';
+import { createMockFileSystemService } from '../../../../test/mocks';
 import {
   type FolderEntry,
   useSiblingContainers,
@@ -15,16 +15,7 @@ const TEST_FOLDER_PATH_2 = '/path/to/folder2';
 const TEST_FOLDER_NAME_2 = 'folder2';
 
 // --- モック ---
-const mockFileSystemService: FileSystemService = {
-  openDirectoryDialog: vi.fn(),
-  listImagesInFolder: vi.fn(),
-  getSiblingFolders: vi.fn(),
-  convertFileSrc: vi.fn(),
-  getBaseName: vi.fn(),
-  getDirName: vi.fn(),
-  getFolderThumbnail: vi.fn().mockResolvedValue(null),
-  prefetchFolderThumbnails: vi.fn().mockResolvedValue(undefined),
-};
+const mockFileSystemService = createMockFileSystemService();
 
 // --- ヘルパーコンポーネント ---
 function ServicesWrapper({ children }: { children: React.ReactNode }) {

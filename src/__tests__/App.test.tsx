@@ -7,7 +7,11 @@ import App from '../App';
 import { ThemeProvider } from '../components/theme-provider';
 import type { FileSystemService } from '../features/folder-navigation/services/FileSystemService';
 import { ServicesProvider } from '../shared/context/ServiceContext';
-import { resetAllMocks, setupTauriMocks } from '../test/mocks';
+import {
+  createMockFileSystemService,
+  resetAllMocks,
+  setupTauriMocks,
+} from '../test/mocks';
 
 // テストで制御可能なモック関数
 const mockOpenImageFile = vi.fn();
@@ -69,17 +73,6 @@ vi.mock('../features/image-viewer', () => ({
     </section>
   ),
 }));
-
-const createMockFileSystemService = (): FileSystemService => ({
-  openDirectoryDialog: vi.fn(),
-  getBaseName: vi.fn(),
-  getDirName: vi.fn(),
-  listImagesInFolder: vi.fn(),
-  getSiblingFolders: vi.fn(),
-  convertFileSrc: vi.fn(),
-  getFolderThumbnail: vi.fn().mockResolvedValue(null),
-  prefetchFolderThumbnails: vi.fn().mockResolvedValue(undefined),
-});
 
 describe('App Component', () => {
   let mockFileSystemService: ReturnType<typeof createMockFileSystemService>;

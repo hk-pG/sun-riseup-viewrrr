@@ -17,6 +17,7 @@ const createMockFileSystemService = (
   listImagesInFolder: async () =>
     images.map((img: ImageSource) => img.assetUrl),
   getSiblingFolders: async () => ['/mock/folder1', '/mock/folder2'],
+  getSiblingContainers: async () => [],
   convertFileSrc: (filePath: string) => filePath,
   getBaseName: async (filePath: string) => filePath.split('/').pop() || '',
   getDirName: async (filePath: string) =>

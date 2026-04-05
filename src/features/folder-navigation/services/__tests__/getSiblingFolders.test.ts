@@ -1,19 +1,10 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { createMockFileSystemService } from '@/test/mocks';
 import type { FolderEntry } from '../../hooks/useSiblingContainers';
-import type { FileSystemService } from '../FileSystemService';
 import { getSiblingContainerEntries } from '../getSiblingContainers';
 
 // Mock FileSystemService
-const mockFileSystemService: FileSystemService = {
-  openDirectoryDialog: vi.fn(),
-  listImagesInFolder: vi.fn(),
-  getSiblingFolders: vi.fn(),
-  convertFileSrc: vi.fn(),
-  getBaseName: vi.fn(),
-  getDirName: vi.fn(),
-  getFolderThumbnail: vi.fn().mockResolvedValue(null),
-  prefetchFolderThumbnails: vi.fn().mockResolvedValue(undefined),
-};
+const mockFileSystemService = createMockFileSystemService();
 
 describe('getSiblingFolderEntries', () => {
   beforeEach(() => {

@@ -1,4 +1,5 @@
 import { vi } from 'vitest';
+import type { FileSystemService } from '@/features/folder-navigation/services/FileSystemService';
 
 // Default implementations for path utilities - extracted to avoid duplication
 // between initialization and resetAllMocks() re-application
@@ -93,6 +94,38 @@ export const resetAllMocks = () => {
   mockStoreInstance.set.mockResolvedValue(undefined);
   mockStoreInstance.save.mockResolvedValue(undefined);
 };
+
+/**
+ * Create a standard mock FileSystemService with sensible defaults.
+ * All methods return empty/null values. Override specific methods via the partial parameter.
+ */
+export const createMockFileSystemService = (
+  overrides?: Partial<FileSystemService>,
+): FileSystemService => ({
+  openDirectoryDialog: vi.fn().mockResolvedValue(null),
+  openImageFileDialog: vi.fn().mockResolvedValue(null),
+  getBaseName: vi
+    .fn()
+    .mockImplementation(
+      async (filePath: string) => filePath.split('/').pop() || '',
+    ),
+  getDirName: vi
+    .fn()
+    .mockImplementation(
+      async (filePath: string) =>
+        filePath.split('/').slice(0, -1).join('/') || '/',
+    ),
+  listImagesInFolder: vi.fn().mockResolvedValue([]),
+  getSiblingFolders: vi.fn().mockResolvedValue([]),
+  getSiblingContainers: vi.fn().mockResolvedValue([]),
+  convertFileSrc: vi
+    .fn()
+    .mockImplementation((path: string) => `asset://${path}`),
+  clearThumbnailCache: vi.fn().mockResolvedValue(undefined),
+  getFolderThumbnail: vi.fn().mockResolvedValue(null),
+  prefetchFolderThumbnails: vi.fn().mockResolvedValue(undefined),
+  ...overrides,
+});
 
 /**
  * Create a mock FileSystemService for thumbnail testing (001-rust-thumbnail-optimization)

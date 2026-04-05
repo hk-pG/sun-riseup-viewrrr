@@ -24,6 +24,9 @@ const createMockFileSystemService = (): FileSystemService => ({
   getSiblingFolders: async () => {
     return getMockImageFolders().map((folder) => folder.path);
   },
+  getSiblingContainers: async () => {
+    return getMockImageFolders().map((folder) => folder.path);
+  },
   convertFileSrc: (filePath: string) => filePath,
   getBaseName: async (filePath: string) => {
     return folderNameMap[filePath] || filePath.split('/').pop() || '';
