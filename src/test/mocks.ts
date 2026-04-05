@@ -1,18 +1,27 @@
 import { vi } from 'vitest';
 
 /**
+ * Shared mock store instance - exported for test access
+ */
+export const mockStoreInstance = {
+  get: vi.fn().mockResolvedValue(null),
+  set: vi.fn().mockResolvedValue(undefined),
+  save: vi.fn().mockResolvedValue(undefined),
+};
+
+/**
  * Setup standardized mocks for Tauri APIs
  */
 export const setupTauriMocks = () => {
   // Mock Tauri core APIs
   vi.mock('@tauri-apps/api/core', () => ({
-    invoke: vi.fn(),
+    invoke: vi.fn().mockResolvedValue(null),
     convertFileSrc: vi.fn((path: string) => `asset://${path}`),
   }));
 
   // Mock Tauri dialog plugin
   vi.mock('@tauri-apps/plugin-dialog', () => ({
-    open: vi.fn(),
+    open: vi.fn().mockResolvedValue(null),
   }));
 
   // Mock Tauri path utilities
@@ -30,17 +39,11 @@ export const setupTauriMocks = () => {
 
   // Mock Tauri filesystem plugin
   vi.mock('@tauri-apps/plugin-fs', () => ({
-    readDir: vi.fn(),
-    exists: vi.fn(),
+    readDir: vi.fn().mockResolvedValue([]),
+    exists: vi.fn().mockResolvedValue(false),
   }));
 
   // Mock Tauri store plugin
-  const mockStoreInstance = {
-    get: vi.fn().mockResolvedValue(null),
-    set: vi.fn().mockResolvedValue(undefined),
-    save: vi.fn().mockResolvedValue(undefined),
-  };
-
   vi.mock('@tauri-apps/plugin-store', () => ({
     Store: {
       load: vi.fn().mockResolvedValue(mockStoreInstance),

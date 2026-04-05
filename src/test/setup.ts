@@ -1,6 +1,7 @@
 import '@testing-library/jest-dom';
 import { cleanup } from '@testing-library/react';
 import { afterEach, vi } from 'vitest';
+import { setupTauriMocks } from './mocks';
 
 // Setup global vi for tests
 (globalThis as typeof globalThis & { vi: typeof vi }).vi = vi;
@@ -30,43 +31,8 @@ Object.defineProperty(window, 'matchMedia', {
   value: mockMatchMedia,
 });
 
-// Mock Tauri APIs for testing
-const mockTauriCore = {
-  invoke: vi.fn().mockResolvedValue(null),
-};
-
-// Enhanced Tauri Store mock for theme system
-const mockStoreInstance = {
-  get: vi.fn().mockResolvedValue(null),
-  set: vi.fn().mockResolvedValue(undefined),
-  save: vi.fn().mockResolvedValue(undefined),
-};
-
-const mockTauriStore = {
-  Store: {
-    // Mock the static load method
-    load: vi.fn().mockResolvedValue(mockStoreInstance),
-    // Also provide constructor if needed
-    new: vi.fn().mockImplementation(() => mockStoreInstance),
-  },
-  // Export mock instance for direct access in tests
-  __mockStore: mockStoreInstance,
-};
-
-// Mock Tauri modules
-vi.mock('@tauri-apps/api/core', () => mockTauriCore);
-vi.mock('@tauri-apps/plugin-store', () => mockTauriStore);
-
-// Mock Tauri dialog
-vi.mock('@tauri-apps/plugin-dialog', () => ({
-  open: vi.fn().mockResolvedValue(null),
-}));
-
-// Mock Tauri filesystem
-vi.mock('@tauri-apps/plugin-fs', () => ({
-  readDir: vi.fn().mockResolvedValue([]),
-  exists: vi.fn().mockResolvedValue(false),
-}));
+// Setup Tauri API mocks (centralized in mocks.ts)
+setupTauriMocks();
 
 // React 19: Enhanced test utilities
 import { act } from '@testing-library/react';
