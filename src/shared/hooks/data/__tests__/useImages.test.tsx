@@ -1,5 +1,6 @@
 import { renderHook, waitFor } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import type { FileSystemService } from '@/features/folder-navigation/services/FileSystemService';
 import type { ImageSource } from '@/features/image-viewer';
 import { ServicesProvider, useImages } from '@/shared';
 import { createMockFileSystemService } from '../../../../test/mocks';
@@ -18,17 +19,8 @@ const mockImageSources: ImageSource[] = [
   },
 ];
 
-// Tauri APIのモック
-const mockFileSystemService = createMockFileSystemService({
-  getBaseName: vi.fn(async (filePath: string) => {
-    const foundMock = mockImageSources.find((img) => img.id === filePath);
-    return foundMock ? foundMock.name : 'unknown';
-  }),
-  convertFileSrc: vi.fn((filePath: string) => {
-    const foundMock = mockImageSources.find((img) => img.id === filePath);
-    return foundMock ? foundMock.assetUrl : 'asset://unknown';
-  }),
-});
+// Tauri APIのモック（beforeEach内で再生成）
+let mockFileSystemService: FileSystemService;
 
 const ServicesWrapper = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -41,6 +33,16 @@ const ServicesWrapper = ({ children }: { children: React.ReactNode }) => {
 describe('useImages', () => {
   beforeEach(() => {
     vi.resetAllMocks();
+    mockFileSystemService = createMockFileSystemService({
+      getBaseName: vi.fn(async (filePath: string) => {
+        const foundMock = mockImageSources.find((img) => img.id === filePath);
+        return foundMock ? foundMock.name : 'unknown';
+      }),
+      convertFileSrc: vi.fn((filePath: string) => {
+        const foundMock = mockImageSources.find((img) => img.id === filePath);
+        return foundMock ? foundMock.assetUrl : 'asset://unknown';
+      }),
+    });
   });
 
   it('存在するフォルダ内の画像リストを取得する', async () => {

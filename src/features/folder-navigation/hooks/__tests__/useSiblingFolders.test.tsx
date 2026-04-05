@@ -1,5 +1,6 @@
 import { act, renderHook, waitFor } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
+import type { FileSystemService } from '@/features/folder-navigation/services/FileSystemService';
 import { ServicesProvider } from '../../../../shared/context/ServiceContext';
 import { createMockFileSystemService } from '../../../../test/mocks';
 import {
@@ -14,8 +15,8 @@ const TEST_FOLDER_NAME_1 = 'folder1';
 const TEST_FOLDER_PATH_2 = '/path/to/folder2';
 const TEST_FOLDER_NAME_2 = 'folder2';
 
-// --- モック ---
-const mockFileSystemService = createMockFileSystemService();
+// --- モック（beforeEach内で再生成） ---
+let mockFileSystemService: FileSystemService;
 
 // --- ヘルパーコンポーネント ---
 function ServicesWrapper({ children }: { children: React.ReactNode }) {
@@ -30,6 +31,7 @@ function ServicesWrapper({ children }: { children: React.ReactNode }) {
 describe('useFolderNavigator', () => {
   beforeEach(() => {
     vi.resetAllMocks();
+    mockFileSystemService = createMockFileSystemService();
   });
 
   it('初期状態または currentFolderPath が空文字列の場合、entries は空配列であり、フォルダ取得処理は実行されない', async () => {
