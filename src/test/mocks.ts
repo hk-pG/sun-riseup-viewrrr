@@ -1,59 +1,97 @@
 import { vi } from 'vitest';
 
+// Default implementations for path utilities - extracted to avoid duplication
+// between initialization and resetAllMocks() re-application
+const convertFileSrcImpl = (path: string) => `asset://${path}`;
+const basenameImpl = (path: string) => path.split('/').pop() || '';
+const dirnameImpl = (path: string) =>
+  path.split('/').slice(0, -1).join('/') || '/';
+
+// Mock function instances at module scope.
+// Vitest hoists variables prefixed with "mock" alongside vi.mock calls,
+// so these can be safely referenced inside vi.mock factory functions.
+const mockInvoke = vi.fn().mockResolvedValue(null);
+const mockConvertFileSrc = vi.fn().mockImplementation(convertFileSrcImpl);
+const mockDialogOpen = vi.fn().mockResolvedValue(null);
+const mockBasename = vi.fn().mockImplementation(basenameImpl);
+const mockDirname = vi.fn().mockImplementation(dirnameImpl);
+const mockOpenerOpen = vi.fn();
+const mockReadDir = vi.fn().mockResolvedValue([]);
+const mockExists = vi.fn().mockResolvedValue(false);
+
+/**
+ * Shared mock store instance - exported for test access
+ */
+export const mockStoreInstance = {
+  get: vi.fn().mockResolvedValue(null),
+  set: vi.fn().mockResolvedValue(undefined),
+  save: vi.fn().mockResolvedValue(undefined),
+};
+
+// Declared after mockStoreInstance to avoid temporal dead zone
+const mockStoreLoad = vi.fn().mockResolvedValue(mockStoreInstance);
+
 /**
  * Setup standardized mocks for Tauri APIs
  */
 export const setupTauriMocks = () => {
   // Mock Tauri core APIs
   vi.mock('@tauri-apps/api/core', () => ({
-    invoke: vi.fn(),
-    convertFileSrc: vi.fn((path: string) => `asset://${path}`),
+    invoke: mockInvoke,
+    convertFileSrc: mockConvertFileSrc,
   }));
 
   // Mock Tauri dialog plugin
   vi.mock('@tauri-apps/plugin-dialog', () => ({
-    open: vi.fn(),
+    open: mockDialogOpen,
   }));
 
   // Mock Tauri path utilities
   vi.mock('@tauri-apps/api/path', () => ({
-    basename: vi.fn((path: string) => path.split('/').pop() || ''),
-    dirname: vi.fn(
-      (path: string) => path.split('/').slice(0, -1).join('/') || '/',
-    ),
+    basename: mockBasename,
+    dirname: mockDirname,
   }));
 
   // Mock Tauri opener plugin
   vi.mock('@tauri-apps/plugin-opener', () => ({
-    open: vi.fn(),
+    open: mockOpenerOpen,
   }));
 
   // Mock Tauri filesystem plugin
   vi.mock('@tauri-apps/plugin-fs', () => ({
-    readDir: vi.fn(),
-    exists: vi.fn(),
+    readDir: mockReadDir,
+    exists: mockExists,
   }));
 
   // Mock Tauri store plugin
-  const mockStoreInstance = {
-    get: vi.fn().mockResolvedValue(null),
-    set: vi.fn().mockResolvedValue(undefined),
-    save: vi.fn().mockResolvedValue(undefined),
-  };
-
   vi.mock('@tauri-apps/plugin-store', () => ({
     Store: {
-      load: vi.fn().mockResolvedValue(mockStoreInstance),
+      load: mockStoreLoad,
     },
   }));
 };
 
 /**
- * Reset all mocks - useful in beforeEach hooks
+ * Reset all mocks and re-apply default implementations.
+ * Calls vi.resetAllMocks() for a complete reset (including one-time implementations),
+ * then restores the expected default return values so subsequent tests start consistently.
  */
 export const resetAllMocks = () => {
   vi.resetAllMocks();
   vi.clearAllTimers();
+
+  // Re-apply default implementations after reset
+  mockInvoke.mockResolvedValue(null);
+  mockConvertFileSrc.mockImplementation(convertFileSrcImpl);
+  mockDialogOpen.mockResolvedValue(null);
+  mockBasename.mockImplementation(basenameImpl);
+  mockDirname.mockImplementation(dirnameImpl);
+  mockReadDir.mockResolvedValue([]);
+  mockExists.mockResolvedValue(false);
+  mockStoreLoad.mockResolvedValue(mockStoreInstance);
+  mockStoreInstance.get.mockResolvedValue(null);
+  mockStoreInstance.set.mockResolvedValue(undefined);
+  mockStoreInstance.save.mockResolvedValue(undefined);
 };
 
 /**
