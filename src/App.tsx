@@ -1,7 +1,10 @@
 import { useState, useTransition } from 'react';
 import './App.css';
+import { LucideAlertTriangle } from 'lucide-react';
+import { toast } from 'sonner';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import { useTheme } from './components/theme-provider';
+import { Toaster } from './components/ui/sonner';
 import { AppMenuBar, useAppActions } from './features/app-shell';
 import {
   type FolderInfo,
@@ -39,7 +42,15 @@ function App({ initialState }: { initialState?: Partial<AppState> }) {
   const themeApi = useTheme();
 
   // サイドバーの表示のために同階層のフォルダ情報を取得
-  const { entries } = useSiblingFolders(appState.currentFolderPath);
+  const { entries, error } = useSiblingFolders(appState.currentFolderPath);
+
+  if (error) {
+    toast.error('Error Occurred', {
+      description: `${error.message}`,
+      icon: <LucideAlertTriangle color="red" />,
+      closeButton: true,
+    });
+  }
 
   const folderInfo: FolderInfo[] = entries.map((entry) => ({
     ...entry,
@@ -104,6 +115,7 @@ function App({ initialState }: { initialState?: Partial<AppState> }) {
           />
         </div>
       </div>
+      <Toaster />
     </ErrorBoundary>
   );
 }

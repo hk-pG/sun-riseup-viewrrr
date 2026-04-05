@@ -74,6 +74,15 @@ vi.mock('../features/image-viewer', () => ({
   ),
 }));
 
+/**
+ * Sonner内部でResizeObserverが利用されている。
+ * JSDOM環境ではResizeObserverが未実装のため、テスト実行時にエラーが発生する。
+ * そのため、Sonnerコンポーネントを単純なダミーコンポーネントに置き換える。
+ */
+vi.mock('/src/components/ui/sonner.tsx', () => ({
+  Toaster: () => <div />,
+}));
+
 describe('App Component', () => {
   let mockFileSystemService: ReturnType<typeof createMockFileSystemService>;
 
