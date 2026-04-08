@@ -1,5 +1,7 @@
 pub mod error;
 pub mod fs;
+pub mod image_container;
+pub mod test_helper;
 pub mod thumbnail;
 
 // 後方互換性のための再エクスポート

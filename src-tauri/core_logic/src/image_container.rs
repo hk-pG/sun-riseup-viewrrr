@@ -64,15 +64,12 @@ pub fn get_sibling_containers(container_path: String) -> Result<Vec<String>, Com
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::test_helper::test_helpers::TempTestDir;
+    use crate::test_helper::test_helpers::*;
 
     #[cfg(test)]
     mod list_images_in_container_test {
 
-        use crate::{
-            image_container::archive::{ArchiveImageContainer, ArchiveImageContainerConfig},
-            test_helper::test_helpers::create_zip,
-        };
+        use crate::image_container::archive::{ArchiveImageContainer, ArchiveImageContainerConfig};
 
         use super::*;
         use std::fs::File;
