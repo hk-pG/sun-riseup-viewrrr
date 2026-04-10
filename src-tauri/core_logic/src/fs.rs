@@ -84,7 +84,8 @@ mod tests {
         let temp_dir = temp_dir().join("test_list_images_success");
         create_dir_all(&temp_dir).unwrap();
         File::create(temp_dir.join("image1.jpg")).unwrap();
-        File::create(temp_dir.join("image2.PNG")).unwrap(); // Uppercase extension
+        // Uppercase extension
+        File::create(temp_dir.join("image2.PNG")).unwrap();
         File::create(temp_dir.join("document.txt")).unwrap();
 
         let images = list_images_in_folder(temp_dir.to_string_lossy().to_string()).unwrap();
