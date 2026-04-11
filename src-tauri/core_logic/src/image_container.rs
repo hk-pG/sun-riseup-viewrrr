@@ -108,7 +108,7 @@ mod tests {
             // 一時ディレクトリにzipファイルを作成する
             let zip_file_path = temp_dir.path().join("file.zip");
             // zipファイルに画像ファイルを書き込む
-            create_zip(&zip_file_path, vec![&image_file_path]).unwrap();
+            TempTestDir::create_zip(&zip_file_path, vec![&image_file_path]).unwrap();
 
             // zipファイルを展開する場所を指定する設定を作成する
             let config = ArchiveImageContainerConfig::new(temp_dir.path());

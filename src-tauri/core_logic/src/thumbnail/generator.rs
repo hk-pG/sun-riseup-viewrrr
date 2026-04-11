@@ -139,25 +139,30 @@ impl ThumbnailGenerator {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use std::env::temp_dir;
-    use std::fs::{create_dir_all, remove_dir_all};
+    use crate::test_helper::test_helpers::TempTestDir;
+    use std::fs::create_dir_all;
 
     /// テスト用の ThumbnailGenerator を作成
-    fn create_test_generator() -> ThumbnailGenerator {
-        let cache_dir = temp_dir().join("test_thumbnail_generator_cache");
-        let _ = remove_dir_all(&cache_dir);
+    fn create_test_generator() -> (ThumbnailGenerator, TempTestDir) {
+        let temp = TempTestDir::new_random();
+        let cache_dir = temp.path().join("cache");
         create_dir_all(&cache_dir).unwrap();
-        ThumbnailGenerator::with_default_config(cache_dir).unwrap()
+        let gen = ThumbnailGenerator::with_default_config(cache_dir).unwrap();
+        (gen, temp)
     }
 
     /// テスト用の ThumbnailGenerator（カスタム設定）
     #[allow(dead_code)]
-    fn create_test_generator_with_config(width: u32, height: u32) -> ThumbnailGenerator {
-        let cache_dir = temp_dir().join("test_thumbnail_generator_cache_custom");
-        let _ = remove_dir_all(&cache_dir);
+    fn create_test_generator_with_config(
+        width: u32,
+        height: u32,
+    ) -> (ThumbnailGenerator, TempTestDir) {
+        let temp = TempTestDir::new_random();
+        let cache_dir = temp.path().join("cache");
         create_dir_all(&cache_dir).unwrap();
         let config = ThumbnailConfig::new(width, height, 80, 1024 * 1024 * 1024);
-        ThumbnailGenerator::new(config, cache_dir).unwrap()
+        let gen = ThumbnailGenerator::new(config, cache_dir).unwrap();
+        (gen, temp)
     }
 
     // --- calculate_thumbnail_dimensions テスト ---
@@ -165,10 +170,10 @@ mod tests {
     #[test]
     fn test_calculate_thumbnail_dimensions_landscape() {
         // 横長画像（1920x1080）→ ターゲット200x200
-        let gen = create_test_generator();
+        let (gen, _temp) = create_test_generator();
         let (w, h) = gen.calculate_thumbnail_dimensions(1920, 1080);
         assert_eq!(w, 200); // 幅がターゲットに一致
-        assert!(h < 200);   // 高さはターゲット未満（アスペクト比維持）
+        assert!(h < 200); // 高さはターゲット未満（アスペクト比維持）
         assert!(h > 0);
         // 1920/1080 ≈ 1.778、200/1.778 ≈ 112
         assert_eq!(h, 112);
@@ -177,7 +182,7 @@ mod tests {
     #[test]
     fn test_calculate_thumbnail_dimensions_portrait() {
         // 縦長画像（1080x1920）→ ターゲット200x200
-        let gen = create_test_generator();
+        let (gen, _temp) = create_test_generator();
         let (w, h) = gen.calculate_thumbnail_dimensions(1080, 1920);
         assert!(w < 200);
         assert_eq!(h, 200); // 高さがターゲットに一致
@@ -189,7 +194,7 @@ mod tests {
     #[test]
     fn test_calculate_thumbnail_dimensions_square() {
         // 正方形画像（500x500）→ ターゲット200x200
-        let gen = create_test_generator();
+        let (gen, _temp) = create_test_generator();
         let (w, h) = gen.calculate_thumbnail_dimensions(500, 500);
         // 正方形対正方形ターゲットでは width == height == target
         // aspect_ratio (1.0) == target_aspect_ratio (1.0) → else branch
@@ -200,7 +205,7 @@ mod tests {
     #[test]
     fn test_calculate_thumbnail_dimensions_small_image() {
         // ターゲットより小さい画像（50x50）
-        let gen = create_test_generator();
+        let (gen, _temp) = create_test_generator();
         let (w, h) = gen.calculate_thumbnail_dimensions(50, 50);
         // アスペクト比計算は入力サイズに関係なく適用
         assert_eq!(w, 200);
@@ -210,22 +215,22 @@ mod tests {
     #[test]
     fn test_calculate_thumbnail_dimensions_very_wide() {
         // 極端に横長（10000x100）
-        let gen = create_test_generator();
+        let (gen, _temp) = create_test_generator();
         let (w, h) = gen.calculate_thumbnail_dimensions(10000, 100);
         assert_eq!(w, 200);
         assert!(h >= 1); // max(1) による下限保証
-        // 10000/100 = 100、200/100 = 2
+                         // 10000/100 = 100、200/100 = 2
         assert_eq!(h, 2);
     }
 
     #[test]
     fn test_calculate_thumbnail_dimensions_very_tall() {
         // 極端に縦長（100x10000）
-        let gen = create_test_generator();
+        let (gen, _temp) = create_test_generator();
         let (w, h) = gen.calculate_thumbnail_dimensions(100, 10000);
         assert_eq!(h, 200);
         assert!(w >= 1); // max(1) による下限保証
-        // 100/10000 = 0.01、200*0.01 = 2
+                         // 100/10000 = 0.01、200*0.01 = 2
         assert_eq!(w, 2);
     }
 
@@ -233,7 +238,7 @@ mod tests {
 
     #[test]
     fn test_image_not_found_error() {
-        let gen = create_test_generator();
+        let (gen, _temp) = create_test_generator();
         let result = gen.get_or_create_thumbnail("/nonexistent/path/image.jpg");
         assert!(result.is_err());
         match result.unwrap_err() {
@@ -248,17 +253,14 @@ mod tests {
 
     #[test]
     fn test_generate_thumbnail_success() {
-        // テスト用のJPEG画像を作成
-        let temp = temp_dir().join("test_thumbnail_gen_success");
-        let _ = remove_dir_all(&temp);
-        create_dir_all(&temp).unwrap();
+        let temp = TempTestDir::new_random();
 
-        let image_path = temp.join("test_image.jpg");
-        // 100x100 のテスト画像を生成
+        let image_path = temp.path().join("test_image.jpg");
         let img = image::RgbImage::new(100, 100);
-        img.save_with_format(&image_path, ImageFormat::Jpeg).unwrap();
+        img.save_with_format(&image_path, ImageFormat::Jpeg)
+            .unwrap();
 
-        let cache_dir = temp.join("cache");
+        let cache_dir = temp.path().join("cache");
         create_dir_all(&cache_dir).unwrap();
 
         let gen = ThumbnailGenerator::with_default_config(cache_dir.clone()).unwrap();
@@ -267,31 +269,32 @@ mod tests {
 
         let thumbnail_path = result.unwrap();
         assert!(thumbnail_path.exists(), "Thumbnail file should be created");
-        assert!(thumbnail_path.starts_with(&cache_dir), "Should be in cache dir");
+        assert!(
+            thumbnail_path.starts_with(&cache_dir),
+            "Should be in cache dir"
+        );
         assert!(thumbnail_path.extension().unwrap() == "jpg");
-
-        let _ = remove_dir_all(&temp);
     }
 
     #[test]
     fn test_thumbnail_cache_hit() {
-        // 2回目の呼び出しでキャッシュが使われることを確認
-        let temp = temp_dir().join("test_thumbnail_cache_hit");
-        let _ = remove_dir_all(&temp);
-        create_dir_all(&temp).unwrap();
+        let temp = TempTestDir::new_random();
 
-        let image_path = temp.join("test_cached.jpg");
+        let image_path = temp.path().join("test_cached.jpg");
         let img = image::RgbImage::new(100, 100);
-        img.save_with_format(&image_path, ImageFormat::Jpeg).unwrap();
+        img.save_with_format(&image_path, ImageFormat::Jpeg)
+            .unwrap();
 
-        let cache_dir = temp.join("cache");
+        let cache_dir = temp.path().join("cache");
         create_dir_all(&cache_dir).unwrap();
 
         let gen = ThumbnailGenerator::with_default_config(cache_dir).unwrap();
-        let path1 = gen.get_or_create_thumbnail(image_path.to_str().unwrap()).unwrap();
-        let path2 = gen.get_or_create_thumbnail(image_path.to_str().unwrap()).unwrap();
+        let path1 = gen
+            .get_or_create_thumbnail(image_path.to_str().unwrap())
+            .unwrap();
+        let path2 = gen
+            .get_or_create_thumbnail(image_path.to_str().unwrap())
+            .unwrap();
         assert_eq!(path1, path2, "Same image should return same cache path");
-
-        let _ = remove_dir_all(&temp);
     }
 }
