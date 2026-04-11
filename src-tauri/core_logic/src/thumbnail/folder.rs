@@ -39,8 +39,8 @@ pub fn get_first_image_in_folder(folder_path: &str) -> Result<Option<String>, St
 #[cfg(test)]
 mod tests {
     use super::*;
-    use std::env::temp_dir;
-    use std::fs::{create_dir_all, remove_dir_all, File};
+    use crate::test_helper::test_helpers::TempTestDir;
+    use std::fs::File;
 
     // --- FolderThumbnailResult のシリアライゼーションテスト ---
 
@@ -112,39 +112,29 @@ mod tests {
 
     #[test]
     fn test_get_first_image_returns_image_path() {
-        let temp = temp_dir().join("test_folder_thumbnail_first");
-        let _ = remove_dir_all(&temp);
-        create_dir_all(&temp).unwrap();
+        let temp = TempTestDir::new_random();
 
-        // 画像ファイルを作成
-        File::create(temp.join("image1.jpg")).unwrap();
-        File::create(temp.join("image2.png")).unwrap();
+        File::create(temp.path().join("image1.jpg")).unwrap();
+        File::create(temp.path().join("image2.png")).unwrap();
 
-        let result = get_first_image_in_folder(temp.to_str().unwrap());
+        let result = get_first_image_in_folder(temp.path().to_str().unwrap());
         assert!(result.is_ok());
         let first = result.unwrap();
         assert!(first.is_some(), "Should return first image path");
-        // パスに画像拡張子が含まれること
         let path = first.unwrap();
         assert!(
             path.ends_with(".jpg") || path.ends_with(".png"),
             "Should return an image file path, got: {}",
             path
         );
-
-        let _ = remove_dir_all(&temp);
     }
 
     #[test]
     fn test_get_first_image_returns_none_for_empty_folder() {
-        let temp = temp_dir().join("test_folder_thumbnail_empty");
-        let _ = remove_dir_all(&temp);
-        create_dir_all(&temp).unwrap();
+        let temp = TempTestDir::new_random();
 
-        let result = get_first_image_in_folder(temp.to_str().unwrap());
+        let result = get_first_image_in_folder(temp.path().to_str().unwrap());
         assert!(result.is_ok());
         assert!(result.unwrap().is_none(), "Empty folder should return None");
-
-        let _ = remove_dir_all(&temp);
     }
 }
