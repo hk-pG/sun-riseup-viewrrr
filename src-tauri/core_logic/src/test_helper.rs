@@ -23,7 +23,7 @@ pub mod test_helpers {
         }
 
         pub fn path(&self) -> &Path {
-            &self.path
+            self.path.as_path()
         }
     }
 
