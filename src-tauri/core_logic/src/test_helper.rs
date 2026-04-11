@@ -3,7 +3,7 @@ pub mod test_helpers {
     use std::{
         env::temp_dir,
         fs::{create_dir_all, remove_dir_all},
-        path::PathBuf,
+        path::{Path, PathBuf},
     };
 
     pub struct TempTestDir {
@@ -22,7 +22,7 @@ pub mod test_helpers {
             Self::new(&name)
         }
 
-        pub fn path(&self) -> &PathBuf {
+        pub fn path(&self) -> &Path {
             &self.path
         }
     }
