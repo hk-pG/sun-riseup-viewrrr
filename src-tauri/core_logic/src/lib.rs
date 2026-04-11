@@ -1,5 +1,6 @@
 pub mod error;
 pub mod fs;
+#[cfg(test)]
 pub mod test_helper;
 pub mod thumbnail;
 
