@@ -7,7 +7,7 @@ pub mod test_helpers {
     };
 
     pub struct TempTestDir {
-        pub path: PathBuf,
+        path: PathBuf,
     }
 
     impl TempTestDir {
