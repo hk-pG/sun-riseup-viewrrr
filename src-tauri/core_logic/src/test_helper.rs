@@ -16,7 +16,12 @@ pub mod test_helpers {
     impl TempTestDir {
         pub fn new(name: &str) -> Self {
             let path = temp_dir().join(name);
-            create_dir_all(&path).unwrap();
+            let result = create_dir_all(&path);
+            // ディレクトリの作成に失敗した場合、エラーをログに出力し、パニックする
+            if let Err(e) = result {
+                eprintln!("Failed to create temp directory {:?}: {}", path, e);
+                panic!("Failed to create temp directory");
+            }
             TempTestDir { path }
         }
 
@@ -32,7 +37,11 @@ pub mod test_helpers {
 
     impl Drop for TempTestDir {
         fn drop(&mut self) {
-            let _ = remove_dir_all(&self.path);
+            let result = remove_dir_all(&self.path);
+            // 削除に失敗した場合、エラーをログに出力する
+            if let Err(e) = result {
+                eprintln!("Failed to remove temp directory {:?}: {}", self.path, e);
+            }
         }
     }
 
