@@ -75,26 +75,25 @@ pub fn get_sibling_folders(folder_path: String) -> Result<Vec<String>, CommandEr
 
 #[cfg(test)]
 mod tests {
+    use crate::test_helper::test_helpers::TempTestDir;
+
     use super::*;
-    use std::env::temp_dir;
-    use std::fs::{create_dir_all, remove_dir_all, File};
+    use std::fs::{create_dir_all, File};
 
     #[test]
     fn test_list_images_in_folder_success() {
-        let temp_dir = temp_dir().join("test_list_images_success");
-        create_dir_all(&temp_dir).unwrap();
-        File::create(temp_dir.join("image1.jpg")).unwrap();
+        let temp_dir = TempTestDir::new_random();
+        let temp_dir_path = temp_dir.path();
+        File::create(temp_dir_path.join("image1.jpg")).unwrap();
         // Uppercase extension
-        File::create(temp_dir.join("image2.PNG")).unwrap();
-        File::create(temp_dir.join("document.txt")).unwrap();
+        File::create(temp_dir_path.join("image2.PNG")).unwrap();
+        File::create(temp_dir_path.join("document.txt")).unwrap();
 
-        let images = list_images_in_folder(temp_dir.to_string_lossy().to_string()).unwrap();
+        let images = list_images_in_folder(temp_dir_path.to_string_lossy().to_string()).unwrap();
 
         assert_eq!(images.len(), 2);
         assert!(images.iter().any(|p| p.ends_with("image1.jpg")));
         assert!(images.iter().any(|p| p.ends_with("image2.PNG")));
-
-        remove_dir_all(temp_dir).unwrap();
     }
 
     #[test]
@@ -105,25 +104,23 @@ mod tests {
 
     #[test]
     fn test_get_sibling_folders_success() {
-        let base = temp_dir().join("test_siblings_success");
-        let _ = remove_dir_all(&base);
-        create_dir_all(base.join("A")).unwrap();
-        create_dir_all(base.join("B")).unwrap();
-        create_dir_all(base.join("C")).unwrap();
+        let base = TempTestDir::new_random();
+        let base_path = base.path();
+        create_dir_all(base_path.join("A")).unwrap();
+        create_dir_all(base_path.join("B")).unwrap();
+        create_dir_all(base_path.join("C")).unwrap();
 
-        let current_path = base.join("B").to_string_lossy().to_string();
+        let current_path = base_path.join("B").to_string_lossy().to_string();
         let mut result = get_sibling_folders(current_path).unwrap();
         result.sort(); // Sort for stable assertion
 
         let mut expected = vec![
-            base.join("A").to_string_lossy().to_string(),
-            base.join("C").to_string_lossy().to_string(),
+            base_path.join("A").to_string_lossy().to_string(),
+            base_path.join("C").to_string_lossy().to_string(),
         ];
         expected.sort();
 
         assert_eq!(result, expected);
-
-        remove_dir_all(base).unwrap();
     }
 
     #[test]
