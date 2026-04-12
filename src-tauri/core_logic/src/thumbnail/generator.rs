@@ -2,7 +2,7 @@
 
 use crate::thumbnail::config::ThumbnailConfig;
 use crate::thumbnail::error::{Result, ThumbnailError};
-use crate::thumbnail::utils::hash_path;
+use crate::utils::hash_path;
 use image::imageops::FilterType;
 use image::{GenericImageView, ImageFormat};
 use std::path::{Path, PathBuf};
