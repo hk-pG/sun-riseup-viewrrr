@@ -52,3 +52,52 @@ impl ArchiveImageContainerConfig {
         }
     }
 }
+
+#[cfg(test)]
+mod test {
+    use super::*;
+    use crate::image_container::archive::{ArchiveImageContainer, ArchiveImageContainerConfig};
+    use crate::test_helper::test_helpers::TempTestDir;
+    use std::fs::File;
+
+    #[test]
+    fn returns_a_image_file_in_zip_container() {
+        // Arrange
+        // テスト用の一時ディレクトリを作成する
+        let temp_dir = TempTestDir::new_random();
+
+        // 一時ディレクトリに画像ファイルを作成する
+        let image_file_path = temp_dir.path().join("image_in_zip.jpg");
+        File::create(&image_file_path).unwrap();
+        // 一時ディレクトリにzipファイルを作成する
+        let zip_file_path = temp_dir.path().join("file.zip");
+        // zipファイルに画像ファイルを書き込む
+        TempTestDir::create_zip(&zip_file_path, vec![&image_file_path]).unwrap();
+
+        // zipファイルを展開する場所を指定する設定を作成する
+        let extract_dir = TempTestDir::new_random();
+        let config = ArchiveImageContainerConfig::new(extract_dir.path());
+        // zipファイルをコンテナとして扱うためにArchiveImageContainerを作成する
+        let zip_image_container = ArchiveImageContainer::new(&zip_file_path, config).unwrap();
+
+        // Act
+        let images_in_container = zip_image_container
+            .list_images_in_container(&zip_file_path)
+            .unwrap();
+
+        // Assert
+        assert_eq!(images_in_container.len(), 1);
+    }
+
+    #[test]
+    fn returns_error_when_zip_container_not_found() {
+        // Arrange
+        let config = ArchiveImageContainerConfig::new("/some/extract/dir");
+
+        // Act
+        let result = ArchiveImageContainer::new("/non_existent_path_for_zip.zip", config);
+
+        // Assert
+        assert!(matches!(result, Err(CommandError::PathNotFound(_))));
+    }
+}
