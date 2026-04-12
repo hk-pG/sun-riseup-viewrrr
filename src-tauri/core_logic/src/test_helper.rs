@@ -8,6 +8,9 @@ pub mod test_helpers {
     };
 
     use zip::write::SimpleFileOptions;
+        fs::{create_dir_all, remove_dir_all},
+        path::{Path, PathBuf},
+    };
 
     pub struct TempTestDir {
         path: PathBuf,
@@ -58,6 +61,11 @@ pub mod test_helpers {
 
             zip.finish()?;
             Ok(())
+        }
+    }
+
+    impl Drop for TempTestDir {
+        fn drop(&mut self) {
         }
     }
 
