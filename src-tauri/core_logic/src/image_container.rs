@@ -75,7 +75,7 @@ mod tests {
         use std::fs::File;
 
         #[test]
-        fn should_returns_images_in_folder() {
+        fn returns_images_in_folder() {
             let temp_dir = TempTestDir::new("test_list_images_success");
             File::create(temp_dir.path().join("image1.jpg")).unwrap();
             File::create(temp_dir.path().join("image2.PNG")).unwrap(); // Uppercase extension
@@ -90,14 +90,13 @@ mod tests {
         }
 
         #[test]
-        fn should_returns_error_when_folder_not_found() {
+        fn returns_error_when_folder_not_found() {
             let result = list_images_in_container("non_existent_path_for_images".to_string());
             assert!(matches!(result, Err(CommandError::PathNotFound(_))));
         }
 
         #[test]
-        #[ignore]
-        fn should_returns_a_image_file_in_zip_container() {
+        fn returns_a_image_file_in_zip_container() {
             // Arrange
             // テスト用の一時ディレクトリを作成する
             let temp_dir = TempTestDir::new_random();
@@ -111,14 +110,14 @@ mod tests {
             TempTestDir::create_zip(&zip_file_path, vec![&image_file_path]).unwrap();
 
             // zipファイルを展開する場所を指定する設定を作成する
-            let config = ArchiveImageContainerConfig::new(temp_dir.path());
+            let extract_dir = TempTestDir::new_random();
+            let config = ArchiveImageContainerConfig::new(extract_dir.path());
             // zipファイルをコンテナとして扱うためにArchiveImageContainerを作成する
-            let zip_image_container =
-                ArchiveImageContainer::new("/aaa/bbb/file.zip", config).unwrap();
+            let zip_image_container = ArchiveImageContainer::new(&zip_file_path, config).unwrap();
 
             // Act
             let images_in_container = zip_image_container
-                .list_images_in_container("/aaa/bbb/file.zip")
+                .list_images_in_container(&zip_file_path)
                 .unwrap();
 
             // Assert
@@ -126,7 +125,7 @@ mod tests {
         }
 
         #[test]
-        fn should_returns_error_when_zip_container_not_found() {
+        fn returns_error_when_zip_container_not_found() {
             // Arrange
             let config = ArchiveImageContainerConfig::new("/some/extract/dir");
 
@@ -147,7 +146,7 @@ mod tests {
         };
 
         #[test]
-        fn should_returns_folders_and_compressed_files() {
+        fn returns_folders_and_compressed_files() {
             // Arrange
             let base = TempTestDir::new(&uuid::Uuid::new_v4().to_string());
             create_dir_all(base.path().join("A")).unwrap();
@@ -170,7 +169,7 @@ mod tests {
         }
 
         #[test]
-        fn should_returns_error_when_path_not_exists() {
+        fn returns_error_when_path_not_exists() {
             // Arrange
             let non_existent_path = temp_dir()
                 .join(uuid::Uuid::new_v4().to_string())
@@ -183,7 +182,7 @@ mod tests {
         }
 
         #[test]
-        fn should_returns_error_when_path_has_no_parent() {
+        fn returns_error_when_path_has_no_parent() {
             let root_path = if cfg!(target_os = "windows") {
                 "C:\\".to_string()
             } else {
@@ -194,7 +193,7 @@ mod tests {
         }
 
         #[test]
-        fn should_returns_just_folders_when_no_compressed_files() {
+        fn returns_just_folders_when_no_compressed_files() {
             // Arrange
             let base = TempTestDir::new(&uuid::Uuid::new_v4().to_string());
             create_dir_all(base.path().join("A")).unwrap();
@@ -210,7 +209,7 @@ mod tests {
         }
 
         #[test]
-        fn should_returns_just_compressed_files_when_no_folders() {
+        fn returns_just_compressed_files_when_no_folders() {
             // Arrange
             let base = TempTestDir::new(&uuid::Uuid::new_v4().to_string());
             File::create(base.path().join("a.zip")).unwrap();
