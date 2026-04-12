@@ -12,6 +12,9 @@ pub enum CommandError {
     Io(String),
     PathNotFound(String),
     NoParent,
+    UnsupportedExtension(String),
+    NotSpecifiedArchive(String),
+    NotAnArchive(String),
 }
 
 impl From<std::io::Error> for CommandError {

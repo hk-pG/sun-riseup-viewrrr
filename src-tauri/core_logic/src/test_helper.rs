@@ -66,4 +66,36 @@ pub mod test_helpers {
             let _ = remove_dir_all(&self.path);
         }
     }
+
+    pub struct ZipTestEnv {
+        pub temp_dir: TempTestDir,
+        pub extract_dir: TempTestDir,
+        pub zip_path: PathBuf,
+    }
+
+    impl ZipTestEnv {
+        /// 指定したファイル名の空画像ファイルを含む zip 環境を構築する
+        pub fn with_images(file_names: &[&str]) -> Self {
+            let temp_dir = TempTestDir::new_random();
+            let image_paths: Vec<PathBuf> = file_names
+                .iter()
+                .map(|name| {
+                    let p = temp_dir.path().join(name);
+                    File::create(&p).unwrap();
+                    p
+                })
+                .collect();
+
+            let zip_path = temp_dir.path().join("file.zip");
+            let refs: Vec<&PathBuf> = image_paths.iter().collect();
+            TempTestDir::create_zip(&zip_path, refs).unwrap();
+
+            let extract_dir = TempTestDir::new_random();
+            ZipTestEnv {
+                temp_dir,
+                extract_dir,
+                zip_path,
+            }
+        }
+    }
 }
