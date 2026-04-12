@@ -9,6 +9,8 @@ pub mod test_helpers {
 
     use zip::write::SimpleFileOptions;
 
+    use crate::image_container::archive::{ArchiveImageContainer, ArchiveImageContainerConfig};
+
     pub struct TempTestDir {
         path: PathBuf,
     }
