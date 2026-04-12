@@ -67,7 +67,7 @@ impl ThumbnailGenerator {
 
     /// サムネイルのキャッシュパスを計算
     fn get_thumbnail_cache_path(&self, image_path: &str) -> PathBuf {
-        let hash = hash_path(image_path);
+        let hash = hash_path(&image_path);
         let cache_file = format!("{}.jpg", hash);
         self.cache_dir.join(cache_file)
     }
