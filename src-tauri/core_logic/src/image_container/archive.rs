@@ -149,7 +149,10 @@ impl ArchiveImageContainerConfig {
 mod test {
     use super::*;
     use crate::image_container::archive::{ArchiveImageContainer, ArchiveImageContainerConfig};
+    use crate::test_helper::test_helpers::TempTestDir;
     use crate::test_helper::test_helpers::ZipTestEnv;
+    use std::fs::{create_dir_all, File};
+    use std::io::Write;
 
     #[test]
     fn returns_an_image_file_in_zip_container() {
@@ -189,5 +192,92 @@ mod test {
 
         // Assert
         assert!(matches!(result, Err(CommandError::PathNotFound(_))));
+    }
+
+    #[test]
+    fn returns_error_when_container_is_directory() {
+        // Arrange
+        let container_dir = TempTestDir::new_random();
+        let extract_base = TempTestDir::new_random();
+        let config = ArchiveImageContainerConfig::new(extract_base.path());
+        let zip_image_container = ArchiveImageContainer::new(container_dir.path(), config).unwrap();
+
+        // Act
+        let result = zip_image_container.list_images_in_archive();
+
+        // Assert
+        assert!(matches!(result, Err(CommandError::NotSpecifiedArchive(_))));
+    }
+
+    #[test]
+    fn returns_error_when_extension_unsupported() {
+        // Arrange
+        let base = TempTestDir::new_random();
+        let file_path = base.path().join("file.txt");
+        File::create(&file_path).unwrap();
+        let extract_base = TempTestDir::new_random();
+        let config = ArchiveImageContainerConfig::new(extract_base.path());
+        let zip_image_container = ArchiveImageContainer::new(&file_path, config).unwrap();
+
+        // Act
+        let result = zip_image_container.list_images_in_archive();
+
+        // Assert
+        assert!(matches!(result, Err(CommandError::UnsupportedExtension(_))));
+    }
+
+    #[test]
+    fn returns_error_when_zip_is_corrupted() {
+        // Arrange
+        let base = TempTestDir::new_random();
+        let zip_path = base.path().join("corrupt.zip");
+        let mut f = File::create(&zip_path).unwrap();
+        f.write_all(b"not a valid zip").unwrap();
+        let extract_base = TempTestDir::new_random();
+        let config = ArchiveImageContainerConfig::new(extract_base.path());
+        let zip_image_container = ArchiveImageContainer::new(&zip_path, config).unwrap();
+
+        // Act
+        let result = zip_image_container.list_images_in_archive();
+
+        // Assert
+        assert!(matches!(result, Err(CommandError::NotAnArchive(_))));
+    }
+
+    #[test]
+    fn returns_empty_list_for_zip_with_no_images() {
+        // Arrange
+        let tmp = TempTestDir::new_random();
+        let zip_path = tmp.path().join("empty.zip");
+        TempTestDir::create_zip(&zip_path, Vec::<&std::path::PathBuf>::new()).unwrap();
+        let extract_base = TempTestDir::new_random();
+        let config = ArchiveImageContainerConfig::new(extract_base.path());
+        let zip_image_container = ArchiveImageContainer::new(&zip_path, config).unwrap();
+
+        // Act
+        let images = zip_image_container.list_images_in_archive().unwrap();
+
+        // Assert
+        assert_eq!(images.len(), 0);
+    }
+
+    #[test]
+    fn skip_extraction_when_already_cached() {
+        // Arrange
+        let env = ZipTestEnv::with_images(&["image.jpg"]);
+        let extract_base = env.extract_dir.path();
+        let hash = crate::utils::hash_path(&env.zip_path);
+        let existing_dir = extract_base.join(&hash);
+        create_dir_all(&existing_dir).unwrap();
+        // create a file inside the existing extracted dir
+        File::create(existing_dir.join("image.jpg")).unwrap();
+        let config = ArchiveImageContainerConfig::new(extract_base);
+        let zip_image_container = ArchiveImageContainer::new(&env.zip_path, config).unwrap();
+
+        // Act
+        let images = zip_image_container.list_images_in_archive().unwrap();
+
+        // Assert
+        assert_eq!(images.len(), 1);
     }
 }
