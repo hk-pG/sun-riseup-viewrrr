@@ -269,7 +269,10 @@ mod test {
         let hash = crate::utils::hash_path(&env.zip_path);
         let existing_dir = extract_base.join(&hash);
         create_dir_all(&existing_dir).unwrap();
-        // create a file inside the existing extracted dir
+        // create a marker file to detect if extraction is skipped
+        let marker_file = existing_dir.join("marker_cached.txt");
+        File::create(&marker_file).unwrap();
+        // also create the actual image file
         File::create(existing_dir.join("image.jpg")).unwrap();
         let config = ArchiveImageContainerConfig::new(extract_base);
         let zip_image_container = ArchiveImageContainer::new(&env.zip_path, config).unwrap();
@@ -278,6 +281,9 @@ mod test {
         let images = zip_image_container.list_images_in_archive().unwrap();
 
         // Assert
+        // Verify images are found
         assert_eq!(images.len(), 1);
+        // Verify marker file still exists (proof that extraction was skipped)
+        assert!(marker_file.exists(), "Marker file should exist, proving cached dir was reused");
     }
 }
