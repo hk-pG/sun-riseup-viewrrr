@@ -284,6 +284,9 @@ mod test {
         // Verify images are found
         assert_eq!(images.len(), 1);
         // Verify marker file still exists (proof that extraction was skipped)
-        assert!(marker_file.exists(), "Marker file should exist, proving cached dir was reused");
+        assert!(
+            marker_file.exists(),
+            "Marker file should exist, proving cached dir was reused"
+        );
     }
 }
