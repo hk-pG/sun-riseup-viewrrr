@@ -1,7 +1,7 @@
 use std::fs;
 use std::path::PathBuf;
 
-use crate::error::CommandError;
+use crate::CommandError;
 
 /// Lists all image files in a specified folder.
 ///
