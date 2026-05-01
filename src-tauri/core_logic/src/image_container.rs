@@ -23,25 +23,57 @@ impl From<std::io::Error> for CommandError {
     }
 }
 
-pub fn list_images_in_container(container_path: String) -> Result<Vec<String>, CommandError> {
-    let path = PathBuf::from(&container_path);
+// TODO: コンテナの持つべきインターフェースをtraitとして定義する
+// TODO: 機能自体の実装後に、各構造体に共通のインターフェースを定義することで、実装の詳細とインターフェースの知識を分離する
+// pub trait ImageContainer {
+//     ///
+//     /// Returns a list of image file paths contained within the container.
+//     ///
+//     fn list_images(&self) -> Result<Vec<String>, CommandError>;
 
-    // Check if the container exists
-    if !path.exists() {
-        return Err(CommandError::PathNotFound(container_path));
-    }
-    // if the container is directory, list images in the directory
-    if path.is_dir() {
-        return list_images_in_folder(container_path);
+//     ///
+//     /// Returns the path to the thumbnail image for the container.
+//     ///
+//     fn get_thumbnail(&self) -> Result<String, CommandError>;
+// }
+
+pub fn list_images_in_container<P: AsRef<std::path::Path>>(
+    container_path: P,
+    extract_dir: P,
+) -> Result<Vec<String>, CommandError> {
+    // let path = PathBuf::from(&container_path);
+    let container_path = container_path.as_ref();
+    let extract_dir = extract_dir.as_ref();
+
+    open_container(container_path, extract_dir)
+}
+
+fn open_container<P: AsRef<std::path::Path>>(
+    container_path: P,
+    extract_dir: P,
+) -> Result<Vec<String>, CommandError> {
+    let container_path = container_path.as_ref();
+
+    if !container_path.exists() {
+        return Err(CommandError::PathNotFound(
+            container_path.to_string_lossy().to_string(),
+        ));
     }
 
-    Ok(vec![path
-        .join("image_in_zip.jpg")
-        .to_string_lossy()
-        .to_string()])
+    if container_path.is_dir() {
+        return list_images_in_folder(container_path.to_string_lossy().to_string());
+    }
+
+    let archive_container = archive::ArchiveImageContainer::new(
+        container_path,
+        archive::ArchiveImageContainerConfig::new(extract_dir),
+    )?;
+    archive_container.list_images_in_archive()
 }
 
 ///
+/// INFO: ImageContainerとは独立した関数として実装する理由
+/// INFO: コンテナ実装ごとに実装が変わらないため、トレイトに定義すると冗長になってしまう。
 /// `get_sibling_containers` コマンドは、指定されたパスの兄弟コンテナを取得します。
 /// 自分自身のコンテナは除外されます。
 ///
@@ -81,8 +113,7 @@ mod tests {
             File::create(temp_dir.path().join("image2.PNG")).unwrap(); // Uppercase extension
             File::create(temp_dir.path().join("document.txt")).unwrap();
 
-            let images =
-                list_images_in_container(temp_dir.path().to_string_lossy().to_string()).unwrap();
+            let images = list_images_in_container(temp_dir.path(), temp_dir.path()).unwrap();
 
             assert_eq!(images.len(), 2);
             assert!(images.iter().any(|p| p.ends_with("image1.jpg")));
@@ -91,7 +122,10 @@ mod tests {
 
         #[test]
         fn returns_error_when_folder_not_found() {
-            let result = list_images_in_container("non_existent_path_for_images".to_string());
+            let result = list_images_in_container(
+                "non_existent_path_for_images",
+                "non_existent_path_for_images",
+            );
             assert!(matches!(result, Err(CommandError::PathNotFound(_))));
         }
     }
