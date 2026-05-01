@@ -1,8 +1,6 @@
 pub mod commands;
 use commands::fs::{get_sibling_containers, list_images_in_folder};
-use commands::thumbnail::{
-    clear_thumbnail_cache, get_folder_thumbnail, prefetch_folder_thumbnails,
-};
+use commands::thumbnail::{get_folder_thumbnail, prefetch_folder_thumbnails};
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
@@ -14,7 +12,6 @@ pub fn run() {
         .invoke_handler(tauri::generate_handler![
             list_images_in_folder,
             get_sibling_containers,
-            clear_thumbnail_cache,
             get_folder_thumbnail,
             prefetch_folder_thumbnails
         ])

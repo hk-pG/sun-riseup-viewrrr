@@ -111,14 +111,6 @@ export const tauriFileSystemService: FileSystemService = {
     }
   },
 
-  clearThumbnailCache: async (): Promise<void> => {
-    try {
-      await invoke('clear_thumbnail_cache');
-    } catch (error) {
-      throw new Error(`Failed to clear thumbnail cache: ${error}`);
-    }
-  },
-
   // 016-thumbnail-backend-responsibility
 
   getFolderThumbnail: async (

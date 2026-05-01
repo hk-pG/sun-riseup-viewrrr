@@ -40,13 +40,6 @@ export interface FileSystemService {
   convertFileSrc(filePath: string): string;
 
   /**
-   * サムネイルキャッシュをクリアする（デバッグ用）
-   * @returns {Promise<void>}
-   * @throws {Error} キャッシュクリア中にエラーが発生した場合
-   */
-  clearThumbnailCache?(): Promise<void>;
-
-  /**
    * フォルダのサムネイル（代表画像）を取得する
    * バックエンドが画像選択・サムネイル生成を一括処理
    * @param folderPath フォルダのパス

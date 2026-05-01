@@ -24,12 +24,6 @@ fn get_cache_dir(app_handle: &tauri::AppHandle) -> std::io::Result<std::path::Pa
     Ok(thumbnail_dir)
 }
 
-/// サムネイルキャッシュをクリアする（デバッグ用）
-#[command]
-pub async fn clear_thumbnail_cache() -> std::result::Result<(), String> {
-    Err("Not implemented yet".to_string())
-}
-
 /// フォルダのサムネイルを取得する
 #[command]
 pub async fn get_folder_thumbnail(

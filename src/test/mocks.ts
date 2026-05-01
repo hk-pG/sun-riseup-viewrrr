@@ -121,7 +121,6 @@ export const createMockFileSystemService = (
   convertFileSrc: vi
     .fn()
     .mockImplementation((path: string) => `asset://${path}`),
-  clearThumbnailCache: vi.fn().mockResolvedValue(undefined),
   getFolderThumbnail: vi.fn().mockResolvedValue(null),
   prefetchFolderThumbnails: vi.fn().mockResolvedValue(undefined),
   ...overrides,
