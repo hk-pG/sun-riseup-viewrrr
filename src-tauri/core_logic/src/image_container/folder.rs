@@ -72,6 +72,10 @@ pub fn list_images_in_folder(folder_path: String) -> Result<Vec<String>, Command
     Ok(images)
 }
 
+///
+/// INFO: get_sibling_foldersと同様に、get_sibling_archivesもImageContainerとは独立させる必要がある。
+/// INFO: コンテナ実装が変わっても、隣接するコンテナの取得方法は変わらないため、トレイトに定義すると冗長になってしまう。
+///
 pub fn get_sibling_archives(container_path: String) -> Result<Vec<String>, CommandError> {
     let current = PathBuf::from(&container_path);
     if !current.exists() {
