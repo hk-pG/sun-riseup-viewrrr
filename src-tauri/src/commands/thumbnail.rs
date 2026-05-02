@@ -12,17 +12,7 @@ use core_logic::thumbnail::{
 };
 use tauri::command;
 
-/// サムネイルキャッシュディレクトリのパスを取得（Tauri依存）
-fn get_cache_dir(app_handle: &tauri::AppHandle) -> std::io::Result<std::path::PathBuf> {
-    use tauri::Manager;
-    let cache_dir = app_handle
-        .path()
-        .app_cache_dir()
-        .map_err(|e| std::io::Error::new(std::io::ErrorKind::NotFound, e))?;
-    let thumbnail_dir = cache_dir.join("thumbnails");
-    std::fs::create_dir_all(&thumbnail_dir)?;
-    Ok(thumbnail_dir)
-}
+use crate::utils::get_cache_dir;
 
 /// フォルダのサムネイルを取得する
 #[command]

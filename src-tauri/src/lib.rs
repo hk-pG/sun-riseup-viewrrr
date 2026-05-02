@@ -1,4 +1,5 @@
 pub mod commands;
+pub mod utils;
 use commands::fs::{get_sibling_containers, list_images_in_folder};
 use commands::thumbnail::{get_folder_thumbnail, prefetch_folder_thumbnails};
 
