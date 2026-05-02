@@ -27,12 +27,12 @@ fn get_cache_dir(app_handle: &tauri::AppHandle) -> std::io::Result<std::path::Pa
 /// フォルダのサムネイルを取得する
 #[command]
 pub async fn get_folder_thumbnail(
-    real_container_path: String,
+    container_path: String,
     app_handle: tauri::AppHandle,
 ) -> std::result::Result<Option<FolderThumbnailResult>, String> {
     let cache_dir = get_cache_dir(&app_handle).map_err(|e| e.to_string())?;
     let result = tokio::task::spawn_blocking(move || {
-        let first_image = folder::get_first_image_in_folder(&real_container_path)?;
+        let first_image = folder::get_first_image_in_folder(&container_path)?;
         let image_path = match first_image {
             Some(path) => path,
             None => return Ok::<Option<FolderThumbnailResult>, String>(None),

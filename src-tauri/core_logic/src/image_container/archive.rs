@@ -3,7 +3,7 @@ use std::path::{Path, PathBuf};
 use zip::ZipArchive;
 
 use crate::{
-    image_container::{folder::list_images_in_folder, CommandError},
+    image_container::{folder::FolderImageContainer, CommandError, ImageContainer},
     utils::hash_path,
 };
 
@@ -54,7 +54,8 @@ impl ArchiveImageContainer {
         let hash = hash_path(&container_path);
         // 解凍に失敗した場合はエラーを返す
         let extracted_dir = self.extract_archive(container_path, &hash)?;
-        list_images_in_folder(extracted_dir.to_string_lossy().to_string())
+        let folder_container = FolderImageContainer::new(extracted_dir)?;
+        folder_container.list_images()
     }
 
     ///

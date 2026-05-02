@@ -1,7 +1,80 @@
 use std::{fs, path::PathBuf};
 
-use crate::image_container::CommandError;
+use crate::image_container::{CommandError, ImageContainer};
 
+pub struct FolderImageContainer {
+    folder_path: PathBuf,
+}
+
+impl FolderImageContainer {
+    ///
+    /// 指定されたフォルダを表す `FolderImageContainer` を作成します。
+    /// 構造体の生成時に存在チェックを行う。(その瞬間の存在しか保証しない: TOCTOU)
+    ///
+    pub fn new<P: AsRef<std::path::Path>>(folder_path: P) -> Result<Self, CommandError> {
+        // 存在チェック
+        let folder_path = folder_path.as_ref();
+        if !folder_path.exists() {
+            return Err(CommandError::PathNotFound(
+                folder_path.to_string_lossy().to_string(),
+            ));
+        }
+
+        Ok(Self {
+            folder_path: folder_path.to_path_buf(),
+        })
+    }
+}
+
+impl ImageContainer for FolderImageContainer {
+    fn list_images(&self) -> Result<Vec<String>, CommandError> {
+        list_images_in_folder(&self.folder_path)
+    }
+
+    fn get_first_image(&self) -> Result<Option<String>, CommandError> {
+        let images = self.list_images()?;
+        Ok(images.into_iter().next())
+    }
+}
+
+/// Lists all image files in a specified folder.
+///
+/// This function scans the given folder and returns a list of file paths
+/// for all image files found. Supported image formats are JPG, JPEG, PNG, GIF, and WEBP.
+///
+/// # Arguments
+///
+/// * `folder_path` - A string slice that holds the path to the folder to be scanned.
+///
+/// # Returns
+///
+/// A `Result` containing either a `Vec<String>` with the full paths of all image files
+/// or a `CommandError` if an error occurs.
+fn list_images_in_folder<P: AsRef<std::path::Path>>(
+    folder_path: P,
+) -> Result<Vec<String>, CommandError> {
+    const SUPPORTED_EXTENSIONS: &[&str] = &["jpg", "jpeg", "png", "gif", "webp"];
+
+    let entries = fs::read_dir(&folder_path)?;
+
+    let images = entries
+        .filter_map(|entry| {
+            let path = entry.ok()?.path();
+            if path.is_file() {
+                let ext = path.extension()?.to_str()?.to_lowercase();
+                if SUPPORTED_EXTENSIONS.contains(&ext.as_str()) {
+                    return Some(path.to_string_lossy().to_string());
+                }
+            }
+            None
+        })
+        .collect();
+
+    Ok(images)
+}
+
+///
+/// INFO: get_sibling_foldersとget_sibling_archivesは、ImageContainerの実装とは独立させる必要がある。
 /// `get_sibling_folders` コマンドは、指定されたパスの兄弟フォルダを取得します。
 /// 自分自身のフォルダは除外されます。
 ///
@@ -36,40 +109,6 @@ pub fn get_sibling_folders(folder_path: String) -> Result<Vec<String>, CommandEr
         .collect();
 
     Ok(siblings)
-}
-
-/// Lists all image files in a specified folder.
-///
-/// This function scans the given folder and returns a list of file paths
-/// for all image files found. Supported image formats are JPG, JPEG, PNG, GIF, and WEBP.
-///
-/// # Arguments
-///
-/// * `folder_path` - A string slice that holds the path to the folder to be scanned.
-///
-/// # Returns
-///
-/// A `Result` containing either a `Vec<String>` with the full paths of all image files
-/// or a `CommandError` if an error occurs.
-pub fn list_images_in_folder(folder_path: String) -> Result<Vec<String>, CommandError> {
-    const SUPPORTED_EXTENSIONS: &[&str] = &["jpg", "jpeg", "png", "gif", "webp"];
-
-    let entries = fs::read_dir(&folder_path)?;
-
-    let images = entries
-        .filter_map(|entry| {
-            let path = entry.ok()?.path();
-            if path.is_file() {
-                let ext = path.extension()?.to_str()?.to_lowercase();
-                if SUPPORTED_EXTENSIONS.contains(&ext.as_str()) {
-                    return Some(path.to_string_lossy().to_string());
-                }
-            }
-            None
-        })
-        .collect();
-
-    Ok(images)
 }
 
 ///

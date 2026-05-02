@@ -2,7 +2,7 @@ pub mod archive;
 pub mod folder;
 
 use crate::image_container::folder::{
-    get_sibling_archives, get_sibling_folders, list_images_in_folder,
+    get_sibling_archives, get_sibling_folders, FolderImageContainer,
 };
 use std::path::PathBuf;
 
@@ -23,19 +23,17 @@ impl From<std::io::Error> for CommandError {
     }
 }
 
-// TODO: コンテナの持つべきインターフェースをtraitとして定義する
-// TODO: 機能自体の実装後に、各構造体に共通のインターフェースを定義することで、実装の詳細とインターフェースの知識を分離する
-// pub trait ImageContainer {
-//     ///
-//     /// Returns a list of image file paths contained within the container.
-//     ///
-//     fn list_images(&self) -> Result<Vec<String>, CommandError>;
+pub trait ImageContainer {
+    ///
+    /// Returns a list of image file paths contained within the container.
+    ///
+    fn list_images(&self) -> Result<Vec<String>, CommandError>;
 
-//     ///
-//     /// Returns the path to the thumbnail image for the container.
-//     ///
-//     fn get_thumbnail(&self) -> Result<String, CommandError>;
-// }
+    ///
+    /// Returns the path to the first image for the container.
+    ///
+    fn get_first_image(&self) -> Result<Option<String>, CommandError>;
+}
 
 pub fn list_images_in_container<P: AsRef<std::path::Path>>(
     container_path: P,
@@ -61,7 +59,8 @@ fn open_container<P: AsRef<std::path::Path>>(
     }
 
     if container_path.is_dir() {
-        return list_images_in_folder(container_path.to_string_lossy().to_string());
+        let folder_container = FolderImageContainer::new(container_path)?;
+        return folder_container.list_images();
     }
 
     let archive_container = archive::ArchiveImageContainer::new(
