@@ -85,11 +85,16 @@ fn list_images_in_folder<P: AsRef<std::path::Path>>(
 /// let siblings = get_sibling_folders("/path/to/current/folder".to_string());
 /// // siblings: Ok(["/path/to/current/folder/../sibling1", "/path/to/current/folder/../sibling2"])
 /// ```
-pub fn get_sibling_folders(folder_path: String) -> Result<Vec<String>, CommandError> {
+pub fn get_sibling_folders<P: AsRef<std::path::Path>>(
+    folder_path: P,
+) -> Result<Vec<String>, CommandError> {
+    let folder_path = folder_path.as_ref();
     let current = PathBuf::from(&folder_path);
 
     if !current.exists() {
-        return Err(CommandError::PathNotFound(folder_path));
+        return Err(CommandError::PathNotFound(
+            folder_path.to_string_lossy().to_string(),
+        ));
     }
 
     let parent = current.parent().ok_or(CommandError::NoParent)?;
@@ -115,10 +120,15 @@ pub fn get_sibling_folders(folder_path: String) -> Result<Vec<String>, CommandEr
 /// INFO: get_sibling_foldersと同様に、get_sibling_archivesもImageContainerとは独立させる必要がある。
 /// INFO: コンテナ実装が変わっても、隣接するコンテナの取得方法は変わらないため、トレイトに定義すると冗長になってしまう。
 ///
-pub fn get_sibling_archives(container_path: String) -> Result<Vec<String>, CommandError> {
+pub fn get_sibling_archives<P: AsRef<std::path::Path>>(
+    container_path: P,
+) -> Result<Vec<String>, CommandError> {
+    let container_path = container_path.as_ref();
     let current = PathBuf::from(&container_path);
     if !current.exists() {
-        return Err(CommandError::PathNotFound(container_path));
+        return Err(CommandError::PathNotFound(
+            container_path.to_string_lossy().to_string(),
+        ));
     }
 
     current.parent().ok_or(CommandError::NoParent)?;
@@ -171,7 +181,7 @@ mod test {
 
     #[test]
     fn test_get_sibling_folders_not_found() {
-        let result = get_sibling_folders("non_existent_path_for_siblings".to_string());
+        let result = get_sibling_folders("non_existent_path_for_siblings");
         assert!(matches!(result, Err(CommandError::PathNotFound(_))));
     }
 }
