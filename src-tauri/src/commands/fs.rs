@@ -1,6 +1,6 @@
 use core_logic::CommandError;
 use core_logic::{
-    get_sibling_folders as core_get_sibling_containers,
+    get_sibling_containers as core_get_sibling_containers,
     list_images_in_folder as core_list_images_in_folder,
 };
 use tauri::command;
