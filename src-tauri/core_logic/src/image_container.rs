@@ -1,8 +1,10 @@
 pub mod archive;
 pub mod folder;
+pub mod reader_config;
 
-use crate::image_container::folder::{
-    get_sibling_archives, get_sibling_folders, FolderImageContainer,
+use crate::image_container::{
+    folder::{get_sibling_archives, get_sibling_folders, FolderImageContainer},
+    reader_config::ImageContainerReaderConfig,
 };
 use std::path::PathBuf;
 
@@ -35,39 +37,57 @@ pub trait ImageContainer {
     fn get_first_image(&self) -> Result<Option<String>, CommandError>;
 }
 
-pub fn list_images_in_container<P: AsRef<std::path::Path>>(
-    container_path: P,
-    extract_dir: P,
-) -> Result<Vec<String>, CommandError> {
-    // let path = PathBuf::from(&container_path);
-    let container_path = container_path.as_ref();
-    let extract_dir = extract_dir.as_ref();
-
-    open_container(container_path, extract_dir)
+///
+/// `ImageContainer`を外部から利用するための構造体。
+/// 外部から利用する際、`ImageContainerReaderConfig`を渡して、コンテナの種類に関係なく画像をリストアップすることができます。
+///
+pub struct ImageContainerReader {
+    config: ImageContainerReaderConfig,
 }
 
-fn open_container<P: AsRef<std::path::Path>>(
-    container_path: P,
-    extract_dir: P,
-) -> Result<Vec<String>, CommandError> {
-    let container_path = container_path.as_ref();
-
-    if !container_path.exists() {
-        return Err(CommandError::PathNotFound(
-            container_path.to_string_lossy().to_string(),
-        ));
+impl ImageContainerReader {
+    pub fn new(config: ImageContainerReaderConfig) -> Self {
+        ImageContainerReader { config }
     }
 
-    if container_path.is_dir() {
-        let folder_container = FolderImageContainer::new(container_path)?;
-        return folder_container.list_images();
+    pub fn list_images_in_container<P: AsRef<std::path::Path>>(
+        &self,
+        container_path: P,
+    ) -> Result<Vec<String>, CommandError> {
+        self._list_images_in_container(container_path.as_ref())
     }
 
-    let archive_container = archive::ArchiveImageContainer::new(
-        container_path,
-        archive::ArchiveImageContainerConfig::new(extract_dir),
-    )?;
-    archive_container.list_images_in_archive()
+    fn _list_images_in_container<P: AsRef<std::path::Path>>(
+        &self,
+        container_path: P,
+    ) -> Result<Vec<String>, CommandError> {
+        // let path = PathBuf::from(&container_path);
+        let container_path = container_path.as_ref();
+
+        self.open_container(container_path)
+    }
+
+    fn open_container<P: AsRef<std::path::Path>>(
+        &self,
+        container_path: P,
+    ) -> Result<Vec<String>, CommandError> {
+        let container_path = container_path.as_ref();
+
+        if !container_path.exists() {
+            return Err(CommandError::PathNotFound(
+                container_path.to_string_lossy().to_string(),
+            ));
+        }
+
+        if container_path.is_dir() {
+            let folder_container = FolderImageContainer::new(container_path)?;
+            return folder_container.list_images();
+        }
+
+        let archive_container =
+            archive::ArchiveImageContainer::new(container_path, self.config.clone())?;
+        archive_container.list_images_in_archive()
+    }
 }
 
 ///
@@ -78,16 +98,21 @@ fn open_container<P: AsRef<std::path::Path>>(
 ///
 /// ***コンテナ***とは、フォルダに加えて圧縮ファイルを含みます。
 ///
-pub fn get_sibling_containers(container_path: String) -> Result<Vec<String>, CommandError> {
+pub fn get_sibling_containers<P: AsRef<std::path::Path>>(
+    container_path: P,
+) -> Result<Vec<String>, CommandError> {
+    let container_path = container_path.as_ref();
+    let container_path_str = container_path.to_string_lossy().to_string();
+
     let current = PathBuf::from(&container_path);
     if !current.exists() {
-        return Err(CommandError::PathNotFound(container_path));
+        return Err(CommandError::PathNotFound(container_path_str));
     }
 
     current.parent().ok_or(CommandError::NoParent)?;
 
-    let folders = get_sibling_folders(container_path.to_string())?;
-    let archives = get_sibling_archives(container_path.to_string())?;
+    let folders = get_sibling_folders(container_path)?;
+    let archives = get_sibling_archives(container_path)?;
 
     let mut containers = folders;
     containers.extend(archives);
@@ -107,13 +132,19 @@ mod tests {
 
         #[test]
         fn returns_images_in_folder() {
+            // Arrange
             let temp_dir = TempTestDir::new("test_list_images_success");
             File::create(temp_dir.path().join("image1.jpg")).unwrap();
             File::create(temp_dir.path().join("image2.PNG")).unwrap(); // Uppercase extension
             File::create(temp_dir.path().join("document.txt")).unwrap();
+            let reader =
+                ImageContainerReader::new(ImageContainerReaderConfig::new(temp_dir.path()));
 
-            let images = list_images_in_container(temp_dir.path(), temp_dir.path()).unwrap();
+            // Act
+            // let images = list_images_in_container(temp_dir.path(), temp_dir.path()).unwrap();
+            let images = reader.list_images_in_container(temp_dir.path()).unwrap();
 
+            // Assert
             assert_eq!(images.len(), 2);
             assert!(images.iter().any(|p| p.ends_with("image1.jpg")));
             assert!(images.iter().any(|p| p.ends_with("image2.PNG")));
@@ -121,10 +152,15 @@ mod tests {
 
         #[test]
         fn returns_error_when_folder_not_found() {
-            let result = list_images_in_container(
+            // Arrange
+            let reader = ImageContainerReader::new(ImageContainerReaderConfig::new(
                 "non_existent_path_for_images",
-                "non_existent_path_for_images",
-            );
+            ));
+
+            // Act
+            let result = reader.list_images_in_container("non_existent_path_for_images");
+
+            // Assert
             assert!(matches!(result, Err(CommandError::PathNotFound(_))));
         }
     }
