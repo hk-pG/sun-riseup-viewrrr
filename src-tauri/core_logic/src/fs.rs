@@ -37,6 +37,17 @@ pub fn list_images_in_folder(folder_path: String) -> Result<Vec<String>, Command
     Ok(images)
 }
 
+///
+/// 指定されたパスの兄弟コンテナ（フォルダやアーカイブ）を取得します。
+///
+pub fn get_sibling_containers<P: AsRef<std::path::Path>>(
+    container_path: P,
+) -> Result<Vec<String>, CommandError> {
+    let container_path = container_path.as_ref();
+
+    crate::image_container::get_sibling_containers(container_path)
+}
+
 /// `get_sibling_folders` コマンドは、指定されたパスの兄弟フォルダを取得します。
 /// 自分自身のフォルダは除外されます。
 ///
