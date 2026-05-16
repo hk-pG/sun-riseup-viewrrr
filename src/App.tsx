@@ -1,7 +1,8 @@
-import { useState, useTransition } from 'react';
-import './App.css';
+import { info, error as tauriErrorLog } from '@tauri-apps/plugin-log';
 import { LucideAlertTriangle } from 'lucide-react';
+import { useEffect, useState, useTransition } from 'react';
 import { toast } from 'sonner';
+import './App.css';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import { useTheme } from './components/theme-provider';
 import { Toaster } from './components/ui/sonner';
@@ -44,13 +45,21 @@ function App({ initialState }: { initialState?: Partial<AppState> }) {
   // サイドバーの表示のために同階層のフォルダ情報を取得
   const { entries, error } = useSiblingFolders(appState.currentFolderPath);
 
-  if (error) {
-    toast.error('Error Occurred', {
-      description: `${error.message}`,
-      icon: <LucideAlertTriangle color="red" />,
-      closeButton: true,
-    });
-  }
+  useEffect(() => {
+    if (error) {
+      toast.error('Error Occurred', {
+        description: `${error.message}`,
+        icon: <LucideAlertTriangle color="red" />,
+        closeButton: true,
+      });
+      info('Failed to load sibling folders', {
+        file: 'App.tsx',
+      }).catch((e) => console.error('[plugin-log] info failed:', e));
+      tauriErrorLog(error.message).catch((e) =>
+        console.error('[plugin-log] error failed:', e),
+      );
+    }
+  }, [error]);
 
   const folderInfo: FolderInfo[] = entries.map((entry) => ({
     ...entry,

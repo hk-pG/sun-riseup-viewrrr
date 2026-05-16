@@ -53,6 +53,11 @@
             "store:allow-load",
             "store:default"
           ]
+        },
+        {
+          "identifier": "log-access",
+          "windows": ["*"],
+          "permissions": ["log:allow-log"]
         }
       ]
     }
