@@ -1,4 +1,3 @@
-import { info, error as tauriErrorLog } from '@tauri-apps/plugin-log';
 import { LucideAlertTriangle } from 'lucide-react';
 import { useEffect, useState, useTransition } from 'react';
 import { toast } from 'sonner';
@@ -15,6 +14,7 @@ import {
 } from './features/folder-navigation';
 import { ImageViewer } from './features/image-viewer';
 import { useServices } from './shared/context/ServiceContext';
+import { logger } from './shared/utils/logger';
 
 // App state interface for better type safety
 export interface AppState {
@@ -52,12 +52,7 @@ function App({ initialState }: { initialState?: Partial<AppState> }) {
         icon: <LucideAlertTriangle color="red" />,
         closeButton: true,
       });
-      info('Failed to load sibling folders', {
-        file: 'App.tsx',
-      }).catch((e) => console.error('[plugin-log] info failed:', e));
-      tauriErrorLog(error.message).catch((e) =>
-        console.error('[plugin-log] error failed:', e),
-      );
+      logger.error(error.message);
     }
   }, [error]);
 
