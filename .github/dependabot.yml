@@ -1,0 +1,48 @@
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly" # 毎週月曜に確認
+      day: "monday"
+    target-branch: "feature/core" # PRの向き先をfeature/coreに
+    open-pull-requests-limit: 5 # 同時PR数を制限
+    groups:
+      radix-ui:
+        patterns:
+          - "@radix-ui/*"
+      tauri:
+        patterns:
+          - "@tauri-apps/*"
+      storybook:
+        patterns:
+          - "@storybook/*"
+          - "storybook"
+          - "@chromatic-com/*"
+      vitest:
+        patterns:
+          - "vitest"
+          - "@vitest/*"
+      tailwindcss:
+        patterns:
+          - "tailwindcss"
+          - "@tailwindcss/*"
+          - "tailwind-merge"
+          - "tailwindcss-animate"
+          - "tw-animate-css"
+    ignore:
+      # メジャー更新は自動PRしない
+      - dependency-name: "typescript"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "vite"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "vitest"
+        update-types: ["version-update:semver-major"]
+
+  - package-ecosystem: "cargo"
+    directory: "/src-tauri"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    target-branch: "feature/core"
+    open-pull-requests-limit: 3
