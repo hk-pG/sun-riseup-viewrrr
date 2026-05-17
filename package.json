@@ -27,8 +27,8 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
-    "@radix-ui/react-menubar": "^1.1.15",
-    "@radix-ui/react-slot": "^1.2.3",
+    "@radix-ui/react-menubar": "^1.1.16",
+    "@radix-ui/react-slot": "^1.2.4",
     "@radix-ui/react-tooltip": "^1.2.8",
     "@shadcn/ui": "^0.0.4",
     "@tailwindcss/vite": "^4.3.0",
