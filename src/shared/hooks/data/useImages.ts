@@ -28,6 +28,7 @@ export const useImages = (folderPath?: string | null) => {
       // React 19 concurrent features対応
       suspense: false,
       keepPreviousData: true,
+      errorRetryCount: 0,
       onError: (err) => {
         console.dir(err);
         logger.error(`${err}`, {
