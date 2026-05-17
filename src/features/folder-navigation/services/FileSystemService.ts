@@ -17,11 +17,12 @@ export interface FileSystemService {
   listImagesInFolder(folderPath: string): Promise<string[]>;
 
   /**
-   * 指定されたフォルダと同じ階層にあるフォルダのリストを取得する
-   * @param currentFolderPath 現在のフォルダのパス
-   * @return {Promise<string[]>} 同じ階層にあるフォルダのパスの配列
+   * 指定されたコンテナと同じ階層にあるコンテナのリストを取得する。
+   * **コンテナ**は、フォルダに加えてアーカイブを含む。
+   * @param currentContainerPath 現在のコンテナパス
+   * @returns {Promise<string[]>} 同じ階層にあるコンテナのパス配列
    */
-  getSiblingFolders(currentFolderPath: string): Promise<string[]>;
+  getSiblingContainers(currentContainerPath: string): Promise<string[]>;
 
   /**
    * ファイルのパスをリソースURLに変換する
@@ -29,13 +30,6 @@ export interface FileSystemService {
    * @return {string} リソースURL
    */
   convertFileSrc(filePath: string): string;
-
-  /**
-   * サムネイルキャッシュをクリアする（デバッグ用）
-   * @returns {Promise<void>}
-   * @throws {Error} キャッシュクリア中にエラーが発生した場合
-   */
-  clearThumbnailCache?(): Promise<void>;
 
   /**
    * フォルダのサムネイル（代表画像）を取得する

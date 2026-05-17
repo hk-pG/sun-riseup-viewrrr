@@ -1,7 +1,7 @@
 use std::fs;
 use std::path::PathBuf;
 
-use crate::error::CommandError;
+use crate::CommandError;
 
 /// Lists all image files in a specified folder.
 ///
@@ -35,6 +35,17 @@ pub fn list_images_in_folder(folder_path: String) -> Result<Vec<String>, Command
         .collect();
 
     Ok(images)
+}
+
+///
+/// 指定されたパスの兄弟コンテナ（フォルダやアーカイブ）を取得します。
+///
+pub fn get_sibling_containers<P: AsRef<std::path::Path>>(
+    container_path: P,
+) -> Result<Vec<String>, CommandError> {
+    let container_path = container_path.as_ref();
+
+    crate::image_container::get_sibling_containers(container_path)
 }
 
 /// `get_sibling_folders` コマンドは、指定されたパスの兄弟フォルダを取得します。
@@ -75,8 +86,10 @@ pub fn get_sibling_folders(folder_path: String) -> Result<Vec<String>, CommandEr
 
 #[cfg(test)]
 mod tests {
-    use super::*;
     use crate::test_helper::test_helpers::TempTestDir;
+
+    use super::*;
+
     use std::fs::{create_dir_all, File};
 
     #[test]

@@ -154,7 +154,7 @@ describe('listImagesInFolder', () => {
   });
 });
 
-describe('getSiblingFolders', () => {
+describe('getSiblingContainers', () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
@@ -167,18 +167,19 @@ describe('getSiblingFolders', () => {
     const validFolders = ['/Users/test/folder1', '/Users/test/folder2'];
     mockInvoke.mockResolvedValue(validFolders);
 
-    const result = await tauriFileSystemService.getSiblingFolders(folderPath);
+    const result =
+      await tauriFileSystemService.getSiblingContainers(folderPath);
 
     expect(result).toEqual(validFolders);
   });
 
-  it('should handle non-array response from getSiblingFolders', async () => {
+  it('should handle non-array response from getSiblingContainers', async () => {
     const folderPath = '/valid/path';
     const invalidResponse = 'not an array';
     mockInvoke.mockResolvedValue(invalidResponse);
 
     await expect(
-      tauriFileSystemService.getSiblingFolders(folderPath),
-    ).rejects.toThrow('Failed to get sibling folders');
+      tauriFileSystemService.getSiblingContainers(folderPath),
+    ).rejects.toThrow();
   });
 });

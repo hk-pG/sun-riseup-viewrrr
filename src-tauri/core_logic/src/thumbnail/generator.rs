@@ -2,7 +2,7 @@
 
 use crate::thumbnail::config::ThumbnailConfig;
 use crate::thumbnail::error::{Result, ThumbnailError};
-use crate::thumbnail::utils::hash_path;
+use crate::utils::hash_path;
 use image::imageops::FilterType;
 use image::{GenericImageView, ImageFormat};
 use std::path::{Path, PathBuf};
@@ -67,7 +67,7 @@ impl ThumbnailGenerator {
 
     /// サムネイルのキャッシュパスを計算
     fn get_thumbnail_cache_path(&self, image_path: &str) -> PathBuf {
-        let hash = hash_path(image_path);
+        let hash = hash_path(&image_path);
         let cache_file = format!("{}.jpg", hash);
         self.cache_dir.join(cache_file)
     }

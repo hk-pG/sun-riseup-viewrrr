@@ -34,7 +34,7 @@ describe('createActionRegistry', () => {
     vi.mocked(deps.fss.openDirectoryDialog).mockResolvedValue('/test');
 
     const registry = createActionRegistry(deps);
-    const result = await registry.get('open-folder')!();
+    const result = await registry.get('open-folder')?.();
 
     expect(deps.fss.openDirectoryDialog).toHaveBeenCalledOnce();
     expect(result).toEqual({
@@ -48,7 +48,7 @@ describe('createActionRegistry', () => {
     const deps = createMockDeps({ currentTheme: 'light' });
 
     const registry = createActionRegistry(deps);
-    const result = await registry.get('toggle-theme')!();
+    const result = await registry.get('toggle-theme')?.();
 
     expect(result).toEqual({
       type: 'theme-toggled',
@@ -60,7 +60,7 @@ describe('createActionRegistry', () => {
     const deps = createMockDeps();
 
     const registry = createActionRegistry(deps);
-    const result = await registry.get('open-folder')!();
+    const result = await registry.get('open-folder')?.();
 
     expect(result).toBeNull();
   });

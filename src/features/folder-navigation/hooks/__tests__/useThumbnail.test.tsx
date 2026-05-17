@@ -2,6 +2,7 @@ import { renderHook, waitFor } from '@testing-library/react';
 import type { ReactNode } from 'react';
 import { SWRConfig } from 'swr';
 import { describe, expect, it, vi } from 'vitest';
+import { createMockFileSystemService } from '@/test/mocks';
 import { ServicesProvider } from '../../../../shared/context/ServiceContext';
 import type { FileSystemService } from '../../services/FileSystemService';
 import { useThumbnail } from '../useThumbnail';
@@ -11,7 +12,7 @@ import { useThumbnail } from '../useThumbnail';
 /**
  * SWRキャッシュ分離 + ServiceContext を提供するラッパー
  */
-function createWrapper(service: Partial<FileSystemService>) {
+function createWrapper(service: FileSystemService) {
   return function Wrapper({ children }: { children: ReactNode }) {
     return (
       <SWRConfig value={{ provider: () => new Map() }}>
@@ -28,7 +29,7 @@ function createWrapper(service: Partial<FileSystemService>) {
 describe('useThumbnail', () => {
   // テスト1: 新API(getFolderThumbnail)経由でサムネイル取得
   it('新APIが利用可能な場合、getFolderThumbnailで1回のIPCでサムネイルを取得する', async () => {
-    const mockService: Partial<FileSystemService> = {
+    const mockService = createMockFileSystemService({
       getFolderThumbnail: vi.fn().mockResolvedValue({
         imagePath: '/photos/folder1/image1.jpg',
         thumbnailPath: '/cache/thumbnails/abc123.jpg',
@@ -36,7 +37,7 @@ describe('useThumbnail', () => {
       }),
       listImagesInFolder: vi.fn(),
       convertFileSrc: (path: string) => `asset://${path}`,
-    };
+    });
 
     const { result } = renderHook(() => useThumbnail('/photos/folder1'), {
       wrapper: createWrapper(mockService),
@@ -60,10 +61,10 @@ describe('useThumbnail', () => {
 
   // テスト2: 画像なしフォルダ
   it('画像がないフォルダの場合、nullを返す', async () => {
-    const mockService: Partial<FileSystemService> = {
+    const mockService = createMockFileSystemService({
       getFolderThumbnail: vi.fn().mockResolvedValue(null),
       convertFileSrc: (path: string) => `asset://${path}`,
-    };
+    });
 
     const { result } = renderHook(() => useThumbnail('/photos/empty-folder'), {
       wrapper: createWrapper(mockService),
@@ -78,12 +79,12 @@ describe('useThumbnail', () => {
 
   // テスト4: ローディング状態
   it('サムネイル取得中はisLoadingがtrueを返す', () => {
-    const mockService: Partial<FileSystemService> = {
+    const mockService = createMockFileSystemService({
       getFolderThumbnail: vi.fn().mockImplementation(
         () => new Promise(() => {}), // 永遠にpending
       ),
       convertFileSrc: (path: string) => `asset://${path}`,
-    };
+    });
 
     const { result } = renderHook(() => useThumbnail('/photos/folder1'), {
       wrapper: createWrapper(mockService),

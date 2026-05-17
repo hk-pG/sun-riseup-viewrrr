@@ -20,9 +20,8 @@ const createMockFileSystemService = (): FileSystemService => ({
     const images = mockImageSourcesByFolderPath[_folderPath] || [];
     return images.map((img) => img.assetUrl);
   },
-  // getSiblingFolders: async () => ['/mock/folder1', '/mock/folder2'],
 
-  getSiblingFolders: async () => {
+  getSiblingContainers: async () => {
     return getMockImageFolders().map((folder) => folder.path);
   },
   convertFileSrc: (filePath: string) => filePath,
@@ -136,8 +135,6 @@ const createRichMockFileSystemService = (): FileSystemService => {
   const base = createMockFileSystemService();
   return {
     ...base,
-    getSiblingFolders: async (currentPath: string) =>
-      richFolders.map((f) => f.path).filter((path) => path !== currentPath),
     getBaseName: async (filePath: string) => {
       return folderNameMap[filePath] || filePath.split('/').pop() || '';
     },

@@ -1,19 +1,10 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import type { FolderEntry } from '../../hooks/useSiblingFolders';
-import type { FileSystemService } from '../FileSystemService';
-import { getSiblingFolderEntries } from '../getSiblingFolders';
+import { createMockFileSystemService } from '@/test/mocks';
+import type { FolderEntry } from '../../hooks/useSiblingContainers';
+import { getSiblingContainerEntries } from '../getSiblingContainers';
 
 // Mock FileSystemService
-const mockFileSystemService: FileSystemService = {
-  openDirectoryDialog: vi.fn(),
-  listImagesInFolder: vi.fn(),
-  getSiblingFolders: vi.fn(),
-  convertFileSrc: vi.fn(),
-  getBaseName: vi.fn(),
-  getDirName: vi.fn(),
-  getFolderThumbnail: vi.fn().mockResolvedValue(null),
-  prefetchFolderThumbnails: vi.fn().mockResolvedValue(undefined),
-};
+const mockFileSystemService = createMockFileSystemService();
 
 describe('getSiblingFolderEntries', () => {
   beforeEach(() => {
@@ -21,17 +12,17 @@ describe('getSiblingFolderEntries', () => {
   });
 
   it('should return empty array when currentFolderPath is empty', async () => {
-    const result = await getSiblingFolderEntries('', mockFileSystemService);
+    const result = await getSiblingContainerEntries('', mockFileSystemService);
 
     expect(result).toEqual([]);
-    expect(mockFileSystemService.getSiblingFolders).not.toHaveBeenCalled();
+    expect(mockFileSystemService.getSiblingContainers).not.toHaveBeenCalled();
   });
 
   it('should include current folder in results and sort them', async () => {
     const currentPath = '/path/to/current';
     const siblingPaths = ['/path/to/zebra', '/path/to/apple'];
 
-    mockFileSystemService.getSiblingFolders = vi
+    mockFileSystemService.getSiblingContainers = vi
       .fn()
       .mockResolvedValue(siblingPaths);
     mockFileSystemService.getBaseName = vi
@@ -43,7 +34,7 @@ describe('getSiblingFolderEntries', () => {
         return '';
       });
 
-    const result = await getSiblingFolderEntries(
+    const result = await getSiblingContainerEntries(
       currentPath,
       mockFileSystemService,
     );
@@ -63,7 +54,7 @@ describe('getSiblingFolderEntries', () => {
     const reverseSortFn = (a: FolderEntry, b: FolderEntry) =>
       b.name.localeCompare(a.name);
 
-    mockFileSystemService.getSiblingFolders = vi
+    mockFileSystemService.getSiblingContainers = vi
       .fn()
       .mockResolvedValue(siblingPaths);
     mockFileSystemService.getBaseName = vi
@@ -75,7 +66,7 @@ describe('getSiblingFolderEntries', () => {
         return '';
       });
 
-    const result = await getSiblingFolderEntries(
+    const result = await getSiblingContainerEntries(
       currentPath,
       mockFileSystemService,
       reverseSortFn,
@@ -91,7 +82,7 @@ describe('getSiblingFolderEntries', () => {
   it('should return only current folder when no siblings exist', async () => {
     const currentPath = '/path/to/current';
 
-    mockFileSystemService.getSiblingFolders = vi.fn().mockResolvedValue([]);
+    mockFileSystemService.getSiblingContainers = vi.fn().mockResolvedValue([]);
     mockFileSystemService.getBaseName = vi
       .fn()
       .mockImplementation(async (path) => {
@@ -99,7 +90,7 @@ describe('getSiblingFolderEntries', () => {
         return '';
       });
 
-    const result = await getSiblingFolderEntries(
+    const result = await getSiblingContainerEntries(
       currentPath,
       mockFileSystemService,
     );
@@ -115,7 +106,7 @@ describe('getSiblingFolderEntries', () => {
       .spyOn(console, 'error')
       .mockImplementation(() => {});
 
-    mockFileSystemService.getSiblingFolders = vi
+    mockFileSystemService.getSiblingContainers = vi
       .fn()
       .mockResolvedValue(siblingPaths);
     mockFileSystemService.getBaseName = vi
@@ -128,7 +119,7 @@ describe('getSiblingFolderEntries', () => {
         return '';
       });
 
-    const result = await getSiblingFolderEntries(
+    const result = await getSiblingContainerEntries(
       currentPath,
       mockFileSystemService,
     );
@@ -145,17 +136,17 @@ describe('getSiblingFolderEntries', () => {
     consoleErrorSpy.mockRestore();
   });
 
-  it('should propagate error when getSiblingFolders fails', async () => {
+  it('should propagate error when getSiblingContainers fails', async () => {
     const currentPath = '/path/to/current';
 
-    mockFileSystemService.getSiblingFolders = vi
+    mockFileSystemService.getSiblingContainers = vi
       .fn()
       .mockRejectedValue(
         new Error('Failed to get sibling folders for "/path/to/current"'),
       );
 
     await expect(
-      getSiblingFolderEntries(currentPath, mockFileSystemService),
+      getSiblingContainerEntries(currentPath, mockFileSystemService),
     ).rejects.toThrow('Failed to get sibling folders');
   });
 
@@ -163,7 +154,7 @@ describe('getSiblingFolderEntries', () => {
     const currentPath = '/path/to/current';
     const siblingPaths = ['/path/to/apple', '/path/to/invalid'];
 
-    mockFileSystemService.getSiblingFolders = vi
+    mockFileSystemService.getSiblingContainers = vi
       .fn()
       .mockResolvedValue(siblingPaths);
     mockFileSystemService.getBaseName = vi
@@ -177,7 +168,7 @@ describe('getSiblingFolderEntries', () => {
 
     // Promise.all がrejectし、エラーが伝播される
     await expect(
-      getSiblingFolderEntries(currentPath, mockFileSystemService),
+      getSiblingContainerEntries(currentPath, mockFileSystemService),
     ).rejects.toThrow();
   });
 
@@ -185,7 +176,7 @@ describe('getSiblingFolderEntries', () => {
     const currentPath = '/path/to/folder5';
     const siblingPaths = ['/path/to/folder10', '/path/to/folder2'];
 
-    mockFileSystemService.getSiblingFolders = vi
+    mockFileSystemService.getSiblingContainers = vi
       .fn()
       .mockResolvedValue(siblingPaths);
     mockFileSystemService.getBaseName = vi
@@ -197,7 +188,7 @@ describe('getSiblingFolderEntries', () => {
         return '';
       });
 
-    const result = await getSiblingFolderEntries(
+    const result = await getSiblingContainerEntries(
       currentPath,
       mockFileSystemService,
     );

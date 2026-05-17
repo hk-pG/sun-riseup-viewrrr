@@ -2,7 +2,7 @@ import { type FolderSortFunction, naturalFolderSort } from '../../../shared';
 import {
   createFolderEntry,
   type FolderEntry,
-} from '../hooks/useSiblingFolders';
+} from '../hooks/useSiblingContainers';
 import type { FileSystemService } from './FileSystemService';
 
 /**
@@ -18,7 +18,7 @@ import type { FileSystemService } from './FileSystemService';
  * - 取得や変換でエラーが発生した場合は呼び出し元に伝播させる
  * - 現在のフォルダの作成に失敗した場合でも、兄弟フォルダは返す
  */
-export async function getSiblingFolderEntries(
+export async function getSiblingContainerEntries(
   currentFolderPath: string,
   fs: FileSystemService,
   sortFn: FolderSortFunction = naturalFolderSort,
@@ -29,7 +29,7 @@ export async function getSiblingFolderEntries(
   }
 
   // エラーは呼び出し元に伝播させる（外側のtry-catchを削除）
-  const paths = await fs.getSiblingFolders(currentFolderPath);
+  const paths = await fs.getSiblingContainers(currentFolderPath);
 
   // 各フォルダパスからベース名を取得し、FolderEntry配列を生成
   const entries: FolderEntry[] = await Promise.all(

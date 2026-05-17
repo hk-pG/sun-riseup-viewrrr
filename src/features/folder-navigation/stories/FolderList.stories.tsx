@@ -37,7 +37,7 @@ const createMockFileSystemService = (): FileSystemService => ({
   listImagesInFolder: (_folderPath: string): Promise<string[]> => {
     throw new Error('Function not implemented.');
   },
-  getSiblingFolders: (_currentFolderPath: string): Promise<string[]> => {
+  getSiblingContainers: (_currentContainerPath: string): Promise<string[]> => {
     throw new Error('Function not implemented.');
   },
   convertFileSrc: (_filePath: string): string => {

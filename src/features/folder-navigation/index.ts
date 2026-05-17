@@ -11,13 +11,13 @@ export { LocalFolderContainer } from './containers/LocalFolderContainer';
 // Hooks
 export { useFolderListPagination } from './hooks/useFolderListPagination';
 export { useOpenImageFile } from './hooks/useOpenImageFile';
-export type { FolderEntry } from './hooks/useSiblingFolders';
-export { useSiblingFolders } from './hooks/useSiblingFolders';
+export type { FolderEntry } from './hooks/useSiblingContainers';
+export { useSiblingContainers as useSiblingFolders } from './hooks/useSiblingContainers';
 export { useThumbnail } from './hooks/useThumbnail';
 export { useThumbnailPrefetch } from './hooks/useThumbnailPrefetch';
 // Services
 export type { FileSystemService } from './services/FileSystemService';
-export { getSiblingFolderEntries } from './services/getSiblingFolders';
+export { getSiblingContainerEntries } from './services/getSiblingContainers';
 
 // Types
 export type {

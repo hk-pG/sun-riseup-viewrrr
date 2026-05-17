@@ -72,29 +72,21 @@ export const tauriFileSystemService: FileSystemService = {
     }
   },
 
-  getSiblingFolders: async (folderPath: string): Promise<string[]> => {
+  getSiblingContainers: async (containerPath: string): Promise<string[]> => {
     try {
-      const folders = await invoke<string[]>('get_sibling_folders', {
-        folderPath,
+      const containers = await invoke<string[]>('get_sibling_containers', {
+        containerPath,
       });
-      if (!isStringArray(folders)) {
+      if (!isStringArray(containers)) {
         throw new Error(
-          `Invalid response from getSiblingFolders: expected string array, got ${typeof folders}`,
+          `Invalid response from getSiblingContainers: expected string array, got ${typeof containers}`,
         );
       }
-      return folders;
+      return containers;
     } catch (error) {
       throw new Error(
-        `Failed to get sibling folders for "${folderPath}": ${error instanceof Error ? error.message : String(error)}`,
+        `Failed to get sibling containers for "${containerPath}": ${error instanceof Error ? error.message : String(error)}`,
       );
-    }
-  },
-
-  clearThumbnailCache: async (): Promise<void> => {
-    try {
-      await invoke('clear_thumbnail_cache');
-    } catch (error) {
-      throw new Error(`Failed to clear thumbnail cache: ${error}`);
     }
   },
 

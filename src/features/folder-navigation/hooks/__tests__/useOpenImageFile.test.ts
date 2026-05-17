@@ -1,28 +1,21 @@
 import { renderHook } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
+import { createMockFileSystemService } from '@/test/mocks';
 import { useOpenImageFile } from '../useOpenImageFile';
-
-const mockFs = {
-  openDirectoryDialog: vi.fn(),
-  openImageFileDialog: vi.fn(),
-  getBaseName: vi.fn(),
-  getDirName: vi.fn(),
-  listImagesInFolder: vi.fn(),
-  getSiblingFolders: vi.fn(),
-  convertFileSrc: vi.fn(),
-  getFolderThumbnail: vi.fn().mockResolvedValue(null),
-  prefetchFolderThumbnails: vi.fn().mockResolvedValue(undefined),
-};
 
 describe('useOpenImageFile', () => {
   it('画像ファイルを選択したとき、そのファイルのあるディレクトリを開き、インデックスを合わせる', async () => {
-    mockFs.openImageFileDialog.mockResolvedValue('/foo/bar/image2.png');
-    mockFs.getDirName.mockResolvedValue('/foo/bar');
-    mockFs.listImagesInFolder.mockResolvedValue([
-      '/foo/bar/image1.png',
-      '/foo/bar/image2.png',
-      '/foo/bar/image3.png',
-    ]);
+    const mockFs = createMockFileSystemService({
+      openImageFileDialog: vi.fn().mockResolvedValue('/foo/bar/image2.png'),
+      getDirName: vi.fn().mockResolvedValue('/foo/bar'),
+      listImagesInFolder: vi
+        .fn()
+        .mockResolvedValue([
+          '/foo/bar/image1.png',
+          '/foo/bar/image2.png',
+          '/foo/bar/image3.png',
+        ]),
+    });
     const { result } = renderHook(() => useOpenImageFile(mockFs));
     const res = await result.current.openImageFile();
     expect(res).toEqual({
@@ -33,16 +26,20 @@ describe('useOpenImageFile', () => {
   });
 
   it('非画像ファイルを選択した場合は何も起きない', async () => {
-    mockFs.openImageFileDialog.mockResolvedValue(null);
+    const mockFs = createMockFileSystemService({
+      openImageFileDialog: vi.fn().mockResolvedValue(null),
+    });
     const { result } = renderHook(() => useOpenImageFile(mockFs));
     const res = await result.current.openImageFile();
     expect(res).toBeNull();
   });
 
   it('画像リストが空の場合、インデックスは0', async () => {
-    mockFs.openImageFileDialog.mockResolvedValue('/foo/bar/image2.png');
-    mockFs.getDirName.mockResolvedValue('/foo/bar');
-    mockFs.listImagesInFolder.mockResolvedValue([]);
+    const mockFs = createMockFileSystemService({
+      openImageFileDialog: vi.fn().mockResolvedValue('/foo/bar/image2.png'),
+      getDirName: vi.fn().mockResolvedValue('/foo/bar'),
+      listImagesInFolder: vi.fn().mockResolvedValue([]),
+    });
     const { result } = renderHook(() => useOpenImageFile(mockFs));
     const res = await result.current.openImageFile();
     expect(res).toEqual({

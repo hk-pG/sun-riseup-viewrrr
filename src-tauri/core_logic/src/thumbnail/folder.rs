@@ -2,7 +2,7 @@
 
 use serde::Serialize;
 
-use crate::thumbnail::batch::TaskPriority;
+use crate::{list_images_in_folder, thumbnail::batch::TaskPriority};
 
 /// フォルダサムネイル取得結果
 #[derive(Debug, Clone, Serialize)]
@@ -30,7 +30,7 @@ pub fn assign_priority(index: usize) -> TaskPriority {
 /// フォルダ内の最初の画像ファイルパスを取得
 /// crate::fs::list_images_in_folder を内部で使用
 pub fn get_first_image_in_folder(folder_path: &str) -> Result<Option<String>, String> {
-    let images = crate::fs::list_images_in_folder(folder_path.to_string())
+    let images = list_images_in_folder(folder_path.to_string())
         .map_err(|e| format!("Failed to list images in '{}': {:?}", folder_path, e))?;
 
     Ok(images.into_iter().next())
