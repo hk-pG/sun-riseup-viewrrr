@@ -3,7 +3,7 @@ use core_logic::list_images_in_container as core_list_images_in_container;
 use core_logic::CommandError;
 use tauri::command;
 
-use crate::utils::get_cache_dir;
+use crate::utils::get_archive_cache_dir;
 
 /// Lists all image files in a specified container. (Wrapper for core logic)
 ///
@@ -14,7 +14,7 @@ pub async fn list_images_in_container(
     app_handle: tauri::AppHandle,
 ) -> Result<Vec<String>, CommandError> {
     tokio::task::spawn_blocking(move || {
-        core_list_images_in_container(container_path, get_cache_dir(&app_handle)?)
+        core_list_images_in_container(container_path, get_archive_cache_dir(&app_handle)?)
     })
     .await
     .map_err(|e| CommandError::Io(format!("Task join error: {}", e)))?
