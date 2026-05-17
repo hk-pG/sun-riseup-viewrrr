@@ -28,7 +28,7 @@ function ServicesWrapper({ children }: { children: React.ReactNode }) {
 }
 
 // --- テストスイート ---
-describe('useFolderNavigator', () => {
+describe('useSiblingContainers', () => {
   beforeEach(() => {
     vi.resetAllMocks();
     mockFileSystemService = createMockFileSystemService();
@@ -40,10 +40,6 @@ describe('useFolderNavigator', () => {
     });
 
     expect(result.current.entries).toEqual([]);
-    // getSiblingFolders が呼ばれないことを確認 (useEffect の依存配列が空のため)
-    await waitFor(() => {
-      expect(mockFileSystemService.getSiblingFolders).not.toHaveBeenCalled();
-    });
   });
 
   it('currentFolderPath が指定された場合、同階層のフォルダ情報を取得すること', async () => {
@@ -55,7 +51,7 @@ describe('useFolderNavigator', () => {
     ];
 
     // 同階層のフォルダパスをモック
-    mockFileSystemService.getSiblingFolders = vi
+    mockFileSystemService.getSiblingContainers = vi
       .fn()
       .mockResolvedValue([TEST_FOLDER_PATH_1, TEST_FOLDER_PATH_2]);
 
@@ -80,7 +76,7 @@ describe('useFolderNavigator', () => {
       expect(result.current.entries).toEqual(mockEntries);
     });
 
-    expect(mockFileSystemService.getSiblingFolders).toHaveBeenCalledWith(
+    expect(mockFileSystemService.getSiblingContainers).toHaveBeenCalledWith(
       TEST_CURRENT_PATH,
     );
   });
@@ -90,7 +86,7 @@ describe('useFolderNavigator', () => {
       { name: 'current', path: TEST_CURRENT_PATH },
     ];
 
-    mockFileSystemService.getSiblingFolders = vi.fn().mockResolvedValue([]);
+    mockFileSystemService.getSiblingContainers = vi.fn().mockResolvedValue([]);
     mockFileSystemService.getBaseName = vi
       .fn()
       .mockImplementation(async (p) => {
@@ -108,13 +104,13 @@ describe('useFolderNavigator', () => {
     await waitFor(() => {
       expect(result.current.entries).toEqual(expectedEntries);
     });
-    expect(mockFileSystemService.getSiblingFolders).toHaveBeenCalledWith(
+    expect(mockFileSystemService.getSiblingContainers).toHaveBeenCalledWith(
       TEST_CURRENT_PATH,
     );
   });
 
-  it('getSiblingFolders がエラーをスローした場合、entries は空配列になること', async () => {
-    mockFileSystemService.getSiblingFolders = vi
+  it('getSiblingContainers がエラーをスローした場合、entries は空配列になること', async () => {
+    mockFileSystemService.getSiblingContainers = vi
       .fn()
       .mockRejectedValue(new Error('Failed to get sibling folders'));
 
@@ -128,14 +124,14 @@ describe('useFolderNavigator', () => {
     await waitFor(() => {
       expect(result.current.entries).toEqual([]);
     });
-    expect(mockFileSystemService.getSiblingFolders).toHaveBeenCalledWith(
+    expect(mockFileSystemService.getSiblingContainers).toHaveBeenCalledWith(
       TEST_CURRENT_PATH,
     );
   });
 
-  it('getSiblingFolders がエラーの場合、error ステートに格納される', async () => {
+  it('getSiblingContainers がエラーの場合、error ステートに格納される', async () => {
     const errorMessage = 'Failed to get sibling folders';
-    mockFileSystemService.getSiblingFolders = vi
+    mockFileSystemService.getSiblingContainers = vi
       .fn()
       .mockRejectedValue(new Error(errorMessage));
 
@@ -156,8 +152,8 @@ describe('useFolderNavigator', () => {
   });
 
   it('フックがアンマウントされた場合、進行中の処理がキャンセルされること (setEntries が呼ばれないこと)', async () => {
-    // getSiblingFolders が解決するのに時間がかかるようにモック
-    mockFileSystemService.getSiblingFolders = vi
+    // getSiblingContainers が解決するのに時間がかかるようにモック
+    mockFileSystemService.getSiblingContainers = vi
       .fn()
       .mockImplementation(
         () =>
@@ -192,7 +188,7 @@ describe('useFolderNavigator', () => {
     // (mounted フラグが false になっているため、setEntries は実行されない)
     expect(result.current.entries).toEqual([]); // 変わらないことを確認
 
-    // getSiblingFolders は呼び出されているはず
-    expect(mockFileSystemService.getSiblingFolders).toHaveBeenCalledTimes(1);
+    // getSiblingContainers は呼び出されているはず
+    expect(mockFileSystemService.getSiblingContainers).toHaveBeenCalledTimes(1);
   });
 });

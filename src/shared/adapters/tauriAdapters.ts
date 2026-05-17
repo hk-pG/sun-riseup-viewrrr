@@ -72,27 +72,6 @@ export const tauriFileSystemService: FileSystemService = {
     }
   },
 
-  /**
-   * @deprecated
-   */
-  getSiblingFolders: async (folderPath: string): Promise<string[]> => {
-    try {
-      const folders = await invoke<string[]>('get_sibling_folders', {
-        folderPath,
-      });
-      if (!isStringArray(folders)) {
-        throw new Error(
-          `Invalid response from getSiblingFolders: expected string array, got ${typeof folders}`,
-        );
-      }
-      return folders;
-    } catch (error) {
-      throw new Error(
-        `Failed to get sibling folders for "${folderPath}": ${error instanceof Error ? error.message : String(error)}`,
-      );
-    }
-  },
-
   getSiblingContainers: async (containerPath: string): Promise<string[]> => {
     try {
       const containers = await invoke<string[]>('get_sibling_containers', {

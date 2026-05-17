@@ -29,7 +29,7 @@ export async function getSiblingContainerEntries(
   }
 
   // エラーは呼び出し元に伝播させる（外側のtry-catchを削除）
-  const paths = await fs.getSiblingFolders(currentFolderPath);
+  const paths = await fs.getSiblingContainers(currentFolderPath);
 
   // 各フォルダパスからベース名を取得し、FolderEntry配列を生成
   const entries: FolderEntry[] = await Promise.all(
