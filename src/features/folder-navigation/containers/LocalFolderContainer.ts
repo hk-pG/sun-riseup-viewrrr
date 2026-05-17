@@ -11,7 +11,7 @@ export class LocalFolderContainer implements ImageContainer {
   ) {}
 
   async listImages(): Promise<ImageSource[]> {
-    const files = await this.fs.listImagesInFolder(this.folderPath);
+    const files = await this.fs.listImagesInContainer(this.folderPath);
 
     // Tauriのコマンドの戻り値が文字列の配列であることを確認する
     if (!isStringArray(files)) {

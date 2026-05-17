@@ -7,6 +7,7 @@ import {
   dirname as tauriDirname,
 } from '@tauri-apps/api/path';
 import { open as tauriOpenDialog } from '@tauri-apps/plugin-dialog';
+import type { FolderThumbnailResult } from '@/features/folder-navigation/types/folderTypes';
 import type { FileSystemService } from '../../features/folder-navigation';
 import { isStringArray } from '../utils/isStringArray';
 
@@ -14,7 +15,7 @@ export const tauriFileSystemService: FileSystemService = {
   openDirectoryDialog: async (): Promise<string | null> => {
     try {
       const selected = await tauriOpenDialog({ directory: true });
-      if (selected) {
+      if (selected && typeof selected === 'string') {
         return selected as string;
       }
     } catch (error) {
@@ -53,81 +54,67 @@ export const tauriFileSystemService: FileSystemService = {
     }
   },
 
-  listImagesInFolder: async (folderPath: string): Promise<string[]> => {
+  listImagesInContainer: async (containerPath: string): Promise<string[]> => {
     try {
-      const images = await invoke<string[]>('list_images_in_folder', {
-        folderPath,
+      const images = await invoke<string[]>('list_images_in_container', {
+        containerPath,
       });
       if (!isStringArray(images)) {
         throw new Error(
-          `Invalid response from listImagesInFolder: expected string array, got ${typeof images}`,
+          `Invalid response from listImagesInContainer: expected string array, got ${typeof images}`,
         );
       }
       return images;
     } catch (error) {
       throw new Error(
-        `Failed to list images in folder "${folderPath}": ${error instanceof Error ? error.message : String(error)}`,
+        `Failed to list images in container "${containerPath}": ${error instanceof Error ? error.message : JSON.stringify(error)}`,
       );
     }
   },
 
-  getSiblingFolders: async (folderPath: string): Promise<string[]> => {
+  getSiblingContainers: async (containerPath: string): Promise<string[]> => {
     try {
-      const folders = await invoke<string[]>('get_sibling_folders', {
-        folderPath,
+      const containers = await invoke<string[]>('get_sibling_containers', {
+        containerPath,
       });
-      if (!isStringArray(folders)) {
+      if (!isStringArray(containers)) {
         throw new Error(
-          `Invalid response from getSiblingFolders: expected string array, got ${typeof folders}`,
+          `Invalid response from getSiblingContainers: expected string array, got ${typeof containers}`,
         );
       }
-      return folders;
+      return containers;
     } catch (error) {
       throw new Error(
-        `Failed to get sibling folders for "${folderPath}": ${error instanceof Error ? error.message : String(error)}`,
+        `Failed to get sibling containers for "${containerPath}": ${error instanceof Error ? error.message : String(error)}`,
       );
     }
   },
 
-  // Thumbnail optimization methods (001-rust-thumbnail-optimization)
+  // 016-thumbnail-backend-responsibility
 
-  getOrCreateThumbnail: async (imagePath: string): Promise<string> => {
+  getFolderThumbnail: async (
+    folderPath: string,
+  ): Promise<FolderThumbnailResult | null> => {
     try {
-      const cachePath = await invoke<string>('get_or_create_thumbnail', {
-        imagePath,
-      });
-      return cachePath;
-    } catch (error) {
-      throw new Error(
-        `Failed to get or create thumbnail for ${imagePath}: ${error}`,
+      const result = await invoke<FolderThumbnailResult | null>(
+        'get_folder_thumbnail',
+        { folderPath },
       );
-    }
-  },
-
-  batchCreateThumbnails: async (
-    imagePaths: string[],
-    visibleCount?: number,
-  ): Promise<
-    Record<string, { success: boolean; path?: string; error?: string }>
-  > => {
-    try {
-      const result = await invoke<
-        Record<string, { success: boolean; path?: string; error?: string }>
-      >('batch_create_thumbnails', {
-        imagePaths,
-        visibleCount,
-      });
       return result;
     } catch (error) {
-      throw new Error(`Failed to batch create thumbnails: ${error}`);
+      throw new Error(
+        `Failed to get folder thumbnail for "${folderPath}": ${error instanceof Error ? error.message : String(error)}`,
+      );
     }
   },
 
-  clearThumbnailCache: async (): Promise<void> => {
+  prefetchFolderThumbnails: async (folderPaths: string[]): Promise<void> => {
     try {
-      await invoke('clear_thumbnail_cache');
+      await invoke('prefetch_folder_thumbnails', { folderPaths });
     } catch (error) {
-      throw new Error(`Failed to clear thumbnail cache: ${error}`);
+      throw new Error(
+        `Failed to prefetch folder thumbnails: ${error instanceof Error ? error.message : String(error)}`,
+      );
     }
   },
 };

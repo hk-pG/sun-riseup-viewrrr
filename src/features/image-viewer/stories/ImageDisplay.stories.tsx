@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { mockImageSourcesByFolderPath } from '../../../../data/mockData';
+import { mockImageSourcesByFolderPath } from '../../../../tests/fixtures/data/mockData';
 import { ImageDisplay } from '../components/ImageDisplay';
 import type { ViewerSettings } from '../types/viewerTypes';
 
@@ -32,7 +32,7 @@ const defaultSettings: ViewerSettings = {
   controlsTimeout: 3000,
 };
 
-const images = mockImageSourcesByFolderPath['/test_images/folder_1'];
+const images = mockImageSourcesByFolderPath['/tests/fixtures/images/folder_1'];
 
 export const Default: Story = {
   args: {

@@ -1,8 +1,9 @@
 import { renderHook, waitFor } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import type { FileSystemService } from '@/features/folder-navigation';
+import type { FileSystemService } from '@/features/folder-navigation/services/FileSystemService';
 import type { ImageSource } from '@/features/image-viewer';
 import { ServicesProvider, useImages } from '@/shared';
+import { createMockFileSystemService } from '../../../../test/mocks';
 
 // モックデータ
 const mockImageSources: ImageSource[] = [
@@ -18,22 +19,8 @@ const mockImageSources: ImageSource[] = [
   },
 ];
 
-// Tauri APIのモック
-const mockFileSystemService: FileSystemService = {
-  getBaseName: vi.fn(async (filePath: string) => {
-    const foundMock = mockImageSources.find((img) => img.id === filePath);
-    return foundMock ? foundMock.name : 'unknown';
-  }),
-  getDirName: vi.fn(),
-  openDirectoryDialog: vi.fn(),
-  listImagesInFolder: vi.fn(),
-  getSiblingFolders: vi.fn(),
-  convertFileSrc: vi.fn((filePath: string) => {
-    const foundMock = mockImageSources.find((img) => img.id === filePath);
-    return foundMock ? foundMock.assetUrl : 'asset://unknown';
-  }),
-  openImageFileDialog: vi.fn(),
-};
+// Tauri APIのモック（beforeEach内で再生成）
+let mockFileSystemService: FileSystemService;
 
 const ServicesWrapper = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -46,10 +33,20 @@ const ServicesWrapper = ({ children }: { children: React.ReactNode }) => {
 describe('useImages', () => {
   beforeEach(() => {
     vi.resetAllMocks();
+    mockFileSystemService = createMockFileSystemService({
+      getBaseName: vi.fn(async (filePath: string) => {
+        const foundMock = mockImageSources.find((img) => img.id === filePath);
+        return foundMock ? foundMock.name : 'unknown';
+      }),
+      convertFileSrc: vi.fn((filePath: string) => {
+        const foundMock = mockImageSources.find((img) => img.id === filePath);
+        return foundMock ? foundMock.assetUrl : 'asset://unknown';
+      }),
+    });
   });
 
   it('存在するフォルダ内の画像リストを取得する', async () => {
-    mockFileSystemService.listImagesInFolder = vi
+    mockFileSystemService.listImagesInContainer = vi
       .fn()
       .mockResolvedValue([mockImageSources[0].id, mockImageSources[1].id]);
 
@@ -65,7 +62,7 @@ describe('useImages', () => {
   });
 
   it('存在しないフォルダを指定した場合、エラーが返される', async () => {
-    mockFileSystemService.listImagesInFolder = vi.fn().mockReturnValue(null);
+    mockFileSystemService.listImagesInContainer = vi.fn().mockReturnValue(null);
 
     const { result } = renderHook(() => useImages('invalid/folder'), {
       wrapper: ServicesWrapper,
@@ -79,7 +76,7 @@ describe('useImages', () => {
   });
 
   it('ファイルアクセスで例外が発生した場合、エラーが返される', async () => {
-    mockFileSystemService.listImagesInFolder = vi
+    mockFileSystemService.listImagesInContainer = vi
       .fn()
       .mockRejectedValue(new Error('File access error'));
     const { result } = renderHook(() => useImages('error/folder'), {
@@ -94,7 +91,7 @@ describe('useImages', () => {
   });
 
   it('画像が1件も存在しないフォルダの場合、空配列を返す', async () => {
-    mockFileSystemService.listImagesInFolder = vi.fn().mockResolvedValue([]);
+    mockFileSystemService.listImagesInContainer = vi.fn().mockResolvedValue([]);
     const { result } = renderHook(() => useImages('empty/folder'), {
       wrapper: ServicesWrapper,
     });
@@ -106,31 +103,31 @@ describe('useImages', () => {
   });
 
   it('folderPathがnullの場合、imagesはundefinedになる', async () => {
-    // listImagesInFolderは呼ばれないはず
-    mockFileSystemService.listImagesInFolder = vi.fn();
+    // listImagesInContainerは呼ばれないはず
+    mockFileSystemService.listImagesInContainer = vi.fn();
     const { result } = renderHook(() => useImages(null), {
       wrapper: ServicesWrapper,
     });
     expect(result.current.images).toBeUndefined();
     expect(result.current.error).toBeUndefined();
     expect(result.current.isLoading).toBe(false);
-    expect(mockFileSystemService.listImagesInFolder).not.toHaveBeenCalled();
+    expect(mockFileSystemService.listImagesInContainer).not.toHaveBeenCalled();
   });
 
   it('folderPathがundefinedの場合、imagesはundefinedになる', async () => {
-    mockFileSystemService.listImagesInFolder = vi.fn();
+    mockFileSystemService.listImagesInContainer = vi.fn();
     const { result } = renderHook(() => useImages(undefined), {
       wrapper: ServicesWrapper,
     });
     expect(result.current.images).toBeUndefined();
     expect(result.current.error).toBeUndefined();
     expect(result.current.isLoading).toBe(false);
-    expect(mockFileSystemService.listImagesInFolder).not.toHaveBeenCalled();
+    expect(mockFileSystemService.listImagesInContainer).not.toHaveBeenCalled();
   });
 
-  it('同じパスで2回呼んだ場合、SWRキャッシュによりlistImagesInFolderが1回しか呼ばれない', async () => {
+  it('同じパスで2回呼んだ場合、SWRキャッシュによりlistImagesInContainerが1回しか呼ばれない', async () => {
     const spy = vi.fn().mockResolvedValue([mockImageSources[0].id]);
-    mockFileSystemService.listImagesInFolder = spy;
+    mockFileSystemService.listImagesInContainer = spy;
 
     const { result: result1 } = renderHook(() => useImages('cache/folder'), {
       wrapper: ServicesWrapper,
@@ -139,7 +136,7 @@ describe('useImages', () => {
       expect(result1.current.images).toEqual([mockImageSources[0]]);
     });
 
-    // 2回目（キャッシュが効いていればlistImagesInFolderは呼ばれない）
+    // 2回目（キャッシュが効いていればlistImagesInContainerは呼ばれない）
     const { result: result2 } = renderHook(() => useImages('cache/folder'), {
       wrapper: ServicesWrapper,
     });

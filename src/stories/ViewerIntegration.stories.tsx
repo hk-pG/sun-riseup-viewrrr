@@ -2,42 +2,40 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
 import App from '@/App';
 import { ThemeProvider } from '@/components/theme-provider';
+import { createMockFileSystemService } from '@/test/mocks';
 import {
   generateDummyEmptyFolders,
   generateLongNameFolders,
   getMockImageFolders,
   mockImageSourcesByFolderPath,
   mockSidebarOnlyFolders,
-} from '../../data/mockData';
+} from '../../tests/fixtures/data/mockData';
 import { type FileSystemService, Sidebar } from '../features/folder-navigation';
 import { ImageViewer } from '../features/image-viewer';
 import { ServicesProvider } from '../shared/context/ServiceContext';
 
-// モックファイルシステムサービス
-const createMockFileSystemService = (): FileSystemService => ({
-  openDirectoryDialog: async () => '/mock/folder/path',
-  listImagesInFolder: async (_folderPath: string) => {
-    const images = mockImageSourcesByFolderPath[_folderPath] || [];
-    return images.map((img) => img.assetUrl);
-  },
-  // getSiblingFolders: async () => ['/mock/folder1', '/mock/folder2'],
-
-  getSiblingFolders: async () => {
-    return getMockImageFolders().map((folder) => folder.path);
-  },
-  convertFileSrc: (filePath: string) => filePath,
-  getBaseName: async (filePath: string) => {
-    const parts = filePath.split('/');
-    return parts[parts.length - 1];
-  },
-  getDirName: async (filePath: string) => {
-    const parts = filePath.split('/');
-    return parts.slice(0, -1).join('/');
-  },
-});
-
 const MockServiceProvider = ({ children }: { children: React.ReactNode }) => {
-  const mockService = createMockFileSystemService();
+  const mockService = createMockFileSystemService({
+    openDirectoryDialog: async () => '/mock/folder/path',
+    listImagesInContainer: async (_folderPath: string) => {
+      const images = mockImageSourcesByFolderPath[_folderPath] || [];
+      return images.map((img) => img.assetUrl);
+    },
+    getSiblingContainers: async () => {
+      return getMockImageFolders().map((folder) => folder.path);
+    },
+    convertFileSrc: (filePath: string) => filePath,
+    getBaseName: async (filePath: string) => {
+      const parts = filePath.split('/');
+      return parts[parts.length - 1];
+    },
+    getDirName: async (filePath: string) => {
+      const parts = filePath.split('/');
+      return parts.slice(0, -1).join('/');
+    },
+    getFolderThumbnail: async () => null,
+    prefetchFolderThumbnails: async () => {},
+  });
   return (
     <ThemeProvider>
       <ServicesProvider services={mockService}>{children}</ServicesProvider>
@@ -134,8 +132,6 @@ const createRichMockFileSystemService = (): FileSystemService => {
   const base = createMockFileSystemService();
   return {
     ...base,
-    getSiblingFolders: async (currentPath: string) =>
-      richFolders.map((f) => f.path).filter((path) => path !== currentPath),
     getBaseName: async (filePath: string) => {
       return folderNameMap[filePath] || filePath.split('/').pop() || '';
     },

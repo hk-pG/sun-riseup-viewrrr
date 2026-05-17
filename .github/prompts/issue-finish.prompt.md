@@ -1,7 +1,7 @@
 ---
-description: "GitHub Issue の作業を完了する。品質チェック・コミット・PR作成・Issueクローズを行う"
+description: "GitHub Issue の作業を完了する。品質チェック・コミット・コードレビュー・PR作成・Issueクローズを行う"
 argument-hint: "Issue番号（例: 13）"
-agent: "agent"
+agent: "Orchestrator"
 ---
 
 # Issue 作業完了ワークフロー
@@ -99,6 +99,29 @@ git commit -m "{上記フォーマットのメッセージ}"
 
 ---
 
+## Step 4.5: コードレビュー（Senior Reviewer）
+
+コミット済みの変更内容を確認する:
+
+```bash
+git diff HEAD~1..HEAD --stat
+git diff HEAD~1..HEAD
+```
+
+上記の差分と変更ファイルを **Senior Reviewer** エージェントに渡してレビューを依頼する。
+
+レビュー結果に応じた対応方針:
+
+| 重大度        | 対応                                                                       |
+| ------------- | -------------------------------------------------------------------------- |
+| 🔴 Critical   | **作業を即停止**。ユーザーに内容を詳細報告し、修正指示を待つ               |
+| 🟡 Warning    | PR 本文の「レビュー指摘事項」セクションに記録し、後続 Issue として追跡する |
+| 🟢 Suggestion | PR 本文に参考情報として追記する（対応は任意）                              |
+
+🔴 Critical がゼロになった場合のみ Step 5 に進む。
+
+---
+
 ## Step 5: PR の作成
 
 ```bash
@@ -119,10 +142,28 @@ gh pr create \
 - [ ] \`pnpm lint\` PASS
 - [ ] \`pnpm test\` PASS
 
+## レビュー指摘事項
+
+{Step 4.5 の Senior Reviewer フィードバック（Warning / Suggestion）をここに記録。問題なければ「なし」と記載}
+
 ## 関連 Issue
 
 closes #{Issue番号}"
 ```
+
+---
+
+## Step 5.5: Copilot レビュー依頼
+
+PR 作成後、GitHub Copilot にコードレビューを依頼する。
+
+MCP ツール `github/request_copilot_review` を使用する。利用できない場合は以下のコマンドで代替する:
+
+```bash
+gh pr edit {PR番号} --add-reviewer "Copilot" --repo hk-pG/sun-riseup-viewrrr
+```
+
+レビュー依頼完了後、PR URL とレビュー依頼ステータスをユーザーに通知する。
 
 ---
 
@@ -144,6 +185,14 @@ closes #{Issue番号}"
 - type-check: ✅ PASS
 - lint: ✅ PASS
 - test: ✅ PASS（{件数}件）
+
+### Senior Reviewer レビュー結果
+- 🔴 Critical: {件数}件
+- 🟡 Warning: {件数}件（PR 本文に記録済み）
+- 🟢 Suggestion: {件数}件
+
+### レビュー依頼
+- Copilot レビュー: {依頼済み ✅ / スキップ ⚠️}
 
 ### 次のアクション
 - PR をレビュー・マージすると Issue #{番号} が自動クローズされます

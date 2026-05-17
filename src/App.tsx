@@ -1,8 +1,11 @@
-import { useState, useTransition } from 'react';
+import { LucideAlertTriangle } from 'lucide-react';
+import { useEffect, useState, useTransition } from 'react';
+import { toast } from 'sonner';
 import './App.css';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import { useTheme } from './components/theme-provider';
-import { AppMenuBar, type AppMenuBarEvent } from './features/app-shell';
+import { Toaster } from './components/ui/sonner';
+import { AppMenuBar, useAppActions } from './features/app-shell';
 import {
   type FolderInfo,
   Sidebar,
@@ -11,6 +14,7 @@ import {
 } from './features/folder-navigation';
 import { ImageViewer } from './features/image-viewer';
 import { useServices } from './shared/context/ServiceContext';
+import { logger } from './shared/utils/logger';
 
 // App state interface for better type safety
 export interface AppState {
@@ -20,6 +24,8 @@ export interface AppState {
 
 /**
  * アプリケーションのルートコンポーネント
+ * TODO: 状態管理が複雑化している。appStateでの管理に無理が生じ始めている。
+ * TODO: App.tsx自体が肥大化してきている。状態管理とUIロジックの分離を検討。
  *
  * @param props.initialState - テストやStorybook用の初期状態（オプション）。
  *                             初期フォルダパスや画像インデックスを注入できます。
@@ -37,7 +43,18 @@ function App({ initialState }: { initialState?: Partial<AppState> }) {
   const themeApi = useTheme();
 
   // サイドバーの表示のために同階層のフォルダ情報を取得
-  const { entries } = useSiblingFolders(appState.currentFolderPath);
+  const { entries, error } = useSiblingFolders(appState.currentFolderPath);
+
+  useEffect(() => {
+    if (error) {
+      toast.error('Error Occurred', {
+        description: `${error.message}`,
+        icon: <LucideAlertTriangle color="red" />,
+        closeButton: true,
+      });
+      logger.error(error.message);
+    }
+  }, [error]);
 
   const folderInfo: FolderInfo[] = entries.map((entry) => ({
     ...entry,
@@ -53,50 +70,21 @@ function App({ initialState }: { initialState?: Partial<AppState> }) {
   const fss = useServices();
   const { openImageFile } = useOpenImageFile(fss);
 
-  const handleMenuAction = async (actionId: AppMenuBarEvent) => {
-    // TODO: スケールを考えてストラテジーパターンへの移行を検討
-    try {
-      if (actionId === 'open-folder') {
-        const folderPath = await fss.openDirectoryDialog();
-        if (folderPath) {
-          startTransition(() => {
-            setAppState((prev) => ({
-              ...prev,
-              currentFolderPath: folderPath,
-              initialImageIndex: 0,
-            }));
-          });
-        }
-      } else if (actionId === 'open-image') {
-        const result = await openImageFile();
-        if (result?.folderPath) {
-          startTransition(() => {
-            setAppState((prev) => ({
-              ...prev,
-              currentFolderPath: result.folderPath || '',
-              initialImageIndex: result.index,
-            }));
-          });
-        }
-      } else if (actionId === 'toggle-theme') {
-        try {
-          // useTheme is used below via closure; safe to call outside because hook must be used in component scope
-          const { theme: currentTheme, setTheme } = themeApi;
+  // Command Registry パターンによるメニューアクション処理
+  const { executeAction } = useAppActions(
+    {
+      fss,
+      openImageFile,
+      currentTheme: themeApi.theme,
+    },
+    {
+      startTransition,
+      setAppState,
+      setTheme: themeApi.setTheme,
+    },
+  );
 
-          // テーマの切り替えルールを関数として純粋に定義（light/darkのみ）
-          const getOppositeTheme = (current: typeof currentTheme) =>
-            current === 'dark' ? 'light' : 'dark';
-
-          setTheme(getOppositeTheme(currentTheme));
-        } catch (err) {
-          console.error('toggle-theme failed', err);
-        }
-      }
-      // 他のアクションは今まで通り（必要ならここに追加）
-    } catch (error) {
-      console.error('Menu action failed:', error);
-    }
-  };
+  const handleMenuAction = executeAction;
 
   const handleFolderSelect = (folder: FolderInfo) => {
     startTransition(() => {
@@ -131,6 +119,7 @@ function App({ initialState }: { initialState?: Partial<AppState> }) {
           />
         </div>
       </div>
+      <Toaster />
     </ErrorBoundary>
   );
 }

@@ -85,6 +85,40 @@ pnpm storybook            # コンポーネントプレイグラウンド
 
 テストは Vitest + `@testing-library/react`を使用。Tauri のモックは`src/test/mocks.ts`の`setupTauriMocks()`を使用。DI パターンの例は`src/__tests__/App.test.tsx`を参照。
 
+### ブランチ運用
+
+**ブランチ階層**:
+
+```
+main          ← リリース済みの安定版。直接マージ・PR は行わない
+└── feature/core  ← 開発上の最上位ブランチ。作業ブランチのマージ先
+    └── {type}/issue-{番号}-{説明}  ← 各 Issue の作業ブランチ
+```
+
+> **重要**: `main` ブランチへの直接マージや PR は禁止。作業ブランチは必ず `feature/core` に向けて PR を作成する。
+
+**命名規則**: `{type}/issue-{番号}-{短い説明（英語・ケバブケース）}`
+
+| Issue ラベル               | type       | ブランチ名例                          |
+| -------------------------- | ---------- | ------------------------------------- |
+| type: bug / type: security | `fix`      | `fix/issue-13-react-security-patch`   |
+| type: feature              | `feat`     | `feat/issue-20-add-zoom-control`      |
+| type: refactor             | `refactor` | `refactor/issue-16-thumbnail-backend` |
+| type: test                 | `test`     | `test/issue-18-e2e-playwright`        |
+| type: chore                | `chore`    | `chore/issue-21-update-dependencies`  |
+
+**ブランチ作成**:
+
+```bash
+git checkout -b {type}/issue-{番号}-{短い説明}
+```
+
+**作業ワークフロー**: 詳細な手順は `.github/prompts/` のプロンプトファイルを参照。
+
+- **作業開始**: `.github/prompts/issue-start.prompt.md` — Issue 情報取得・ブランチ作成・現状調査・TDD 計画
+- **作業完了**: `.github/prompts/issue-finish.prompt.md` — 品質チェック・コミット・コードレビュー（Senior Reviewer）・PR 作成・Copilot レビュー依頼・Issue クローズ
+- **レビュー依頼**: `.github/prompts/review-request.prompt.md` — 修正内容に対して Senior Reviewer によるレビューと GitHub Copilot レビュー依頼を実施
+
 ### コミットメッセージ
 
 **Conventional Commits** に従ってください。
@@ -92,6 +126,7 @@ pnpm storybook            # コンポーネントプレイグラウンド
 形式: `type(scope): subject`
 
 主な type:
+
 - `feat`: 新機能
 - `fix`: バグ修正
 - `docs`: ドキュメントのみの変更
@@ -191,24 +226,24 @@ handleMenuAction = (actionId) => executeAction(actionId);
 ### ソース変更時の手順
 
 1. **変更前の確認**
-
    - ライブラリ・API の使い方をインターネット上から情報収集
    - `package.json`を参考に利用中のバージョンで使えること・推奨される用法であることを確認
    - そうでない場合は、変更方法について一度確認を取る
 
 2. **変更の実施**
-
    - 変更後に自らコードレビューを行う
    - 編集したコードのメリット・デメリットを把握して報告
    - その後への影響を解析して報告
 
 3. **品質確認（必須）**
+
    ```bash
    pnpm type-check    # TypeScript検証
    pnpm lint          # Biomeによるlint
    pnpm test          # テスト実行
    pnpm build         # ビルド確認（必要に応じて）
    ```
+
    - `package.json`の`scripts`を参照してコマンドを選定
    - 既存のもので不十分な場合は、変更・追加・修正を提案
 
@@ -249,6 +284,7 @@ handleMenuAction = (actionId) => executeAction(actionId);
 - Tauri v2 ドキュメント: https://v2.tauri.app/
 
 ## Active Technologies
+
 - TypeScript 5.6+, React 19, Rust (Tauri v2) + Vite 6, Tailwind CSS 4, SWR（既存利用、今回の変更は主にレイアウト調整） (003-fix-sidebar-scroll)
 - なし（ローカルファイル閲覧のみで新規永続化は不要） (003-fix-sidebar-scroll)
 

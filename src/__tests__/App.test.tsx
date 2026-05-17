@@ -7,62 +7,54 @@ import App from '../App';
 import { ThemeProvider } from '../components/theme-provider';
 import type { FileSystemService } from '../features/folder-navigation/services/FileSystemService';
 import { ServicesProvider } from '../shared/context/ServiceContext';
-import { resetAllMocks, setupTauriMocks } from '../test/mocks';
+import {
+  createMockFileSystemService,
+  resetAllMocks,
+  setupTauriMocks,
+} from '../test/mocks';
 
-// Create a mock function that can be controlled in tests
+// テストで制御可能なモック関数
 const mockOpenImageFile = vi.fn();
 
-// Mock the feature components
-// For testing rendering App's children and their interactions
-vi.mock('../features/app-shell', () => ({
-  AppMenuBar: ({ onMenuAction, isDraggable }: AppMenuBarProps) => (
-    <div data-testid="app-menu-bar" data-draggable={isDraggable}>
-      {/* For testing parameter 'onMenuAction' handling */}
-      <button
-        type="button"
-        data-testid="open-folder-btn"
-        onClick={() => onMenuAction('open-folder')}
-      >
-        Open Folder
-      </button>
-      <button
-        type="button"
-        data-testid="open-image-btn"
-        onClick={() => onMenuAction('open-image')}
-      >
-        Open Image
-      </button>
-    </div>
-  ),
-}));
+// 機能コンポーネントのモック
+// 実コンポーネントと同じセマンティクス（role, aria属性）を使用し、data-testidに依存しない
+vi.mock('../features/app-shell', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('../features/app-shell')>();
+  return {
+    ...actual,
+    AppMenuBar: ({ onMenuAction, isDraggable }: AppMenuBarProps) => (
+      <header data-tauri-drag-region={isDraggable ? 'true' : undefined}>
+        <button type="button" onClick={() => onMenuAction('open-folder')}>
+          フォルダを開く
+        </button>
+        <button type="button" onClick={() => onMenuAction('open-image')}>
+          画像ファイルを開く
+        </button>
+      </header>
+    ),
+  };
+});
 
 vi.mock('../features/folder-navigation', () => ({
-  Sidebar: ({
-    folders,
-    selectedFolder,
-    onFolderSelect,
-    width,
-  }: SidebarProps) => (
-    <div data-testid="sidebar" style={{ width }}>
-      {/* propsで渡されたフォルダ情報をテストするために各データを属性として付与 */}
+  Sidebar: ({ folders, selectedFolder, onFolderSelect }: SidebarProps) => (
+    <aside>
       {folders.map((folder: { path: string; name: string }) => (
         <button
           type="button"
           key={folder.path}
-          data-testid={`folder-${folder.name}`}
+          aria-pressed={selectedFolder?.path === folder.path}
           onClick={() => onFolderSelect(folder)}
-          data-selected={selectedFolder?.path === folder.path}
         >
           {folder.name}
         </button>
       ))}
-    </div>
+    </aside>
   ),
-  // Mock the useFileSystemService hook to return our mock service
+  // useOpenImageFileフックのモック
   useOpenImageFile: () => ({
     openImageFile: mockOpenImageFile,
   }),
-  // Mock the useSiblingFolders hook to return a fixed set of folders
+  // useSiblingFoldersフックのモック（固定値を返す）
   useSiblingFolders: () => ({
     entries: [
       { name: 'folder1', path: '/test/folder1' },
@@ -73,27 +65,23 @@ vi.mock('../features/folder-navigation', () => ({
 
 vi.mock('../features/image-viewer', () => ({
   ImageViewer: ({ folderPath, initialIndex, className }: ImageViewerProps) => (
-    // For testing rendering and props handling
-    <div
-      data-testid="image-viewer"
-      data-folder-path={folderPath || ''}
-      data-initial-index={initialIndex || 0}
-      data-key={folderPath || ''}
-      className={className}
-    >
-      Image Viewer
-    </div>
+    <section className={className} aria-label="image-viewer">
+      {folderPath ? `表示中: ${folderPath}` : '画像が選択されていません'}
+      {folderPath && initialIndex != null && initialIndex > 0 && (
+        <span>{`開始位置: ${initialIndex}`}</span>
+      )}
+    </section>
   ),
 }));
 
-const createMockFileSystemService = (): FileSystemService => ({
-  openDirectoryDialog: vi.fn(),
-  getBaseName: vi.fn(),
-  getDirName: vi.fn(),
-  listImagesInFolder: vi.fn(),
-  getSiblingFolders: vi.fn(),
-  convertFileSrc: vi.fn(),
-});
+/**
+ * Sonner内部でResizeObserverが利用されている。
+ * JSDOM環境ではResizeObserverが未実装のため、テスト実行時にエラーが発生する。
+ * そのため、Sonnerコンポーネントを単純なダミーコンポーネントに置き換える。
+ */
+vi.mock('/src/components/ui/sonner.tsx', () => ({
+  Toaster: () => <div />,
+}));
 
 describe('App Component', () => {
   let mockFileSystemService: ReturnType<typeof createMockFileSystemService>;
@@ -121,27 +109,25 @@ describe('App Component', () => {
     it('should render without errors', () => {
       renderApp();
 
-      // モックに付けた各testidが正しくレンダリングされていることを確認
-      expect(screen.getByTestId('app-menu-bar')).toBeInTheDocument();
-      expect(screen.getByTestId('sidebar')).toBeInTheDocument();
-      expect(screen.getByTestId('image-viewer')).toBeInTheDocument();
+      // 各セマンティック要素が正しくレンダリングされていることを確認
+      expect(screen.getByRole('banner')).toBeInTheDocument();
+      expect(screen.getByRole('complementary')).toBeInTheDocument();
+      expect(screen.getByText('画像が選択されていません')).toBeInTheDocument();
     });
 
     it('should initialize with empty folder path', () => {
       renderApp();
 
-      const imageViewer = screen.getByTestId('image-viewer');
-      // モックに付けた各任用の属性が空の状態で初期化されていることを確認
-      expect(imageViewer).toHaveAttribute('data-folder-path', '');
-      expect(imageViewer).toHaveAttribute('data-initial-index', '0');
+      // 初期状態では画像が選択されていないテキストが表示される
+      expect(screen.getByText('画像が選択されていません')).toBeInTheDocument();
     });
 
     it('should set menu bar as draggable', () => {
       renderApp();
 
-      const menuBar = screen.getByTestId('app-menu-bar');
-      // INFO: UIに関する設定だが、フレームレスのため確実にdraggable属性が設定されている必要がある
-      expect(menuBar).toHaveAttribute('data-draggable', 'true');
+      const menuBar = screen.getByRole('banner');
+      // INFO: UIに関する設定だが、フレームレスのため確実にdata-tauri-drag-region属性が設定されている必要がある
+      expect(menuBar).toHaveAttribute('data-tauri-drag-region', 'true');
     });
   });
 
@@ -152,21 +138,17 @@ describe('App Component', () => {
       );
       renderApp(mockFileSystemService);
 
-      const openFolderBtn = screen.getByTestId('open-folder-btn');
-      fireEvent.click(openFolderBtn);
+      fireEvent.click(screen.getByRole('button', { name: 'フォルダを開く' }));
 
       await waitFor(() => {
         expect(mockFileSystemService.openDirectoryDialog).toHaveBeenCalled();
       });
 
       await waitFor(() => {
-        const imageViewer = screen.getByTestId('image-viewer');
-        // モックのImageViewerにセットされた"選択されたフォルダパス"が正しく反映されていることを確認
-        expect(imageViewer).toHaveAttribute(
-          'data-folder-path',
-          '/selected/folder',
-        );
-        expect(imageViewer).toHaveAttribute('data-initial-index', '0');
+        // モックのImageViewerに選択されたフォルダパスがテキストとして表示されることを確認
+        expect(
+          screen.getByText('表示中: /selected/folder'),
+        ).toBeInTheDocument();
       });
     });
 
@@ -177,36 +159,34 @@ describe('App Component', () => {
       );
       renderApp(mockFileSystemService);
 
-      const openFolderBtn = screen.getByTestId('open-folder-btn');
-      fireEvent.click(openFolderBtn);
+      fireEvent.click(screen.getByRole('button', { name: 'フォルダを開く' }));
 
       await waitFor(() => {
         expect(mockFileSystemService.openDirectoryDialog).toHaveBeenCalled();
       });
 
-      const imageViewer = screen.getByTestId('image-viewer');
-      expect(imageViewer).toHaveAttribute('data-folder-path', '');
+      expect(screen.getByText('画像が選択されていません')).toBeInTheDocument();
     });
 
     it('should handle folder selection from sidebar', () => {
       renderApp();
 
-      const folderBtn = screen.getByTestId('folder-folder1');
-      fireEvent.click(folderBtn);
+      fireEvent.click(screen.getByRole('button', { name: 'folder1' }));
 
-      const imageViewer = screen.getByTestId('image-viewer');
       // useSiblingFoldersのモックが固定値を返すため、
       // その内の1つが選択された場合にImageViewer側に選択値が反映されることを確認
-      expect(imageViewer).toHaveAttribute('data-folder-path', '/test/folder1');
+      expect(screen.getByText('表示中: /test/folder1')).toBeInTheDocument();
     });
 
     it('should update selected folder in sidebar', () => {
       renderApp();
 
-      const folderBtn = screen.getByTestId('folder-folder1');
-      fireEvent.click(folderBtn);
+      fireEvent.click(screen.getByRole('button', { name: 'folder1' }));
 
-      expect(folderBtn).toHaveAttribute('data-selected', 'true');
+      expect(screen.getByRole('button', { name: 'folder1' })).toHaveAttribute(
+        'aria-pressed',
+        'true',
+      );
     });
   });
 
@@ -219,20 +199,17 @@ describe('App Component', () => {
 
       renderApp(mockFileSystemService);
 
-      const openImageBtn = screen.getByTestId('open-image-btn');
-      fireEvent.click(openImageBtn);
+      fireEvent.click(
+        screen.getByRole('button', { name: '画像ファイルを開く' }),
+      );
 
       await waitFor(() => {
         expect(mockOpenImageFile).toHaveBeenCalled();
       });
 
       await waitFor(() => {
-        const imageViewer = screen.getByTestId('image-viewer');
-        expect(imageViewer).toHaveAttribute(
-          'data-folder-path',
-          '/image/folder',
-        );
-        expect(imageViewer).toHaveAttribute('data-initial-index', '2');
+        expect(screen.getByText('表示中: /image/folder')).toBeInTheDocument();
+        expect(screen.getByText('開始位置: 2')).toBeInTheDocument();
       });
     });
 
@@ -241,17 +218,16 @@ describe('App Component', () => {
 
       renderApp(mockFileSystemService);
 
-      const openImageBtn = screen.getByTestId('open-image-btn');
-      fireEvent.click(openImageBtn);
+      fireEvent.click(
+        screen.getByRole('button', { name: '画像ファイルを開く' }),
+      );
 
       await waitFor(() => {
         expect(mockOpenImageFile).toHaveBeenCalled();
       });
 
-      const imageViewer = screen.getByTestId('image-viewer');
-      expect(imageViewer).toHaveAttribute('data-folder-path', '');
-      // 初期状態のままなので、indexは0のまま
-      expect(imageViewer).toHaveAttribute('data-initial-index', '0');
+      // 初期状態のまま変化しないことを確認
+      expect(screen.getByText('画像が選択されていません')).toBeInTheDocument();
     });
 
     it('should handle open-image with missing folderPath', async () => {
@@ -261,17 +237,16 @@ describe('App Component', () => {
 
       renderApp(mockFileSystemService);
 
-      const openImageBtn = screen.getByTestId('open-image-btn');
-      fireEvent.click(openImageBtn);
+      fireEvent.click(
+        screen.getByRole('button', { name: '画像ファイルを開く' }),
+      );
 
       await waitFor(() => {
         expect(mockOpenImageFile).toHaveBeenCalled();
       });
 
-      const imageViewer = screen.getByTestId('image-viewer');
-      expect(imageViewer).toHaveAttribute('data-folder-path', '');
-      // React 19 improvement: Don't update state when folderPath is missing
-      expect(imageViewer).toHaveAttribute('data-initial-index', '0');
+      // folderPathが欠落している場合は状態を更新しない
+      expect(screen.getByText('画像が選択されていません')).toBeInTheDocument();
     });
   });
 
@@ -282,18 +257,16 @@ describe('App Component', () => {
       );
       renderApp(mockFileSystemService);
 
-      // First set a different folder to establish initial state
-      const folderBtn = screen.getByTestId('folder-folder1');
-      fireEvent.click(folderBtn);
+      // まずサイドバーからフォルダを選択して初期状態を確立
+      fireEvent.click(screen.getByRole('button', { name: 'folder1' }));
 
-      // Then open a new folder via dialog
-      const openFolderBtn = screen.getByTestId('open-folder-btn');
-      fireEvent.click(openFolderBtn);
+      // ダイアログ経由で新しいフォルダを開く
+      fireEvent.click(screen.getByRole('button', { name: 'フォルダを開く' }));
 
       await waitFor(() => {
-        const imageViewer = screen.getByTestId('image-viewer');
-        expect(imageViewer).toHaveAttribute('data-folder-path', '/new/folder');
-        expect(imageViewer).toHaveAttribute('data-initial-index', '0');
+        // 新しいフォルダパスが表示され、開始位置テキストは表示されない（index=0のため）
+        expect(screen.getByText('表示中: /new/folder')).toBeInTheDocument();
+        expect(screen.queryByText(/開始位置:/)).not.toBeInTheDocument();
       });
     });
 
@@ -301,38 +274,33 @@ describe('App Component', () => {
       renderApp();
 
       // サイドバーでフォルダを選択
-      const folderBtn = screen.getByTestId('folder-folder2');
-      fireEvent.click(folderBtn);
+      fireEvent.click(screen.getByRole('button', { name: 'folder2' }));
 
       // ImageViewerに選択されたフォルダパスが反映されていることを確認
-      const imageViewer = screen.getByTestId('image-viewer');
-      expect(imageViewer).toHaveAttribute('data-folder-path', '/test/folder2');
+      expect(screen.getByText('表示中: /test/folder2')).toBeInTheDocument();
 
       // サイドバー側でもクリックされたフォルダが選択状態になっていることを確認
-      const selectedFolder = screen.getByTestId('folder-folder2');
-      expect(selectedFolder).toHaveAttribute('data-selected', 'true');
+      expect(screen.getByRole('button', { name: 'folder2' })).toHaveAttribute(
+        'aria-pressed',
+        'true',
+      );
     });
 
-    // folder pathが変化した際にImageViewerが再レンダリングされる（keyが変わる）ことを検証
+    // フォルダパスが変化した際にImageViewerの表示内容が更新されることを検証
     it('should re-render ImageViewer with new key when folder path changes', () => {
       renderApp();
 
-      // 初期状態のImageViewerを取得
-      const initialImageViewer = screen.getByTestId('image-viewer');
-      // 初期状態のフォルダパスを取得
-      const initialKey = initialImageViewer.getAttribute('data-folder-path');
+      // 初期状態では画像が選択されていない
+      expect(screen.getByText('画像が選択されていません')).toBeInTheDocument();
 
       // フォルダを切り替える
-      const folderBtn = screen.getByTestId('folder-folder1');
-      fireEvent.click(folderBtn);
+      fireEvent.click(screen.getByRole('button', { name: 'folder1' }));
 
-      // フォルダが切り替わった後のImageViewerを取得
-      const updatedImageViewer = screen.getByTestId('image-viewer');
-      const updatedKey = updatedImageViewer.getAttribute('data-folder-path');
-
-      // 初期状態と切り替え後のフォルダパスが異なることを確認
-      expect(updatedKey).not.toBe(initialKey);
-      expect(updatedKey).toBe('/test/folder1');
+      // フォルダが切り替わった後、対応するパスが表示されることを確認
+      expect(
+        screen.queryByText('画像が選択されていません'),
+      ).not.toBeInTheDocument();
+      expect(screen.getByText('表示中: /test/folder1')).toBeInTheDocument();
     });
   });
 
@@ -347,19 +315,17 @@ describe('App Component', () => {
       );
       renderApp(mockFileSystemService);
 
-      const openFolderBtn = screen.getByTestId('open-folder-btn');
-      fireEvent.click(openFolderBtn);
+      fireEvent.click(screen.getByRole('button', { name: 'フォルダを開く' }));
 
       await waitFor(() => {
         expect(mockFileSystemService.openDirectoryDialog).toHaveBeenCalled();
       });
 
-      // Wait a bit more to ensure any async error handling is complete
+      // 非同期エラーハンドリングが完了するのを待つ
       await new Promise((resolve) => setTimeout(resolve, 100));
 
-      // Should not crash and maintain current state
-      const imageViewer = screen.getByTestId('image-viewer');
-      expect(imageViewer).toHaveAttribute('data-folder-path', '');
+      // クラッシュせず、初期状態が維持されることを確認
+      expect(screen.getByText('画像が選択されていません')).toBeInTheDocument();
 
       consoleErrorSpy.mockRestore();
     });
@@ -375,19 +341,19 @@ describe('App Component', () => {
 
       renderApp(mockFileSystemService);
 
-      const openImageBtn = screen.getByTestId('open-image-btn');
-      fireEvent.click(openImageBtn);
+      fireEvent.click(
+        screen.getByRole('button', { name: '画像ファイルを開く' }),
+      );
 
       await waitFor(() => {
         expect(mockOpenImageFile).toHaveBeenCalled();
       });
 
-      // Wait a bit more to ensure any async error handling is complete
+      // 非同期エラーハンドリングが完了するのを待つ
       await new Promise((resolve) => setTimeout(resolve, 100));
 
-      // Should not crash and maintain current state
-      const imageViewer = screen.getByTestId('image-viewer');
-      expect(imageViewer).toHaveAttribute('data-folder-path', '');
+      // クラッシュせず、初期状態が維持されることを確認
+      expect(screen.getByText('画像が選択されていません')).toBeInTheDocument();
 
       consoleErrorSpy.mockRestore();
     });

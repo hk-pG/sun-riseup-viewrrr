@@ -4,13 +4,13 @@
 
 set -e
 
-TEST_DIR="/home/hk-p/repo/sun-riseup-viewrrr/test_images_large"
-SOURCE_IMAGE="/home/hk-p/repo/sun-riseup-viewrrr/test_images/folder_1/1-1.png"
+TEST_DIR="/home/hk-p/repo/sun-riseup-viewrrr/tests/fixtures/images-large"
+SOURCE_IMAGE="/home/hk-p/repo/sun-riseup-viewrrr/tests/fixtures/images/folder_1/1-1.png"
 
 # ソース画像の確認
 if [ ! -f "$SOURCE_IMAGE" ]; then
     echo "Error: ソース画像が見つかりません: $SOURCE_IMAGE"
-    echo "test_images/folder_1/に画像を配置してください"
+    echo "tests/fixtures/images/folder_1/に画像を配置してください"
     exit 1
 fi
 

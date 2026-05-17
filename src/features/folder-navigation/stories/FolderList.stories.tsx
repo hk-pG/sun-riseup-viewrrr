@@ -1,19 +1,22 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { fn } from 'storybook/test';
 import { ServicesProvider } from '@/shared';
-import { mockImageSourcesByFolderPath } from '../../../../data/mockData';
-import { type FileSystemService, type FolderInfo, FolderList } from '../index';
+import { createMockFileSystemService } from '@/test/mocks';
+import { mockImageSourcesByFolderPath } from '../../../../tests/fixtures/data/mockData';
+import { type FolderInfo, FolderList } from '../index';
 
 const folders: FolderInfo[] = [
   {
-    path: '/test_images/folder_1',
+    path: '/tests/fixtures/images/folder_1',
     name: 'フォルダ1',
-    imageCount: mockImageSourcesByFolderPath['/test_images/folder_1']?.length,
+    imageCount:
+      mockImageSourcesByFolderPath['/tests/fixtures/images/folder_1']?.length,
   },
   {
-    path: '/test_images/folder_2',
+    path: '/tests/fixtures/images/folder_2',
     name: 'フォルダ2',
-    imageCount: mockImageSourcesByFolderPath['/test_images/folder_2']?.length,
+    imageCount:
+      mockImageSourcesByFolderPath['/tests/fixtures/images/folder_2']?.length,
   },
   {
     path: '/mock/empty-folder',
@@ -21,27 +24,6 @@ const folders: FolderInfo[] = [
     imageCount: 0,
   },
 ];
-
-const createMockFileSystemService = (): FileSystemService => ({
-  openDirectoryDialog: (): Promise<string | null> => {
-    throw new Error('Function not implemented.');
-  },
-  getBaseName: (_filePath: string): Promise<string> => {
-    throw new Error('Function not implemented.');
-  },
-  getDirName: (_filePath: string): Promise<string> => {
-    throw new Error('Function not implemented.');
-  },
-  listImagesInFolder: (_folderPath: string): Promise<string[]> => {
-    throw new Error('Function not implemented.');
-  },
-  getSiblingFolders: (_currentFolderPath: string): Promise<string[]> => {
-    throw new Error('Function not implemented.');
-  },
-  convertFileSrc: (_filePath: string): string => {
-    throw new Error('Function not implemented.');
-  },
-});
 
 const MockServiceProvider = ({ children }: { children: React.ReactNode }) => {
   const mockService = createMockFileSystemService();

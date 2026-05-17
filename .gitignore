@@ -14,6 +14,7 @@ dist-ssr
 
 # Editor directories and files
 .vscode/*
+!.vscode/settings.json
 !.vscode/extensions.json
 !.vscode/launch.json
 !.vscode/tasks.json
@@ -33,3 +34,4 @@ coverage/
 .serena/
 target/
 .pnpm-store/
+tests/fixtures/images-large/
