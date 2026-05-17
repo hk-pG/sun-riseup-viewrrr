@@ -35,7 +35,7 @@ describe('useThumbnail', () => {
         thumbnailPath: '/cache/thumbnails/abc123.jpg',
         imageName: 'image1.jpg',
       }),
-      listImagesInFolder: vi.fn(),
+      listImagesInContainer: vi.fn(),
       convertFileSrc: (path: string) => `asset://${path}`,
     });
 
@@ -56,7 +56,7 @@ describe('useThumbnail', () => {
       '/photos/folder1',
     );
     // 旧APIは呼ばれない（新APIで1回のIPCで完結）
-    expect(mockService.listImagesInFolder).not.toHaveBeenCalled();
+    expect(mockService.listImagesInContainer).not.toHaveBeenCalled();
   });
 
   // テスト2: 画像なしフォルダ

@@ -8,7 +8,7 @@ describe('useOpenImageFile', () => {
     const mockFs = createMockFileSystemService({
       openImageFileDialog: vi.fn().mockResolvedValue('/foo/bar/image2.png'),
       getDirName: vi.fn().mockResolvedValue('/foo/bar'),
-      listImagesInFolder: vi
+      listImagesInContainer: vi
         .fn()
         .mockResolvedValue([
           '/foo/bar/image1.png',
@@ -38,7 +38,7 @@ describe('useOpenImageFile', () => {
     const mockFs = createMockFileSystemService({
       openImageFileDialog: vi.fn().mockResolvedValue('/foo/bar/image2.png'),
       getDirName: vi.fn().mockResolvedValue('/foo/bar'),
-      listImagesInFolder: vi.fn().mockResolvedValue([]),
+      listImagesInContainer: vi.fn().mockResolvedValue([]),
     });
     const { result } = renderHook(() => useOpenImageFile(mockFs));
     const res = await result.current.openImageFile();

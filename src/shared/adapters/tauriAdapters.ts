@@ -54,20 +54,20 @@ export const tauriFileSystemService: FileSystemService = {
     }
   },
 
-  listImagesInFolder: async (folderPath: string): Promise<string[]> => {
+  listImagesInContainer: async (containerPath: string): Promise<string[]> => {
     try {
-      const images = await invoke<string[]>('list_images_in_folder', {
-        folderPath,
+      const images = await invoke<string[]>('list_images_in_container', {
+        containerPath,
       });
       if (!isStringArray(images)) {
         throw new Error(
-          `Invalid response from listImagesInFolder: expected string array, got ${typeof images}`,
+          `Invalid response from listImagesInContainer: expected string array, got ${typeof images}`,
         );
       }
       return images;
     } catch (error) {
       throw new Error(
-        `Failed to list images in folder "${folderPath}": ${error instanceof Error ? error.message : String(error)}`,
+        `Failed to list images in container "${containerPath}": ${error instanceof Error ? error.message : JSON.stringify(error)}`,
       );
     }
   },

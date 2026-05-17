@@ -102,7 +102,7 @@
 - src-tauri/src/commands/thumbnail/utils.rs
 - src-tauri/src/commands/thumbnail/generator.rs
 - docs/thumbnail-system-design-issues.md
-- docs/testing-strategy.md
+- docs/testing-strategy-2026-05.md
 
 ## 4. 次の進め方
 

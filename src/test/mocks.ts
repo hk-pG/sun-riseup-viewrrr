@@ -115,7 +115,7 @@ export const createMockFileSystemService = (
       async (filePath: string) =>
         filePath.split('/').slice(0, -1).join('/') || '/',
     ),
-  listImagesInFolder: vi.fn().mockResolvedValue([]),
+  listImagesInContainer: vi.fn().mockResolvedValue([]),
   getSiblingContainers: vi.fn().mockResolvedValue([]),
   convertFileSrc: vi
     .fn()
@@ -133,7 +133,7 @@ export const createMockFileSystemServiceWithThumbnails = () => ({
   getBaseName: vi.fn().mockResolvedValue('mockfile.jpg'),
   getDirName: vi.fn().mockResolvedValue('/mock'),
   convertFileSrc: vi.fn((path: string) => `asset://${path}`),
-  listImagesInFolder: vi.fn().mockResolvedValue([]),
+  listImagesInContainer: vi.fn().mockResolvedValue([]),
   getFolderThumbnail: vi.fn().mockResolvedValue({
     imagePath: '/mock/image.jpg',
     thumbnailPath: '/mock/cache/thumb.jpg',

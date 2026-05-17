@@ -2,11 +2,11 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { expect, userEvent, waitFor, within } from 'storybook/test';
 import App from '@/App';
 import { ThemeProvider } from '@/components/theme-provider';
+import { createMockFileSystemService } from '@/test/mocks';
 import {
   getMockImageFolders,
   mockImageSourcesByFolderPath,
 } from '../../tests/fixtures/data/mockData';
-import type { FileSystemService } from '../features/folder-navigation';
 import { ServicesProvider } from '../shared/context/ServiceContext';
 
 // フォルダパス→フレンドリー名のマッピング（useSiblingFolders の getBaseName で使用）
@@ -14,30 +14,26 @@ const folderNameMap: Record<string, string> = Object.fromEntries(
   getMockImageFolders().map((f) => [f.path, f.name]),
 );
 
-// モックサービス（ViewerIntegration.stories.tsx と同じパターン）
-const createMockFileSystemService = (): FileSystemService => ({
-  openDirectoryDialog: async () => '/mock/folder/path',
-  listImagesInFolder: async (_folderPath: string) => {
-    const images = mockImageSourcesByFolderPath[_folderPath] || [];
-    return images.map((img) => img.assetUrl);
-  },
-  getSiblingContainers: async () => {
-    return getMockImageFolders().map((folder) => folder.path);
-  },
-  convertFileSrc: (filePath: string) => filePath,
-  getBaseName: async (filePath: string) => {
-    return folderNameMap[filePath] || filePath.split('/').pop() || '';
-  },
-  getDirName: async (filePath: string) => {
-    const parts = filePath.split('/');
-    return parts.slice(0, -1).join('/');
-  },
-  getFolderThumbnail: async () => null,
-  prefetchFolderThumbnails: async () => {},
-});
-
 const MockServiceProvider = ({ children }: { children: React.ReactNode }) => {
-  const mockService = createMockFileSystemService();
+  const mockService = createMockFileSystemService({
+    listImagesInContainer: async (_folderPath: string) => {
+      const images = mockImageSourcesByFolderPath[_folderPath] || [];
+      return images.map((img) => img.assetUrl);
+    },
+    getSiblingContainers: async () => {
+      return getMockImageFolders().map((folder) => folder.path);
+    },
+    convertFileSrc: (filePath: string) => filePath,
+    getBaseName: async (filePath: string) => {
+      return folderNameMap[filePath] || filePath.split('/').pop() || '';
+    },
+    getDirName: async (filePath: string) => {
+      const parts = filePath.split('/');
+      return parts.slice(0, -1).join('/');
+    },
+    getFolderThumbnail: async () => null,
+  });
+
   return (
     <ThemeProvider defaultTheme="light">
       <ServicesProvider services={mockService}>{children}</ServicesProvider>

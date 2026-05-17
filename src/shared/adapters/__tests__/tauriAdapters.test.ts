@@ -106,7 +106,7 @@ describe('openImageFileDialog', () => {
   });
 });
 
-describe('listImagesInFolder', () => {
+describe('listImagesInContainer', () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
@@ -124,11 +124,12 @@ describe('listImagesInFolder', () => {
     ];
     mockInvoke.mockResolvedValue(expectedImages);
 
-    const result = await tauriFileSystemService.listImagesInFolder(folderPath);
+    const result =
+      await tauriFileSystemService.listImagesInContainer(folderPath);
 
     expect(result).toEqual(expectedImages);
-    expect(mockInvoke).toHaveBeenCalledWith('list_images_in_folder', {
-      folderPath,
+    expect(mockInvoke).toHaveBeenCalledWith('list_images_in_container', {
+      containerPath: folderPath,
     });
   });
 
@@ -136,21 +137,22 @@ describe('listImagesInFolder', () => {
     const folderPath = '/Users/test/empty';
     mockInvoke.mockResolvedValue([]);
 
-    const result = await tauriFileSystemService.listImagesInFolder(folderPath);
+    const result =
+      await tauriFileSystemService.listImagesInContainer(folderPath);
 
     expect(result).toEqual([]);
-    expect(mockInvoke).toHaveBeenCalledWith('list_images_in_folder', {
-      folderPath,
+    expect(mockInvoke).toHaveBeenCalledWith('list_images_in_container', {
+      containerPath: folderPath,
     });
   });
 
-  it('should propagate invalid response from listImagesInFolder', async () => {
+  it('should propagate invalid response from listImagesInContainer', async () => {
     const folderPath = '/valid/path';
     mockInvoke.mockResolvedValue(null);
 
     await expect(
-      tauriFileSystemService.listImagesInFolder(folderPath),
-    ).rejects.toThrow(`Failed to list images in folder "${folderPath}"`);
+      tauriFileSystemService.listImagesInContainer(folderPath),
+    ).rejects.toThrow(`Failed to list images in container "${folderPath}"`);
   });
 });
 
