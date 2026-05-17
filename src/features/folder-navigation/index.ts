@@ -17,7 +17,7 @@ export { useThumbnail } from './hooks/useThumbnail';
 export { useThumbnailPrefetch } from './hooks/useThumbnailPrefetch';
 // Services
 export type { FileSystemService } from './services/FileSystemService';
-export { getSiblingContainerEntries as getSiblingFolderEntries } from './services/getSiblingContainers';
+export { getSiblingContainerEntries } from './services/getSiblingContainers';
 
 // Types
 export type {
