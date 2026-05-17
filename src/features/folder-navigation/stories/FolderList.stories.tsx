@@ -1,8 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { fn } from 'storybook/test';
 import { ServicesProvider } from '@/shared';
+import { createMockFileSystemService } from '@/test/mocks';
 import { mockImageSourcesByFolderPath } from '../../../../tests/fixtures/data/mockData';
-import { type FileSystemService, type FolderInfo, FolderList } from '../index';
+import { type FolderInfo, FolderList } from '../index';
 
 const folders: FolderInfo[] = [
   {
@@ -23,29 +24,6 @@ const folders: FolderInfo[] = [
     imageCount: 0,
   },
 ];
-
-const createMockFileSystemService = (): FileSystemService => ({
-  openDirectoryDialog: (): Promise<string | null> => {
-    throw new Error('Function not implemented.');
-  },
-  getBaseName: (_filePath: string): Promise<string> => {
-    throw new Error('Function not implemented.');
-  },
-  getDirName: (_filePath: string): Promise<string> => {
-    throw new Error('Function not implemented.');
-  },
-  listImagesInFolder: (_folderPath: string): Promise<string[]> => {
-    throw new Error('Function not implemented.');
-  },
-  getSiblingContainers: (_currentContainerPath: string): Promise<string[]> => {
-    throw new Error('Function not implemented.');
-  },
-  convertFileSrc: (_filePath: string): string => {
-    throw new Error('Function not implemented.');
-  },
-  getFolderThumbnail: async () => null,
-  prefetchFolderThumbnails: async () => {},
-});
 
 const MockServiceProvider = ({ children }: { children: React.ReactNode }) => {
   const mockService = createMockFileSystemService();

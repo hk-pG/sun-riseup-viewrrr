@@ -1,4 +1,5 @@
 import useSWR from 'swr';
+import { logger } from '@/shared/utils/logger';
 import {
   type FileSystemService,
   LocalFolderContainer,
@@ -27,6 +28,13 @@ export const useImages = (folderPath?: string | null) => {
       // React 19 concurrent features対応
       suspense: false,
       keepPreviousData: true,
+      onError: (err) => {
+        console.dir(err);
+        logger.error(`${err}`, {
+          file: 'useImages.ts',
+          line: 31,
+        });
+      },
     },
   );
 

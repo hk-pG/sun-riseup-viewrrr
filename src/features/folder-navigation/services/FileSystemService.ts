@@ -9,12 +9,12 @@ export interface FileSystemService {
   // ユーザー定義コマンド
 
   /**
-   * フォルダ内の画像ファイルをリストアップする
-   * @param {string} folderPath - 画像ファイルをリストアップするフォルダのパス
+   * コンテナ内の画像ファイルをリストアップする
+   * @param {string} containerPath - 画像ファイルをリストアップするコンテナのパス
    * @returns {Promise<string[]>} - 画像ファイルのパスの配列
    * @throws {Error} - 画像ファイルのリストアップ中にエラーが発生した場合
    */
-  listImagesInFolder(folderPath: string): Promise<string[]>;
+  listImagesInContainer(containerPath: string): Promise<string[]>;
 
   /**
    * 指定されたコンテナと同じ階層にあるコンテナのリストを取得する。
