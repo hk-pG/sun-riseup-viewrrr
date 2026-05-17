@@ -67,7 +67,7 @@ export const tauriFileSystemService: FileSystemService = {
       return images;
     } catch (error) {
       throw new Error(
-        `Failed to list images in container "${containerPath}": ${error instanceof Error ? error.message : String(error)}`,
+        `Failed to list images in container "${containerPath}": ${error instanceof Error ? error.message : JSON.stringify(error)}`,
       );
     }
   },
