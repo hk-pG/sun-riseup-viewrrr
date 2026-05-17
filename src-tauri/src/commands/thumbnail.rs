@@ -22,7 +22,7 @@ pub async fn get_folder_thumbnail(
 ) -> std::result::Result<Option<FolderThumbnailResult>, String> {
     let cache_dir = get_cache_dir(&app_handle).map_err(|e| e.to_string())?;
     let result = tokio::task::spawn_blocking(move || {
-        let first_image = folder::get_first_image_in_folder(&container_path)?;
+        let first_image = folder::get_first_image_in_folder(&container_path, &cache_dir)?;
         let image_path = match first_image {
             Some(path) => path,
             None => return Ok::<Option<FolderThumbnailResult>, String>(None),
@@ -64,7 +64,7 @@ pub async fn prefetch_folder_thumbnails(
             .iter()
             .enumerate()
             .filter_map(|(index, folder_path)| {
-                folder::get_first_image_in_folder(folder_path)
+                folder::get_first_image_in_folder(folder_path, &cache_dir)
                     .ok()
                     .flatten()
                     .map(|image_path| (index, image_path))

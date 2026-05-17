@@ -1,40 +1,29 @@
-use std::fs;
-use std::path::PathBuf;
-
+use crate::image_container::reader_config::ImageContainerReaderConfig;
+use crate::image_container::ImageContainerReader;
 use crate::CommandError;
 
-/// Lists all image files in a specified folder.
-///
-/// This function scans the given folder and returns a list of file paths
-/// for all image files found. Supported image formats are JPG, JPEG, PNG, GIF, and WEBP.
+/// Lists all image files in a specified container (folder or archive).
+/// This function determines if the given path is a folder or an archive and lists
+/// the image files accordingly. It uses the `ImageContainerReader` to handle both types of containers.
 ///
 /// # Arguments
-///
-/// * `folder_path` - A string slice that holds the path to the folder to be scanned.
+/// * `container_path` - A string slice that holds the path to the container (folder or archive).
+/// * `cache_dir` - A string slice that holds the path to the cache directory for storing temporary files when dealing with archives.
 ///
 /// # Returns
+/// A `Result` containing either a `Vec<String>` with the full paths of all image files in the container or a `CommandError` if an error occurs.
 ///
-/// A `Result` containing either a `Vec<String>` with the full paths of all image files
-/// or a `CommandError` if an error occurs.
-pub fn list_images_in_folder(folder_path: String) -> Result<Vec<String>, CommandError> {
-    const SUPPORTED_EXTENSIONS: &[&str] = &["jpg", "jpeg", "png", "gif", "webp"];
+pub fn list_images_in_container<P: AsRef<std::path::Path>, Q: AsRef<std::path::Path>>(
+    container_path: P,
+    cache_dir: Q,
+) -> Result<Vec<String>, CommandError> {
+    let container_path = container_path.as_ref();
+    let cache_dir = cache_dir.as_ref();
 
-    let entries = fs::read_dir(&folder_path)?;
+    let reader_config = ImageContainerReaderConfig::new(cache_dir);
+    let reader = ImageContainerReader::new(reader_config);
 
-    let images = entries
-        .filter_map(|entry| {
-            let path = entry.ok()?.path();
-            if path.is_file() {
-                let ext = path.extension()?.to_str()?.to_lowercase();
-                if SUPPORTED_EXTENSIONS.contains(&ext.as_str()) {
-                    return Some(path.to_string_lossy().to_string());
-                }
-            }
-            None
-        })
-        .collect();
-
-    Ok(images)
+    reader.list_images_in_container(container_path)
 }
 
 ///
@@ -48,93 +37,67 @@ pub fn get_sibling_containers<P: AsRef<std::path::Path>>(
     crate::image_container::get_sibling_containers(container_path)
 }
 
-/// `get_sibling_folders` コマンドは、指定されたパスの兄弟フォルダを取得します。
-/// 自分自身のフォルダは除外されます。
-///
-/// # Examples
-///
-/// ```no_run
-/// use core_logic::get_sibling_folders;
-/// let siblings = get_sibling_folders("/path/to/current/folder".to_string());
-/// // siblings: Ok(["/path/to/current/folder/../sibling1", "/path/to/current/folder/../sibling2"])
-/// ```
-pub fn get_sibling_folders(folder_path: String) -> Result<Vec<String>, CommandError> {
-    let current = PathBuf::from(&folder_path);
-
-    if !current.exists() {
-        return Err(CommandError::PathNotFound(folder_path));
-    }
-
-    let parent = current.parent().ok_or(CommandError::NoParent)?;
-
-    let siblings = fs::read_dir(parent)?
-        .filter_map(|entry| {
-            entry.ok().and_then(|e| {
-                let path = e.path();
-                // Exclude the current folder itself
-                if path.is_dir() && path != current {
-                    Some(path.to_string_lossy().to_string())
-                } else {
-                    None
-                }
-            })
-        })
-        .collect();
-
-    Ok(siblings)
-}
-
 #[cfg(test)]
 mod tests {
-    use crate::test_helper::test_helpers::TempTestDir;
-
     use super::*;
-
+    use crate::test_helper::test_helpers::TempTestDir;
     use std::fs::{create_dir_all, File};
 
-    #[test]
-    fn test_list_images_in_folder_success() {
-        let temp_dir = TempTestDir::new_random();
-        File::create(temp_dir.path().join("image1.jpg")).unwrap();
-        File::create(temp_dir.path().join("image2.PNG")).unwrap(); // Uppercase extension
-        File::create(temp_dir.path().join("document.txt")).unwrap();
+    mod list_images_in_container {
+        use super::*;
+        #[test]
+        fn test_list_images_in_folder_success() {
+            let temp_dir = TempTestDir::new_random();
+            File::create(temp_dir.path().join("image1.jpg")).unwrap();
+            File::create(temp_dir.path().join("image2.PNG")).unwrap(); // Uppercase extension
+            File::create(temp_dir.path().join("document.txt")).unwrap();
 
-        let images = list_images_in_folder(temp_dir.path().to_string_lossy().to_string()).unwrap();
+            let images = list_images_in_container(
+                temp_dir.path().to_string_lossy().to_string(),
+                temp_dir.path().to_string_lossy().to_string(),
+            )
+            .unwrap();
 
-        assert_eq!(images.len(), 2);
-        assert!(images.iter().any(|p| p.ends_with("image1.jpg")));
-        assert!(images.iter().any(|p| p.ends_with("image2.PNG")));
+            assert_eq!(images.len(), 2);
+            assert!(images.iter().any(|p| p.ends_with("image1.jpg")));
+            assert!(images.iter().any(|p| p.ends_with("image2.PNG")));
+        }
+
+        #[test]
+        fn test_list_images_in_container_not_found() {
+            let result =
+                list_images_in_container("non_existent_path_for_images", "non_existent_cache_dir");
+            assert!(matches!(result, Err(CommandError::PathNotFound(_))));
+        }
     }
 
-    #[test]
-    fn test_list_images_in_folder_not_found() {
-        let result = list_images_in_folder("non_existent_path_for_images".to_string());
-        assert!(matches!(result, Err(CommandError::Io(_))));
-    }
+    mod get_sibling_containers {
+        use super::*;
 
-    #[test]
-    fn test_get_sibling_folders_success() {
-        let base = TempTestDir::new_random();
-        create_dir_all(base.path().join("A")).unwrap();
-        create_dir_all(base.path().join("B")).unwrap();
-        create_dir_all(base.path().join("C")).unwrap();
+        #[test]
+        fn test_get_sibling_containers_success() {
+            let base = TempTestDir::new_random();
+            create_dir_all(base.path().join("A")).unwrap();
+            create_dir_all(base.path().join("B")).unwrap();
+            create_dir_all(base.path().join("C")).unwrap();
 
-        let current_path = base.path().join("B").to_string_lossy().to_string();
-        let mut result = get_sibling_folders(current_path).unwrap();
-        result.sort(); // Sort for stable assertion
+            let current_path = base.path().join("B").to_string_lossy().to_string();
+            let mut result = get_sibling_containers(current_path).unwrap();
+            result.sort(); // Sort for stable assertion
 
-        let mut expected = vec![
-            base.path().join("A").to_string_lossy().to_string(),
-            base.path().join("C").to_string_lossy().to_string(),
-        ];
-        expected.sort();
+            let mut expected = vec![
+                base.path().join("A").to_string_lossy().to_string(),
+                base.path().join("C").to_string_lossy().to_string(),
+            ];
+            expected.sort();
 
-        assert_eq!(result, expected);
-    }
+            assert_eq!(result, expected);
+        }
 
-    #[test]
-    fn test_get_sibling_folders_not_found() {
-        let result = get_sibling_folders("non_existent_path_for_siblings".to_string());
-        assert!(matches!(result, Err(CommandError::PathNotFound(_))));
+        #[test]
+        fn test_get_sibling_containers_not_found() {
+            let result = get_sibling_containers("non_existent_path_for_siblings");
+            assert!(matches!(result, Err(CommandError::PathNotFound(_))));
+        }
     }
 }
