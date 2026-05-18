@@ -1,9 +1,7 @@
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { storybookTest } from '@storybook/addon-vitest/vitest-plugin';
 import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
-import { playwright } from '@vitest/browser-playwright';
 import { defineConfig } from 'vitest/config';
 
 const host = process.env.TAURI_DEV_HOST;
@@ -14,7 +12,7 @@ const dirname =
     : path.dirname(fileURLToPath(import.meta.url));
 
 // https://vitejs.dev/config/
-export default defineConfig(async () => ({
+export default defineConfig({
   plugins: [
     react({
       babel: {
@@ -46,68 +44,10 @@ export default defineConfig(async () => ({
     ],
   },
   test: {
-    // describe, it, expectなどをグローバルスコープで使えるようにする
     globals: true,
-    // DOM環境をシミュレート
     environment: 'jsdom',
-    // (オプション) テスト全体のセットアップファイル
     setupFiles: './src/test/setup.ts',
     testTimeout: 10000,
-    // プロジェクト設定（旧vitest.workspace.tsの内容を統合）
-    projects: [
-      // デフォルトのテストプロジェクト
-      {
-        resolve: {
-          alias: {
-            '@': path.resolve(dirname, './src/'),
-          },
-        },
-        test: {
-          globals: true,
-          environment: 'jsdom',
-          setupFiles: './src/test/setup.ts',
-          testTimeout: 10000,
-        },
-      },
-      // Storybookテストプロジェクト
-      {
-        plugins: [
-          react({
-            jsxRuntime: 'automatic',
-            jsxImportSource: 'react',
-          }),
-          tailwindcss(),
-          storybookTest({ configDir: path.join(dirname, '.storybook') }),
-        ],
-        resolve: {
-          alias: {
-            '@': path.resolve(dirname, './src/'),
-          },
-        },
-        test: {
-          name: 'storybook',
-          browser: {
-            enabled: true,
-            headless: true,
-            provider: playwright(),
-            instances: [{ browser: 'chromium' as const }],
-          },
-          setupFiles: ['.storybook/vitest.setup.ts'],
-          testTimeout: 10000,
-          deps: {
-            optimizer: {
-              client: {
-                include: [
-                  '@testing-library/react',
-                  '@storybook/react-vite',
-                  '@storybook/addon-a11y',
-                ],
-              },
-            },
-          },
-        },
-      },
-    ],
   },
 
   // Tauri development server configuration
@@ -127,4 +67,4 @@ export default defineConfig(async () => ({
       ignored: ['**/src-tauri/**'],
     },
   },
-}));
+});
