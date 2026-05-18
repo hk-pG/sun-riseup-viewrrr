@@ -3,6 +3,7 @@ import { fileURLToPath } from 'node:url';
 import { storybookTest } from '@storybook/addon-vitest/vitest-plugin';
 import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
+import { playwright } from '@vitest/browser-playwright';
 import { defineConfig } from 'vitest/config';
 
 const host = process.env.TAURI_DEV_HOST;
@@ -17,8 +18,8 @@ export default defineConfig(async () => ({
   plugins: [
     react({
       babel: {
-        plugins: ['babel-plugin-react-compiler']
-      }
+        plugins: ['babel-plugin-react-compiler'],
+      },
     }),
     tailwindcss(),
   ],
@@ -88,14 +89,14 @@ export default defineConfig(async () => ({
           browser: {
             enabled: true,
             headless: true,
-            provider: 'playwright',
-            instances: [{ browser: 'chromium' }],
+            provider: playwright(),
+            instances: [{ browser: 'chromium' as const }],
           },
           setupFiles: ['.storybook/vitest.setup.ts'],
           testTimeout: 10000,
           deps: {
             optimizer: {
-              web: {
+              client: {
                 include: [
                   '@testing-library/react',
                   '@storybook/react-vite',
@@ -117,10 +118,10 @@ export default defineConfig(async () => ({
     host: host || false,
     hmr: host
       ? {
-        protocol: 'ws',
-        host,
-        port: 1421,
-      }
+          protocol: 'ws',
+          host,
+          port: 1421,
+        }
       : undefined,
     watch: {
       ignored: ['**/src-tauri/**'],

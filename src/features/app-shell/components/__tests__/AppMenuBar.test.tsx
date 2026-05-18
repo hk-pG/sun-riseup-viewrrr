@@ -2,7 +2,11 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import type React from 'react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { resetAllMocks, setupTauriMocks } from '../../../../test/mocks';
-import { AppMenuBar, type AppMenuBarProps } from '../AppMenuBar';
+import {
+  AppMenuBar,
+  type AppMenuBarEvent,
+  type AppMenuBarProps,
+} from '../AppMenuBar';
 
 // Radix UI の Menubar は jsdom 環境でポップオーバーが開かないため、
 // メニュー項目が常に DOM に存在する簡易コンポーネントでモックする
@@ -94,14 +98,14 @@ vi.mock('../../../../../components/theme-provider', () => ({
 }));
 
 describe('AppMenuBar Component (No Theme Dependencies)', () => {
-  let mockOnMenuAction: ReturnType<typeof vi.fn>;
-  let mockOnOpenFolder: ReturnType<typeof vi.fn>;
+  let mockOnMenuAction = vi.fn<(actionId: AppMenuBarEvent) => void>();
+  let mockOnOpenFolder = vi.fn<() => void>();
 
   beforeEach(() => {
     resetAllMocks();
     setupTauriMocks();
-    mockOnMenuAction = vi.fn();
-    mockOnOpenFolder = vi.fn();
+    mockOnMenuAction = vi.fn<(actionId: AppMenuBarEvent) => void>();
+    mockOnOpenFolder = vi.fn<() => void>();
   });
 
   const getDefaultProps = (): AppMenuBarProps => ({
@@ -136,7 +140,7 @@ describe('AppMenuBar Component (No Theme Dependencies)', () => {
 
   describe('Component Props', () => {
     it('should accept onMenuAction prop', () => {
-      const customOnMenuAction = vi.fn();
+      const customOnMenuAction = vi.fn<(actionId: AppMenuBarEvent) => void>();
       renderAppMenuBar({ onMenuAction: customOnMenuAction });
 
       expect(screen.getByRole('banner')).toBeInTheDocument();
