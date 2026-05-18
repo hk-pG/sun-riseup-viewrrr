@@ -14,7 +14,9 @@ export const useControlsVisibility = (
   timeout: number,
 ) => {
   const [isVisible, setIsVisible] = useState(showControls);
-  const timeoutRef = useRef<NodeJS.Timeout | undefined>(undefined);
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(
+    undefined,
+  );
 
   const shouldAutoHide = autoHide && timeout > 0;
 

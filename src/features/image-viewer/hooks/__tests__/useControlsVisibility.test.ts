@@ -92,7 +92,7 @@ describe('useControlsVisibility', () => {
       });
 
       it('should clear existing timeout when setting new timeout', () => {
-        const clearTimeoutSpy = vi.spyOn(global, 'clearTimeout');
+        const clearTimeoutSpy = vi.spyOn(globalThis, 'clearTimeout');
 
         const { result } = renderHook(() =>
           useControlsVisibility(true, true, 3000),
@@ -277,7 +277,7 @@ describe('useControlsVisibility', () => {
   describe('cleanup and settings changes', () => {
     describe('timeout cleanup on component unmount', () => {
       it('should clear timeout when component unmounts', () => {
-        const clearTimeoutSpy = vi.spyOn(global, 'clearTimeout');
+        const clearTimeoutSpy = vi.spyOn(globalThis, 'clearTimeout');
 
         const { result, unmount } = renderHook(() =>
           useControlsVisibility(true, true, 3000),
@@ -291,7 +291,7 @@ describe('useControlsVisibility', () => {
       });
 
       it('should clear timeout when component unmounts even if no timeout was set', () => {
-        vi.spyOn(global, 'clearTimeout');
+        vi.spyOn(globalThis, 'clearTimeout');
 
         const { unmount } = renderHook(() =>
           useControlsVisibility(true, false, 3000),
@@ -457,7 +457,7 @@ describe('useControlsVisibility', () => {
       });
 
       it('should handle rapid autoHide changes', () => {
-        const clearTimeoutSpy = vi.spyOn(global, 'clearTimeout');
+        const clearTimeoutSpy = vi.spyOn(globalThis, 'clearTimeout');
 
         const { result, rerender } = renderHook(
           ({ showControls, autoHide, timeout }) =>
