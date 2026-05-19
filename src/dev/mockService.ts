@@ -7,16 +7,29 @@
  */
 import type { FileSystemService } from '@/features/folder-navigation';
 import {
+  generateDummyEmptyFolders,
   getMockImageFolders,
   mockImageSourcesByFolderPath,
 } from '../../tests/fixtures/data/mockData';
 
-const folderNameMap: Record<string, string> = Object.fromEntries(
-  getMockImageFolders().map((f) => [f.path, f.name]),
+const TARGET_FOLDER_COUNT = 100;
+const imageFolders = getMockImageFolders();
+// 画像ありフォルダ数が TARGET_FOLDER_COUNT に満たない分をダミーで補完
+const dummyFolders = generateDummyEmptyFolders(
+  Math.max(0, TARGET_FOLDER_COUNT - imageFolders.length),
 );
+const allFolderPaths = [
+  ...imageFolders.map((f) => f.path),
+  ...dummyFolders.map((f) => f.path),
+];
+
+const folderNameMap: Record<string, string> = {
+  ...Object.fromEntries(imageFolders.map((f) => [f.path, f.name])),
+  ...Object.fromEntries(dummyFolders.map((f) => [f.path, f.name])),
+};
 
 export const devMockService: FileSystemService = {
-  openDirectoryDialog: async () => getMockImageFolders()[0]?.path ?? null,
+  openDirectoryDialog: async () => imageFolders[0]?.path ?? null,
 
   openImageFileDialog: async () => null,
 
@@ -33,7 +46,8 @@ export const devMockService: FileSystemService = {
     return images.map((img) => img.assetUrl);
   },
 
-  getSiblingContainers: async () => getMockImageFolders().map((f) => f.path),
+  getSiblingContainers: async (containerPath: string) =>
+    allFolderPaths.filter((p) => p !== containerPath),
 
   getFolderThumbnail: async () => null,
 
