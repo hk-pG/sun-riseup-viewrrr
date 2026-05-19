@@ -50,11 +50,17 @@ export const mockImageSourcesByFolderPath: Record<string, ImageSource[]> = {
 
 // 画像付きフォルダ情報はmockImageSourcesByFolderPathからのみ生成
 export const getMockImageFolders = (): FolderInfo[] => {
-  const folderNames: Record<string, string> = {
-    '/tests/fixtures/images/folder_1': 'ワンピース 第1巻',
-    '/tests/fixtures/images/folder_2': 'NARUTO -ナルト- 第1巻',
-    '/tests/fixtures/images/folder_3': '進撃の巨人 第1巻',
-  };
+  const folderNames: Record<string, string> = Array.from(
+    { length: 100 },
+    (_, i) => i + 1,
+  ).reduce(
+    (acc, num) => {
+      const path = `/tests/fixtures/images/folder_${num}`;
+      acc[path] = `フォルダ${num}`;
+      return acc;
+    },
+    {} as Record<string, string>,
+  );
   return Object.entries(mockImageSourcesByFolderPath).map(([path, images]) => ({
     path,
     name: folderNames[path] || path,
