@@ -6,6 +6,7 @@
  *   VITE_MOCK=true pnpm dev:mock
  */
 import type { FileSystemService } from '@/features/folder-navigation';
+import type { ImageHandle } from '@/features/image-viewer';
 import {
   generateDummyEmptyFolders,
   getMockImageFolders,
@@ -28,6 +29,23 @@ const folderNameMap: Record<string, string> = {
   ...Object.fromEntries(dummyFolders.map((f) => [f.path, f.name])),
 };
 
+const createImageHandles = (folderPath: string): ImageHandle[] => {
+  const images = mockImageSourcesByFolderPath[folderPath] ?? [];
+  return images.map((image, index) => ({
+    index,
+    name: image.name,
+  }));
+};
+
+const resolveImagePaths = (
+  folderPath: string,
+  offset: number,
+  count: number,
+): string[] => {
+  const images = mockImageSourcesByFolderPath[folderPath] ?? [];
+  return images.slice(offset, offset + count).map((image) => image.assetUrl);
+};
+
 export const devMockService: FileSystemService = {
   openDirectoryDialog: async () => imageFolders[0]?.path ?? null,
 
@@ -45,6 +63,15 @@ export const devMockService: FileSystemService = {
     const images = mockImageSourcesByFolderPath[folderPath] ?? [];
     return images.map((img) => img.assetUrl);
   },
+
+  listImageHandles: async (folderPath: string) =>
+    createImageHandles(folderPath),
+
+  resolveImagesInRange: async (
+    folderPath: string,
+    offset: number,
+    count: number,
+  ) => resolveImagePaths(folderPath, offset, count),
 
   getSiblingContainers: async (containerPath: string) =>
     allFolderPaths.filter((p) => p !== containerPath),

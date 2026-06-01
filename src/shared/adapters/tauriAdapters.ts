@@ -8,8 +8,24 @@ import {
 } from '@tauri-apps/api/path';
 import { open as tauriOpenDialog } from '@tauri-apps/plugin-dialog';
 import type { FolderThumbnailResult } from '@/features/folder-navigation/types/folderTypes';
+import type { ImageHandle } from '@/features/image-viewer';
 import type { FileSystemService } from '../../features/folder-navigation';
 import { isStringArray } from '../utils/isStringArray';
+
+const isImageHandle = (value: unknown): value is ImageHandle => {
+  if (typeof value !== 'object' || value === null) {
+    return false;
+  }
+
+  const candidate = value as Record<string, unknown>;
+  return (
+    typeof candidate.index === 'number' && typeof candidate.name === 'string'
+  );
+};
+
+const isImageHandleArray = (value: unknown): value is ImageHandle[] => {
+  return Array.isArray(value) && value.every(isImageHandle);
+};
 
 export const tauriFileSystemService: FileSystemService = {
   openDirectoryDialog: async (): Promise<string | null> => {
@@ -68,6 +84,48 @@ export const tauriFileSystemService: FileSystemService = {
     } catch (error) {
       throw new Error(
         `Failed to list images in container "${containerPath}": ${error instanceof Error ? error.message : JSON.stringify(error)}`,
+      );
+    }
+  },
+
+  listImageHandles: async (containerPath: string): Promise<ImageHandle[]> => {
+    try {
+      const handles = await invoke<ImageHandle[]>('list_image_handles', {
+        containerPath,
+      });
+      if (!isImageHandleArray(handles)) {
+        throw new Error(
+          `Invalid response from listImageHandles: expected ImageHandle array, got ${typeof handles}`,
+        );
+      }
+      return handles;
+    } catch (error) {
+      throw new Error(
+        `Failed to list image handles in container "${containerPath}": ${error instanceof Error ? error.message : JSON.stringify(error)}`,
+      );
+    }
+  },
+
+  resolveImagesInRange: async (
+    containerPath: string,
+    offset: number,
+    count: number,
+  ): Promise<string[]> => {
+    try {
+      const images = await invoke<string[]>('resolve_images_in_range', {
+        containerPath,
+        offset,
+        count,
+      });
+      if (!isStringArray(images)) {
+        throw new Error(
+          `Invalid response from resolveImagesInRange: expected string array, got ${typeof images}`,
+        );
+      }
+      return images;
+    } catch (error) {
+      throw new Error(
+        `Failed to resolve images in range for "${containerPath}" (offset=${offset}, count=${count}): ${error instanceof Error ? error.message : JSON.stringify(error)}`,
       );
     }
   },

@@ -1,4 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import type { ImageHandle } from '@/features/image-viewer';
 import { tauriFileSystemService } from '../tauriAdapters';
 
 // Mock Tauri APIs
@@ -153,6 +154,86 @@ describe('listImagesInContainer', () => {
     await expect(
       tauriFileSystemService.listImagesInContainer(folderPath),
     ).rejects.toThrow(`Failed to list images in container "${folderPath}"`);
+  });
+});
+
+describe('listImageHandles', () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  afterEach(() => {
+    vi.resetAllMocks();
+  });
+
+  it('should return image handles for valid container', async () => {
+    const containerPath = '/Users/test/images.zip';
+    const expectedHandles: ImageHandle[] = [
+      { index: 0, name: 'photo1.jpg' },
+      { index: 1, name: 'photo2.png' },
+    ];
+    mockInvoke.mockResolvedValue(expectedHandles);
+
+    const result = await tauriFileSystemService.listImageHandles(containerPath);
+
+    expect(result).toEqual(expectedHandles);
+    expect(mockInvoke).toHaveBeenCalledWith('list_image_handles', {
+      containerPath,
+    });
+  });
+
+  it('should reject invalid response from listImageHandles', async () => {
+    const containerPath = '/valid/path';
+    mockInvoke.mockResolvedValue([{ index: '0', name: 'photo1.jpg' }]);
+
+    await expect(
+      tauriFileSystemService.listImageHandles(containerPath),
+    ).rejects.toThrow(
+      `Failed to list image handles in container "${containerPath}"`,
+    );
+  });
+});
+
+describe('resolveImagesInRange', () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  afterEach(() => {
+    vi.resetAllMocks();
+  });
+
+  it('should resolve image paths for requested range', async () => {
+    const containerPath = '/Users/test/images.zip';
+    const expectedImages = [
+      '/Users/test/cache/photo2.png',
+      '/Users/test/cache/photo3.gif',
+    ];
+    mockInvoke.mockResolvedValue(expectedImages);
+
+    const result = await tauriFileSystemService.resolveImagesInRange(
+      containerPath,
+      1,
+      2,
+    );
+
+    expect(result).toEqual(expectedImages);
+    expect(mockInvoke).toHaveBeenCalledWith('resolve_images_in_range', {
+      containerPath,
+      offset: 1,
+      count: 2,
+    });
+  });
+
+  it('should reject invalid response from resolveImagesInRange', async () => {
+    const containerPath = '/valid/path';
+    mockInvoke.mockResolvedValue([{ path: '/invalid' }]);
+
+    await expect(
+      tauriFileSystemService.resolveImagesInRange(containerPath, 0, 1),
+    ).rejects.toThrow(
+      `Failed to resolve images in range for "${containerPath}" (offset=0, count=1)`,
+    );
   });
 });
 
