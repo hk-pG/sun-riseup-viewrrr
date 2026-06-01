@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState, useTransition } from 'react';
+import type { ImageContainer } from '@/features/image-viewer/types/ImageContainer';
 import type { ImageSource } from '@/features/image-viewer/types/ImageSource';
 import type {
   KeyboardMapping,
@@ -13,10 +14,11 @@ import { ImageDisplay } from './ImageDisplay';
 import { ViewerControls } from './ViewerControls';
 
 /**
- * ImageViewerProps: フォルダパスを受け取り、その中の画像を表示するビューアのprops
+ * ImageViewerProps: 画像コンテナまたはフォルダパスを受け取り、その中の画像を表示するビューアのprops
  */
 export interface ImageViewerProps {
-  folderPath: string;
+  container?: ImageContainer;
+  folderPath?: string;
   initialIndex?: number;
   settings?: Partial<ViewerSettings>;
   keyboardMapping?: KeyboardMapping;
@@ -44,6 +46,7 @@ const defaultSettings: ViewerSettings = {
 };
 
 export function ImageViewer({
+  container,
   folderPath,
   initialIndex = 0,
   settings: userSettings,
@@ -57,7 +60,8 @@ export function ImageViewer({
     ...userSettings,
   };
 
-  const { images = [], isLoading, error } = useImages(folderPath);
+  const imageSource = container ?? folderPath;
+  const { images = [], isLoading, error } = useImages(imageSource);
   const [loading, setLoading] = useState(true);
 
   // 重い処理（ズーム）を非ブロッキングで実行、軽量操作（画像切り替え）には使用しない

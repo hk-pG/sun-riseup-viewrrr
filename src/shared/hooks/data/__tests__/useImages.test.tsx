@@ -1,7 +1,7 @@
 import { renderHook, waitFor } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import type { FileSystemService } from '@/features/folder-navigation/services/FileSystemService';
-import type { ImageSource } from '@/features/image-viewer';
+import type { ImageContainer, ImageSource } from '@/features/image-viewer';
 import { ServicesProvider, useImages } from '@/shared';
 import { createMockFileSystemService } from '../../../../test/mocks';
 
@@ -156,6 +156,32 @@ describe('useImages', () => {
     });
     expect(handlesSpy).toHaveBeenCalledTimes(1);
     expect(resolveSpy).toHaveBeenCalledTimes(1);
+  });
+
+  it('container を渡した場合は新契約の listHandles と resolveRange を使う', async () => {
+    const listHandles = vi
+      .fn()
+      .mockResolvedValue([{ index: 0, name: mockImageSources[0].name }]);
+    const resolveRange = vi.fn().mockResolvedValue([mockImageSources[0]]);
+    const container: ImageContainer = {
+      getCacheKey: () => 'container:/images',
+      listHandles,
+      resolveRange,
+    };
+
+    const { result } = renderHook(() => useImages(container), {
+      wrapper: ServicesWrapper,
+    });
+
+    await waitFor(() => {
+      expect(result.current.images).toEqual([mockImageSources[0]]);
+      expect(result.current.error).toBeUndefined();
+      expect(result.current.isLoading).toBe(false);
+    });
+
+    expect(listHandles).toHaveBeenCalledTimes(1);
+    expect(resolveRange).toHaveBeenCalledWith(0, 1);
+    expect(mockFileSystemService.listImageHandles).not.toHaveBeenCalled();
   });
 
   // 改善点: beforeEachでconsole.errorのモックをリセットする
