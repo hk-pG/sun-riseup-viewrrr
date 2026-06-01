@@ -22,6 +22,12 @@ const mockImageSources: ImageSource[] = [
 // Tauri APIのモック（beforeEach内で再生成）
 let mockFileSystemService: FileSystemService;
 
+const createImageHandles = () =>
+  mockImageSources.map((image, index) => ({
+    index,
+    name: image.name,
+  }));
+
 const ServicesWrapper = ({ children }: { children: React.ReactNode }) => {
   return (
     <ServicesProvider services={mockFileSystemService}>
@@ -46,7 +52,10 @@ describe('useImages', () => {
   });
 
   it('存在するフォルダ内の画像リストを取得する', async () => {
-    mockFileSystemService.listImagesInContainer = vi
+    mockFileSystemService.listImageHandles = vi
+      .fn()
+      .mockResolvedValue(createImageHandles());
+    mockFileSystemService.resolveImagesInRange = vi
       .fn()
       .mockResolvedValue([mockImageSources[0].id, mockImageSources[1].id]);
 
@@ -62,7 +71,7 @@ describe('useImages', () => {
   });
 
   it('存在しないフォルダを指定した場合、エラーが返される', async () => {
-    mockFileSystemService.listImagesInContainer = vi.fn().mockReturnValue(null);
+    mockFileSystemService.listImageHandles = vi.fn().mockReturnValue(null);
 
     const { result } = renderHook(() => useImages('invalid/folder'), {
       wrapper: ServicesWrapper,
@@ -76,7 +85,7 @@ describe('useImages', () => {
   });
 
   it('ファイルアクセスで例外が発生した場合、エラーが返される', async () => {
-    mockFileSystemService.listImagesInContainer = vi
+    mockFileSystemService.listImageHandles = vi
       .fn()
       .mockRejectedValue(new Error('File access error'));
     const { result } = renderHook(() => useImages('error/folder'), {
@@ -91,7 +100,7 @@ describe('useImages', () => {
   });
 
   it('画像が1件も存在しないフォルダの場合、空配列を返す', async () => {
-    mockFileSystemService.listImagesInContainer = vi.fn().mockResolvedValue([]);
+    mockFileSystemService.listImageHandles = vi.fn().mockResolvedValue([]);
     const { result } = renderHook(() => useImages('empty/folder'), {
       wrapper: ServicesWrapper,
     });
@@ -103,31 +112,34 @@ describe('useImages', () => {
   });
 
   it('folderPathがnullの場合、imagesはundefinedになる', async () => {
-    // listImagesInContainerは呼ばれないはず
-    mockFileSystemService.listImagesInContainer = vi.fn();
+    mockFileSystemService.listImageHandles = vi.fn();
     const { result } = renderHook(() => useImages(null), {
       wrapper: ServicesWrapper,
     });
     expect(result.current.images).toBeUndefined();
     expect(result.current.error).toBeUndefined();
     expect(result.current.isLoading).toBe(false);
-    expect(mockFileSystemService.listImagesInContainer).not.toHaveBeenCalled();
+    expect(mockFileSystemService.listImageHandles).not.toHaveBeenCalled();
   });
 
   it('folderPathがundefinedの場合、imagesはundefinedになる', async () => {
-    mockFileSystemService.listImagesInContainer = vi.fn();
+    mockFileSystemService.listImageHandles = vi.fn();
     const { result } = renderHook(() => useImages(undefined), {
       wrapper: ServicesWrapper,
     });
     expect(result.current.images).toBeUndefined();
     expect(result.current.error).toBeUndefined();
     expect(result.current.isLoading).toBe(false);
-    expect(mockFileSystemService.listImagesInContainer).not.toHaveBeenCalled();
+    expect(mockFileSystemService.listImageHandles).not.toHaveBeenCalled();
   });
 
-  it('同じパスで2回呼んだ場合、SWRキャッシュによりlistImagesInContainerが1回しか呼ばれない', async () => {
-    const spy = vi.fn().mockResolvedValue([mockImageSources[0].id]);
-    mockFileSystemService.listImagesInContainer = spy;
+  it('同じパスで2回呼んだ場合、SWRキャッシュによりlistImageHandlesが1回しか呼ばれない', async () => {
+    const handlesSpy = vi
+      .fn()
+      .mockResolvedValue([{ index: 0, name: mockImageSources[0].name }]);
+    const resolveSpy = vi.fn().mockResolvedValue([mockImageSources[0].id]);
+    mockFileSystemService.listImageHandles = handlesSpy;
+    mockFileSystemService.resolveImagesInRange = resolveSpy;
 
     const { result: result1 } = renderHook(() => useImages('cache/folder'), {
       wrapper: ServicesWrapper,
@@ -136,14 +148,14 @@ describe('useImages', () => {
       expect(result1.current.images).toEqual([mockImageSources[0]]);
     });
 
-    // 2回目（キャッシュが効いていればlistImagesInContainerは呼ばれない）
     const { result: result2 } = renderHook(() => useImages('cache/folder'), {
       wrapper: ServicesWrapper,
     });
     await waitFor(() => {
       expect(result2.current.images).toEqual([mockImageSources[0]]);
     });
-    expect(spy).toHaveBeenCalledTimes(1);
+    expect(handlesSpy).toHaveBeenCalledTimes(1);
+    expect(resolveSpy).toHaveBeenCalledTimes(1);
   });
 
   // 改善点: beforeEachでconsole.errorのモックをリセットする

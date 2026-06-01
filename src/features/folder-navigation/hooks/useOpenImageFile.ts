@@ -14,8 +14,9 @@ export function useOpenImageFile(fs: FileSystemService) {
       const filePath = await fs.openImageFileDialog();
       if (!filePath) return null;
       const folderPath = await fs.getDirName(filePath);
-      const images = await fs.listImagesInContainer(folderPath);
-      const index = images.findIndex((img: string) => img === filePath);
+      const fileBasename = await fs.getBaseName(filePath);
+      const handles = await fs.listImageHandles(folderPath);
+      const index = handles.findIndex((handle) => handle.name === fileBasename);
       return {
         folderPath,
         filePath,
