@@ -6,6 +6,7 @@ export { FolderView } from './components/FolderView';
 export { Sidebar } from './components/Sidebar';
 // Constants
 export { SIDEBAR_CONFIG } from './constants/sidebarConfig';
+export type { ContainerConfig } from './containers/LocalFolderContainer';
 // Containers
 export { LocalFolderContainer } from './containers/LocalFolderContainer';
 // Hooks

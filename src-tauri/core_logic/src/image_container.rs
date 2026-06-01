@@ -25,6 +25,12 @@ impl From<std::io::Error> for CommandError {
     }
 }
 
+#[derive(Debug, Clone, serde::Serialize, serde::Deserialize, PartialEq, Eq)]
+pub struct ImageHandle {
+    pub index: u32,
+    pub name: String,
+}
+
 pub trait ImageContainer {
     ///
     /// Returns a list of image file paths contained within the container.

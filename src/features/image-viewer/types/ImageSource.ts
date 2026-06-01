@@ -6,6 +6,18 @@
  * - ImageFile（ファイル情報型）から変換して利用されることが多い。
  * - ImageContainerやLocalFolderContainerで返却される。
  */
+export type ImageHandle = {
+  /**
+   * ソート済み順序
+   */
+  index: number;
+
+  /**
+   * 表示用ファイル名
+   */
+  name: string;
+};
+
 export type ImageSource = {
   /**
    * 識別子(ファイルパスやUUIDなど)

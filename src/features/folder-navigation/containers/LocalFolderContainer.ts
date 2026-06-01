@@ -4,6 +4,11 @@ import type { ImageContainer } from '../../image-viewer/types/ImageContainer';
 import type { ImageSource } from '../../image-viewer/types/ImageSource';
 import type { FileSystemService } from '../services/FileSystemService';
 
+export type ContainerConfig = {
+  chunkSize: number;
+  prefetchThreshold?: number;
+};
+
 export class LocalFolderContainer implements ImageContainer {
   constructor(
     private folderPath: string,
