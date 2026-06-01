@@ -380,7 +380,10 @@ mod test {
     #[test]
     fn resolve_range_reuses_cached_files() {
         let env = ZipTestEnv::with_images(&["image.jpg"]);
-        let existing_dir = env.extract_dir.path().join(crate::utils::hash_path(&env.zip_path));
+        let existing_dir = env
+            .extract_dir
+            .path()
+            .join(crate::utils::hash_path(&env.zip_path));
         std::fs::create_dir_all(&existing_dir).unwrap();
         let cached_image = existing_dir.join("image.jpg");
         let marker_file = existing_dir.join("marker_cached.txt");

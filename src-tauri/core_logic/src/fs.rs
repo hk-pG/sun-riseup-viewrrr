@@ -15,10 +15,7 @@ pub fn list_image_handles<P: AsRef<std::path::Path>, Q: AsRef<std::path::Path>>(
     reader.list_image_handles(container_path)
 }
 
-pub fn resolve_images_in_range<
-    P: AsRef<std::path::Path>,
-    Q: AsRef<std::path::Path>,
->(
+pub fn resolve_images_in_range<P: AsRef<std::path::Path>, Q: AsRef<std::path::Path>>(
     container_path: P,
     cache_dir: Q,
     offset: u32,
