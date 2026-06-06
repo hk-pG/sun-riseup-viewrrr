@@ -2,8 +2,7 @@ pub mod commands;
 pub mod tauri_log_config;
 pub mod utils;
 use commands::fs::{
-    get_sibling_containers, list_image_handles, list_images_in_container,
-    resolve_images_in_range,
+    get_sibling_containers, list_image_handles, list_images_in_container, resolve_images_in_range,
 };
 use commands::thumbnail::{get_folder_thumbnail, prefetch_folder_thumbnails};
 
