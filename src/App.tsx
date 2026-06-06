@@ -8,6 +8,7 @@ import { Toaster } from './components/ui/sonner';
 import { AppMenuBar, useAppActions } from './features/app-shell';
 import {
   type FolderInfo,
+  LocalFolderContainer,
   Sidebar,
   useOpenImageFile,
   useSiblingFolders,
@@ -15,6 +16,10 @@ import {
 import { ImageViewer } from './features/image-viewer';
 import { useServices } from './shared/context/ServiceContext';
 import { logger } from './shared/utils/logger';
+
+const APP_VIEWER_CONTAINER_CONFIG = {
+  chunkSize: 100,
+};
 
 // App state interface for better type safety
 export interface AppState {
@@ -69,6 +74,13 @@ function App({ initialState }: { initialState?: Partial<AppState> }) {
   // ファイルシステムサービスを取得
   const fss = useServices();
   const { openImageFile } = useOpenImageFile(fss);
+  const imageContainer = appState.currentFolderPath
+    ? new LocalFolderContainer(
+        appState.currentFolderPath,
+        fss,
+        APP_VIEWER_CONTAINER_CONFIG,
+      )
+    : undefined;
 
   // Command Registry パターンによるメニューアクション処理
   const { executeAction } = useAppActions(
@@ -113,7 +125,7 @@ function App({ initialState }: { initialState?: Partial<AppState> }) {
           />
           <ImageViewer
             key={appState.currentFolderPath}
-            folderPath={appState.currentFolderPath}
+            container={imageContainer}
             initialIndex={appState.initialImageIndex}
             className="flex-1"
           />

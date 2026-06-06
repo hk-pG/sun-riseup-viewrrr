@@ -55,7 +55,7 @@ describe('ImageViewer', () => {
       expect(mockUseImages).toHaveBeenCalledWith('/test/folder');
     });
 
-    it('should initialize with container when provided', () => {
+    it('should initialize with container only when provided', () => {
       const mockUseImages = vi.mocked(useImages);
       const container: ImageContainer = {
         getCacheKey: () => 'container:/test/folder',
@@ -68,7 +68,7 @@ describe('ImageViewer', () => {
         error: null,
       });
 
-      renderComponent({ container, folderPath: '/test/folder' });
+      renderComponent({ container });
 
       expect(mockUseImages).toHaveBeenCalledWith(container);
     });

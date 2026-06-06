@@ -61,6 +61,10 @@ export class LocalFolderContainer implements ImageContainer {
     return [...handles].sort((left, right) => left.index - right.index);
   }
 
+  getCacheKey(): string {
+    return this.folderPath;
+  }
+
   async resolveRange(offset: number, count: number): Promise<ImageSource[]> {
     const handles = await this.listHandles();
     return this.resolveRangeFromHandles(handles, offset, count);
