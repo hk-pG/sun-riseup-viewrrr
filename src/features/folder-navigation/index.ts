@@ -13,7 +13,7 @@ export { LocalFolderContainer } from './containers/LocalFolderContainer';
 export { useFolderListPagination } from './hooks/useFolderListPagination';
 export { useOpenImageFile } from './hooks/useOpenImageFile';
 export type { FolderEntry } from './hooks/useSiblingContainers';
-export { useSiblingContainers as useSiblingFolders } from './hooks/useSiblingContainers';
+export { useSiblingContainers } from './hooks/useSiblingContainers';
 export { useThumbnail } from './hooks/useThumbnail';
 export { useThumbnailPrefetch } from './hooks/useThumbnailPrefetch';
 // Services

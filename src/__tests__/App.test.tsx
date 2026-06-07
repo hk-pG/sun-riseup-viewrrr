@@ -59,8 +59,8 @@ vi.mock('../features/folder-navigation', async (importOriginal) => {
     useOpenImageFile: () => ({
       openImageFile: mockOpenImageFile,
     }),
-    // useSiblingFoldersフックのモック（固定値を返す）
-    useSiblingFolders: () => ({
+    // useSiblingContainersフックのモック（固定値を返す）
+    useSiblingContainers: () => ({
       entries: [
         { name: 'folder1', path: '/test/folder1' },
         { name: 'folder2', path: '/test/folder2' },
@@ -196,7 +196,7 @@ describe('App Component', () => {
 
       fireEvent.click(screen.getByRole('button', { name: 'folder1' }));
 
-      // useSiblingFoldersのモックが固定値を返すため、
+      // useSiblingContainersのモックが固定値を返すため、
       // その内の1つが選択された場合にImageViewer側に選択値が反映されることを確認
       expect(screen.getByText('表示中: /test/folder1')).toBeInTheDocument();
       expect(screen.getByText('受け取り元: container')).toBeInTheDocument();

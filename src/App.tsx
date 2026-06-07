@@ -11,7 +11,7 @@ import {
   LocalFolderContainer,
   Sidebar,
   useOpenImageFile,
-  useSiblingFolders,
+  useSiblingContainers,
 } from './features/folder-navigation';
 import { ImageViewer } from './features/image-viewer';
 import { useServices } from './shared/context/ServiceContext';
@@ -48,7 +48,7 @@ function App({ initialState }: { initialState?: Partial<AppState> }) {
   const themeApi = useTheme();
 
   // サイドバーの表示のために同階層のフォルダ情報を取得
-  const { entries, error } = useSiblingFolders(appState.currentFolderPath);
+  const { entries, error } = useSiblingContainers(appState.currentFolderPath);
 
   useEffect(() => {
     if (error) {
