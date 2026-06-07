@@ -15,7 +15,7 @@ const DEFAULT_CONTAINER_CONFIG: ContainerConfig = {
   chunkSize: 100,
 };
 
-const isImageHandle = (value: unknown): value is ImageHandle => {
+export const isImageHandle = (value: unknown): value is ImageHandle => {
   if (typeof value !== 'object' || value === null) {
     return false;
   }
@@ -26,7 +26,7 @@ const isImageHandle = (value: unknown): value is ImageHandle => {
   );
 };
 
-const isImageHandleArray = (value: unknown): value is ImageHandle[] => {
+export const isImageHandleArray = (value: unknown): value is ImageHandle[] => {
   return Array.isArray(value) && value.every(isImageHandle);
 };
 

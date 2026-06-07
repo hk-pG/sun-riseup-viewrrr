@@ -7,25 +7,11 @@ import {
   dirname as tauriDirname,
 } from '@tauri-apps/api/path';
 import { open as tauriOpenDialog } from '@tauri-apps/plugin-dialog';
+import { isImageHandleArray } from '@/features/folder-navigation/containers/LocalFolderContainer';
 import type { FolderThumbnailResult } from '@/features/folder-navigation/types/folderTypes';
 import type { ImageHandle } from '@/features/image-viewer';
 import type { FileSystemService } from '../../features/folder-navigation';
 import { isStringArray } from '../utils/isStringArray';
-
-const isImageHandle = (value: unknown): value is ImageHandle => {
-  if (typeof value !== 'object' || value === null) {
-    return false;
-  }
-
-  const candidate = value as Record<string, unknown>;
-  return (
-    typeof candidate.index === 'number' && typeof candidate.name === 'string'
-  );
-};
-
-const isImageHandleArray = (value: unknown): value is ImageHandle[] => {
-  return Array.isArray(value) && value.every(isImageHandle);
-};
 
 export const tauriFileSystemService: FileSystemService = {
   openDirectoryDialog: async (): Promise<string | null> => {
