@@ -70,13 +70,8 @@ vi.mock('../features/folder-navigation', async (importOriginal) => {
 });
 
 vi.mock('../features/image-viewer', () => ({
-  ImageViewer: ({
-    container,
-    folderPath,
-    initialIndex,
-    className,
-  }: ImageViewerProps) => {
-    const sourcePath = container?.getCacheKey?.() ?? folderPath;
+  ImageViewer: ({ container, initialIndex, className }: ImageViewerProps) => {
+    const sourcePath = container?.getCacheKey?.();
     const sourceType = container
       ? 'container'
       : sourcePath

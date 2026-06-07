@@ -18,7 +18,6 @@ import { ViewerControls } from './ViewerControls';
  */
 export interface ImageViewerProps {
   container?: ImageContainer;
-  folderPath?: string;
   initialIndex?: number;
   settings?: Partial<ViewerSettings>;
   keyboardMapping?: KeyboardMapping;
@@ -47,7 +46,6 @@ const defaultSettings: ViewerSettings = {
 
 export function ImageViewer({
   container,
-  folderPath,
   initialIndex = 0,
   settings: userSettings,
   keyboardMapping,
@@ -60,7 +58,7 @@ export function ImageViewer({
     ...userSettings,
   };
 
-  const imageSource = container ?? folderPath;
+  const imageSource = container;
   const { images = [], isLoading, error } = useImages(imageSource);
   const [loading, setLoading] = useState(true);
 

@@ -100,9 +100,9 @@ const getImagesKey = (source: UseImagesSource) => {
 };
 
 /**
- * 指定のフォルダから像ファイルを取得するためのカスタムフック
-
- * @param source 画像ファイルを取得したいフォルダパス、または画像コンテナ
+ * 指定のコンテナから画像ファイルを取得するためのカスタムフック
+ *
+ * @param source 画像ファイルを取得したいコンテナパス、または画像コンテナ
  * @returns 画像ファイルのリスト、エラー、ローディング状態
  */
 export const useImages = (source?: UseImagesSource) => {
@@ -121,7 +121,7 @@ export const useImages = (source?: UseImagesSource) => {
         console.dir(err);
         logger.error(`${err}`, {
           file: 'useImages.ts',
-          line: 88,
+          line: 124,
         });
       },
     },

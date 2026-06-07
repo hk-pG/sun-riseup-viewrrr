@@ -1,5 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { LocalFolderContainer } from '@/features/folder-navigation';
 import type { ImageContainer } from '@/features/image-viewer';
 import { ServicesProvider } from '../../../../shared/context/ServiceContext';
 import { useImages } from '../../../../shared/hooks/data/useImages';
@@ -28,8 +29,8 @@ describe('ImageViewer', () => {
     );
   };
 
-  describe('Component Initialization with Folder Paths', () => {
-    it('should render without errors with valid folder path', () => {
+  describe('Component Initialization with Container', () => {
+    it('should render without errors with valid container', () => {
       const mockUseImages = vi.mocked(useImages);
       // 空の画像リストを返すモック
       mockUseImages.mockReturnValue({
@@ -38,11 +39,16 @@ describe('ImageViewer', () => {
         error: null,
       });
 
-      renderComponent({ folderPath: '/test/folder' });
+      renderComponent({
+        container: new LocalFolderContainer(
+          '/test/folder',
+          createMockFileSystemService(),
+        ),
+      });
       expect(screen.getByText('画像が選択されていません')).toBeInTheDocument();
     });
 
-    it('should initialize with correct folder path', () => {
+    it('should initialize with correct container', () => {
       const mockUseImages = vi.mocked(useImages);
       mockUseImages.mockReturnValue({
         images: [],
@@ -50,9 +56,13 @@ describe('ImageViewer', () => {
         error: null,
       });
 
-      renderComponent({ folderPath: '/test/folder' });
+      const container = new LocalFolderContainer(
+        '/test/folder',
+        createMockFileSystemService(),
+      );
+      renderComponent({ container });
 
-      expect(mockUseImages).toHaveBeenCalledWith('/test/folder');
+      expect(mockUseImages).toHaveBeenCalledWith(container);
     });
 
     it('should initialize with container only when provided', () => {
