@@ -31,7 +31,6 @@ export interface ImageViewerProps {
     onImageError?: (error: Error, image: ImageSource) => void;
   };
   className?: string;
-  style?: React.CSSProperties;
 }
 
 const defaultSettings: ViewerSettings = {
@@ -51,7 +50,6 @@ export function ImageViewer({
   keyboardMapping,
   callbacks,
   className = '',
-  style,
 }: ImageViewerProps) {
   const mergedSettings = {
     ...defaultSettings,
@@ -152,7 +150,7 @@ export function ImageViewer({
     return (
       <div
         className={`flex items-center justify-center ${className}`}
-        style={{ backgroundColor: settings.backgroundColor, ...style }}
+        style={{ backgroundColor: settings.backgroundColor }}
       >
         <div className="text-foreground text-lg">読み込み中...</div>
       </div>
@@ -163,7 +161,7 @@ export function ImageViewer({
     return (
       <div
         className={`flex items-center justify-center ${className}`}
-        style={{ backgroundColor: settings.backgroundColor, ...style }}
+        style={{ backgroundColor: settings.backgroundColor }}
       >
         <div className="text-destructive text-lg">{String(error)}</div>
       </div>
@@ -174,7 +172,7 @@ export function ImageViewer({
     return (
       <div
         className={`flex items-center justify-center ${className}`}
-        style={{ backgroundColor: settings.backgroundColor, ...style }}
+        style={{ backgroundColor: settings.backgroundColor }}
       >
         <div className="text-lg text-muted-foreground">
           画像が選択されていません
@@ -188,7 +186,6 @@ export function ImageViewer({
       ref={containerRef}
       role="application"
       className={`relative ${className}`}
-      style={style}
       onMouseMove={handleMouseMove}
       tabIndex={-1}
     >
