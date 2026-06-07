@@ -4,7 +4,7 @@ pub mod utils;
 use commands::fs::{
     get_sibling_containers, list_image_handles, list_images_in_container, resolve_images_in_range,
 };
-use commands::thumbnail::{get_folder_thumbnail, prefetch_folder_thumbnails};
+use commands::thumbnail::{get_container_thumbnail, prefetch_folder_thumbnails};
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
@@ -19,7 +19,7 @@ pub fn run() {
             resolve_images_in_range,
             list_images_in_container,
             get_sibling_containers,
-            get_folder_thumbnail,
+            get_container_thumbnail,
             prefetch_folder_thumbnails
         ])
         .run(tauri::generate_context!())

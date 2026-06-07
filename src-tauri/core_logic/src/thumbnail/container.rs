@@ -36,6 +36,7 @@ pub fn get_first_image_in_folder<P: AsRef<std::path::Path>, Q: AsRef<std::path::
     let folder_path = folder_path.as_ref();
     let cache_dir = cache_dir.as_ref();
 
+    // TODO: 最初の画像だけを取得する方法へ改修が必要
     let images = list_images_in_container(folder_path, cache_dir).map_err(|e| {
         format!(
             "Failed to list images in '{}': {:?}",
