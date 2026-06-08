@@ -41,6 +41,9 @@ pub fn resolve_images_in_range<P: AsRef<std::path::Path>, Q: AsRef<std::path::Pa
 /// # Returns
 /// A `Result` containing either a `Vec<String>` with the full paths of all image files in the container or a `CommandError` if an error occurs.
 ///
+#[deprecated(
+    note = "この関数はコンテナがアーカイブであっても全ての画像を解凍してリストアップするため、パフォーマンスが非常に悪いです。代わりに list_image_handles を使用してください。"
+)]
 pub fn list_images_in_container<P: AsRef<std::path::Path>, Q: AsRef<std::path::Path>>(
     container_path: P,
     cache_dir: Q,
