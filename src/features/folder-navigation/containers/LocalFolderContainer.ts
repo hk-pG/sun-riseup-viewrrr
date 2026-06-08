@@ -70,6 +70,12 @@ export class LocalFolderContainer implements ImageContainer {
     return this.resolveRangeFromHandles(handles, offset, count);
   }
 
+  /**
+   * 機能：画像コンテナ内のすべての画像を取得する
+   * 説明：listHandles と resolveRange を組み合わせて、画像コンテナ内のすべての画像を取得するユーティリティメソッド。
+   * 注意：大量の画像がある場合、パフォーマンスに影響を与える可能性があるため、使用する際は注意が必要。
+   * @deprecated 削除予定。必要な場合は viewer 内部で listHandles/resolveRange の 2 フェーズ契約へ寄せていくこと。
+   */
   async listImages(): Promise<ImageSource[]> {
     const handles = await this.listHandles();
 

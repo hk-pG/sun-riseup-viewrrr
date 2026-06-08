@@ -1,5 +1,6 @@
 import { renderHook, waitFor } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { LocalFolderContainer } from '@/features/folder-navigation';
 import type { FileSystemService } from '@/features/folder-navigation/services/FileSystemService';
 import type { ImageContainer, ImageSource } from '@/features/image-viewer';
 import { ServicesProvider, useImages } from '@/shared';
@@ -59,9 +60,15 @@ describe('useImages', () => {
       .fn()
       .mockResolvedValue([mockImageSources[0].id, mockImageSources[1].id]);
 
-    const { result } = renderHook(() => useImages('path/to/'), {
-      wrapper: ServicesWrapper,
-    });
+    const { result } = renderHook(
+      () =>
+        useImages(
+          new LocalFolderContainer('/path/to/folder', mockFileSystemService),
+        ),
+      {
+        wrapper: ServicesWrapper,
+      },
+    );
 
     await waitFor(() => {
       expect(result.current.images).toEqual(mockImageSources);
@@ -73,9 +80,18 @@ describe('useImages', () => {
   it('存在しないフォルダを指定した場合、エラーが返される', async () => {
     mockFileSystemService.listImageHandles = vi.fn().mockReturnValue(null);
 
-    const { result } = renderHook(() => useImages('invalid/folder'), {
-      wrapper: ServicesWrapper,
-    });
+    const { result } = renderHook(
+      () =>
+        useImages(
+          new LocalFolderContainer(
+            '/non/existent/folder',
+            mockFileSystemService,
+          ),
+        ),
+      {
+        wrapper: ServicesWrapper,
+      },
+    );
 
     await waitFor(() => {
       expect(result.current.images).toBeUndefined();
@@ -88,9 +104,15 @@ describe('useImages', () => {
     mockFileSystemService.listImageHandles = vi
       .fn()
       .mockRejectedValue(new Error('File access error'));
-    const { result } = renderHook(() => useImages('error/folder'), {
-      wrapper: ServicesWrapper,
-    });
+    const { result } = renderHook(
+      () =>
+        useImages(
+          new LocalFolderContainer('error/folder', mockFileSystemService),
+        ),
+      {
+        wrapper: ServicesWrapper,
+      },
+    );
 
     await waitFor(() => {
       expect(result.current.images).toBeUndefined();
@@ -101,9 +123,15 @@ describe('useImages', () => {
 
   it('画像が1件も存在しないフォルダの場合、空配列を返す', async () => {
     mockFileSystemService.listImageHandles = vi.fn().mockResolvedValue([]);
-    const { result } = renderHook(() => useImages('empty/folder'), {
-      wrapper: ServicesWrapper,
-    });
+    const { result } = renderHook(
+      () =>
+        useImages(
+          new LocalFolderContainer('empty/folder', mockFileSystemService),
+        ),
+      {
+        wrapper: ServicesWrapper,
+      },
+    );
     await waitFor(() => {
       expect(result.current.images).toEqual([]);
       expect(result.current.error).toBeUndefined();
@@ -113,7 +141,7 @@ describe('useImages', () => {
 
   it('folderPathがnullの場合、imagesはundefinedになる', async () => {
     mockFileSystemService.listImageHandles = vi.fn();
-    const { result } = renderHook(() => useImages(null), {
+    const { result } = renderHook(() => useImages(undefined), {
       wrapper: ServicesWrapper,
     });
     expect(result.current.images).toBeUndefined();
@@ -141,16 +169,28 @@ describe('useImages', () => {
     mockFileSystemService.listImageHandles = handlesSpy;
     mockFileSystemService.resolveImagesInRange = resolveSpy;
 
-    const { result: result1 } = renderHook(() => useImages('cache/folder'), {
-      wrapper: ServicesWrapper,
-    });
+    const { result: result1 } = renderHook(
+      () =>
+        useImages(
+          new LocalFolderContainer('cache/folder', mockFileSystemService),
+        ),
+      {
+        wrapper: ServicesWrapper,
+      },
+    );
     await waitFor(() => {
       expect(result1.current.images).toEqual([mockImageSources[0]]);
     });
 
-    const { result: result2 } = renderHook(() => useImages('cache/folder'), {
-      wrapper: ServicesWrapper,
-    });
+    const { result: result2 } = renderHook(
+      () =>
+        useImages(
+          new LocalFolderContainer('cache/folder', mockFileSystemService),
+        ),
+      {
+        wrapper: ServicesWrapper,
+      },
+    );
     await waitFor(() => {
       expect(result2.current.images).toEqual([mockImageSources[0]]);
     });

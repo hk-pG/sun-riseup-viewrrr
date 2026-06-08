@@ -2,34 +2,14 @@ import useSWR from 'swr';
 import type { ImageContainer } from '@/features/image-viewer';
 import type { ImageSource } from '@/features/image-viewer/types/ImageSource';
 import { logger } from '@/shared/utils/logger';
-import {
-  type FileSystemService,
-  LocalFolderContainer,
-} from '../../../features/folder-navigation';
-import { useServices } from '../../context/ServiceContext';
 
 type UseImagesSource = string | ImageContainer | null | undefined;
-
-type LegacyImageContainer = {
-  listImages?: () => Promise<ImageSource[]>;
-};
 
 const containerInstanceCacheKeys = new WeakMap<object, string>();
 let nextContainerCacheKey = 0;
 
 const isImageContainer = (value: UseImagesSource): value is ImageContainer => {
   return typeof value === 'object' && value !== null;
-};
-
-const createContainer = (
-  source: Exclude<UseImagesSource, null | undefined>,
-  fs: FileSystemService,
-): ImageContainer | LegacyImageContainer => {
-  if (typeof source === 'string') {
-    return new LocalFolderContainer(source, fs);
-  }
-
-  return source;
 };
 
 const getContainerCacheKey = (container: ImageContainer): string => {
@@ -61,10 +41,11 @@ const getContainerCacheKey = (container: ImageContainer): string => {
 };
 
 const fetchImages = async (
-  source: Exclude<UseImagesSource, null | undefined>,
-  fs: FileSystemService,
+  container?: ImageContainer,
 ): Promise<ImageSource[]> => {
-  const container = createContainer(source, fs);
+  if (!container) {
+    return [];
+  }
 
   if ('listImages' in container && typeof container.listImages === 'function') {
     return await container.listImages();
@@ -83,13 +64,9 @@ const fetchImages = async (
   throw new Error('Unsupported image container contract.');
 };
 
-const getImagesKey = (source: UseImagesSource) => {
+const getImagesKey = (source?: ImageContainer) => {
   if (!source) {
     return null;
-  }
-
-  if (typeof source === 'string') {
-    return ['images', source] as const;
   }
 
   if (isImageContainer(source)) {
@@ -105,12 +82,10 @@ const getImagesKey = (source: UseImagesSource) => {
  * @param source 画像ファイルを取得したいコンテナパス、または画像コンテナ
  * @returns 画像ファイルのリスト、エラー、ローディング状態
  */
-export const useImages = (source?: UseImagesSource) => {
-  const fs = useServices();
-
+export const useImages = (source?: ImageContainer) => {
   const { data, error, isLoading } = useSWR<ImageSource[]>(
     getImagesKey(source),
-    () => fetchImages(source as Exclude<UseImagesSource, null | undefined>, fs),
+    () => fetchImages(source),
     {
       revalidateOnFocus: false,
       // React 19 concurrent features対応
