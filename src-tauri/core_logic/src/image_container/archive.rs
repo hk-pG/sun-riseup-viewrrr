@@ -402,4 +402,34 @@ mod test {
             "Marker file should exist, proving cached files were reused"
         );
     }
+
+    #[test]
+    fn get_zip_entries_without_extracting() {
+        // Arrange
+        let env = ZipTestEnv::with_images(&["image1.png", "image2.png", "image3.png"]);
+        let config = ImageContainerReaderConfig::new(env.extract_dir.path());
+        let zip_image_container = ArchiveImageContainer::new(&env.zip_path, config).unwrap();
+
+        // Act
+        let entries = zip_image_container.list_archive_entries().unwrap();
+
+        // Assert
+        assert_eq!(entries.len(), 3);
+        assert_eq!(entries[0].display_name, "image1.png");
+        assert_eq!(entries[1].display_name, "image2.png");
+        assert_eq!(entries[2].display_name, "image3.png");
+
+        // Arrange
+        let read_zip_path = PathBuf::from(
+            "/Users/hk-p/repo/sun-riseup-viewrrr/src-tauri/core_logic/test_data/images.zip",
+        );
+        let config = ImageContainerReaderConfig::new(env.extract_dir.path());
+        let zip_image_container = ArchiveImageContainer::new(&read_zip_path, config).unwrap();
+
+        // Act
+        let entries = zip_image_container.list_archive_entries().unwrap();
+
+        // Assert
+        assert_eq!(entries.len(), 10);
+    }
 }
