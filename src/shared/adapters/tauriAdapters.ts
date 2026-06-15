@@ -85,8 +85,14 @@ export const tauriFileSystemService: FileSystemService = {
           `Invalid response from listImageHandles: expected ImageHandle array, got ${typeof handles}`,
         );
       }
+      logger.debug(
+        `listImageHandles for "${containerPath}" returned ${handles.length} handles.`,
+      );
       return handles;
     } catch (error) {
+      logger.error(
+        `Error in listImageHandles for "${containerPath}": ${error instanceof Error ? error.message : String(error)}`,
+      );
       throw new Error(
         `Failed to list image handles in container "${containerPath}": ${error instanceof Error ? error.message : JSON.stringify(error)}`,
       );
