@@ -2,7 +2,7 @@
 
 use serde::Serialize;
 
-use crate::{list_images_in_container, thumbnail::batch::TaskPriority};
+use crate::{fs::resolve_images_in_range, thumbnail::batch::TaskPriority};
 
 /// フォルダサムネイル取得結果
 #[derive(Debug, Clone, Serialize)]
@@ -29,23 +29,25 @@ pub fn assign_priority(index: usize) -> TaskPriority {
 
 /// フォルダ内の最初の画像ファイルパスを取得
 /// crate::fs::list_images_in_container を内部で使用
-pub fn get_first_image_in_folder<P: AsRef<std::path::Path>, Q: AsRef<std::path::Path>>(
-    folder_path: P,
-    cache_dir: Q,
+pub fn get_first_image_in_container(
+    container_path: impl AsRef<std::path::Path>,
+    cache_dir: impl AsRef<std::path::Path>,
 ) -> Result<Option<String>, String> {
-    let folder_path = folder_path.as_ref();
+    let folder_path = container_path.as_ref();
     let cache_dir = cache_dir.as_ref();
 
-    // TODO: 最初の画像だけを取得する方法へ改修が必要
-    let images = list_images_in_container(folder_path, cache_dir).map_err(|e| {
-        format!(
-            "Failed to list images in '{}': {:?}",
-            folder_path.display(),
-            e
-        )
-    })?;
+    let first_image = resolve_images_in_range(folder_path, cache_dir, 0, 1)
+        .map_err(|e| {
+            format!(
+                "Failed to get first image in '{}': {:?}",
+                folder_path.display(),
+                e
+            )
+        })?
+        .first()
+        .cloned();
 
-    Ok(images.into_iter().next())
+    Ok(first_image)
 }
 
 #[cfg(test)]
@@ -129,7 +131,7 @@ mod tests {
         File::create(temp.path().join("image1.jpg")).unwrap();
         File::create(temp.path().join("image2.png")).unwrap();
 
-        let result = get_first_image_in_folder(temp.path().to_str().unwrap(), "");
+        let result = get_first_image_in_container(temp.path().to_str().unwrap(), "");
         assert!(result.is_ok());
         let first = result.unwrap();
         assert!(first.is_some(), "Should return first image path");
@@ -145,7 +147,7 @@ mod tests {
     fn test_get_first_image_returns_none_for_empty_folder() {
         let temp = TempTestDir::new_random();
 
-        let result = get_first_image_in_folder(temp.path().to_str().unwrap(), "");
+        let result = get_first_image_in_container(temp.path().to_str().unwrap(), "");
         assert!(result.is_ok());
         assert!(result.unwrap().is_none(), "Empty folder should return None");
     }
