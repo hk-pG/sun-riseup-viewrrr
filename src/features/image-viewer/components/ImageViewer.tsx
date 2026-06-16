@@ -194,7 +194,7 @@ export function ImageViewer({
         settings={settings}
         onLoad={() => callbacks?.onImageLoad?.(currentImage)}
         onError={(error) => callbacks?.onImageError?.(error, currentImage)}
-        className="h-full w-full"
+        className="h-full w-full pb-24"
         transitionType="fade"
       />
 
