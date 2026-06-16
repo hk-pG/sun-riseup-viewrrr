@@ -1,7 +1,7 @@
-use core_logic::get_sibling_containers as core_get_sibling_containers;
-use core_logic::list_image_handles as core_list_image_handles;
-use core_logic::list_images_in_container as core_list_images_in_container;
-use core_logic::resolve_images_in_range as core_resolve_images_in_range;
+use core_logic::fs::get_sibling_containers as core_get_sibling_containers;
+use core_logic::fs::list_image_handles as core_list_image_handles;
+use core_logic::fs::list_images_in_container as core_list_images_in_container;
+use core_logic::fs::resolve_images_in_range as core_resolve_images_in_range;
 use core_logic::CommandError;
 use core_logic::ImageHandle;
 use tauri::command;

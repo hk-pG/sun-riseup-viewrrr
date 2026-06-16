@@ -12,6 +12,7 @@ import type { FolderThumbnailResult } from '@/features/folder-navigation/types/f
 import type { ImageHandle } from '@/features/image-viewer';
 import type { FileSystemService } from '../../features/folder-navigation';
 import { isStringArray } from '../utils/isStringArray';
+import { logger } from '../utils/logger';
 
 export const tauriFileSystemService: FileSystemService = {
   openDirectoryDialog: async (): Promise<string | null> => {
@@ -84,8 +85,14 @@ export const tauriFileSystemService: FileSystemService = {
           `Invalid response from listImageHandles: expected ImageHandle array, got ${typeof handles}`,
         );
       }
+      logger.debug(
+        `listImageHandles for "${containerPath}" returned ${handles.length} handles.`,
+      );
       return handles;
     } catch (error) {
+      logger.error(
+        `Error in listImageHandles for "${containerPath}": ${error instanceof Error ? error.message : String(error)}`,
+      );
       throw new Error(
         `Failed to list image handles in container "${containerPath}": ${error instanceof Error ? error.message : JSON.stringify(error)}`,
       );
@@ -137,17 +144,18 @@ export const tauriFileSystemService: FileSystemService = {
   // 016-thumbnail-backend-responsibility
 
   getFolderThumbnail: async (
-    folderPath: string,
+    containerPath: string,
   ): Promise<FolderThumbnailResult | null> => {
     try {
       const result = await invoke<FolderThumbnailResult | null>(
-        'get_folder_thumbnail',
-        { folderPath },
+        'get_container_thumbnail',
+        { containerPath },
       );
       return result;
     } catch (error) {
+      logger.error(`${error}`);
       throw new Error(
-        `Failed to get folder thumbnail for "${folderPath}": ${error instanceof Error ? error.message : String(error)}`,
+        `Failed to get folder thumbnail for "${containerPath}": ${error instanceof Error ? error.message : String(error)}`,
       );
     }
   },

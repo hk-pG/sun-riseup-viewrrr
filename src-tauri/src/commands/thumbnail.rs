@@ -26,7 +26,7 @@ pub async fn get_container_thumbnail(
 
     let result = tokio::task::spawn_blocking(move || {
         let first_image =
-            container::get_first_image_in_folder(&container_path, &archive_cache_dir)?;
+            container::get_first_image_in_container(&container_path, &archive_cache_dir)?;
         let image_path = match first_image {
             Some(path) => path,
             None => return Ok::<Option<FolderThumbnailResult>, String>(None),
@@ -64,12 +64,17 @@ pub async fn prefetch_folder_thumbnails(
 ) -> std::result::Result<(), String> {
     let thumbnail_cache_dir = get_thumbnail_cache_dir(&app_handle).map_err(|e| e.to_string())?;
     let archive_cache_dir = get_archive_cache_dir(&app_handle).map_err(|e| e.to_string())?;
+
+    // TODO: コマンド関数に色々詰め込み過ぎなので、もう少しcore_logic側に分割をする。
+    // TODO: prefetch_folder_thumbnailsでは、処理の意図が読み取れる程度の抽象度が望ましい。
     tokio::task::spawn_blocking(move || {
         let image_entries: Vec<(usize, String)> = folder_paths
             .iter()
             .enumerate()
             .filter_map(|(index, folder_path)| {
-                container::get_first_image_in_folder(folder_path, &archive_cache_dir)
+                // TODO: 既にキャッシュ済みの場合は生成をスキップする必要があるが、現状は毎回get_first_image_in_containerを呼び出している。
+                // TODO: 将来的には、get_first_image_in_container内でキャッシュの存在を確認し、必要に応じてサムネイル生成も行うようにするべき。
+                container::get_first_image_in_container(folder_path, &archive_cache_dir)
                     .inspect_err(|e| {
                         log::error!(
                             "Failed to get first image for folder '{}': {}",
