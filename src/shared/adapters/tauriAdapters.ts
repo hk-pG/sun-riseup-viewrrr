@@ -7,9 +7,12 @@ import {
   dirname as tauriDirname,
 } from '@tauri-apps/api/path';
 import { open as tauriOpenDialog } from '@tauri-apps/plugin-dialog';
+import { isImageHandleArray } from '@/features/folder-navigation/containers/LocalFolderContainer';
 import type { FolderThumbnailResult } from '@/features/folder-navigation/types/folderTypes';
+import type { ImageHandle } from '@/features/image-viewer';
 import type { FileSystemService } from '../../features/folder-navigation';
 import { isStringArray } from '../utils/isStringArray';
+import { logger } from '../utils/logger';
 
 export const tauriFileSystemService: FileSystemService = {
   openDirectoryDialog: async (): Promise<string | null> => {
@@ -72,6 +75,54 @@ export const tauriFileSystemService: FileSystemService = {
     }
   },
 
+  listImageHandles: async (containerPath: string): Promise<ImageHandle[]> => {
+    try {
+      const handles = await invoke<ImageHandle[]>('list_image_handles', {
+        containerPath,
+      });
+      if (!isImageHandleArray(handles)) {
+        throw new Error(
+          `Invalid response from listImageHandles: expected ImageHandle array, got ${typeof handles}`,
+        );
+      }
+      logger.debug(
+        `listImageHandles for "${containerPath}" returned ${handles.length} handles.`,
+      );
+      return handles;
+    } catch (error) {
+      logger.error(
+        `Error in listImageHandles for "${containerPath}": ${error instanceof Error ? error.message : String(error)}`,
+      );
+      throw new Error(
+        `Failed to list image handles in container "${containerPath}": ${error instanceof Error ? error.message : JSON.stringify(error)}`,
+      );
+    }
+  },
+
+  resolveImagesInRange: async (
+    containerPath: string,
+    offset: number,
+    count: number,
+  ): Promise<string[]> => {
+    try {
+      const images = await invoke<string[]>('resolve_images_in_range', {
+        containerPath,
+        offset,
+        count,
+      });
+      if (!isStringArray(images)) {
+        throw new Error(
+          `Invalid response from resolveImagesInRange: expected string array, got ${typeof images}`,
+        );
+      }
+      return images;
+    } catch (error) {
+      throw new Error(
+        `Failed to resolve images in range for "${containerPath}" (offset=${offset}, count=${count}): ${error instanceof Error ? error.message : JSON.stringify(error)}`,
+      );
+    }
+  },
+
   getSiblingContainers: async (containerPath: string): Promise<string[]> => {
     try {
       const containers = await invoke<string[]>('get_sibling_containers', {
@@ -93,17 +144,18 @@ export const tauriFileSystemService: FileSystemService = {
   // 016-thumbnail-backend-responsibility
 
   getFolderThumbnail: async (
-    folderPath: string,
+    containerPath: string,
   ): Promise<FolderThumbnailResult | null> => {
     try {
       const result = await invoke<FolderThumbnailResult | null>(
-        'get_folder_thumbnail',
-        { folderPath },
+        'get_container_thumbnail',
+        { containerPath },
       );
       return result;
     } catch (error) {
+      logger.error(`${error}`);
       throw new Error(
-        `Failed to get folder thumbnail for "${folderPath}": ${error instanceof Error ? error.message : String(error)}`,
+        `Failed to get folder thumbnail for "${containerPath}": ${error instanceof Error ? error.message : String(error)}`,
       );
     }
   },

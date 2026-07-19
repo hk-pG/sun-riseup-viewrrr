@@ -12,7 +12,7 @@ export { useControlsVisibility } from './hooks/useControlsVisibility';
 export { useKeyboardHandler } from './hooks/useKeyboardHandler';
 export type { ImageContainer } from './types/ImageContainer';
 // Types
-export type { ImageSource } from './types/ImageSource';
+export type { ImageHandle, ImageSource } from './types/ImageSource';
 export type {
   ActionType,
   ImageDisplayProps,

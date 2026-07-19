@@ -3,6 +3,7 @@ pub mod folder;
 pub mod reader_config;
 
 use crate::image_container::{
+    archive::ArchiveImageContainer,
     folder::{get_sibling_archives, get_sibling_folders, FolderImageContainer},
     reader_config::ImageContainerReaderConfig,
 };
@@ -25,16 +26,37 @@ impl From<std::io::Error> for CommandError {
     }
 }
 
+#[derive(Debug, Clone, serde::Serialize, serde::Deserialize, PartialEq, Eq)]
+pub struct ImageHandle {
+    pub index: u32,
+    pub name: String,
+}
+
 pub trait ImageContainer {
+    ///
+    /// Returns lightweight handles for the images contained within the container.
+    ///
+    fn list_handles(&self) -> Result<Vec<ImageHandle>, CommandError>;
+
+    ///
+    /// Resolves a range of images into disk paths while preserving handle order.
+    ///
+    fn resolve_range(&self, offset: u32, count: u32) -> Result<Vec<String>, CommandError>;
+
     ///
     /// Returns a list of image file paths contained within the container.
     ///
-    fn list_images(&self) -> Result<Vec<String>, CommandError>;
+    fn list_images(&self) -> Result<Vec<String>, CommandError> {
+        let handles = self.list_handles()?;
+        self.resolve_range(0, handles.len() as u32)
+    }
 
     ///
     /// Returns the path to the first image for the container.
     ///
-    fn get_first_image(&self) -> Result<Option<String>, CommandError>;
+    fn get_first_image(&self) -> Result<Option<String>, CommandError> {
+        Ok(self.resolve_range(0, 1)?.into_iter().next())
+    }
 }
 
 ///
@@ -54,23 +76,30 @@ impl ImageContainerReader {
         &self,
         container_path: P,
     ) -> Result<Vec<String>, CommandError> {
-        self._list_images_in_container(container_path.as_ref())
+        self.open_container(container_path.as_ref())?.list_images()
     }
 
-    fn _list_images_in_container<P: AsRef<std::path::Path>>(
+    pub fn list_image_handles<P: AsRef<std::path::Path>>(
         &self,
         container_path: P,
-    ) -> Result<Vec<String>, CommandError> {
-        // let path = PathBuf::from(&container_path);
-        let container_path = container_path.as_ref();
+    ) -> Result<Vec<ImageHandle>, CommandError> {
+        self.open_container(container_path.as_ref())?.list_handles()
+    }
 
-        self.open_container(container_path)
+    pub fn resolve_images_in_range<P: AsRef<std::path::Path>>(
+        &self,
+        container_path: P,
+        offset: u32,
+        count: u32,
+    ) -> Result<Vec<String>, CommandError> {
+        self.open_container(container_path.as_ref())?
+            .resolve_range(offset, count)
     }
 
     fn open_container<P: AsRef<std::path::Path>>(
         &self,
         container_path: P,
-    ) -> Result<Vec<String>, CommandError> {
+    ) -> Result<Box<dyn ImageContainer>, CommandError> {
         let container_path = container_path.as_ref();
 
         if !container_path.exists() {
@@ -81,12 +110,11 @@ impl ImageContainerReader {
 
         if container_path.is_dir() {
             let folder_container = FolderImageContainer::new(container_path)?;
-            return folder_container.list_images();
+            return Ok(Box::new(folder_container));
         }
 
-        let archive_container =
-            archive::ArchiveImageContainer::new(container_path, self.config.clone())?;
-        archive_container.list_images_in_archive()
+        let archive_container = ArchiveImageContainer::new(container_path, self.config.clone())?;
+        Ok(Box::new(archive_container))
     }
 }
 
@@ -162,6 +190,41 @@ mod tests {
 
             // Assert
             assert!(matches!(result, Err(CommandError::PathNotFound(_))));
+        }
+
+        #[test]
+        fn returns_handles_for_folder_images() {
+            let temp_dir = TempTestDir::new("test_list_handles_success");
+            File::create(temp_dir.path().join("image_b.jpg")).unwrap();
+            File::create(temp_dir.path().join("image_a.PNG")).unwrap();
+            File::create(temp_dir.path().join("document.txt")).unwrap();
+            let reader =
+                ImageContainerReader::new(ImageContainerReaderConfig::new(temp_dir.path()));
+
+            let handles = reader.list_image_handles(temp_dir.path()).unwrap();
+
+            assert_eq!(handles.len(), 2);
+            assert_eq!(handles[0].index, 0);
+            assert_eq!(handles[0].name, "image_a.PNG");
+            assert_eq!(handles[1].index, 1);
+            assert_eq!(handles[1].name, "image_b.jpg");
+        }
+
+        #[test]
+        fn resolves_images_in_requested_range_for_folder() {
+            let temp_dir = TempTestDir::new("test_resolve_range_success");
+            File::create(temp_dir.path().join("image_b.jpg")).unwrap();
+            File::create(temp_dir.path().join("image_a.PNG")).unwrap();
+            File::create(temp_dir.path().join("document.txt")).unwrap();
+            let reader =
+                ImageContainerReader::new(ImageContainerReaderConfig::new(temp_dir.path()));
+
+            let images = reader
+                .resolve_images_in_range(temp_dir.path(), 1, 1)
+                .unwrap();
+
+            assert_eq!(images.len(), 1);
+            assert!(images[0].ends_with("image_b.jpg"));
         }
     }
 

@@ -35,43 +35,59 @@ vi.mock('../features/app-shell', async (importOriginal) => {
   };
 });
 
-vi.mock('../features/folder-navigation', () => ({
-  Sidebar: ({ folders, selectedFolder, onFolderSelect }: SidebarProps) => (
-    <aside>
-      {folders.map((folder: { path: string; name: string }) => (
-        <button
-          type="button"
-          key={folder.path}
-          aria-pressed={selectedFolder?.path === folder.path}
-          onClick={() => onFolderSelect(folder)}
-        >
-          {folder.name}
-        </button>
-      ))}
-    </aside>
-  ),
-  // useOpenImageFileフックのモック
-  useOpenImageFile: () => ({
-    openImageFile: mockOpenImageFile,
-  }),
-  // useSiblingFoldersフックのモック（固定値を返す）
-  useSiblingFolders: () => ({
-    entries: [
-      { name: 'folder1', path: '/test/folder1' },
-      { name: 'folder2', path: '/test/folder2' },
-    ],
-  }),
-}));
+vi.mock('../features/folder-navigation', async (importOriginal) => {
+  const actual =
+    await importOriginal<typeof import('../features/folder-navigation')>();
+
+  return {
+    ...actual,
+    Sidebar: ({ folders, selectedFolder, onFolderSelect }: SidebarProps) => (
+      <aside>
+        {folders.map((folder: { path: string; name: string }) => (
+          <button
+            type="button"
+            key={folder.path}
+            aria-pressed={selectedFolder?.path === folder.path}
+            onClick={() => onFolderSelect(folder)}
+          >
+            {folder.name}
+          </button>
+        ))}
+      </aside>
+    ),
+    // useOpenImageFileフックのモック
+    useOpenImageFile: () => ({
+      openImageFile: mockOpenImageFile,
+    }),
+    // useSiblingContainersフックのモック（固定値を返す）
+    useSiblingContainers: () => ({
+      entries: [
+        { name: 'folder1', path: '/test/folder1' },
+        { name: 'folder2', path: '/test/folder2' },
+      ],
+    }),
+  };
+});
 
 vi.mock('../features/image-viewer', () => ({
-  ImageViewer: ({ folderPath, initialIndex, className }: ImageViewerProps) => (
-    <section className={className} aria-label="image-viewer">
-      {folderPath ? `表示中: ${folderPath}` : '画像が選択されていません'}
-      {folderPath && initialIndex != null && initialIndex > 0 && (
-        <span>{`開始位置: ${initialIndex}`}</span>
-      )}
-    </section>
-  ),
+  ImageViewer: ({ container, initialIndex, className }: ImageViewerProps) => {
+    const sourcePath = container?.getCacheKey?.();
+    const sourceType = container
+      ? 'container'
+      : sourcePath
+        ? 'folderPath'
+        : 'none';
+
+    return (
+      <section className={className} aria-label="image-viewer">
+        {sourcePath ? `表示中: ${sourcePath}` : '画像が選択されていません'}
+        <span>{`受け取り元: ${sourceType}`}</span>
+        {sourcePath && initialIndex != null && initialIndex > 0 && (
+          <span>{`開始位置: ${initialIndex}`}</span>
+        )}
+      </section>
+    );
+  },
 }));
 
 /**
@@ -113,6 +129,7 @@ describe('App Component', () => {
       expect(screen.getByRole('banner')).toBeInTheDocument();
       expect(screen.getByRole('complementary')).toBeInTheDocument();
       expect(screen.getByText('画像が選択されていません')).toBeInTheDocument();
+      expect(screen.getByText('受け取り元: none')).toBeInTheDocument();
     });
 
     it('should initialize with empty folder path', () => {
@@ -149,6 +166,7 @@ describe('App Component', () => {
         expect(
           screen.getByText('表示中: /selected/folder'),
         ).toBeInTheDocument();
+        expect(screen.getByText('受け取り元: container')).toBeInTheDocument();
       });
     });
 
@@ -173,9 +191,10 @@ describe('App Component', () => {
 
       fireEvent.click(screen.getByRole('button', { name: 'folder1' }));
 
-      // useSiblingFoldersのモックが固定値を返すため、
+      // useSiblingContainersのモックが固定値を返すため、
       // その内の1つが選択された場合にImageViewer側に選択値が反映されることを確認
       expect(screen.getByText('表示中: /test/folder1')).toBeInTheDocument();
+      expect(screen.getByText('受け取り元: container')).toBeInTheDocument();
     });
 
     it('should update selected folder in sidebar', () => {
@@ -209,6 +228,7 @@ describe('App Component', () => {
 
       await waitFor(() => {
         expect(screen.getByText('表示中: /image/folder')).toBeInTheDocument();
+        expect(screen.getByText('受け取り元: container')).toBeInTheDocument();
         expect(screen.getByText('開始位置: 2')).toBeInTheDocument();
       });
     });
@@ -301,6 +321,7 @@ describe('App Component', () => {
         screen.queryByText('画像が選択されていません'),
       ).not.toBeInTheDocument();
       expect(screen.getByText('表示中: /test/folder1')).toBeInTheDocument();
+      expect(screen.getByText('受け取り元: container')).toBeInTheDocument();
     });
   });
 

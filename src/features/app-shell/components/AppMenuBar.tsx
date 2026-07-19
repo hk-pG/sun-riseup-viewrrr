@@ -161,7 +161,7 @@ function renderMenuItems(
     if (item.type === 'separator') {
       return (
         <MenubarSeparator
-          key={`separator-${index}-${item.actionId}`}
+          key={`separator-${item.actionId}`}
           className="bg-border"
         />
       );

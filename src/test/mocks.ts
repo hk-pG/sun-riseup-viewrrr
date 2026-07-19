@@ -1,5 +1,6 @@
 import { vi } from 'vitest';
 import type { FileSystemService } from '@/features/folder-navigation/services/FileSystemService';
+import type { ImageHandle } from '@/features/image-viewer';
 
 // Default implementations for path utilities - extracted to avoid duplication
 // between initialization and resetAllMocks() re-application
@@ -40,6 +41,18 @@ export const setupTauriMocks = () => {
   vi.mock('@tauri-apps/api/core', () => ({
     invoke: mockInvoke,
     convertFileSrc: mockConvertFileSrc,
+    transformCallback: vi.fn(),
+  }));
+
+  // Mock Tauri log plugin
+  // @tauri-apps/plugin-log → @tauri-apps/api/event → transformCallback のインポートチェーンを
+  // ブラウザテスト環境（ESM strict）で断ち切るために必要
+  vi.mock('@tauri-apps/plugin-log', () => ({
+    debug: vi.fn().mockResolvedValue(undefined),
+    error: vi.fn().mockResolvedValue(undefined),
+    info: vi.fn().mockResolvedValue(undefined),
+    trace: vi.fn().mockResolvedValue(undefined),
+    warn: vi.fn().mockResolvedValue(undefined),
   }));
 
   // Mock Tauri dialog plugin
@@ -116,6 +129,8 @@ export const createMockFileSystemService = (
         filePath.split('/').slice(0, -1).join('/') || '/',
     ),
   listImagesInContainer: vi.fn().mockResolvedValue([]),
+  listImageHandles: vi.fn().mockResolvedValue([] satisfies ImageHandle[]),
+  resolveImagesInRange: vi.fn().mockResolvedValue([]),
   getSiblingContainers: vi.fn().mockResolvedValue([]),
   convertFileSrc: vi
     .fn()
@@ -128,16 +143,21 @@ export const createMockFileSystemService = (
 /**
  * Create a mock FileSystemService for thumbnail testing (001-rust-thumbnail-optimization)
  */
-export const createMockFileSystemServiceWithThumbnails = () => ({
-  openDirectoryDialog: vi.fn().mockResolvedValue('/mock/path'),
-  getBaseName: vi.fn().mockResolvedValue('mockfile.jpg'),
-  getDirName: vi.fn().mockResolvedValue('/mock'),
-  convertFileSrc: vi.fn((path: string) => `asset://${path}`),
-  listImagesInContainer: vi.fn().mockResolvedValue([]),
-  getFolderThumbnail: vi.fn().mockResolvedValue({
-    imagePath: '/mock/image.jpg',
-    thumbnailPath: '/mock/cache/thumb.jpg',
-    imageName: 'image.jpg',
-  }),
-  prefetchFolderThumbnails: vi.fn().mockResolvedValue(undefined),
-});
+export const createMockFileSystemServiceWithThumbnails =
+  (): FileSystemService => ({
+    openDirectoryDialog: vi.fn().mockResolvedValue('/mock/path'),
+    openImageFileDialog: vi.fn().mockResolvedValue(null),
+    getBaseName: vi.fn().mockResolvedValue('mockfile.jpg'),
+    getDirName: vi.fn().mockResolvedValue('/mock'),
+    convertFileSrc: vi.fn((path: string) => `asset://${path}`),
+    listImagesInContainer: vi.fn().mockResolvedValue([]),
+    listImageHandles: vi.fn().mockResolvedValue([] satisfies ImageHandle[]),
+    resolveImagesInRange: vi.fn().mockResolvedValue([]),
+    getSiblingContainers: vi.fn().mockResolvedValue([]),
+    getFolderThumbnail: vi.fn().mockResolvedValue({
+      imagePath: '/mock/image.jpg',
+      thumbnailPath: '/mock/cache/thumb.jpg',
+      imageName: 'image.jpg',
+    }),
+    prefetchFolderThumbnails: vi.fn().mockResolvedValue(undefined),
+  });

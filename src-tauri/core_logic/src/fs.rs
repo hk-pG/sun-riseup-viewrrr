@@ -1,6 +1,34 @@
 use crate::image_container::reader_config::ImageContainerReaderConfig;
-use crate::image_container::ImageContainerReader;
+use crate::image_container::{ImageContainerReader, ImageHandle};
 use crate::CommandError;
+
+pub fn list_image_handles<P: AsRef<std::path::Path>, Q: AsRef<std::path::Path>>(
+    container_path: P,
+    cache_dir: Q,
+) -> Result<Vec<ImageHandle>, CommandError> {
+    let container_path = container_path.as_ref();
+    let cache_dir = cache_dir.as_ref();
+
+    let reader_config = ImageContainerReaderConfig::new(cache_dir);
+    let reader = ImageContainerReader::new(reader_config);
+
+    reader.list_image_handles(container_path)
+}
+
+pub fn resolve_images_in_range<P: AsRef<std::path::Path>, Q: AsRef<std::path::Path>>(
+    container_path: P,
+    cache_dir: Q,
+    offset: u32,
+    count: u32,
+) -> Result<Vec<String>, CommandError> {
+    let container_path = container_path.as_ref();
+    let cache_dir = cache_dir.as_ref();
+
+    let reader_config = ImageContainerReaderConfig::new(cache_dir);
+    let reader = ImageContainerReader::new(reader_config);
+
+    reader.resolve_images_in_range(container_path, offset, count)
+}
 
 /// Lists all image files in a specified container (folder or archive).
 /// This function determines if the given path is a folder or an archive and lists
@@ -13,17 +41,15 @@ use crate::CommandError;
 /// # Returns
 /// A `Result` containing either a `Vec<String>` with the full paths of all image files in the container or a `CommandError` if an error occurs.
 ///
+#[deprecated(
+    note = "この関数はコンテナがアーカイブであっても全ての画像を解凍してリストアップするため、パフォーマンスが非常に悪いです。代わりに list_image_handles を使用してください。"
+)]
 pub fn list_images_in_container<P: AsRef<std::path::Path>, Q: AsRef<std::path::Path>>(
     container_path: P,
     cache_dir: Q,
 ) -> Result<Vec<String>, CommandError> {
-    let container_path = container_path.as_ref();
-    let cache_dir = cache_dir.as_ref();
-
-    let reader_config = ImageContainerReaderConfig::new(cache_dir);
-    let reader = ImageContainerReader::new(reader_config);
-
-    reader.list_images_in_container(container_path)
+    let handles = list_image_handles(&container_path, &cache_dir)?;
+    resolve_images_in_range(container_path, cache_dir, 0, handles.len() as u32)
 }
 
 ///
@@ -42,6 +68,53 @@ mod tests {
     use super::*;
     use crate::test_helper::test_helpers::TempTestDir;
     use std::fs::{create_dir_all, File};
+
+    mod list_image_handles {
+        use super::*;
+
+        #[test]
+        fn test_list_image_handles_in_folder_success() {
+            let temp_dir = TempTestDir::new_random();
+            File::create(temp_dir.path().join("image_b.jpg")).unwrap();
+            File::create(temp_dir.path().join("image_a.PNG")).unwrap();
+            File::create(temp_dir.path().join("document.txt")).unwrap();
+
+            let handles = list_image_handles(
+                temp_dir.path().to_string_lossy().to_string(),
+                temp_dir.path().to_string_lossy().to_string(),
+            )
+            .unwrap();
+
+            assert_eq!(handles.len(), 2);
+            assert_eq!(handles[0].name, "image_a.PNG");
+            assert_eq!(handles[1].name, "image_b.jpg");
+            assert_eq!(handles[0].index, 0);
+            assert_eq!(handles[1].index, 1);
+        }
+    }
+
+    mod resolve_images_in_range_tests {
+        use super::*;
+
+        #[test]
+        fn test_resolve_images_in_range_in_folder_success() {
+            let temp_dir = TempTestDir::new_random();
+            File::create(temp_dir.path().join("image_b.jpg")).unwrap();
+            File::create(temp_dir.path().join("image_a.PNG")).unwrap();
+            File::create(temp_dir.path().join("document.txt")).unwrap();
+
+            let images = resolve_images_in_range(
+                temp_dir.path().to_string_lossy().to_string(),
+                temp_dir.path().to_string_lossy().to_string(),
+                1,
+                1,
+            )
+            .unwrap();
+
+            assert_eq!(images.len(), 1);
+            assert!(images[0].ends_with("image_b.jpg"));
+        }
+    }
 
     mod list_images_in_container {
         use super::*;

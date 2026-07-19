@@ -1,6 +1,8 @@
 use std::{fs, path::PathBuf};
 
-use crate::image_container::{CommandError, ImageContainer};
+use crate::image_container::{CommandError, ImageContainer, ImageHandle};
+
+const SUPPORTED_EXTENSIONS: &[&str] = &["jpg", "jpeg", "png", "gif", "webp"];
 
 pub struct FolderImageContainer {
     folder_path: PathBuf,
@@ -27,13 +29,36 @@ impl FolderImageContainer {
 }
 
 impl ImageContainer for FolderImageContainer {
-    fn list_images(&self) -> Result<Vec<String>, CommandError> {
-        list_images_in_folder(&self.folder_path)
+    fn list_handles(&self) -> Result<Vec<ImageHandle>, CommandError> {
+        let image_paths = list_image_paths_in_folder(&self.folder_path)?;
+
+        Ok(image_paths
+            .into_iter()
+            .enumerate()
+            .map(|(index, path)| ImageHandle {
+                index: index as u32,
+                name: path
+                    .file_name()
+                    .map(|name| name.to_string_lossy().to_string())
+                    .unwrap_or_else(|| path.to_string_lossy().to_string()),
+            })
+            .collect())
     }
 
-    fn get_first_image(&self) -> Result<Option<String>, CommandError> {
-        let images = self.list_images()?;
-        Ok(images.into_iter().next())
+    fn resolve_range(&self, offset: u32, count: u32) -> Result<Vec<String>, CommandError> {
+        let image_paths = list_image_paths_in_folder(&self.folder_path)?;
+        let start = usize::try_from(offset).unwrap_or(usize::MAX);
+        if start >= image_paths.len() {
+            return Ok(Vec::new());
+        }
+
+        let len = usize::try_from(count).unwrap_or(usize::MAX);
+        let end = start.saturating_add(len).min(image_paths.len());
+
+        Ok(image_paths[start..end]
+            .iter()
+            .map(|path| path.to_string_lossy().to_string())
+            .collect())
     }
 }
 
@@ -50,27 +75,38 @@ impl ImageContainer for FolderImageContainer {
 ///
 /// A `Result` containing either a `Vec<String>` with the full paths of all image files
 /// or a `CommandError` if an error occurs.
-fn list_images_in_folder<P: AsRef<std::path::Path>>(
+fn list_image_paths_in_folder<P: AsRef<std::path::Path>>(
     folder_path: P,
-) -> Result<Vec<String>, CommandError> {
-    const SUPPORTED_EXTENSIONS: &[&str] = &["jpg", "jpeg", "png", "gif", "webp"];
-
+) -> Result<Vec<PathBuf>, CommandError> {
     let entries = fs::read_dir(&folder_path)?;
 
-    let images = entries
+    let mut images: Vec<PathBuf> = entries
         .filter_map(|entry| {
             let path = entry.ok()?.path();
-            if path.is_file() {
-                let ext = path.extension()?.to_str()?.to_lowercase();
-                if SUPPORTED_EXTENSIONS.contains(&ext.as_str()) {
-                    return Some(path.to_string_lossy().to_string());
-                }
+            if is_supported_image_path(&path) {
+                return Some(path);
             }
             None
         })
         .collect();
 
+    images.sort();
+
     Ok(images)
+}
+
+fn is_supported_image_path(path: &std::path::Path) -> bool {
+    if !path.is_file() {
+        return false;
+    }
+
+    let Some(extension) = path.extension().and_then(|ext| ext.to_str()) else {
+        return false;
+    };
+
+    SUPPORTED_EXTENSIONS
+        .iter()
+        .any(|supported| supported.eq_ignore_ascii_case(extension))
 }
 
 ///

@@ -1,6 +1,7 @@
 import { renderHook } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import type {
+  ActionType,
   KeyboardMapping,
   KeyboardShortcut,
 } from '../../types/viewerTypes';
@@ -9,13 +10,14 @@ import { useKeyboardHandler } from '../useKeyboardHandler';
 describe('useKeyboardHandler', () => {
   let mockContainer: HTMLDivElement;
   let mockContainerRef: React.RefObject<HTMLDivElement>;
-  let mockOnAction: ReturnType<typeof vi.fn>;
+  let mockOnAction =
+    vi.fn<(action: ActionType, event: KeyboardEvent) => void>();
   let mockKeyboardMapping: KeyboardMapping;
 
   beforeEach(() => {
     mockContainer = document.createElement('div');
     mockContainerRef = { current: mockContainer };
-    mockOnAction = vi.fn();
+    mockOnAction = vi.fn<(action: ActionType, event: KeyboardEvent) => void>();
 
     mockKeyboardMapping = {
       shortcuts: new Map([

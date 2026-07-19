@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState, useTransition } from 'react';
+import type { ImageContainer } from '@/features/image-viewer/types/ImageContainer';
 import type { ImageSource } from '@/features/image-viewer/types/ImageSource';
 import type {
   KeyboardMapping,
@@ -13,10 +14,10 @@ import { ImageDisplay } from './ImageDisplay';
 import { ViewerControls } from './ViewerControls';
 
 /**
- * ImageViewerProps: フォルダパスを受け取り、その中の画像を表示するビューアのprops
+ * ImageViewerProps: 画像コンテナまたはフォルダパスを受け取り、その中の画像を表示するビューアのprops
  */
 export interface ImageViewerProps {
-  folderPath: string;
+  container?: ImageContainer;
   initialIndex?: number;
   settings?: Partial<ViewerSettings>;
   keyboardMapping?: KeyboardMapping;
@@ -30,7 +31,6 @@ export interface ImageViewerProps {
     onImageError?: (error: Error, image: ImageSource) => void;
   };
   className?: string;
-  style?: React.CSSProperties;
 }
 
 const defaultSettings: ViewerSettings = {
@@ -44,20 +44,20 @@ const defaultSettings: ViewerSettings = {
 };
 
 export function ImageViewer({
-  folderPath,
+  container,
   initialIndex = 0,
   settings: userSettings,
   keyboardMapping,
   callbacks,
   className = '',
-  style,
 }: ImageViewerProps) {
   const mergedSettings = {
     ...defaultSettings,
     ...userSettings,
   };
 
-  const { images = [], isLoading, error } = useImages(folderPath);
+  const imageSource = container;
+  const { images = [], isLoading, error } = useImages(imageSource);
   const [loading, setLoading] = useState(true);
 
   // 重い処理（ズーム）を非ブロッキングで実行、軽量操作（画像切り替え）には使用しない
@@ -150,7 +150,7 @@ export function ImageViewer({
     return (
       <div
         className={`flex items-center justify-center ${className}`}
-        style={{ backgroundColor: settings.backgroundColor, ...style }}
+        style={{ backgroundColor: settings.backgroundColor }}
       >
         <div className="text-foreground text-lg">読み込み中...</div>
       </div>
@@ -161,7 +161,7 @@ export function ImageViewer({
     return (
       <div
         className={`flex items-center justify-center ${className}`}
-        style={{ backgroundColor: settings.backgroundColor, ...style }}
+        style={{ backgroundColor: settings.backgroundColor }}
       >
         <div className="text-destructive text-lg">{String(error)}</div>
       </div>
@@ -172,7 +172,7 @@ export function ImageViewer({
     return (
       <div
         className={`flex items-center justify-center ${className}`}
-        style={{ backgroundColor: settings.backgroundColor, ...style }}
+        style={{ backgroundColor: settings.backgroundColor }}
       >
         <div className="text-lg text-muted-foreground">
           画像が選択されていません
@@ -186,7 +186,6 @@ export function ImageViewer({
       ref={containerRef}
       role="application"
       className={`relative ${className}`}
-      style={style}
       onMouseMove={handleMouseMove}
       tabIndex={-1}
     >
@@ -195,7 +194,7 @@ export function ImageViewer({
         settings={settings}
         onLoad={() => callbacks?.onImageLoad?.(currentImage)}
         onError={(error) => callbacks?.onImageError?.(error, currentImage)}
-        className="h-full w-full"
+        className="h-full w-full pb-24"
         transitionType="fade"
       />
 

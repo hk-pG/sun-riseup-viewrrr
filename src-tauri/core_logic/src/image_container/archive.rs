@@ -1,14 +1,26 @@
-use std::path::{Path, PathBuf};
+use std::{
+    fs::File,
+    io::{copy, Read, Seek},
+    path::{Path, PathBuf},
+};
 
 use zip::ZipArchive;
 
 use crate::{
     image_container::{
-        folder::FolderImageContainer, reader_config::ImageContainerReaderConfig, CommandError,
-        ImageContainer,
+        reader_config::ImageContainerReaderConfig, CommandError, ImageContainer, ImageHandle,
     },
     utils::hash_path,
 };
+
+const SUPPORTED_EXTENSIONS: &[&str] = &["jpg", "jpeg", "png", "gif", "webp"];
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+struct ArchiveImageEntry {
+    archive_index: usize,
+    archive_path: PathBuf,
+    display_name: String,
+}
 
 pub struct ArchiveImageContainer {
     source_archive_path: PathBuf,
@@ -37,91 +49,168 @@ impl ArchiveImageContainer {
     /// 指定されたコンテナに含まれる画像ファイルを返す。
     ///
     pub fn list_images_in_archive(&self) -> Result<Vec<String>, CommandError> {
+        self.list_images()
+    }
+
+    fn list_archive_entries(&self) -> Result<Vec<ArchiveImageEntry>, CommandError> {
+        self.validate_archive_path()?;
+
+        let mut archive = self.open_archive()?;
+        let mut entries = Vec::new();
+
+        for archive_index in 0..archive.len() {
+            let file = archive
+                .by_index(archive_index)
+                .map_err(|err| CommandError::NotAnArchive(err.to_string()))?;
+
+            if !file.is_file() {
+                continue;
+            }
+
+            let Some(archive_path) = file.enclosed_name() else {
+                continue;
+            };
+
+            if !is_supported_archive_image_path(&archive_path) {
+                continue;
+            }
+
+            let display_name = archive_path
+                .file_name()
+                .map(|name| name.to_string_lossy().to_string())
+                .unwrap_or_else(|| archive_path.to_string_lossy().to_string());
+
+            entries.push(ArchiveImageEntry {
+                archive_index,
+                archive_path,
+                display_name,
+            });
+        }
+
+        entries.sort_by(|left, right| left.archive_path.cmp(&right.archive_path));
+
+        Ok(entries)
+    }
+
+    fn validate_archive_path(&self) -> Result<(), CommandError> {
         let container_path = self.source_archive_path.as_path();
 
-        // if the container is directory, list images in the directory
         if container_path.is_dir() {
-            // 圧縮ファイルではない場合エラーを返す
             return Err(CommandError::NotSpecifiedArchive(
                 container_path.to_string_lossy().to_string(),
             ));
         }
 
-        // Check extension
         if !self.config.is_supported_extension(container_path) {
             return Err(CommandError::UnsupportedExtension(
                 container_path.to_string_lossy().to_string(),
             ));
         }
 
-        let hash = hash_path(&container_path);
-        // 解凍に失敗した場合はエラーを返す
-        let extracted_dir = self.extract_archive(container_path, &hash)?;
-        let folder_container = FolderImageContainer::new(extracted_dir)?;
-        folder_container.list_images()
+        Ok(())
     }
 
-    ///
-    /// 指定された圧縮ファイルを、指定された名前のディレクトリとして展開する。
-    /// 既に同名のディレクトリが存在する場合は、展開せずにそのディレクトリのパスを返す。
-    ///
-    fn extract_archive<P: AsRef<Path>>(
-        &self,
-        archive_file_path: P,
-        extract_name: &str,
-    ) -> Result<PathBuf, CommandError> {
-        // 展開の基底となるディレクトリパスを取得
-        let extract_base = self.config.get_extract_dir();
-        // 圧縮ファイルの中身を展開するディレクトリのパスを作成
-        let extract_dir = extract_base.join(extract_name);
+    fn open_archive(&self) -> Result<ZipArchive<File>, CommandError> {
+        let file = File::open(&self.source_archive_path)?;
+        ZipArchive::new(file).map_err(|err| CommandError::NotAnArchive(err.to_string()))
+    }
 
-        // WARN: 前回の展開が途中で失敗した場合、中途半端なディレクトリが残る可能性がある。
-        // WARN: 展開完了のマーカーファイルを作成するなどして完了を判定できるようにすることも検討する。
+    fn get_extract_dir(&self) -> Result<PathBuf, CommandError> {
+        let extract_dir = self
+            .config
+            .get_extract_dir()
+            .join(hash_path(&self.source_archive_path));
 
-        // 既に同名のディレクトリが存在する場合は、展開せずにそのディレクトリのパスを返す
-        if extract_dir.exists() {
-            return Ok(extract_dir);
-        }
-
-        // 展開先の一時ディレクトリが存在しない場合は作成する
-        if !extract_base.exists() {
-            std::fs::create_dir_all(extract_base)?;
-        }
-
-        // 圧縮ファイルを開く
-        let file = std::fs::File::open(archive_file_path)?;
-        let mut archive =
-            ZipArchive::new(file).map_err(|e| CommandError::NotAnArchive(e.to_string()))?;
-
-        // 圧縮ファイルを指定の名前のディレクトリとして展開する
-        // 展開に失敗した場合はエラーを返す
-        archive
-            .extract(&extract_dir)
-            .map_err(|e| CommandError::NotAnArchive(e.to_string()))?;
+        std::fs::create_dir_all(&extract_dir)?;
 
         Ok(extract_dir)
+    }
+
+    fn extract_entry<R: Read + Seek>(
+        &self,
+        archive: &mut ZipArchive<R>,
+        extract_dir: &Path,
+        entry: &ArchiveImageEntry,
+    ) -> Result<String, CommandError> {
+        let output_path = extract_dir.join(&entry.archive_path);
+        if output_path.exists() {
+            return Ok(output_path.to_string_lossy().to_string());
+        }
+
+        if let Some(parent) = output_path.parent() {
+            std::fs::create_dir_all(parent)?;
+        }
+
+        let mut archive_file = archive
+            .by_index(entry.archive_index)
+            .map_err(|err| CommandError::NotAnArchive(err.to_string()))?;
+        let mut output_file = File::create(&output_path)?;
+        copy(&mut archive_file, &mut output_file)?;
+
+        Ok(output_path.to_string_lossy().to_string())
     }
 }
 
 impl ImageContainer for ArchiveImageContainer {
-    fn list_images(&self) -> Result<Vec<String>, CommandError> {
-        self.list_images_in_archive()
+    fn list_handles(&self) -> Result<Vec<ImageHandle>, CommandError> {
+        let entries = self.list_archive_entries()?;
+
+        Ok(entries
+            .into_iter()
+            .enumerate()
+            .map(|(index, entry)| ImageHandle {
+                index: index as u32,
+                name: entry.display_name,
+            })
+            .collect())
     }
 
-    fn get_first_image(&self) -> Result<Option<String>, CommandError> {
-        let images = self.list_images_in_archive()?;
-        Ok(images.into_iter().next())
+    fn resolve_range(&self, offset: u32, count: u32) -> Result<Vec<String>, CommandError> {
+        let entries = self.list_archive_entries()?;
+        let start = usize::try_from(offset).unwrap_or(usize::MAX);
+        if start >= entries.len() {
+            return Ok(Vec::new());
+        }
+
+        let len = usize::try_from(count).unwrap_or(usize::MAX);
+        let end = start.saturating_add(len).min(entries.len());
+        let selected_entries = &entries[start..end];
+
+        let extract_dir = self.get_extract_dir()?;
+        let mut archive = self.open_archive()?;
+        let mut resolved = Vec::with_capacity(selected_entries.len());
+
+        for entry in selected_entries {
+            resolved.push(self.extract_entry(&mut archive, &extract_dir, entry)?);
+        }
+
+        Ok(resolved)
     }
+}
+
+fn is_supported_archive_image_path(path: &Path) -> bool {
+    if path.components().count() != 1 {
+        return false;
+    }
+
+    let Some(extension) = path.extension().and_then(|ext| ext.to_str()) else {
+        return false;
+    };
+
+    SUPPORTED_EXTENSIONS
+        .iter()
+        .any(|supported| supported.eq_ignore_ascii_case(extension))
 }
 
 #[cfg(test)]
 mod test {
     use super::*;
-    use crate::image_container::archive::{ArchiveImageContainer, ImageContainerReaderConfig};
+    use crate::image_container::{archive::ArchiveImageContainer, ImageContainerReaderConfig};
     use crate::test_helper::test_helpers::TempTestDir;
     use crate::test_helper::test_helpers::ZipTestEnv;
-    use std::fs::{create_dir_all, File};
+    use std::fs::File;
     use std::io::Write;
+    use std::path::Path;
 
     #[test]
     fn returns_an_image_file_in_zip_container() {
@@ -149,6 +238,64 @@ mod test {
 
         // Assert
         assert_eq!(images_in_container.len(), 2);
+    }
+
+    #[test]
+    fn lists_handles_without_extracting_archive() {
+        let env = ZipTestEnv::with_images(&["image_b.jpg", "image_a.jpg"]);
+        let config = ImageContainerReaderConfig::new(env.extract_dir.path());
+        let zip_image_container = ArchiveImageContainer::new(&env.zip_path, config).unwrap();
+
+        let handles = zip_image_container.list_handles().unwrap();
+
+        assert_eq!(
+            handles,
+            vec![
+                ImageHandle {
+                    index: 0,
+                    name: "image_a.jpg".to_string(),
+                },
+                ImageHandle {
+                    index: 1,
+                    name: "image_b.jpg".to_string(),
+                },
+            ]
+        );
+
+        let extract_dir = env.extract_dir.path().join(hash_path(&env.zip_path));
+        assert!(
+            !extract_dir.exists(),
+            "list_handles should not create an extracted cache directory"
+        );
+    }
+
+    #[test]
+    fn resolves_only_requested_range_in_handle_order() {
+        let env = ZipTestEnv::with_images(&["image_c.jpg", "image_a.jpg", "image_b.jpg"]);
+        let config = ImageContainerReaderConfig::new(env.extract_dir.path());
+        let zip_image_container = ArchiveImageContainer::new(&env.zip_path, config).unwrap();
+
+        let resolved = zip_image_container.resolve_range(1, 2).unwrap();
+
+        let resolved_names: Vec<String> = resolved
+            .iter()
+            .map(|path| {
+                Path::new(path)
+                    .file_name()
+                    .unwrap()
+                    .to_string_lossy()
+                    .to_string()
+            })
+            .collect();
+        assert_eq!(resolved_names, vec!["image_b.jpg", "image_c.jpg"]);
+
+        let extract_dir = env.extract_dir.path().join(hash_path(&env.zip_path));
+        assert!(extract_dir.join("image_b.jpg").exists());
+        assert!(extract_dir.join("image_c.jpg").exists());
+        assert!(
+            !extract_dir.join("image_a.jpg").exists(),
+            "resolve_range should not extract images outside the requested slice"
+        );
     }
 
     #[test]
@@ -231,31 +378,55 @@ mod test {
     }
 
     #[test]
-    fn skip_extraction_when_already_cached() {
-        // Arrange
+    fn resolve_range_reuses_cached_files() {
         let env = ZipTestEnv::with_images(&["image.jpg"]);
-        let extract_base = env.extract_dir.path();
-        let hash = crate::utils::hash_path(&env.zip_path);
-        let existing_dir = extract_base.join(&hash);
-        create_dir_all(&existing_dir).unwrap();
-        // create a marker file to detect if extraction is skipped
+        let existing_dir = env
+            .extract_dir
+            .path()
+            .join(crate::utils::hash_path(&env.zip_path));
+        std::fs::create_dir_all(&existing_dir).unwrap();
+        let cached_image = existing_dir.join("image.jpg");
         let marker_file = existing_dir.join("marker_cached.txt");
+        File::create(&cached_image).unwrap();
         File::create(&marker_file).unwrap();
-        // also create the actual image file
-        File::create(existing_dir.join("image.jpg")).unwrap();
-        let config = ImageContainerReaderConfig::new(extract_base);
+
+        let config = ImageContainerReaderConfig::new(env.extract_dir.path());
         let zip_image_container = ArchiveImageContainer::new(&env.zip_path, config).unwrap();
 
-        // Act
-        let images = zip_image_container.list_images_in_archive().unwrap();
+        let images = zip_image_container.resolve_range(0, 1).unwrap();
 
-        // Assert
-        // Verify images are found
         assert_eq!(images.len(), 1);
-        // Verify marker file still exists (proof that extraction was skipped)
+        assert_eq!(images[0], cached_image.to_string_lossy());
         assert!(
             marker_file.exists(),
-            "Marker file should exist, proving cached dir was reused"
+            "Marker file should exist, proving cached files were reused"
         );
+    }
+
+    #[test]
+    fn get_zip_entries_without_extracting() {
+        let env = ZipTestEnv::with_images(&["image1.png", "image2.png", "image3.png"]);
+        let config = ImageContainerReaderConfig::new(env.extract_dir.path());
+        let zip_image_container = ArchiveImageContainer::new(&env.zip_path, config).unwrap();
+
+        let entries = zip_image_container.list_archive_entries().unwrap();
+
+        assert_eq!(entries.len(), 3);
+        assert_eq!(entries[0].display_name, "image1.png");
+        assert_eq!(entries[1].display_name, "image2.png");
+        assert_eq!(entries[2].display_name, "image3.png");
+    }
+
+    #[test]
+    fn lists_entries_from_fixture_zip_without_extracting() {
+        let fixture_zip =
+            PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("test_data/images.zip");
+        let extract_dir = TempTestDir::new_random();
+        let config = ImageContainerReaderConfig::new(extract_dir.path());
+        let zip_image_container = ArchiveImageContainer::new(&fixture_zip, config).unwrap();
+
+        let entries = zip_image_container.list_archive_entries().unwrap();
+
+        assert_eq!(entries.len(), 10);
     }
 }

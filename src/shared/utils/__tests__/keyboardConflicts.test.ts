@@ -11,10 +11,11 @@ import {
 } from '../keyboardUtils';
 
 describe('Keyboard Conflict Detection', () => {
-  let mockOnAction: ReturnType<typeof vi.fn>;
+  let mockOnAction =
+    vi.fn<(action: ActionType, event: KeyboardEvent) => void>();
 
   beforeEach(() => {
-    mockOnAction = vi.fn();
+    mockOnAction = vi.fn<(action: ActionType, event: KeyboardEvent) => void>();
   });
 
   describe('findShortcutConflicts', () => {

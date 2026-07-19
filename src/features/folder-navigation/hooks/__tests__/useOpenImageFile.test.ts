@@ -8,13 +8,12 @@ describe('useOpenImageFile', () => {
     const mockFs = createMockFileSystemService({
       openImageFileDialog: vi.fn().mockResolvedValue('/foo/bar/image2.png'),
       getDirName: vi.fn().mockResolvedValue('/foo/bar'),
-      listImagesInContainer: vi
-        .fn()
-        .mockResolvedValue([
-          '/foo/bar/image1.png',
-          '/foo/bar/image2.png',
-          '/foo/bar/image3.png',
-        ]),
+      getBaseName: vi.fn().mockResolvedValue('image2.png'),
+      listImageHandles: vi.fn().mockResolvedValue([
+        { index: 0, name: 'image1.png' },
+        { index: 1, name: 'image2.png' },
+        { index: 2, name: 'image3.png' },
+      ]),
     });
     const { result } = renderHook(() => useOpenImageFile(mockFs));
     const res = await result.current.openImageFile();
@@ -23,6 +22,7 @@ describe('useOpenImageFile', () => {
       filePath: '/foo/bar/image2.png',
       index: 1,
     });
+    expect(mockFs.listImagesInContainer).not.toHaveBeenCalled();
   });
 
   it('非画像ファイルを選択した場合は何も起きない', async () => {
@@ -38,7 +38,8 @@ describe('useOpenImageFile', () => {
     const mockFs = createMockFileSystemService({
       openImageFileDialog: vi.fn().mockResolvedValue('/foo/bar/image2.png'),
       getDirName: vi.fn().mockResolvedValue('/foo/bar'),
-      listImagesInContainer: vi.fn().mockResolvedValue([]),
+      getBaseName: vi.fn().mockResolvedValue('image2.png'),
+      listImageHandles: vi.fn().mockResolvedValue([]),
     });
     const { result } = renderHook(() => useOpenImageFile(mockFs));
     const res = await result.current.openImageFile();

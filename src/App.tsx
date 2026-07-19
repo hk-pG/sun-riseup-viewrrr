@@ -8,13 +8,18 @@ import { Toaster } from './components/ui/sonner';
 import { AppMenuBar, useAppActions } from './features/app-shell';
 import {
   type FolderInfo,
+  LocalFolderContainer,
   Sidebar,
   useOpenImageFile,
-  useSiblingFolders,
+  useSiblingContainers,
 } from './features/folder-navigation';
 import { ImageViewer } from './features/image-viewer';
 import { useServices } from './shared/context/ServiceContext';
 import { logger } from './shared/utils/logger';
+
+const APP_VIEWER_CONTAINER_CONFIG = {
+  chunkSize: 100,
+};
 
 // App state interface for better type safety
 export interface AppState {
@@ -43,7 +48,7 @@ function App({ initialState }: { initialState?: Partial<AppState> }) {
   const themeApi = useTheme();
 
   // サイドバーの表示のために同階層のフォルダ情報を取得
-  const { entries, error } = useSiblingFolders(appState.currentFolderPath);
+  const { entries, error } = useSiblingContainers(appState.currentFolderPath);
 
   useEffect(() => {
     if (error) {
@@ -69,6 +74,13 @@ function App({ initialState }: { initialState?: Partial<AppState> }) {
   // ファイルシステムサービスを取得
   const fss = useServices();
   const { openImageFile } = useOpenImageFile(fss);
+  const imageContainer = appState.currentFolderPath
+    ? new LocalFolderContainer(
+        appState.currentFolderPath,
+        fss,
+        APP_VIEWER_CONTAINER_CONFIG,
+      )
+    : undefined;
 
   // Command Registry パターンによるメニューアクション処理
   const { executeAction } = useAppActions(
@@ -99,7 +111,7 @@ function App({ initialState }: { initialState?: Partial<AppState> }) {
   return (
     <ErrorBoundary>
       <div className="flex h-screen flex-col bg-background">
-        <div data-tauri-drag-region className="draggable">
+        <div data-tauri-drag-region className="draggable h-16">
           <AppMenuBar isDraggable={true} onMenuAction={handleMenuAction} />
         </div>
 
@@ -113,7 +125,7 @@ function App({ initialState }: { initialState?: Partial<AppState> }) {
           />
           <ImageViewer
             key={appState.currentFolderPath}
-            folderPath={appState.currentFolderPath}
+            container={imageContainer}
             initialIndex={appState.initialImageIndex}
             className="flex-1"
           />
