@@ -1,6 +1,5 @@
 import { useTransition } from 'react';
 import { SIDEBAR_CONFIG } from '../../constants/sidebarConfig';
-import { useThumbnailPrefetch } from '../../hooks/useThumbnailPrefetch';
 import type { FolderInfo, SidebarProps } from '../../types/folderTypes';
 import { SidebarContent } from './SidebarContent';
 import { SidebarHeader } from './SidebarHeader';
@@ -8,8 +7,8 @@ import { SidebarHeader } from './SidebarHeader';
 /**
  * サイドバーコンポーネント
  *
- * フォルダ一覧を表示し、サムネイルのプリフェッチを管理
- * UIロジックとプリフェッチロジックを分離し、保守性を向上
+ * フォルダ一覧を表示する。
+ * UIロジックと仮想スクロールロジックを分離し、保守性を向上
  */
 export function Sidebar({
   folders,
@@ -21,14 +20,10 @@ export function Sidebar({
   showImageCount = true,
   loading = false,
   emptyMessage = 'フォルダが見つかりません',
-  className = '',
   style,
 }: SidebarProps) {
   // フォルダ選択を非ブロッキングで処理、大量フォルダでもUIの応答性を維持
   const [isPending, startTransition] = useTransition();
-
-  // サムネイルのバックグラウンドプリフェッチ
-  useThumbnailPrefetch(folders);
 
   // フォルダ選択ハンドラー：大量フォルダでも応答性を維持（非ブロッキング更新）
   const handleFolderSelect = (folder: FolderInfo) => {
@@ -40,10 +35,10 @@ export function Sidebar({
 
   return (
     <aside
-      className={`min-h-0 overflow-y-auto border-sidebar-border bg-sidebar text-sidebar-foreground ${className}`}
+      className={`flex min-h-0 flex-col border-sidebar-border bg-sidebar text-sidebar-foreground`}
       style={{ width, ...style }}
     >
-      <div className="p-2">
+      <div className="flex min-h-0 flex-1 flex-col p-2">
         <SidebarHeader />
         <SidebarContent
           folders={folders}

@@ -41,6 +41,18 @@ export const setupTauriMocks = () => {
   vi.mock('@tauri-apps/api/core', () => ({
     invoke: mockInvoke,
     convertFileSrc: mockConvertFileSrc,
+    transformCallback: vi.fn(),
+  }));
+
+  // Mock Tauri log plugin
+  // @tauri-apps/plugin-log → @tauri-apps/api/event → transformCallback のインポートチェーンを
+  // ブラウザテスト環境（ESM strict）で断ち切るために必要
+  vi.mock('@tauri-apps/plugin-log', () => ({
+    debug: vi.fn().mockResolvedValue(undefined),
+    error: vi.fn().mockResolvedValue(undefined),
+    info: vi.fn().mockResolvedValue(undefined),
+    trace: vi.fn().mockResolvedValue(undefined),
+    warn: vi.fn().mockResolvedValue(undefined),
   }));
 
   // Mock Tauri dialog plugin

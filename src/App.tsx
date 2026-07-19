@@ -111,7 +111,7 @@ function App({ initialState }: { initialState?: Partial<AppState> }) {
   return (
     <ErrorBoundary>
       <div className="flex h-screen flex-col bg-background">
-        <div data-tauri-drag-region className="draggable">
+        <div data-tauri-drag-region className="draggable h-16">
           <AppMenuBar isDraggable={true} onMenuAction={handleMenuAction} />
         </div>
 

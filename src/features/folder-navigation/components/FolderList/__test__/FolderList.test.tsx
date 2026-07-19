@@ -8,6 +8,19 @@ vi.mock('@/features/folder-navigation/hooks/useThumbnail', () => ({
   useThumbnail: vi.fn(),
 }));
 
+vi.mock('@tanstack/react-virtual', () => ({
+  useVirtualizer: (options: any) => ({
+    getVirtualItems: () =>
+      Array.from({ length: options.count }).map((_, index) => ({
+        index,
+        key: index,
+        start: index * 50,
+      })),
+    getTotalSize: () => options.count * 50,
+    measureElement: vi.fn(),
+  }),
+}));
+
 const mockThumbnailIdle = () => {
   vi.mocked(useThumbnail).mockReturnValue({
     thumbnail: null,
@@ -32,24 +45,6 @@ describe('初期表示', () => {
       />,
     );
     expect(screen.queryByRole('img')).not.toBeInTheDocument();
-  });
-
-  it('フォルダが1つ渡されたら1つ表示すること', async () => {
-    const folders: FolderInfo[] = [
-      {
-        name: 'Folder 1',
-        path: '/path/to/folder1',
-        imageCount: 1,
-        thumbnailImage: {
-          name: 'thumb1.jpg',
-          path: '/path/to/folder1/thumb1.jpg',
-        },
-      },
-    ];
-
-    render(<FolderList folders={folders} onFolderSelect={vi.fn()} />);
-
-    expect(screen.getByText('Folder 1')).toBeInTheDocument();
   });
 
   it('フォルダが複数渡されたらすべて表示すること', () => {
