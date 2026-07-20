@@ -2,8 +2,8 @@
 
 import { useEffect, useRef, useState, useTransition } from 'react';
 import type { ImageContainer } from '@/features/image-viewer/types/ImageContainer';
-import type { ImageSource } from '@/features/image-viewer/types/ImageSource';
 import type {
+  ImageViewerCallbacks,
   KeyboardMapping,
   ViewerSettings,
 } from '@/features/image-viewer/types/viewerTypes';
@@ -21,15 +21,7 @@ export interface ImageViewerProps {
   initialIndex?: number;
   settings?: Partial<ViewerSettings>;
   keyboardMapping?: KeyboardMapping;
-  callbacks?: {
-    onImageChange?: (index: number, image: ImageSource) => void;
-    onZoomChange?: (zoom: number) => void;
-    onRotationChange?: (rotation: number) => void;
-    onSettingsChange?: (settings: Partial<ViewerSettings>) => void;
-    onCustomAction?: (action: string, event: KeyboardEvent) => void;
-    onImageLoad?: (image: ImageSource) => void;
-    onImageError?: (error: Error, image: ImageSource) => void;
-  };
+  callbacks?: ImageViewerCallbacks;
   className?: string;
 }
 

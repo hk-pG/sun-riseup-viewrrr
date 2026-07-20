@@ -1,17 +1,6 @@
 'use client';
 
-import type { ImageSource } from '../types/ImageSource';
-import type { ViewerSettings } from '../types/viewerTypes';
-
-export interface ImageDisplayProps {
-  image: ImageSource;
-  settings: ViewerSettings;
-  onLoad?: () => void;
-  onError?: (error: Error) => void;
-  className?: string;
-  style?: React.CSSProperties;
-  transitionType?: 'fade' | 'none';
-}
+import type { ImageDisplayProps } from '../types/viewerTypes';
 
 export function ImageDisplay({
   image,

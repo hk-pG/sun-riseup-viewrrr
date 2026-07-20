@@ -1,10 +1,9 @@
-import type { ImageFile } from '../../folder-navigation/types/folderTypes';
+import type { ImageSource } from './ImageSource';
 
 /**
  * 画像ビューアの表示設定を表す型。
  * - ズーム、回転、背景色、コントロール表示などの設定を保持する。
  * - ImageViewerPropsやImageDisplayPropsで利用される。
-
  */
 export interface ViewerSettings {
   fitMode: 'width' | 'height' | 'both' | 'none';
@@ -18,15 +17,16 @@ export interface ViewerSettings {
 
 /**
  * 画像表示コンポーネントのprops型。
- * - ImageFile型のimageとViewerSettings型のsettingsを受け取る。
+ * - ImageSource型のimageとViewerSettings型のsettingsを受け取る。
  */
 export interface ImageDisplayProps {
-  image: ImageFile;
+  image: ImageSource;
   settings: ViewerSettings;
   onLoad?: () => void;
   onError?: (error: Error) => void;
   className?: string;
   style?: React.CSSProperties;
+  transitionType?: 'fade' | 'none';
 }
 
 /**
@@ -95,14 +95,14 @@ export interface KeyboardMapping {
 /**
  * 画像ビューアのコールバック関数群。
  * - ImageViewerPropsで利用される。
- * - ImageFile型やViewerSettings型と連携する。
+ * - ImageSource型やViewerSettings型と連携する。
  */
 export interface ImageViewerCallbacks {
-  onImageChange?: (index: number, image: ImageFile) => void;
+  onImageChange?: (index: number, image: ImageSource) => void;
   onZoomChange?: (zoom: number) => void;
   onRotationChange?: (rotation: number) => void;
   onSettingsChange?: (settings: Partial<ViewerSettings>) => void;
   onCustomAction?: (action: string, event: KeyboardEvent) => void;
-  onImageLoad?: (image: ImageFile) => void;
-  onImageError?: (error: Error, image: ImageFile) => void;
+  onImageLoad?: (image: ImageSource) => void;
+  onImageError?: (error: Error, image: ImageSource) => void;
 }

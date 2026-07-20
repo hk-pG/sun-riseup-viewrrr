@@ -1,6 +1,5 @@
 // Image Viewer Feature Exports
 
-export type { ImageFile } from '../folder-navigation/types/folderTypes';
 export { ImageDisplay } from './components/ImageDisplay';
 // Re-export component props interfaces for convenience
 export type { ImageViewerProps } from './components/ImageViewer';
