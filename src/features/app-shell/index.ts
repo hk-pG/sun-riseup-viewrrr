@@ -23,21 +23,14 @@ export { MenuDropdown } from './components/MenuDropdown';
 export { MenuItem } from './components/MenuItem';
 // Hooks
 export { useAppActions } from './hooks/useAppActions';
-// Settings
+// Keyboard shortcuts
 export {
   createCustomKeyboardMapping,
   createDefaultKeyboardMapping,
   findShortcutConflicts,
   getShortcutDescription,
   getShortcutList,
-} from './settings/defaultKeyConfig';
-export {
-  createCustomKeyboardMapping as createCustomKeyboardMappingFromUtils,
-  createDefaultKeyboardMapping as createDefaultKeyboardMappingFromUtils,
-  findShortcutConflicts as findShortcutConflictsFromUtils,
-  getShortcutDescription as getShortcutDescriptionFromUtils,
-  getShortcutList as getShortcutListFromUtils,
-} from './settings/keyUtils';
+} from '@/shared/utils/keyboardUtils';
 
 // Types
 export type {
