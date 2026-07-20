@@ -12,7 +12,9 @@ export { LocalFolderContainer } from './containers/LocalFolderContainer';
 // Hooks
 export { useFolderListPagination } from './hooks/useFolderListPagination';
 export { useOpenImageFile } from './hooks/useOpenImageFile';
-export type { FolderEntry } from './hooks/useSiblingContainers';
+export type { FolderSortFunction } from './types/FolderSortFunction';
+export { createFolderEntry } from './utils/folderEntry';
+export { naturalFolderSort } from './utils/folderSort';
 export { useSiblingContainers } from './hooks/useSiblingContainers';
 export { useThumbnail } from './hooks/useThumbnail';
 export { useThumbnailPrefetch } from './hooks/useThumbnailPrefetch';
@@ -22,6 +24,7 @@ export { getSiblingContainerEntries } from './services/getSiblingContainers';
 
 // Types
 export type {
+  FolderEntry,
   FolderInfo,
   FolderListProps,
   FolderViewProps,

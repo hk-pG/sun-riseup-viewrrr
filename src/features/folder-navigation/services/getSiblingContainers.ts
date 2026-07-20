@@ -1,8 +1,7 @@
-import { type FolderSortFunction, naturalFolderSort } from '../../../shared';
-import {
-  createFolderEntry,
-  type FolderEntry,
-} from '../hooks/useSiblingContainers';
+import type { FolderSortFunction } from '../types/FolderSortFunction';
+import { createFolderEntry } from '../utils/folderEntry';
+import { naturalFolderSort } from '../utils/folderSort';
+import type { FolderEntry } from '../types/folderTypes';
 import type { FileSystemService } from './FileSystemService';
 
 /**

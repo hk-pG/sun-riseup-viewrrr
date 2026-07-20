@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import type { FolderEntry } from '../../../features/folder-navigation/hooks/useSiblingContainers';
+import type { FolderEntry } from '../../types/folderTypes';
 import { naturalFolderSort } from '../folderSort';
 
 describe('naturalFolderSort', () => {

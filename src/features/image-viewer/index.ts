@@ -13,6 +13,8 @@ export { useKeyboardHandler } from './hooks/useKeyboardHandler';
 export type { ImageContainer } from './types/ImageContainer';
 // Types
 export type { ImageHandle, ImageSource } from './types/ImageSource';
+export type { SortFunction } from './types/SortFunction';
+export { naturalSort } from './utils/sort';
 export type {
   ActionType,
   ImageDisplayProps,

@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { createMockFileSystemService } from '@/test/mocks';
-import type { FolderEntry } from '../../hooks/useSiblingContainers';
+import type { FolderEntry } from '../../types/folderTypes';
 import { getSiblingContainerEntries } from '../getSiblingContainers';
 
 // Mock FileSystemService

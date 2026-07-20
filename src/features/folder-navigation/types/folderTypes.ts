@@ -12,6 +12,16 @@ export interface ImageFile {
 }
 
 /**
+ * フォルダエントリ（パスと名前のみ）を表す型。
+ * - サイドバー用の同階層フォルダ一覧取得などで利用される。
+ * - FolderInfo への変換前の軽量な表現。
+ */
+export interface FolderEntry {
+  name: string;
+  path: string;
+}
+
+/**
  * フォルダ情報を表す型。
  * - フォルダのパスや名前、サムネイル画像、画像数などを保持する。
  * - サイドバーやフォルダリスト表示などで利用される。

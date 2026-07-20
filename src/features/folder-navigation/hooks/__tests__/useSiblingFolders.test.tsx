@@ -3,10 +3,8 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import type { FileSystemService } from '@/features/folder-navigation/services/FileSystemService';
 import { ServicesProvider } from '../../../../shared/context/ServiceContext';
 import { createMockFileSystemService } from '../../../../test/mocks';
-import {
-  type FolderEntry,
-  useSiblingContainers,
-} from '../useSiblingContainers';
+import type { FolderEntry } from '../../types/folderTypes';
+import { useSiblingContainers } from '../useSiblingContainers';
 
 // --- 定数 ---
 const TEST_CURRENT_PATH = '/path/to/current';

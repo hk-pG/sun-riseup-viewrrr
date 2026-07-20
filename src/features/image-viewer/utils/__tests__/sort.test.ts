@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import type { ImageSource } from '../../../features/image-viewer/types/ImageSource';
+import type { ImageSource } from '../../types/ImageSource';
 import { naturalSort } from '../sort';
 
 describe('naturalSort', () => {
