@@ -1,4 +1,4 @@
-import type { AppState } from '@/App';
+import type { AppState } from '../types/appState';
 import type { OpenImageFileResult } from '@/features/folder-navigation/hooks/useOpenImageFile';
 import type { FileSystemService } from '@/features/folder-navigation/services/FileSystemService';
 import type { AppMenuBarEvent } from '../components/AppMenuBar';

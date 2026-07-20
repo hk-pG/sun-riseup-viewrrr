@@ -5,7 +5,12 @@ import './App.css';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import { useTheme } from './components/theme-provider';
 import { Toaster } from './components/ui/sonner';
-import { AppMenuBar, useAppActions } from './features/app-shell';
+import {
+  AppMenuBar,
+  createAppState,
+  type AppState,
+  useAppActions,
+} from './features/app-shell';
 import {
   type FolderInfo,
   LocalFolderContainer,
@@ -21,12 +26,6 @@ const APP_VIEWER_CONTAINER_CONFIG = {
   chunkSize: 100,
 };
 
-// App state interface for better type safety
-export interface AppState {
-  currentFolderPath: string;
-  initialImageIndex: number;
-}
-
 /**
  * アプリケーションのルートコンポーネント
  * TODO: 状態管理が複雑化している。appStateでの管理に無理が生じ始めている。
@@ -36,10 +35,9 @@ export interface AppState {
  *                             初期フォルダパスや画像インデックスを注入できます。
  */
 function App({ initialState }: { initialState?: Partial<AppState> }) {
-  const [appState, setAppState] = useState<AppState>({
-    currentFolderPath: initialState?.currentFolderPath || '',
-    initialImageIndex: initialState?.initialImageIndex || 0,
-  });
+  const [appState, setAppState] = useState<AppState>(() =>
+    createAppState(initialState),
+  );
 
   // useTransition for non-urgent updates
   const [isPending, startTransition] = useTransition();
