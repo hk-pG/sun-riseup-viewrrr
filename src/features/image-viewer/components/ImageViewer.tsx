@@ -1,10 +1,8 @@
 'use client';
 
 import { useEffect, useRef, useState, useTransition } from 'react';
-import type { ImageContainer } from '@/features/image-viewer/types/ImageContainer';
 import type {
-  ImageViewerCallbacks,
-  KeyboardMapping,
+  ImageViewerProps,
   ViewerSettings,
 } from '@/features/image-viewer/types/viewerTypes';
 import { useImages } from '@/shared/hooks/data/useImages';
@@ -12,18 +10,6 @@ import { useControlsVisibility } from '../hooks/useControlsVisibility';
 import { useKeyboardHandler } from '../hooks/useKeyboardHandler';
 import { ImageDisplay } from './ImageDisplay';
 import { ViewerControls } from './ViewerControls';
-
-/**
- * ImageViewerProps: 画像コンテナまたはフォルダパスを受け取り、その中の画像を表示するビューアのprops
- */
-export interface ImageViewerProps {
-  container?: ImageContainer;
-  initialIndex?: number;
-  settings?: Partial<ViewerSettings>;
-  keyboardMapping?: KeyboardMapping;
-  callbacks?: ImageViewerCallbacks;
-  className?: string;
-}
 
 const defaultSettings: ViewerSettings = {
   fitMode: 'both',

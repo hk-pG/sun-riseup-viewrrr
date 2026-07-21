@@ -1,3 +1,4 @@
+import type { ImageContainer } from './ImageContainer';
 import type { ImageSource } from './ImageSource';
 
 /**
@@ -13,6 +14,19 @@ export interface ViewerSettings {
   showControls: boolean;
   autoHideControls: boolean;
   controlsTimeout: number;
+}
+
+/**
+ * 画像ビューア本体のprops型。
+ * - ImageContainer 経由で画像一覧を受け取り表示する。
+ */
+export interface ImageViewerProps {
+  container?: ImageContainer;
+  initialIndex?: number;
+  settings?: Partial<ViewerSettings>;
+  keyboardMapping?: KeyboardMapping;
+  callbacks?: ImageViewerCallbacks;
+  className?: string;
 }
 
 /**
@@ -84,7 +98,6 @@ export interface KeyboardShortcut {
  * キーボードショートカットのマッピングを表す型。
  * - アクションごとにKeyboardShortcut配列を持つ。
  * - onActionでアクション発火時の処理を定義。
-
  */
 export interface KeyboardMapping {
   shortcuts: Map<ActionType, KeyboardShortcut[]>;

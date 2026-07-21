@@ -1,9 +1,6 @@
 // Image Viewer Feature Exports
 
 export { ImageDisplay } from './components/ImageDisplay';
-// Re-export component props interfaces for convenience
-export type { ImageViewerProps } from './components/ImageViewer';
-// Components
 export { ImageViewer } from './components/ImageViewer';
 export { ViewerControls } from './components/ViewerControls';
 // Hooks
@@ -16,6 +13,7 @@ export type {
   ActionType,
   ImageDisplayProps,
   ImageViewerCallbacks,
+  ImageViewerProps,
   KeyboardMapping,
   KeyboardShortcut,
   ViewerControlsProps,
