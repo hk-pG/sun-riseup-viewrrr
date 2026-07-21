@@ -40,8 +40,6 @@ export {
 } from './settings/keyUtils';
 
 // Types
-export type { AppState } from './types/appState';
-export { createAppState, DEFAULT_APP_STATE } from './types/appState';
 export type {
   HeaderMenuProps,
   MenuAction,

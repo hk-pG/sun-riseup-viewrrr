@@ -2,15 +2,11 @@ import { LucideAlertTriangle } from 'lucide-react';
 import { useEffect, useState, useTransition } from 'react';
 import { toast } from 'sonner';
 import './App.css';
+import { type AppState, createAppState } from './appState';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import { useTheme } from './components/theme-provider';
 import { Toaster } from './components/ui/sonner';
-import {
-  AppMenuBar,
-  createAppState,
-  type AppState,
-  useAppActions,
-} from './features/app-shell';
+import { AppMenuBar, useAppActions } from './features/app-shell';
 import {
   type FolderInfo,
   LocalFolderContainer,
