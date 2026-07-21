@@ -1,7 +1,6 @@
-import type { FolderSortFunction } from '../types/FolderSortFunction';
+import type { FolderEntry, FolderSortFunction } from '../types/folderTypes';
 import { createFolderEntry } from '../utils/folderEntry';
 import { naturalFolderSort } from '../utils/folderSort';
-import type { FolderEntry } from '../types/folderTypes';
 import type { FileSystemService } from './FileSystemService';
 
 /**

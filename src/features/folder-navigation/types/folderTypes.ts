@@ -22,6 +22,11 @@ export interface FolderEntry {
 }
 
 /**
+ * FolderEntry 配列をソートするための関数型。
+ */
+export type FolderSortFunction = (a: FolderEntry, b: FolderEntry) => number;
+
+/**
  * フォルダ情報を表す型。
  * - フォルダのパスや名前、サムネイル画像、画像数などを保持する。
  * - サイドバーやフォルダリスト表示などで利用される。

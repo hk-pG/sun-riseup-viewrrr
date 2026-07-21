@@ -1,4 +1,4 @@
-import type { FolderSortFunction } from '../types/FolderSortFunction';
+import type { FolderSortFunction } from '../types/folderTypes';
 
 /**
  * Natural sort function for folders that handles Japanese text and numeric values properly
