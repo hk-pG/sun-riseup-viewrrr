@@ -1,5 +1,13 @@
 // App Shell Feature Exports
 
+// Keyboard shortcuts
+export {
+  createCustomKeyboardMapping,
+  createDefaultKeyboardMapping,
+  findShortcutConflicts,
+  getShortcutDescription,
+  getShortcutList,
+} from '@/shared/utils/keyboardUtils';
 // Actions
 export type {
   ActionDependencies,
@@ -23,21 +31,6 @@ export { MenuDropdown } from './components/MenuDropdown';
 export { MenuItem } from './components/MenuItem';
 // Hooks
 export { useAppActions } from './hooks/useAppActions';
-// Settings
-export {
-  createCustomKeyboardMapping,
-  createDefaultKeyboardMapping,
-  findShortcutConflicts,
-  getShortcutDescription,
-  getShortcutList,
-} from './settings/defaultKeyConfig';
-export {
-  createCustomKeyboardMapping as createCustomKeyboardMappingFromUtils,
-  createDefaultKeyboardMapping as createDefaultKeyboardMappingFromUtils,
-  findShortcutConflicts as findShortcutConflictsFromUtils,
-  getShortcutDescription as getShortcutDescriptionFromUtils,
-  getShortcutList as getShortcutListFromUtils,
-} from './settings/keyUtils';
 
 // Types
 export type {
