@@ -1,8 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import type {
-  ActionType,
-  KeyboardShortcut,
-} from '../../../features/image-viewer/types/viewerTypes';
+import type { ActionType, KeyboardShortcut } from '../../types/viewerTypes';
 import {
   createCustomKeyboardMapping,
   createDefaultKeyboardMapping,

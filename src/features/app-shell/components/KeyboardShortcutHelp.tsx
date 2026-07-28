@@ -4,7 +4,7 @@ import { useState } from 'react';
 import {
   getShortcutDescription,
   getShortcutList,
-} from '../../../shared/utils/keyboardUtils';
+} from '../../image-viewer/keyboard/keyboardUtils';
 import type {
   KeyboardMapping,
   KeyboardShortcut,
