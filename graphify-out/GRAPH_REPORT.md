@@ -5,12 +5,12 @@
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 1430 nodes · 2394 edges · 93 communities (73 shown, 20 thin omitted)
+- 1430 nodes · 2402 edges · 92 communities (71 shown, 21 thin omitted)
 - Extraction: 94% EXTRACTED · 6% INFERRED · 0% AMBIGUOUS · INFERRED: 134 edges (avg confidence: 0.84)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `704d758e`
+- Built from commit: `5750785f`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -54,7 +54,6 @@
 - Thumbnail Config Validation
 - Vite Node TS Config
 - Dev Strict TS Config
-- Sidebar.tsx
 - Rust Thumbnail Optimization
 - Tauri Capability Permissions
 - folder-navigation/index.ts
@@ -110,81 +109,44 @@
 10. `ThumbnailGenerator` - 14 edges
 
 ## Surprising Connections (you probably didn't know these)
-- `CI jobs: lint, frontend-test, backend-test` --semantically_similar_to--> `Quality gate (type-check, lint, test)`  [INFERRED] [semantically similar]
-  .github/workflows/ci.yml → AGENTS.md
-- `sun-riseup-viewrrr image viewer app` --semantically_similar_to--> `Feature-based architecture (src/features/)`  [INFERRED] [semantically similar]
-  README.md → AGENTS.md
-- `FileSystemService abstraction` --semantically_similar_to--> `useServices() DI for Tauri APIs`  [INFERRED] [semantically similar]
-  .github/copilot-instructions.md → AGENTS.md
-- `Frontend Feature Layout` --semantically_similar_to--> `Feature-Based Architecture`  [INFERRED] [semantically similar]
-  docs/frontend-architecture-analysis.md → .specify/memory/constitution.md
-- `Thumbnail Prefetch Without Cache Check` --conceptually_related_to--> `prefetch_folder_thumbnails`  [INFERRED]
-  src-tauri/core_logic/docs/todo.md → docs/specs/016-thumbnail-backend-responsibility/spec.md
+- `Quality gate (type-check, lint, test)` --semantically_similar_to--> `CI jobs: lint, frontend-test, backend-test`  [INFERRED] [semantically similar]
+  AGENTS.md → .github/workflows/ci.yml
+- `Feature-based architecture (src/features/)` --semantically_similar_to--> `sun-riseup-viewrrr image viewer app`  [INFERRED] [semantically similar]
+  AGENTS.md → README.md
+- `useServices() DI for Tauri APIs` --semantically_similar_to--> `FileSystemService abstraction`  [INFERRED] [semantically similar]
+  AGENTS.md → .github/copilot-instructions.md
+- `Feature-Based Architecture` --semantically_similar_to--> `Frontend Feature Layout`  [INFERRED] [semantically similar]
+  .specify/memory/constitution.md → docs/frontend-architecture-analysis.md
+- `prefetch_folder_thumbnails` --conceptually_related_to--> `Thumbnail Prefetch Without Cache Check`  [INFERRED]
+  docs/specs/016-thumbnail-backend-responsibility/spec.md → src-tauri/core_logic/docs/todo.md
 
 ## Import Cycles
-- 3-file cycle: `src/features/folder-navigation/hooks/useThumbnailPrefetch.ts -> src/shared/context/ServiceContext.tsx -> src/features/folder-navigation/index.ts -> src/features/folder-navigation/hooks/useThumbnailPrefetch.ts`
+- 3-file cycle: `src/App.tsx -> src/features/app-shell/index.ts -> src/features/app-shell/actions/types.ts -> src/App.tsx`
 - 3-file cycle: `src/features/folder-navigation/hooks/useSiblingContainers.ts -> src/shared/context/ServiceContext.tsx -> src/features/folder-navigation/index.ts -> src/features/folder-navigation/hooks/useSiblingContainers.ts`
 - 3-file cycle: `src/features/folder-navigation/hooks/useThumbnail.ts -> src/shared/context/ServiceContext.tsx -> src/features/folder-navigation/index.ts -> src/features/folder-navigation/hooks/useThumbnail.ts`
+- 3-file cycle: `src/features/folder-navigation/hooks/useThumbnailPrefetch.ts -> src/shared/context/ServiceContext.tsx -> src/features/folder-navigation/index.ts -> src/features/folder-navigation/hooks/useThumbnailPrefetch.ts`
 - 3-file cycle: `src/features/image-viewer/components/ImageViewer.tsx -> src/shared/hooks/data/useImages.ts -> src/features/image-viewer/index.ts -> src/features/image-viewer/components/ImageViewer.tsx`
 - 4-file cycle: `src/App.tsx -> src/features/app-shell/index.ts -> src/features/app-shell/actions/index.ts -> src/features/app-shell/actions/types.ts -> src/App.tsx`
 - 4-file cycle: `src/App.tsx -> src/features/app-shell/index.ts -> src/features/app-shell/hooks/useAppActions.ts -> src/features/app-shell/actions/types.ts -> src/App.tsx`
-- 4-file cycle: `src/features/folder-navigation/hooks/useThumbnailPrefetch.ts -> src/shared/context/ServiceContext.tsx -> src/shared/adapters/tauriAdapters.ts -> src/features/folder-navigation/index.ts -> src/features/folder-navigation/hooks/useThumbnailPrefetch.ts`
-- 4-file cycle: `src/features/folder-navigation/hooks/useSiblingContainers.ts -> src/features/folder-navigation/services/getSiblingContainers.ts -> src/shared/index.ts -> src/shared/types/FolderSortFunction.ts -> src/features/folder-navigation/hooks/useSiblingContainers.ts`
-- 4-file cycle: `src/features/folder-navigation/index.ts -> src/features/folder-navigation/services/getSiblingContainers.ts -> src/shared/index.ts -> src/shared/adapters/tauriAdapters.ts -> src/features/folder-navigation/index.ts`
-- 4-file cycle: `src/features/folder-navigation/index.ts -> src/features/folder-navigation/services/getSiblingContainers.ts -> src/shared/index.ts -> src/shared/context/ServiceContext.tsx -> src/features/folder-navigation/index.ts`
 - 4-file cycle: `src/features/folder-navigation/components/FolderView.tsx -> src/features/folder-navigation/hooks/useThumbnail.ts -> src/shared/context/ServiceContext.tsx -> src/features/folder-navigation/index.ts -> src/features/folder-navigation/components/FolderView.tsx`
 - 4-file cycle: `src/features/folder-navigation/hooks/useSiblingContainers.ts -> src/shared/context/ServiceContext.tsx -> src/shared/adapters/tauriAdapters.ts -> src/features/folder-navigation/index.ts -> src/features/folder-navigation/hooks/useSiblingContainers.ts`
 - 4-file cycle: `src/features/folder-navigation/hooks/useThumbnail.ts -> src/shared/context/ServiceContext.tsx -> src/shared/adapters/tauriAdapters.ts -> src/features/folder-navigation/index.ts -> src/features/folder-navigation/hooks/useThumbnail.ts`
+- 4-file cycle: `src/features/folder-navigation/hooks/useThumbnailPrefetch.ts -> src/shared/context/ServiceContext.tsx -> src/shared/adapters/tauriAdapters.ts -> src/features/folder-navigation/index.ts -> src/features/folder-navigation/hooks/useThumbnailPrefetch.ts`
+- 4-file cycle: `src/features/folder-navigation/index.ts -> src/features/folder-navigation/services/getSiblingContainers.ts -> src/shared/index.ts -> src/shared/adapters/tauriAdapters.ts -> src/features/folder-navigation/index.ts`
+- 4-file cycle: `src/features/folder-navigation/index.ts -> src/features/folder-navigation/services/getSiblingContainers.ts -> src/shared/index.ts -> src/shared/context/ServiceContext.tsx -> src/features/folder-navigation/index.ts`
+- 4-file cycle: `src/features/folder-navigation/hooks/useSiblingContainers.ts -> src/features/folder-navigation/services/getSiblingContainers.ts -> src/shared/index.ts -> src/shared/types/FolderSortFunction.ts -> src/features/folder-navigation/hooks/useSiblingContainers.ts`
 - 5-file cycle: `src/App.tsx -> src/features/app-shell/index.ts -> src/features/app-shell/actions/index.ts -> src/features/app-shell/actions/actionRegistry.ts -> src/features/app-shell/actions/types.ts -> src/App.tsx`
 - 5-file cycle: `src/App.tsx -> src/features/app-shell/index.ts -> src/features/app-shell/actions/index.ts -> src/features/app-shell/actions/openFolderAction.ts -> src/features/app-shell/actions/types.ts -> src/App.tsx`
 - 5-file cycle: `src/App.tsx -> src/features/app-shell/index.ts -> src/features/app-shell/actions/index.ts -> src/features/app-shell/actions/openImageAction.ts -> src/features/app-shell/actions/types.ts -> src/App.tsx`
 - 5-file cycle: `src/App.tsx -> src/features/app-shell/index.ts -> src/features/app-shell/actions/index.ts -> src/features/app-shell/actions/toggleThemeAction.ts -> src/features/app-shell/actions/types.ts -> src/App.tsx`
 - 5-file cycle: `src/App.tsx -> src/features/app-shell/index.ts -> src/features/app-shell/hooks/useAppActions.ts -> src/features/app-shell/actions/actionRegistry.ts -> src/features/app-shell/actions/types.ts -> src/App.tsx`
-- 5-file cycle: `src/features/folder-navigation/hooks/useSiblingContainers.ts -> src/features/folder-navigation/services/getSiblingContainers.ts -> src/shared/index.ts -> src/shared/utils/folderSort.ts -> src/shared/types/FolderSortFunction.ts -> src/features/folder-navigation/hooks/useSiblingContainers.ts`
-- 5-file cycle: `src/features/folder-navigation/hooks/useSiblingContainers.ts -> src/features/folder-navigation/services/getSiblingContainers.ts -> src/shared/index.ts -> src/shared/adapters/tauriAdapters.ts -> src/features/folder-navigation/index.ts -> src/features/folder-navigation/hooks/useSiblingContainers.ts`
+- 5-file cycle: `src/features/folder-navigation/components/FolderList/FolderList.tsx -> src/features/folder-navigation/components/FolderView.tsx -> src/features/folder-navigation/hooks/useThumbnail.ts -> src/shared/context/ServiceContext.tsx -> src/features/folder-navigation/index.ts -> src/features/folder-navigation/components/FolderList/FolderList.tsx`
 
-## Hyperedges (group relationships)
-- **SpecKit pipeline: specify → clarify → plan → tasks → analyze → implement** — _github_prompts_speckit_specify_prompt, _github_prompts_speckit_clarify_prompt, _github_prompts_speckit_plan_prompt, _github_prompts_speckit_tasks_prompt, _github_prompts_speckit_analyze_prompt, _github_prompts_speckit_implement_prompt [INFERRED 0.85]
-- **Issue lifecycle: start → finish → review** — _github_prompts_issue_start_prompt, _github_prompts_issue_finish_prompt, _github_prompts_review_request_prompt [INFERRED 0.95]
-- **Quality enforcement across agents, finish workflow, and CI** — agents_quality_gate, _github_prompts_issue_finish_prompt_pr_workflow, _github_workflows_ci_jobs [INFERRED 0.85]
-- **ADR-002 Lazy Archive Migration Cluster** — docs_adr_002_lazy_archive_extraction_lazy_archive_extraction, docs_adr_002_lazy_archive_extraction_two_phase_container_api, docs_adr_002_todo_milestone_true_lazy_loading, docs_archive_support_decision_list_archive_mvp_scope [EXTRACTED 1.00]
-- **Manual Memoization Removal SpecKit Cluster** — docs_specs_001_remove_manual_memoization_spec_remove_manual_memoization, docs_specs_001_remove_manual_memoization_research_react_compiler, docs_specs_001_remove_manual_memoization_data_model_useopenimagefile, docs_specs_001_remove_manual_memoization_data_model_usekeyboardhandler, docs_specs_001_remove_manual_memoization_data_model_usecontrolsvisibility, docs_specs_001_remove_manual_memoization_data_model_sidebar [EXTRACTED 1.00]
-- **Testing and Mock Modernization Cluster** — docs_testing_strategy_2026_05_container_first_testing, docs_testing_strategy_2026_05_mock_centralization, docs_test_mock_refactor_todo_mock_factory_unification, docs_vitest4_mock_type_migration_vi_fn_generic, _specify_memory_constitution_test_pyramid [INFERRED 0.85]
-- **Theme Provider Migration Core Entities** — docs_specs_001_replace_theme_provider_spec_themeprovider, docs_specs_001_replace_theme_provider_data_model_theme, docs_specs_001_replace_theme_provider_spec_usetheme, docs_specs_001_replace_theme_provider_research_system_theme_removal, docs_specs_001_replace_theme_provider_data_model_localstorage_persistence [EXTRACTED 1.00]
-- **Rust Thumbnail Generation Pipeline** — docs_specs_001_rust_thumbnail_optimization_data_model_imagefile, docs_specs_001_rust_thumbnail_optimization_spec_generationtask, docs_specs_001_rust_thumbnail_optimization_spec_thumbnail, docs_specs_001_rust_thumbnail_optimization_spec_thumbnailcache, docs_specs_001_rust_thumbnail_optimization_contracts_get_or_create_thumbnail [EXTRACTED 1.00]
-- **React Security Patch Upgrade Phases** — docs_specs_002_react_security_patch_data_model_react_19_1_4, docs_specs_002_react_security_patch_research_react_compiler_1_0_0, docs_specs_002_react_security_patch_tasks_testing_library_16_3_1, docs_specs_002_react_security_patch_plan_phased_upgrade, docs_specs_002_react_security_patch_spec_cve_2025_55182 [EXTRACTED 1.00]
-- **Sidebar-Viewer Independent Scroll Layout Model** — docs_specs_003_fix_sidebar_scroll_data_model_layoutcontainer, docs_specs_003_fix_sidebar_scroll_data_model_sidebarpane, docs_specs_003_fix_sidebar_scroll_data_model_viewerpane, docs_specs_003_fix_sidebar_scroll_research_flex_min_height_0 [EXTRACTED 1.00]
-- **Folder Thumbnail Backend Responsibility API** — docs_specs_016_thumbnail_backend_responsibility_spec_get_folder_thumbnail, docs_specs_016_thumbnail_backend_responsibility_spec_prefetch_folder_thumbnails, docs_specs_016_thumbnail_backend_responsibility_spec_folder_thumbnail_result, docs_specs_016_thumbnail_backend_responsibility_spec_filesystemservice [EXTRACTED 1.00]
-- **Image Container Refactor Design Phase Concerns** — src_tauri_core_logic_docs_refactor_image_container_commanderror_dual, src_tauri_core_logic_docs_refactor_image_container_imagecontainerservice, src_tauri_core_logic_docs_refactor_image_container_imagecontainer_trait, src_tauri_core_logic_docs_refactor_image_container_get_sibling_containers [EXTRACTED 1.00]
-- **App brand icon family (sunrise + open book motif across sizes)** — logo_brand_master_logo, src_tauri_icons_128x128_app_icon_128, src_tauri_icons_128x128_2x_app_icon_retina, src_tauri_icons_32x32_app_icon_32, src_tauri_icons_64x64_app_icon_64, src_tauri_icons_square107x107logo_windows_tile_logo [INFERRED 0.95]
-- **Tauri desktop icon size variants (32/64/128/@2x)** — src_tauri_icons_32x32_app_icon_32, src_tauri_icons_64x64_app_icon_64, src_tauri_icons_128x128_app_icon_128, src_tauri_icons_128x128_2x_app_icon_retina [EXTRACTED 1.00]
-- **Public web toolchain brand assets (Tauri + Vite + app master)** — logo_brand_master_logo, public_tauri_tauri_framework_logo, public_vite_vite_bundler_logo [INFERRED 0.65]
-- **Windows Store Square Logo Size Set** — src_tauri_icons_square30x30logo, src_tauri_icons_square44x44logo, src_tauri_icons_square71x71logo, src_tauri_icons_square89x89logo, src_tauri_icons_square142x142logo, src_tauri_icons_square150x150logo, src_tauri_icons_square284x284logo, src_tauri_icons_square310x310logo [EXTRACTED 1.00]
-- **sun-riseup-viewrrr Brand Motifs** — src_tauri_icons_square310x310logo_rising_sun, src_tauri_icons_square310x310logo_open_book, src_tauri_icons_square310x310logo_dawn_stars, src_tauri_icons_square310x310logo_brand_sun_riseup_viewrrr [EXTRACTED 1.00]
-- **Android hdpi launcher icon set** — src_tauri_icons_android_mipmap_hdpi_ic_launcher, src_tauri_icons_android_mipmap_hdpi_ic_launcher_foreground, src_tauri_icons_android_mipmap_hdpi_ic_launcher_round [EXTRACTED 1.00]
-- **Android mdpi launcher icon set** — src_tauri_icons_android_mipmap_mdpi_ic_launcher, src_tauri_icons_android_mipmap_mdpi_ic_launcher_foreground, src_tauri_icons_android_mipmap_mdpi_ic_launcher_round [EXTRACTED 1.00]
-- **Cross-density sun-book launcher branding** — src_tauri_icons_storelogo, src_tauri_icons_android_mipmap_hdpi_ic_launcher, src_tauri_icons_android_mipmap_mdpi_ic_launcher, src_tauri_icons_android_mipmap_xhdpi_ic_launcher [INFERRED 0.95]
-- **Android mipmap density ladder (xhdpi–xxxhdpi)** — src_tauri_icons_android_mipmap_xhdpi_ic_launcher_foreground_mipmap_xhdpi_density, src_tauri_icons_android_mipmap_xxhdpi_ic_launcher_mipmap_xxhdpi_density, src_tauri_icons_android_mipmap_xxxhdpi_ic_launcher_mipmap_xxxhdpi_density [EXTRACTED 1.00]
-- **Android launcher icon layer set (foreground/composite/round)** — src_tauri_icons_android_mipmap_xxhdpi_ic_launcher_foreground_adaptive_foreground_layer, src_tauri_icons_android_mipmap_xxhdpi_ic_launcher_legacy_composite_launcher, src_tauri_icons_android_mipmap_xxhdpi_ic_launcher_round_round_mask_variant [EXTRACTED 1.00]
-- **xxxhdpi launcher asset triplet** — src_tauri_icons_android_mipmap_xxxhdpi_ic_launcher, src_tauri_icons_android_mipmap_xxxhdpi_ic_launcher_foreground, src_tauri_icons_android_mipmap_xxxhdpi_ic_launcher_round [EXTRACTED 1.00]
-- **iOS 20pt Notification AppIcon Scale Set** — src_tauri_icons_ios_appicon_20x20_1x_notification_20pt_1x, src_tauri_icons_ios_appicon_20x20_2x_notification_20pt_2x, src_tauri_icons_ios_appicon_20x20_2x_1_notification_20pt_2x_ipad, src_tauri_icons_ios_appicon_20x20_3x_notification_20pt_3x, src_tauri_icons_ios_appicon_20x20_1x_role_ios_notification_20pt [EXTRACTED 1.00]
-- **iOS 29pt Settings AppIcon Scale Set** — src_tauri_icons_ios_appicon_29x29_1x_settings_29pt_1x, src_tauri_icons_ios_appicon_29x29_2x_settings_29pt_2x, src_tauri_icons_ios_appicon_29x29_2x_1_settings_29pt_2x_ipad, src_tauri_icons_ios_appicon_29x29_1x_role_ios_settings_29pt [EXTRACTED 1.00]
-- **sun-riseup-viewrrr Brand Icon Set (Master + iOS)** — src_tauri_icons_icon_master_app_icon, src_tauri_icons_icon_brand_rising_sun, src_tauri_icons_icon_brand_open_book, src_tauri_icons_ios_appicon_20x20_1x_notification_20pt_1x, src_tauri_icons_ios_appicon_29x29_1x_settings_29pt_1x [INFERRED 0.85]
-- **iOS AppIcon size/scale asset set** — src_tauri_icons_ios_appicon_29x29_3x, src_tauri_icons_ios_appicon_40x40_1x, src_tauri_icons_ios_appicon_40x40_2x_1, src_tauri_icons_ios_appicon_40x40_2x, src_tauri_icons_ios_appicon_40x40_3x, src_tauri_icons_ios_appicon_512_2x, src_tauri_icons_ios_appicon_60x60_2x, src_tauri_icons_ios_appicon_60x60_3x [EXTRACTED 1.00]
-- **AppIcon 40x40 scale family (@1x/@2x/@3x)** — src_tauri_icons_ios_appicon_40x40_1x, src_tauri_icons_ios_appicon_40x40_2x, src_tauri_icons_ios_appicon_40x40_2x_1, src_tauri_icons_ios_appicon_40x40_3x, src_tauri_icons_ios_size_40x40 [EXTRACTED 1.00]
-- **iOS AppIcon resolution variants (sunrise book brand)** — src_tauri_icons_ios_appicon_76x76_1x, src_tauri_icons_ios_appicon_76x76_2x, src_tauri_icons_ios_appicon_83_5x83_5_2x [INFERRED 0.95]
-- **folder_1 test fixtures for image viewer folder navigation** — tests_fixtures_images_folder_1_1_1, tests_fixtures_images_folder_1_1_2, tests_fixtures_images_folder_1_1_3, tests_fixtures_images_folder_1_1_10 [EXTRACTED 1.00]
-- **folder_1 numbered navigation test sequence** — tests_fixtures_images_folder_1_1_4, tests_fixtures_images_folder_1_1_5, tests_fixtures_images_folder_1_1_6, tests_fixtures_images_folder_1_1_7, tests_fixtures_images_folder_1_1_8, tests_fixtures_images_folder_1_1_9 [EXTRACTED 1.00]
-- **folder_3 numbered test fixture sequence (digits 1–7, 10)** — tests_fixtures_images_folder_3_3_1, tests_fixtures_images_folder_3_3_2, tests_fixtures_images_folder_3_3_3, tests_fixtures_images_folder_3_3_4, tests_fixtures_images_folder_3_3_5, tests_fixtures_images_folder_3_3_6, tests_fixtures_images_folder_3_3_7, tests_fixtures_images_folder_3_3_10 [EXTRACTED 1.00]
-- **folder_4 nested under folder_3 navigation fixtures** — tests_fixtures_images_folder_3_folder_4_4_1, tests_fixtures_images_folder_3_folder_4_4_2, tests_fixtures_images_folder_3_folder_4_4_3, tests_fixtures_images_folder_3_folder_4_4_4, tests_fixtures_images_folder_3_folder_4_4_5, tests_fixtures_images_folder_3_folder_4_4_10 [EXTRACTED 1.00]
-- **folder_3 + nested folder_4 navigation test set** — tests_fixtures_images_folder_3_3_8, tests_fixtures_images_folder_3_3_9, tests_fixtures_images_folder_3_folder_4_4_1, tests_fixtures_images_folder_3_folder_4_4_2, tests_fixtures_images_folder_3_folder_4_4_3, tests_fixtures_images_folder_3_folder_4_4_4, tests_fixtures_images_folder_3_folder_4_4_5, tests_fixtures_images_folder_3_folder_4_4_10 [INFERRED 0.85]
-- **folder_4 nested digit fixtures 6-9** — tests_fixtures_images_folder_3_folder_4_4_6, tests_fixtures_images_folder_3_folder_4_4_7, tests_fixtures_images_folder_3_folder_4_4_8, tests_fixtures_images_folder_3_folder_4_4_9 [INFERRED 0.85]
-
-## Communities (93 total, 20 thin omitted)
+## Communities (92 total, 21 thin omitted)
 
 ### Community 0 - "UI Tooltip & Dev Mocks"
-Cohesion: 0.19
-Nodes (11): TooltipContent, FolderList(), mockThumbnailIdle(), mockThumbnailIdle(), TODO: 状態の変更がある場合はactでラップする必要がある場合がある, FolderView(), fetchThumbnail(), useThumbnail() (+3 more)
+Cohesion: 0.17
+Nodes (18): FolderList(), FolderListLoadMore(), FolderListLoadMoreProps, mockThumbnailIdle(), mockThumbnailIdle(), TODO: 状態の変更がある場合はactでラップする必要がある場合がある, FolderView(), Sidebar() (+10 more)
 
 ### Community 1 - "Agent Workflows & Architecture Docs"
 Cohesion: 0.06
@@ -196,15 +158,15 @@ Nodes (47): class-variance-authority, clsx, lucide-react, next-themes, dependenc
 
 ### Community 3 - "App Menu & Folder Navigation"
 Cohesion: 0.15
-Nodes (25): AppMenuBar(), fileMenu, renderMenuItems(), viewMenu, Button(), buttonVariants, Menubar(), MenubarCheckboxItem() (+17 more)
+Nodes (26): AppMenuBar(), fileMenu, MenuItemData, renderMenuItems(), viewMenu, Button(), buttonVariants, Menubar() (+18 more)
 
 ### Community 4 - "DevTooling Dependencies"
 Cohesion: 0.04
 Nodes (45): babel-plugin-react-compiler, @biomejs/biome, @commitlint/cli, @commitlint/config-conventional, globals, husky, jsdom, devDependencies (+37 more)
 
 ### Community 5 - "Action Registry Pattern"
-Cohesion: 0.18
-Nodes (19): AppState, createActionRegistry(), openFolderAction(), openImageAction(), toggleThemeAction(), ActionDependencies, ActionRegistry, ActionResult (+11 more)
+Cohesion: 0.14
+Nodes (26): AppState, createActionRegistry(), openFolderAction(), openImageAction(), toggleThemeAction(), ActionDependencies, ActionRegistry, ActionResult (+18 more)
 
 ### Community 6 - "Biome Lint Config"
 Cohesion: 0.05
@@ -250,10 +212,6 @@ Nodes (29): $CACHE/**, icons/128x128@2x.png, icons/128x128.png, icons/32x32.png,
 Cohesion: 0.07
 Nodes (26): DOM, DOM.Iterable, ES2022, compilerOptions, allowImportingTsExtensions, exactOptionalPropertyTypes, isolatedModules, jsx (+18 more)
 
-### Community 17 - "app-shell/index.ts"
-Cohesion: 0.15
-Nodes (9): allFolderPaths, devMockService, dummyFolders, folderNameMap, imageFolders, generateDummyEmptyFolders(), getMockImageFolders(), mockImageSourcesByFolderPath (+1 more)
-
 ### Community 18 - "Image Container Trait"
 Cohesion: 0.08
 Nodes (54): Box, Q, get_sibling_containers(), list_image_handles(), list_images_in_container(), resolve_images_in_range(), ImageHandle, P (+46 more)
@@ -263,12 +221,12 @@ Cohesion: 0.08
 Nodes (26): 003 Spec Quality Checklist Ready, 003 Contracts UI Layout Only No New APIs, LayoutContainer, SidebarPane, ViewerPane, Sidebar and Viewer Scroll Fix Plan, Sidebar Scroll Quickstart CSS Layout Steps, Flex Layout with min-height:0 Decision (+18 more)
 
 ### Community 20 - "mocks.ts"
-Cohesion: 0.11
-Nodes (20): AppMenuBarProps, SidebarProps, ServicesProvider(), basenameImpl(), convertFileSrcImpl(), dirnameImpl(), mockBasename, mockConvertFileSrc (+12 more)
+Cohesion: 0.12
+Nodes (19): AppMenuBarProps, ServicesProvider(), basenameImpl(), convertFileSrcImpl(), dirnameImpl(), mockBasename, mockConvertFileSrc, mockDialogOpen (+11 more)
 
 ### Community 21 - "Local Folder Container"
-Cohesion: 0.06
-Nodes (51): MenuItemData, HeaderMenu(), KeyboardShortcutHelp(), KeyboardShortcutHelpProps, MenuDropdown(), MenuItem(), HeaderMenuProps, MenuAction (+43 more)
+Cohesion: 0.05
+Nodes (52): allFolderPaths, devMockService, dummyFolders, folderNameMap, imageFolders, KeyboardShortcutHelp(), KeyboardShortcutHelpProps, ContainerConfig (+44 more)
 
 ### Community 22 - "Image Viewer UI"
 Cohesion: 0.05
@@ -276,7 +234,7 @@ Nodes (42): 1.1. サムネイル生成ロジック, 1.2. Tauriコマンドの追
 
 ### Community 23 - "FileSystemService"
 Cohesion: 0.19
-Nodes (4): mockFolders, useOpenImageFile(), FileSystemService, FolderThumbnailResult
+Nodes (3): useOpenImageFile(), FileSystemService, FolderThumbnailResult
 
 ### Community 24 - "Windows Store Square Logos"
 Cohesion: 0.12
@@ -338,10 +296,6 @@ Nodes (11): ESNext, vite.config.ts, compilerOptions, allowSyntheticDefaultImport
 Cohesion: 0.17
 Nodes (11): **/*.stories.ts, **/*.stories.tsx, compilerOptions, exactOptionalPropertyTypes, noUncheckedIndexedAccess, noUnusedLocals, noUnusedParameters, extends (+3 more)
 
-### Community 39 - "Sidebar.tsx"
-Cohesion: 0.26
-Nodes (7): FolderListLoadMore(), FolderListLoadMoreProps, Sidebar(), SidebarContent(), SidebarContentProps, SidebarHeader(), SidebarHeaderProps
-
 ### Community 40 - "Rust Thumbnail Optimization"
 Cohesion: 0.18
 Nodes (11): get_or_create_thumbnail, ImageFile, useThumbnail, 001-rust-thumbnail-optimization, FileSystemService, WebKitGTK Image Decode Bottleneck, BLAKE3 Cache Hash, rayon Parallel Processing (+3 more)
@@ -351,8 +305,8 @@ Cohesion: 0.18
 Nodes (10): core:default, dialog:default, fs:default, main, opener:default, description, identifier, permissions (+2 more)
 
 ### Community 42 - "folder-navigation/index.ts"
-Cohesion: 0.33
-Nodes (7): SIDEBAR_CONFIG, SidebarConfig, useFolderListPagination(), NOTE: folders の参照安定性に依存。React Compiler が有効な場合は自動メモ化される。, useThumbnailPrefetch(), FolderViewProps, useServices()
+Cohesion: 0.23
+Nodes (7): SIDEBAR_CONFIG, SidebarConfig, mockFolders, useFolderListPagination(), NOTE: folders の参照安定性に依存。React Compiler が有効な場合は自動メモ化される。, useThumbnailPrefetch(), useServices()
 
 ### Community 43 - "Test Fixtures Folder 2"
 Cohesion: 0.18
@@ -431,24 +385,24 @@ Nodes (3): post-checkout script, GRAPHIFY_REBUILD_LOG, PYTHONHASHSEED
   AGENTS.md · relation: rationale_for
 
 ## Knowledge Gaps
-- **477 isolated node(s):** `KeyboardShortcutHelpProps`, `common.sh script`, `create-new-feature.sh script`, `SPECIFY_FEATURE`, `$schema` (+472 more)
+- **476 isolated node(s):** `common.sh script`, `create-new-feature.sh script`, `SPECIFY_FEATURE`, `$schema`, `enabled` (+471 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **20 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **21 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
 - **What is the exact relationship between `Quality gate (type-check, lint, test)` and `Project constitution (.specify/memory/constitution.md)`?**
   _Edge tagged AMBIGUOUS (relation: rationale_for) - confidence is low._
-- **Why does `React` connect `App.tsx` to `UI Tooltip & Dev Mocks`, `App Menu & Folder Navigation`, `Biome Lint Config`, `App Shell State`, `Sidebar.tsx`, `folder-navigation/index.ts`, `useSiblingContainers.ts`, `mocks.ts`, `Local Folder Container`, `FileSystemService`?**
-  _High betweenness centrality (0.033) - this node is a cross-community bridge._
+- **Why does `React` connect `App.tsx` to `UI Tooltip & Dev Mocks`, `App Menu & Folder Navigation`, `Action Registry Pattern`, `Biome Lint Config`, `App Shell State`, `folder-navigation/index.ts`, `app-shell/index.ts`, `useSiblingContainers.ts`, `mocks.ts`, `Local Folder Container`, `FileSystemService`?**
+  _High betweenness centrality (0.035) - this node is a cross-community bridge._
 - **Why does `globals` connect `Biome Lint Config` to `App.tsx`?**
-  _High betweenness centrality (0.027) - this node is a cross-community bridge._
-- **What connects `KeyboardShortcutHelpProps`, `common.sh script`, `create-new-feature.sh script` to the rest of the system?**
-  _477 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _High betweenness centrality (0.028) - this node is a cross-community bridge._
+- **What connects `common.sh script`, `create-new-feature.sh script`, `SPECIFY_FEATURE` to the rest of the system?**
+  _476 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Agent Workflows & Architecture Docs` be split into smaller, more focused modules?**
   _Cohesion score 0.058279370952821465 - nodes in this community are weakly interconnected._
 - **Should `Frontend Runtime Dependencies` be split into smaller, more focused modules?**
   _Cohesion score 0.0425531914893617 - nodes in this community are weakly interconnected._
-- **Should `DevTooling Dependencies` be split into smaller, more focused modules?**
-  _Cohesion score 0.044444444444444446 - nodes in this community are weakly interconnected._
+- **Should `App Menu & Folder Navigation` be split into smaller, more focused modules?**
+  _Cohesion score 0.146218487394958 - nodes in this community are weakly interconnected._
