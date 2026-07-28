@@ -1,16 +1,16 @@
-# Graph Report - sun-riseup-viewrrr  (2026-07-28)
+# Graph Report - sun-riseup-viewrrr  (2026-07-26)
 
 ## Corpus Check
 - 230 files · ~175,322 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 1430 nodes · 2402 edges · 86 communities (66 shown, 20 thin omitted)
+- 1430 nodes · 2396 edges · 86 communities (66 shown, 20 thin omitted)
 - Extraction: 94% EXTRACTED · 6% INFERRED · 0% AMBIGUOUS · INFERRED: 134 edges (avg confidence: 0.84)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `6c0dcd4e`
+- Built from commit: `f0318baa`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
