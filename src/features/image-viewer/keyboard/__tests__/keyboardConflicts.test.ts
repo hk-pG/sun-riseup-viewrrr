@@ -3,7 +3,7 @@ import type {
   ActionType,
   KeyboardMapping,
   KeyboardShortcut,
-} from '../../../features/image-viewer/types/viewerTypes';
+} from '../../types/viewerTypes';
 import {
   createCustomKeyboardMapping,
   createDefaultKeyboardMapping,

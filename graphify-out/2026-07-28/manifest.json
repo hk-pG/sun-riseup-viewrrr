@@ -335,9 +335,9 @@
     "semantic_hash": "703bca8beccf8adc6d64f13fc19efff8"
   },
   "src/features/app-shell/components/KeyboardShortcutHelp.tsx": {
-    "mtime": 1784552822.6113453,
-    "ast_hash": "2f2a0c00c8b8e4f81e97cff83beef596",
-    "semantic_hash": "2f2a0c00c8b8e4f81e97cff83beef596"
+    "mtime": 1785249613.3314302,
+    "ast_hash": "8a3d880a4dee52c333c896611ab9a517",
+    "semantic_hash": ""
   },
   "src/features/app-shell/components/MenuDropdown.tsx": {
     "mtime": 1768890927.7777627,
@@ -365,8 +365,8 @@
     "semantic_hash": "ff56f103455c8151be8e860998d77725"
   },
   "src/features/app-shell/index.ts": {
-    "mtime": 1785074585.6557803,
-    "ast_hash": "d80e8c8e8b41319dd3e03e38e94fff34",
+    "mtime": 1785249613.3316011,
+    "ast_hash": "9cadcb1391d3cf2f35c8638a64f5a736",
     "semantic_hash": ""
   },
   "src/features/app-shell/types/menuTypes.ts": {
@@ -570,7 +570,7 @@
     "semantic_hash": "49eeb9c18eb969e0dfa3a4be69852d42"
   },
   "src/features/image-viewer/types/viewerTypes.ts": {
-    "mtime": 1784552822.5723813,
+    "mtime": 1785248672.5473638,
     "ast_hash": "3095cd170dd67245dc32bbcb9f743266",
     "semantic_hash": "3095cd170dd67245dc32bbcb9f743266"
   },
@@ -649,16 +649,6 @@
     "ast_hash": "9923404616bcbb40f6fb94edb697944a",
     "semantic_hash": "9923404616bcbb40f6fb94edb697944a"
   },
-  "src/shared/utils/__tests__/keyboardConflicts.test.ts": {
-    "mtime": 1779111352.8319905,
-    "ast_hash": "ac75a4e676073f20cbf25bfe234630f4",
-    "semantic_hash": "ac75a4e676073f20cbf25bfe234630f4"
-  },
-  "src/shared/utils/__tests__/keyboardUtils.test.ts": {
-    "mtime": 1768890927.7846215,
-    "ast_hash": "63c58694a9b89f9335ac22ec5eebf2cc",
-    "semantic_hash": "63c58694a9b89f9335ac22ec5eebf2cc"
-  },
   "src/shared/utils/__tests__/sort.test.ts": {
     "mtime": 1768890927.7847483,
     "ast_hash": "f6a2b46d7aef35a70910338605a497d5",
@@ -678,11 +668,6 @@
     "mtime": 1768890927.7849665,
     "ast_hash": "2e1c0b17c9fe94d56492f5a33ab33d85",
     "semantic_hash": "2e1c0b17c9fe94d56492f5a33ab33d85"
-  },
-  "src/shared/utils/keyboardUtils.ts": {
-    "mtime": 1784552822.5971646,
-    "ast_hash": "f8c3986a848750174539e3a862bcab75",
-    "semantic_hash": "f8c3986a848750174539e3a862bcab75"
   },
   "src/shared/utils/logger.ts": {
     "mtime": 1782221265.4831877,
@@ -900,7 +885,7 @@
     "semantic_hash": "d79d03abd96cec5cf52b6a4c9b2247a0"
   },
   "AGENTS.md": {
-    "mtime": 1785074174.1840293,
+    "mtime": 1785075005.10894,
     "ast_hash": "2e268d37c5b5204c323faae16e5f4fec",
     "semantic_hash": "2e268d37c5b5204c323faae16e5f4fec"
   },
@@ -1600,12 +1585,12 @@
     "semantic_hash": "8dbf80720edeaf704bb12dc922ba95fc"
   },
   ".husky/post-checkout": {
-    "mtime": 1785074531.1362174,
+    "mtime": 1785075005.108563,
     "ast_hash": "1f3c4b7970064628203426f658479c30",
     "semantic_hash": ""
   },
   ".husky/post-commit": {
-    "mtime": 1785074531.1360047,
+    "mtime": 1785075005.1087835,
     "ast_hash": "071119a5db54b55d08728b99bde91874",
     "semantic_hash": ""
   },
@@ -1637,6 +1622,21 @@
   "docs/specs/002-react-security-patch/quickstart.md": {
     "mtime": 1779017678.829453,
     "ast_hash": "aecf405a5d0c458283bc0cdfe787f2c5",
+    "semantic_hash": ""
+  },
+  "src/features/image-viewer/keyboard/keyboardUtils.ts": {
+    "mtime": 1785249613.428594,
+    "ast_hash": "7d9d43e1b7753619c0d00efbac1bdc2f",
+    "semantic_hash": ""
+  },
+  "src/features/image-viewer/keyboard/__tests__/keyboardConflicts.test.ts": {
+    "mtime": 1785249929.2711382,
+    "ast_hash": "bd5409eda140ca80bfe4968e9d9b2139",
+    "semantic_hash": ""
+  },
+  "src/features/image-viewer/keyboard/__tests__/keyboardUtils.test.ts": {
+    "mtime": 1785249929.2784297,
+    "ast_hash": "5121e88d71c150a9c1a4a58af893800f",
     "semantic_hash": ""
   }
 }

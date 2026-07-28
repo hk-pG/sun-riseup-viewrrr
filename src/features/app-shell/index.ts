@@ -7,7 +7,7 @@ export {
   findShortcutConflicts,
   getShortcutDescription,
   getShortcutList,
-} from '@/shared/utils/keyboardUtils';
+} from '@/features/image-viewer/keyboard/keyboardUtils';
 // Actions
 export type {
   ActionDependencies,
