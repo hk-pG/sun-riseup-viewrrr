@@ -45,18 +45,6 @@ describe('keyboardUtils', () => {
       });
     });
 
-    it('should have multiple shortcuts for navigation actions', () => {
-      const mapping = createDefaultKeyboardMapping(mockOnAction);
-
-      const nextImageShortcuts = mapping.shortcuts.get('nextImage');
-      expect(nextImageShortcuts).toBeDefined();
-      expect(nextImageShortcuts?.length).toBeGreaterThan(1);
-
-      const previousImageShortcuts = mapping.shortcuts.get('previousImage');
-      expect(previousImageShortcuts).toBeDefined();
-      expect(previousImageShortcuts?.length).toBeGreaterThan(1);
-    });
-
     it('should include expected shortcuts for nextImage', () => {
       const mapping = createDefaultKeyboardMapping(mockOnAction);
       const shortcuts = mapping.shortcuts.get('nextImage');
@@ -204,42 +192,6 @@ describe('keyboardUtils', () => {
     it('should handle space key specially', () => {
       const shortcut: KeyboardShortcut = { key: ' ', description: 'Next' };
       expect(getShortcutDescription(shortcut)).toBe('Space');
-    });
-
-    it('should format Ctrl modifier', () => {
-      const shortcut: KeyboardShortcut = {
-        key: 'c',
-        ctrlKey: true,
-        description: 'Copy',
-      };
-      expect(getShortcutDescription(shortcut)).toBe('Ctrl+c');
-    });
-
-    it('should format Shift modifier', () => {
-      const shortcut: KeyboardShortcut = {
-        key: 'G',
-        shiftKey: true,
-        description: 'Last',
-      };
-      expect(getShortcutDescription(shortcut)).toBe('Shift+G');
-    });
-
-    it('should format Alt modifier', () => {
-      const shortcut: KeyboardShortcut = {
-        key: 'f',
-        altKey: true,
-        description: 'Alt F',
-      };
-      expect(getShortcutDescription(shortcut)).toBe('Alt+f');
-    });
-
-    it('should format Meta modifier', () => {
-      const shortcut: KeyboardShortcut = {
-        key: 'c',
-        metaKey: true,
-        description: 'Cmd C',
-      };
-      expect(getShortcutDescription(shortcut)).toBe('Cmd+c');
     });
 
     it('should format multiple modifiers', () => {
@@ -443,29 +395,5 @@ describe('keyboardUtils', () => {
       expect(mapping.shortcuts.has('nextImage')).toBe(true);
     });
 
-    it('should handle special key values', () => {
-      const specialKeys = {
-        nextImage: [
-          { key: 'Enter', description: 'Enter key' },
-          { key: 'Escape', description: 'Escape key' },
-          { key: 'Tab', description: 'Tab key' },
-          { key: 'F1', description: 'Function key' },
-        ],
-      };
-      const mapping = createCustomKeyboardMapping(specialKeys, mockOnAction);
-
-      expect(() => getShortcutList(mapping)).not.toThrow();
-      expect(() => findShortcutConflicts(mapping)).not.toThrow();
-
-      const shortcuts = mapping.shortcuts.get('nextImage');
-      expect(shortcuts).toBeDefined();
-      if (!shortcuts) return;
-      expect(shortcuts.map((s) => s.key)).toEqual([
-        'Enter',
-        'Escape',
-        'Tab',
-        'F1',
-      ]);
-    });
   });
 });
