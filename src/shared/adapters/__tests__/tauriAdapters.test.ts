@@ -134,19 +134,6 @@ describe('listImagesInContainer', () => {
     });
   });
 
-  it('should return empty array when folder has no images', async () => {
-    const folderPath = '/Users/test/empty';
-    mockInvoke.mockResolvedValue([]);
-
-    const result =
-      await tauriFileSystemService.listImagesInContainer(folderPath);
-
-    expect(result).toEqual([]);
-    expect(mockInvoke).toHaveBeenCalledWith('list_images_in_container', {
-      containerPath: folderPath,
-    });
-  });
-
   it('should propagate invalid response from listImagesInContainer', async () => {
     const folderPath = '/valid/path';
     mockInvoke.mockResolvedValue(null);

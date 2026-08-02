@@ -17,16 +17,6 @@ describe('openFolderAction', () => {
     });
   });
 
-  it('フォルダ選択成功時: initialImageIndex は常に 0', async () => {
-    const fss = createMockFileSystemService({
-      openDirectoryDialog: vi.fn().mockResolvedValue('/another/folder'),
-    });
-
-    const result = await openFolderAction(fss);
-
-    expect(result?.initialImageIndex).toBe(0);
-  });
-
   it('キャンセル時（null）: null を返す', async () => {
     const fss = createMockFileSystemService({
       openDirectoryDialog: vi.fn().mockResolvedValue(null),

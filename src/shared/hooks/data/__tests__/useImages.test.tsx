@@ -139,17 +139,6 @@ describe('useImages', () => {
     });
   });
 
-  it('folderPathがnullの場合、imagesはundefinedになる', async () => {
-    mockFileSystemService.listImageHandles = vi.fn();
-    const { result } = renderHook(() => useImages(undefined), {
-      wrapper: ServicesWrapper,
-    });
-    expect(result.current.images).toBeUndefined();
-    expect(result.current.error).toBeUndefined();
-    expect(result.current.isLoading).toBe(false);
-    expect(mockFileSystemService.listImageHandles).not.toHaveBeenCalled();
-  });
-
   it('folderPathがundefinedの場合、imagesはundefinedになる', async () => {
     mockFileSystemService.listImageHandles = vi.fn();
     const { result } = renderHook(() => useImages(undefined), {

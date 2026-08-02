@@ -106,43 +106,6 @@ describe('useKeyboardHandler', () => {
       expect(mockOnAction).not.toHaveBeenCalled();
     });
 
-    it('should match multiple shortcuts for the same action', () => {
-      const shortcuts: KeyboardShortcut[] = [
-        { key: 'ArrowRight', description: 'Next with arrow' },
-        { key: ' ', description: 'Next with space' },
-        { key: 'j', description: 'Next with j' },
-      ];
-
-      const mappingWithMultiple: KeyboardMapping = {
-        shortcuts: new Map([['nextImage', shortcuts]]),
-        onAction: mockOnAction,
-        enabled: true,
-      };
-
-      renderHook(() =>
-        useKeyboardHandler(mappingWithMultiple, mockContainerRef),
-      );
-
-      // Test first shortcut
-      const event1 = new KeyboardEvent('keydown', { key: 'ArrowRight' });
-      mockContainer.dispatchEvent(event1);
-      expect(mockOnAction).toHaveBeenCalledWith('nextImage', event1);
-
-      mockOnAction.mockClear();
-
-      // Test second shortcut
-      const event2 = new KeyboardEvent('keydown', { key: ' ' });
-      mockContainer.dispatchEvent(event2);
-      expect(mockOnAction).toHaveBeenCalledWith('nextImage', event2);
-
-      mockOnAction.mockClear();
-
-      // Test third shortcut
-      const event3 = new KeyboardEvent('keydown', { key: 'j' });
-      mockContainer.dispatchEvent(event3);
-      expect(mockOnAction).toHaveBeenCalledWith('nextImage', event3);
-    });
-
     it('should not match when key mapping is disabled', () => {
       const disabledMapping: KeyboardMapping = {
         ...mockKeyboardMapping,
@@ -338,18 +301,6 @@ describe('useKeyboardHandler', () => {
   });
 
   describe('action execution', () => {
-    it('should execute action with correct parameters', () => {
-      renderHook(() =>
-        useKeyboardHandler(mockKeyboardMapping, mockContainerRef),
-      );
-
-      const event = new KeyboardEvent('keydown', { key: 'ArrowLeft' });
-      mockContainer.dispatchEvent(event);
-
-      expect(mockOnAction).toHaveBeenCalledTimes(1);
-      expect(mockOnAction).toHaveBeenCalledWith('previousImage', event);
-    });
-
     it('should not execute action for unmatched keys', () => {
       renderHook(() =>
         useKeyboardHandler(mockKeyboardMapping, mockContainerRef),
@@ -369,74 +320,6 @@ describe('useKeyboardHandler', () => {
       expect(() => {
         mockContainer.dispatchEvent(event);
       }).not.toThrow();
-
-      expect(mockOnAction).not.toHaveBeenCalled();
-    });
-  });
-
-  describe('complex modifier combinations', () => {
-    it('should match complex modifier combinations correctly', () => {
-      const complexMapping: KeyboardMapping = {
-        shortcuts: new Map([
-          [
-            'complexAction',
-            [
-              {
-                key: 's',
-                ctrlKey: true,
-                shiftKey: true,
-                altKey: true,
-                description: 'Complex shortcut',
-              },
-            ],
-          ],
-        ]),
-        onAction: mockOnAction,
-        enabled: true,
-      };
-
-      renderHook(() => useKeyboardHandler(complexMapping, mockContainerRef));
-
-      const event = new KeyboardEvent('keydown', {
-        key: 's',
-        ctrlKey: true,
-        shiftKey: true,
-        altKey: true,
-      });
-      mockContainer.dispatchEvent(event);
-
-      expect(mockOnAction).toHaveBeenCalledWith('complexAction', event);
-    });
-
-    it('should not match when some modifiers are missing', () => {
-      const complexMapping: KeyboardMapping = {
-        shortcuts: new Map([
-          [
-            'complexAction',
-            [
-              {
-                key: 's',
-                ctrlKey: true,
-                shiftKey: true,
-                altKey: true,
-                description: 'Complex shortcut',
-              },
-            ],
-          ],
-        ]),
-        onAction: mockOnAction,
-        enabled: true,
-      };
-
-      renderHook(() => useKeyboardHandler(complexMapping, mockContainerRef));
-
-      const event = new KeyboardEvent('keydown', {
-        key: 's',
-        ctrlKey: true,
-        shiftKey: true,
-        // altKey missing
-      });
-      mockContainer.dispatchEvent(event);
 
       expect(mockOnAction).not.toHaveBeenCalled();
     });

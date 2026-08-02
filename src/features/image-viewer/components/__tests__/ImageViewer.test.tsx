@@ -1,7 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { LocalFolderContainer } from '@/features/folder-navigation';
-import type { ImageContainer } from '@/features/image-viewer';
 import { ServicesProvider } from '../../../../shared/context/ServiceContext';
 import { useImages } from '../../../../shared/hooks/data/useImages';
 import {
@@ -60,24 +59,6 @@ describe('ImageViewer', () => {
         '/test/folder',
         createMockFileSystemService(),
       );
-      renderComponent({ container });
-
-      expect(mockUseImages).toHaveBeenCalledWith(container);
-    });
-
-    it('should initialize with container only when provided', () => {
-      const mockUseImages = vi.mocked(useImages);
-      const container: ImageContainer = {
-        getCacheKey: () => 'container:/test/folder',
-        listHandles: vi.fn().mockResolvedValue([]),
-        resolveRange: vi.fn().mockResolvedValue([]),
-      };
-      mockUseImages.mockReturnValue({
-        images: [],
-        isLoading: false,
-        error: null,
-      });
-
       renderComponent({ container });
 
       expect(mockUseImages).toHaveBeenCalledWith(container);

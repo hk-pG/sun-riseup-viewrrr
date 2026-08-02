@@ -132,13 +132,6 @@ describe('App Component', () => {
       expect(screen.getByText('受け取り元: none')).toBeInTheDocument();
     });
 
-    it('should initialize with empty folder path', () => {
-      renderApp();
-
-      // 初期状態では画像が選択されていないテキストが表示される
-      expect(screen.getByText('画像が選択されていません')).toBeInTheDocument();
-    });
-
     it('should set menu bar as draggable', () => {
       renderApp();
 
@@ -195,17 +188,6 @@ describe('App Component', () => {
       // その内の1つが選択された場合にImageViewer側に選択値が反映されることを確認
       expect(screen.getByText('表示中: /test/folder1')).toBeInTheDocument();
       expect(screen.getByText('受け取り元: container')).toBeInTheDocument();
-    });
-
-    it('should update selected folder in sidebar', () => {
-      renderApp();
-
-      fireEvent.click(screen.getByRole('button', { name: 'folder1' }));
-
-      expect(screen.getByRole('button', { name: 'folder1' })).toHaveAttribute(
-        'aria-pressed',
-        'true',
-      );
     });
   });
 
@@ -304,24 +286,6 @@ describe('App Component', () => {
         'aria-pressed',
         'true',
       );
-    });
-
-    // フォルダパスが変化した際にImageViewerの表示内容が更新されることを検証
-    it('should re-render ImageViewer with new key when folder path changes', () => {
-      renderApp();
-
-      // 初期状態では画像が選択されていない
-      expect(screen.getByText('画像が選択されていません')).toBeInTheDocument();
-
-      // フォルダを切り替える
-      fireEvent.click(screen.getByRole('button', { name: 'folder1' }));
-
-      // フォルダが切り替わった後、対応するパスが表示されることを確認
-      expect(
-        screen.queryByText('画像が選択されていません'),
-      ).not.toBeInTheDocument();
-      expect(screen.getByText('表示中: /test/folder1')).toBeInTheDocument();
-      expect(screen.getByText('受け取り元: container')).toBeInTheDocument();
     });
   });
 

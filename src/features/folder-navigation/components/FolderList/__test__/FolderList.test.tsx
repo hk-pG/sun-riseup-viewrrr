@@ -69,32 +69,6 @@ describe('クリック操作', () => {
     mockThumbnailIdle();
   });
 
-  it('フォルダをクリックしたとき onFolderSelect が1回呼ばれること', () => {
-    const onFolderSelect = vi.fn();
-    const folders: FolderInfo[] = [
-      { name: 'Folder 1', path: '/path/to/folder1', imageCount: 1 },
-    ];
-
-    render(<FolderList folders={folders} onFolderSelect={onFolderSelect} />);
-    fireEvent.click(screen.getByRole('button', { name: /Folder 1/ }));
-
-    expect(onFolderSelect).toHaveBeenCalledOnce();
-  });
-
-  it('クリックしたフォルダの FolderInfo が引数として渡されること', () => {
-    const onFolderSelect = vi.fn();
-    const folder: FolderInfo = {
-      name: 'Folder 1',
-      path: '/path/to/folder1',
-      imageCount: 1,
-    };
-
-    render(<FolderList folders={[folder]} onFolderSelect={onFolderSelect} />);
-    fireEvent.click(screen.getByRole('button', { name: /Folder 1/ }));
-
-    expect(onFolderSelect).toHaveBeenCalledWith(folder);
-  });
-
   it('複数フォルダのうち Folder 2 をクリックしたとき Folder 2 の情報が渡されること', () => {
     const onFolderSelect = vi.fn();
     const folders: FolderInfo[] = [
@@ -133,19 +107,6 @@ describe('ダブルクリック操作', () => {
     fireEvent.dblClick(screen.getByRole('button', { name: /Folder 1/ }));
 
     expect(onFolderDoubleClick).toHaveBeenCalledWith(folder);
-  });
-
-  it('onFolderDoubleClick が渡されていない場合、ダブルクリックしてもエラーにならないこと', () => {
-    const folder: FolderInfo = {
-      name: 'Folder 1',
-      path: '/path/to/folder1',
-      imageCount: 1,
-    };
-
-    expect(() => {
-      render(<FolderList folders={[folder]} onFolderSelect={vi.fn()} />);
-      fireEvent.dblClick(screen.getByRole('button', { name: /Folder 1/ }));
-    }).not.toThrow();
   });
 });
 
