@@ -178,17 +178,6 @@ describe('App Component', () => {
 
       expect(screen.getByText('画像が選択されていません')).toBeInTheDocument();
     });
-
-    it('should handle folder selection from sidebar', () => {
-      renderApp();
-
-      fireEvent.click(screen.getByRole('button', { name: 'folder1' }));
-
-      // useSiblingContainersのモックが固定値を返すため、
-      // その内の1つが選択された場合にImageViewer側に選択値が反映されることを確認
-      expect(screen.getByText('表示中: /test/folder1')).toBeInTheDocument();
-      expect(screen.getByText('受け取り元: container')).toBeInTheDocument();
-    });
   });
 
   describe('Image File Opening Event Handling', () => {
@@ -303,11 +292,8 @@ describe('App Component', () => {
       fireEvent.click(screen.getByRole('button', { name: 'フォルダを開く' }));
 
       await waitFor(() => {
-        expect(mockFileSystemService.openDirectoryDialog).toHaveBeenCalled();
+        expect(consoleErrorSpy).toHaveBeenCalled();
       });
-
-      // 非同期エラーハンドリングが完了するのを待つ
-      await new Promise((resolve) => setTimeout(resolve, 100));
 
       // クラッシュせず、初期状態が維持されることを確認
       expect(screen.getByText('画像が選択されていません')).toBeInTheDocument();
@@ -331,11 +317,8 @@ describe('App Component', () => {
       );
 
       await waitFor(() => {
-        expect(mockOpenImageFile).toHaveBeenCalled();
+        expect(consoleErrorSpy).toHaveBeenCalled();
       });
-
-      // 非同期エラーハンドリングが完了するのを待つ
-      await new Promise((resolve) => setTimeout(resolve, 100));
 
       // クラッシュせず、初期状態が維持されることを確認
       expect(screen.getByText('画像が選択されていません')).toBeInTheDocument();

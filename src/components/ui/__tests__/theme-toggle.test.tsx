@@ -2,7 +2,7 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { waitForUserPerceivedCompletion } from '../../../test/ui-responsiveness-test-utils';
 import { ThemeProvider } from '../../theme-provider';
-import { ThemeSelector, ThemeToggle } from '../theme-toggle';
+import { ThemeToggle } from '../theme-toggle';
 
 // Mock lucide-react icons
 vi.mock('lucide-react', () => ({
@@ -75,100 +75,5 @@ describe('ThemeToggle', () => {
     fireEvent.click(button);
     await waitForUserPerceivedCompletion(50);
     expect(screen.getByTestId('sun-icon')).toBeInTheDocument();
-  });
-
-  it('should have correct aria-labels for light and dark themes', async () => {
-    render(
-      <ThemeProvider defaultTheme="light">
-        <ThemeToggle />
-      </ThemeProvider>,
-    );
-
-    await waitForUserPerceivedCompletion(100);
-    const button = screen.getByRole('button');
-
-    // Light theme
-    expect(button).toHaveAttribute('aria-label', 'Switch to dark mode');
-
-    // Switch to dark
-    fireEvent.click(button);
-    await waitForUserPerceivedCompletion(50);
-    expect(button).toHaveAttribute('aria-label', 'Switch to light mode');
-  });
-});
-
-describe('ThemeSelector', () => {
-  beforeEach(() => {
-    // Clear localStorage
-    localStorage.clear();
-
-    // Mock matchMedia
-    Object.defineProperty(window, 'matchMedia', {
-      writable: true,
-      value: vi.fn().mockImplementation((query) => ({
-        matches: false,
-        media: query,
-        onchange: null,
-        addListener: vi.fn(),
-        removeListener: vi.fn(),
-        addEventListener: vi.fn(),
-        removeEventListener: vi.fn(),
-        dispatchEvent: vi.fn(),
-      })),
-    });
-
-    // Clear document classes
-    document.documentElement.className = '';
-  });
-
-  it('should render light and dark theme options', async () => {
-    render(
-      <ThemeProvider>
-        <ThemeSelector />
-      </ThemeProvider>,
-    );
-
-    await waitForUserPerceivedCompletion();
-    expect(screen.getByLabelText('Light mode')).toBeInTheDocument();
-    expect(screen.getByLabelText('Dark mode')).toBeInTheDocument();
-  });
-
-  it('should highlight the current theme', async () => {
-    render(
-      <ThemeProvider defaultTheme="dark">
-        <ThemeSelector />
-      </ThemeProvider>,
-    );
-
-    await waitForUserPerceivedCompletion(100);
-    const darkButton = screen.getByLabelText('Dark mode');
-    const lightButton = screen.getByLabelText('Light mode');
-
-    // Dark button should be selected (default variant with bg-primary)
-    expect(darkButton).toHaveClass('bg-primary');
-    expect(lightButton).not.toHaveClass('bg-primary');
-  });
-
-  it('should switch themes when buttons are clicked', async () => {
-    render(
-      <ThemeProvider defaultTheme="dark">
-        <ThemeSelector />
-      </ThemeProvider>,
-    );
-
-    await waitForUserPerceivedCompletion();
-    const lightButton = screen.getByLabelText('Light mode');
-    const darkButton = screen.getByLabelText('Dark mode');
-
-    // Click light button
-    fireEvent.click(lightButton);
-    await waitForUserPerceivedCompletion();
-    expect(lightButton).toHaveClass('bg-primary');
-
-    // Click dark button
-    fireEvent.click(darkButton);
-    await waitForUserPerceivedCompletion();
-    expect(darkButton).toHaveClass('bg-primary');
-    expect(lightButton).not.toHaveClass('bg-primary');
   });
 });

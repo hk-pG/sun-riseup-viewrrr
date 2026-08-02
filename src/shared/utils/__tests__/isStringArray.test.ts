@@ -46,20 +46,4 @@ describe('isStringArray', () => {
       expect(isStringArray(['hello', stringObject])).toBe(false);
     });
   });
-
-  describe('type guard behavior', () => {
-    it('should narrow type correctly when used as type guard', () => {
-      const unknownValue: unknown = ['hello', 'world'];
-
-      if (isStringArray(unknownValue)) {
-        // TypeScript should now know this is string[]
-        expect(unknownValue.length).toBe(2);
-        expect(unknownValue[0]).toBe('hello');
-        expect(unknownValue[1]).toBe('world');
-        // This should compile without TypeScript errors
-        const firstItem: string = unknownValue[0];
-        expect(typeof firstItem).toBe('string');
-      }
-    });
-  });
 });

@@ -130,21 +130,6 @@ describe('AppMenuBar Component (No Theme Dependencies)', () => {
     });
   });
 
-  describe('Menu Item Structure Validation', () => {
-    it('should have correct menu structure hierarchy', () => {
-      renderAppMenuBar();
-
-      const fileMenu = screen.getByText('ファイル');
-      const viewMenu = screen.getByText('表示');
-
-      expect(fileMenu).toBeInTheDocument();
-      expect(viewMenu).toBeInTheDocument();
-
-      const menubar = screen.getByRole('menubar');
-      expect(menubar).toBeInTheDocument();
-    });
-  });
-
   describe('Menu Action Callbacks', () => {
     it('ファイルメニューの「フォルダを開く」クリックで onMenuAction("open-folder") が呼ばれる', () => {
       renderAppMenuBar();

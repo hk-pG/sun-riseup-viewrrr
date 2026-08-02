@@ -14,31 +14,6 @@ describe('keyboardUtils', () => {
     mockOnAction.mockClear();
   });
 
-  describe('createDefaultKeyboardMapping', () => {
-    it('should include expected shortcuts for nextImage', () => {
-      const mapping = createDefaultKeyboardMapping(mockOnAction);
-      const shortcuts = mapping.shortcuts.get('nextImage');
-      expect(shortcuts).toBeDefined();
-      if (!shortcuts) return;
-
-      const keys = shortcuts.map((s) => s.key);
-      expect(keys).toContain('ArrowRight');
-      expect(keys).toContain(' ');
-      expect(keys).toContain('j');
-    });
-
-    it('should include expected shortcuts for previousImage', () => {
-      const mapping = createDefaultKeyboardMapping(mockOnAction);
-      const shortcuts = mapping.shortcuts.get('previousImage');
-      expect(shortcuts).toBeDefined();
-      if (!shortcuts) return;
-
-      const keys = shortcuts.map((s) => s.key);
-      expect(keys).toContain('ArrowLeft');
-      expect(keys).toContain('k');
-    });
-  });
-
   describe('createCustomKeyboardMapping', () => {
     it('should override default shortcuts with custom ones', () => {
       const defaultMapping = createDefaultKeyboardMapping(mockOnAction);

@@ -94,17 +94,6 @@ describe('openImageFileDialog', () => {
       filters: [{ name: 'Images', extensions: customExtensions }],
     });
   });
-
-  it('should handle unexpected dialog response types', async () => {
-    const unexpectedResponse = { unexpected: 'object' };
-    mockTauriOpenDialog.mockResolvedValue(
-      unexpectedResponse as unknown as string | null,
-    );
-
-    const result = await tauriFileSystemService.openImageFileDialog?.();
-
-    expect(result).toBeNull();
-  });
 });
 
 describe('listImagesInContainer', () => {

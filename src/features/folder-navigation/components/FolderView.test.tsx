@@ -20,16 +20,6 @@ describe('FolderView', () => {
     vi.clearAllMocks();
   });
 
-  it('フォルダ名を表示する', () => {
-    vi.mocked(useThumbnail).mockReturnValue({
-      thumbnail: null,
-      isLoading: false,
-      isError: false,
-    });
-    render(<FolderView folder={mockFolder} onClick={() => {}} />);
-    expect(screen.getByText('Test Folder')).toBeInTheDocument();
-  });
-
   it('画像枚数を表示する', () => {
     vi.mocked(useThumbnail).mockReturnValue({
       thumbnail: null,

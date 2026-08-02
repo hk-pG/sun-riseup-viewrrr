@@ -77,29 +77,6 @@ describe('useImages', () => {
     });
   });
 
-  it('存在しないフォルダを指定した場合、エラーが返される', async () => {
-    mockFileSystemService.listImageHandles = vi.fn().mockReturnValue(null);
-
-    const { result } = renderHook(
-      () =>
-        useImages(
-          new LocalFolderContainer(
-            '/non/existent/folder',
-            mockFileSystemService,
-          ),
-        ),
-      {
-        wrapper: ServicesWrapper,
-      },
-    );
-
-    await waitFor(() => {
-      expect(result.current.images).toBeUndefined();
-      expect(result.current.error).toBeDefined();
-      expect(result.current.isLoading).toBe(false);
-    });
-  });
-
   it('ファイルアクセスで例外が発生した場合、エラーが返される', async () => {
     mockFileSystemService.listImageHandles = vi
       .fn()

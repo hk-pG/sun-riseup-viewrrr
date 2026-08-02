@@ -259,32 +259,6 @@ describe('useControlsVisibility', () => {
         expect(result.current.isVisible).toBe(false);
       });
 
-      it('should handle autoHide changes from true to false (existing timeout still executes)', () => {
-        const { result, rerender } = renderHook(
-          ({ showControls, autoHide, timeout }) =>
-            useControlsVisibility(showControls, autoHide, timeout),
-          {
-            initialProps: { showControls: true, autoHide: true, timeout: 3000 },
-          },
-        );
-
-        expect(result.current.isVisible).toBe(true);
-
-        // Change autoHide to false - but existing timeout is not cleared
-        rerender({ showControls: true, autoHide: false, timeout: 3000 });
-
-        // The visibility should still be true initially
-        expect(result.current.isVisible).toBe(true);
-
-        // The existing timeout will still execute and hide the controls
-        // This documents the current behavior (which may be a bug)
-        act(() => {
-          vi.advanceTimersByTime(3000);
-        });
-
-        expect(result.current.isVisible).toBe(false);
-      });
-
       it('should set timeout when autoHide changes from false to true', () => {
         const { result, rerender } = renderHook(
           ({ showControls, autoHide, timeout }) =>

@@ -82,7 +82,7 @@
       "label": "GRAPHIFY_REBUILD_LOG",
       "file_type": "code",
       "source_file": ".husky/post-checkout",
-      "source_location": "L133",
+      "source_location": "L137",
       "metadata": {
         "language": "bash",
         "kind": "code"
@@ -142,7 +142,7 @@
       "label": "GRAPHIFY_CHANGED",
       "file_type": "code",
       "source_file": ".husky/post-commit",
-      "source_location": "L127",
+      "source_location": "L131",
       "metadata": {
         "language": "bash",
         "kind": "code"
@@ -157,7 +157,7 @@
       "label": "GRAPHIFY_REBUILD_LOG",
       "file_type": "code",
       "source_file": ".husky/post-commit",
-      "source_location": "L135",
+      "source_location": "L139",
       "metadata": {
         "language": "bash",
         "kind": "code"
@@ -1047,8 +1047,8 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "biome_linter",
-      "community": 6,
-      "community_name": "Biome Lint Config",
+      "community": 8,
+      "community_name": "Biome Recommended Rules",
       "norm_label": "linter"
     },
     {
@@ -1058,8 +1058,8 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "biome_linter_enabled",
-      "community": 6,
-      "community_name": "Biome Lint Config",
+      "community": 8,
+      "community_name": "Biome Recommended Rules",
       "norm_label": "enabled"
     },
     {
@@ -1630,8 +1630,8 @@
       "source_location": "L82",
       "_origin": "ast",
       "id": "ref_react",
-      "community": 26,
-      "community_name": "App.tsx",
+      "community": 23,
+      "community_name": "FileSystemService",
       "norm_label": "react"
     },
     {
@@ -6741,8 +6741,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_app",
-      "community": 26,
-      "community_name": "App.tsx",
+      "community": 20,
+      "community_name": "mocks.ts",
       "norm_label": "app.tsx"
     },
     {
@@ -6752,8 +6752,8 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "src_app_app_viewer_container_config",
-      "community": 26,
-      "community_name": "App.tsx",
+      "community": 20,
+      "community_name": "mocks.ts",
       "norm_label": "app_viewer_container_config"
     },
     {
@@ -6774,8 +6774,8 @@
       "source_location": "L38",
       "_origin": "ast",
       "id": "src_app_app",
-      "community": 26,
-      "community_name": "App.tsx",
+      "community": 20,
+      "community_name": "mocks.ts",
       "norm_label": "app()"
     },
     {
@@ -6785,8 +6785,8 @@
       "source_location": "L32",
       "_origin": "ast",
       "id": "src_app_rationale_32",
-      "community": 26,
-      "community_name": "App.tsx",
+      "community": 20,
+      "community_name": "mocks.ts",
       "norm_label": "todo: \u72b6\u614b\u7ba1\u7406\u304b\u8907\u96d1\u5316\u3057\u3066\u3044\u308b\u3002appstate\u3066\u306e\u7ba1\u7406\u306b\u7121\u7406\u304b\u751f\u3057\u59cb\u3081\u3066\u3044\u308b\u3002"
     },
     {
@@ -6796,8 +6796,8 @@
       "source_location": "L33",
       "_origin": "ast",
       "id": "src_app_rationale_33",
-      "community": 26,
-      "community_name": "App.tsx",
+      "community": 20,
+      "community_name": "mocks.ts",
       "norm_label": "todo: app.tsx\u81ea\u4f53\u304b\u80a5\u5927\u5316\u3057\u3066\u304d\u3066\u3044\u308b\u3002\u72b6\u614b\u7ba1\u7406\u3068ui\u30ed\u30b7\u30c3\u30af\u306e\u5206\u96e2\u3092\u691c\u8a0e\u3002"
     },
     {
@@ -6807,8 +6807,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_tests_app_test",
-      "community": 20,
-      "community_name": "mocks.ts",
+      "community": 23,
+      "community_name": "FileSystemService",
       "norm_label": "app.test.tsx"
     },
     {
@@ -6818,8 +6818,8 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "src_tests_app_test_mockopenimagefile",
-      "community": 20,
-      "community_name": "mocks.ts",
+      "community": 23,
+      "community_name": "FileSystemService",
       "norm_label": "mockopenimagefile"
     },
     {
@@ -6840,8 +6840,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_components_errorboundary",
-      "community": 26,
-      "community_name": "App.tsx",
+      "community": 20,
+      "community_name": "mocks.ts",
       "norm_label": "errorboundary.tsx"
     },
     {
@@ -6851,8 +6851,8 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "src_components_errorboundary_props",
-      "community": 26,
-      "community_name": "App.tsx",
+      "community": 20,
+      "community_name": "mocks.ts",
       "norm_label": "props"
     },
     {
@@ -6862,8 +6862,8 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "src_components_errorboundary_state",
-      "community": 26,
-      "community_name": "App.tsx",
+      "community": 20,
+      "community_name": "mocks.ts",
       "norm_label": "state"
     },
     {
@@ -6873,8 +6873,8 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "src_components_errorboundary_errorboundary",
-      "community": 26,
-      "community_name": "App.tsx",
+      "community": 20,
+      "community_name": "mocks.ts",
       "norm_label": "errorboundary"
     },
     {
@@ -6884,8 +6884,8 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "src_components_errorboundary_errorboundary_constructor",
-      "community": 26,
-      "community_name": "App.tsx",
+      "community": 20,
+      "community_name": "mocks.ts",
       "norm_label": ".constructor()"
     },
     {
@@ -6895,8 +6895,8 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "src_components_errorboundary_errorboundary_getderivedstatefromerror",
-      "community": 26,
-      "community_name": "App.tsx",
+      "community": 20,
+      "community_name": "mocks.ts",
       "norm_label": ".getderivedstatefromerror()"
     },
     {
@@ -6906,8 +6906,8 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "src_components_errorboundary_errorboundary_componentdidcatch",
-      "community": 26,
-      "community_name": "App.tsx",
+      "community": 20,
+      "community_name": "mocks.ts",
       "norm_label": ".componentdidcatch()"
     },
     {
@@ -6917,8 +6917,8 @@
       "source_location": "L27",
       "_origin": "ast",
       "id": "src_components_errorboundary_errorboundary_render",
-      "community": 26,
-      "community_name": "App.tsx",
+      "community": 20,
+      "community_name": "mocks.ts",
       "norm_label": ".render()"
     },
     {
@@ -7093,8 +7093,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_components_ui_tooltip",
-      "community": 17,
-      "community_name": "app-shell/index.ts",
+      "community": 99,
+      "community_name": "tooltip.tsx",
       "norm_label": "tooltip.tsx"
     },
     {
@@ -7104,8 +7104,8 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "src_components_ui_tooltip_tooltipcontent",
-      "community": 17,
-      "community_name": "app-shell/index.ts",
+      "community": 99,
+      "community_name": "tooltip.tsx",
       "norm_label": "tooltipcontent"
     },
     {
@@ -7228,17 +7228,6 @@
       "community": 5,
       "community_name": "Action Registry Pattern",
       "norm_label": "createmockapplier()"
-    },
-    {
-      "label": "actionRegistry.test.ts",
-      "file_type": "code",
-      "source_file": "src/features/app-shell/actions/__tests__/actionRegistry.test.ts",
-      "source_location": "L1",
-      "_origin": "ast",
-      "id": "src_features_app_shell_actions_tests_actionregistry_test",
-      "community": 5,
-      "community_name": "Action Registry Pattern",
-      "norm_label": "actionregistry.test.ts"
     },
     {
       "label": "openFolderAction.test.ts",
@@ -7489,8 +7478,8 @@
       "source_location": "L41",
       "_origin": "ast",
       "id": "src_features_app_shell_components_appmenubar_appmenubarprops",
-      "community": 20,
-      "community_name": "mocks.ts",
+      "community": 17,
+      "community_name": "app-shell/index.ts",
       "norm_label": "appmenubarprops"
     },
     {
@@ -7500,8 +7489,8 @@
       "source_location": "L50",
       "_origin": "ast",
       "id": "src_features_app_shell_components_appmenubar_menuitemdata",
-      "community": 3,
-      "community_name": "App Menu & Folder Navigation",
+      "community": 5,
+      "community_name": "Action Registry Pattern",
       "norm_label": "menuitemdata"
     },
     {
@@ -7585,7 +7574,7 @@
       "label": "KeyboardShortcutHelpProps",
       "file_type": "code",
       "source_file": "src/features/app-shell/components/KeyboardShortcutHelp.tsx",
-      "source_location": "L13",
+      "source_location": "L11",
       "_origin": "ast",
       "id": "src_features_app_shell_components_keyboardshortcuthelp_keyboardshortcuthelpprops",
       "community": 21,
@@ -7596,7 +7585,7 @@
       "label": "KeyboardShortcutHelp()",
       "file_type": "code",
       "source_file": "src/features/app-shell/components/KeyboardShortcutHelp.tsx",
-      "source_location": "L20",
+      "source_location": "L18",
       "_origin": "ast",
       "id": "src_features_app_shell_components_keyboardshortcuthelp_keyboardshortcuthelp",
       "community": 21,
@@ -7654,8 +7643,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_features_app_shell_components_tests_appmenubar_test",
-      "community": 20,
-      "community_name": "mocks.ts",
+      "community": 17,
+      "community_name": "app-shell/index.ts",
       "norm_label": "appmenubar.test.tsx"
     },
     {
@@ -7808,8 +7797,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_features_folder_navigation_components_folderlist_folderlistloadmore",
-      "community": 0,
-      "community_name": "UI Tooltip & Dev Mocks",
+      "community": 89,
+      "community_name": "Sidebar.tsx",
       "norm_label": "folderlistloadmore.tsx"
     },
     {
@@ -7819,8 +7808,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_features_folder_navigation_components_folderlist_folderlistloadmore_folderlistloadmoreprops",
-      "community": 0,
-      "community_name": "UI Tooltip & Dev Mocks",
+      "community": 89,
+      "community_name": "Sidebar.tsx",
       "norm_label": "folderlistloadmoreprops"
     },
     {
@@ -7830,8 +7819,8 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "src_features_folder_navigation_components_folderlist_folderlistloadmore_folderlistloadmore",
-      "community": 0,
-      "community_name": "UI Tooltip & Dev Mocks",
+      "community": 89,
+      "community_name": "Sidebar.tsx",
       "norm_label": "folderlistloadmore()"
     },
     {
@@ -7896,8 +7885,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_features_folder_navigation_components_folderlist_index",
-      "community": 0,
-      "community_name": "UI Tooltip & Dev Mocks",
+      "community": 89,
+      "community_name": "Sidebar.tsx",
       "norm_label": "folderlist/index.ts"
     },
     {
@@ -7940,8 +7929,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_features_folder_navigation_components_sidebar_sidebar",
-      "community": 0,
-      "community_name": "UI Tooltip & Dev Mocks",
+      "community": 89,
+      "community_name": "Sidebar.tsx",
       "norm_label": "sidebar.tsx"
     },
     {
@@ -7951,8 +7940,8 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "src_features_folder_navigation_components_sidebar_sidebar_sidebar",
-      "community": 0,
-      "community_name": "UI Tooltip & Dev Mocks",
+      "community": 89,
+      "community_name": "Sidebar.tsx",
       "norm_label": "sidebar()"
     },
     {
@@ -7962,8 +7951,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_features_folder_navigation_components_sidebar_sidebarcontent",
-      "community": 0,
-      "community_name": "UI Tooltip & Dev Mocks",
+      "community": 89,
+      "community_name": "Sidebar.tsx",
       "norm_label": "sidebarcontent.tsx"
     },
     {
@@ -7973,8 +7962,8 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "src_features_folder_navigation_components_sidebar_sidebarcontent_sidebarcontentprops",
-      "community": 0,
-      "community_name": "UI Tooltip & Dev Mocks",
+      "community": 89,
+      "community_name": "Sidebar.tsx",
       "norm_label": "sidebarcontentprops"
     },
     {
@@ -7984,8 +7973,8 @@
       "source_location": "L29",
       "_origin": "ast",
       "id": "src_features_folder_navigation_components_sidebar_sidebarcontent_sidebarcontent",
-      "community": 0,
-      "community_name": "UI Tooltip & Dev Mocks",
+      "community": 89,
+      "community_name": "Sidebar.tsx",
       "norm_label": "sidebarcontent()"
     },
     {
@@ -7995,8 +7984,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_features_folder_navigation_components_sidebar_sidebarheader",
-      "community": 0,
-      "community_name": "UI Tooltip & Dev Mocks",
+      "community": 89,
+      "community_name": "Sidebar.tsx",
       "norm_label": "sidebarheader.tsx"
     },
     {
@@ -8006,8 +7995,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_features_folder_navigation_components_sidebar_sidebarheader_sidebarheaderprops",
-      "community": 0,
-      "community_name": "UI Tooltip & Dev Mocks",
+      "community": 89,
+      "community_name": "Sidebar.tsx",
       "norm_label": "sidebarheaderprops"
     },
     {
@@ -8017,8 +8006,8 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "src_features_folder_navigation_components_sidebar_sidebarheader_sidebarheader",
-      "community": 0,
-      "community_name": "UI Tooltip & Dev Mocks",
+      "community": 89,
+      "community_name": "Sidebar.tsx",
       "norm_label": "sidebarheader()"
     },
     {
@@ -8028,8 +8017,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_features_folder_navigation_components_sidebar_index",
-      "community": 0,
-      "community_name": "UI Tooltip & Dev Mocks",
+      "community": 89,
+      "community_name": "Sidebar.tsx",
       "norm_label": "sidebar/index.ts"
     },
     {
@@ -8039,7 +8028,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_features_folder_navigation_constants_sidebarconfig",
-      "community": 42,
+      "community": 90,
       "community_name": "folder-navigation/index.ts",
       "norm_label": "sidebarconfig.ts"
     },
@@ -8050,7 +8039,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "src_features_folder_navigation_constants_sidebarconfig_sidebar_config",
-      "community": 42,
+      "community": 90,
       "community_name": "folder-navigation/index.ts",
       "norm_label": "sidebar_config"
     },
@@ -8061,7 +8050,7 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "src_features_folder_navigation_constants_sidebarconfig_sidebarconfig",
-      "community": 42,
+      "community": 90,
       "community_name": "folder-navigation/index.ts",
       "norm_label": "sidebarconfig"
     },
@@ -8237,8 +8226,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_features_folder_navigation_hooks_tests_usesiblingfolders_test",
-      "community": 51,
-      "community_name": "useSiblingContainers.ts",
+      "community": 23,
+      "community_name": "FileSystemService",
       "norm_label": "usesiblingfolders.test.tsx"
     },
     {
@@ -8248,8 +8237,8 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "src_features_folder_navigation_hooks_tests_usesiblingfolders_test_serviceswrapper",
-      "community": 51,
-      "community_name": "useSiblingContainers.ts",
+      "community": 23,
+      "community_name": "FileSystemService",
       "norm_label": "serviceswrapper()"
     },
     {
@@ -8281,8 +8270,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_features_folder_navigation_hooks_tests_usethumbnailprefetch_test",
-      "community": 42,
-      "community_name": "folder-navigation/index.ts",
+      "community": 23,
+      "community_name": "FileSystemService",
       "norm_label": "usethumbnailprefetch.test.tsx"
     },
     {
@@ -8292,8 +8281,8 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "src_features_folder_navigation_hooks_tests_usethumbnailprefetch_test_createwrapper",
-      "community": 42,
-      "community_name": "folder-navigation/index.ts",
+      "community": 23,
+      "community_name": "FileSystemService",
       "norm_label": "createwrapper()"
     },
     {
@@ -8303,8 +8292,8 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "src_features_folder_navigation_hooks_tests_usethumbnailprefetch_test_mockfolders",
-      "community": 42,
-      "community_name": "folder-navigation/index.ts",
+      "community": 23,
+      "community_name": "FileSystemService",
       "norm_label": "mockfolders"
     },
     {
@@ -8314,7 +8303,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_features_folder_navigation_hooks_usefolderlistpagination",
-      "community": 42,
+      "community": 90,
       "community_name": "folder-navigation/index.ts",
       "norm_label": "usefolderlistpagination.ts"
     },
@@ -8325,7 +8314,7 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "src_features_folder_navigation_hooks_usefolderlistpagination_usefolderlistpagination",
-      "community": 42,
+      "community": 90,
       "community_name": "folder-navigation/index.ts",
       "norm_label": "usefolderlistpagination()"
     },
@@ -8336,8 +8325,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_features_folder_navigation_hooks_useopenimagefile",
-      "community": 23,
-      "community_name": "FileSystemService",
+      "community": 5,
+      "community_name": "Action Registry Pattern",
       "norm_label": "useopenimagefile.ts"
     },
     {
@@ -8402,8 +8391,8 @@
       "source_location": "L28",
       "_origin": "ast",
       "id": "src_features_folder_navigation_hooks_usesiblingcontainers_usesiblingcontainers",
-      "community": 51,
-      "community_name": "useSiblingContainers.ts",
+      "community": 20,
+      "community_name": "mocks.ts",
       "norm_label": "usesiblingcontainers()"
     },
     {
@@ -8446,7 +8435,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_features_folder_navigation_hooks_usethumbnailprefetch",
-      "community": 42,
+      "community": 90,
       "community_name": "folder-navigation/index.ts",
       "norm_label": "usethumbnailprefetch.ts"
     },
@@ -8457,7 +8446,7 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "src_features_folder_navigation_hooks_usethumbnailprefetch_usethumbnailprefetch",
-      "community": 42,
+      "community": 90,
       "community_name": "folder-navigation/index.ts",
       "norm_label": "usethumbnailprefetch()"
     },
@@ -8468,7 +8457,7 @@
       "source_location": "L28",
       "_origin": "ast",
       "id": "src_features_folder_navigation_hooks_usethumbnailprefetch_rationale_28",
-      "community": 42,
+      "community": 90,
       "community_name": "folder-navigation/index.ts",
       "norm_label": "note: folders \u306e\u53c2\u7167\u5b89\u5b9a\u6027\u306b\u4f9d\u5b58\u3002react compiler \u304b\u6709\u52b9\u306a\u5834\u5408\u306f\u81ea\u52d5\u30e1\u30e2\u5316\u3055\u308c\u308b\u3002"
     },
@@ -8479,8 +8468,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_features_folder_navigation_index",
-      "community": 0,
-      "community_name": "UI Tooltip & Dev Mocks",
+      "community": 90,
+      "community_name": "folder-navigation/index.ts",
       "norm_label": "folder-navigation/index.ts"
     },
     {
@@ -8567,8 +8556,8 @@
       "source_location": "L48",
       "_origin": "ast",
       "id": "src_features_folder_navigation_services_filesystemservice_filesystemservice_getsiblingcontainers",
-      "community": 23,
-      "community_name": "FileSystemService",
+      "community": 51,
+      "community_name": "useSiblingContainers.ts",
       "norm_label": ".getsiblingcontainers()"
     },
     {
@@ -8578,8 +8567,8 @@
       "source_location": "L55",
       "_origin": "ast",
       "id": "src_features_folder_navigation_services_filesystemservice_filesystemservice_convertfilesrc",
-      "community": 23,
-      "community_name": "FileSystemService",
+      "community": 0,
+      "community_name": "UI Tooltip & Dev Mocks",
       "norm_label": ".convertfilesrc()"
     },
     {
@@ -8589,8 +8578,8 @@
       "source_location": "L63",
       "_origin": "ast",
       "id": "src_features_folder_navigation_services_filesystemservice_filesystemservice_getfolderthumbnail",
-      "community": 23,
-      "community_name": "FileSystemService",
+      "community": 0,
+      "community_name": "UI Tooltip & Dev Mocks",
       "norm_label": ".getfolderthumbnail()"
     },
     {
@@ -8710,8 +8699,8 @@
       "source_location": "L58",
       "_origin": "ast",
       "id": "src_features_folder_navigation_types_foldertypes_sidebarprops",
-      "community": 0,
-      "community_name": "UI Tooltip & Dev Mocks",
+      "community": 89,
+      "community_name": "Sidebar.tsx",
       "norm_label": "sidebarprops"
     },
     {
@@ -8721,8 +8710,8 @@
       "source_location": "L76",
       "_origin": "ast",
       "id": "src_features_folder_navigation_types_foldertypes_folderthumbnailresult",
-      "community": 23,
-      "community_name": "FileSystemService",
+      "community": 0,
+      "community_name": "UI Tooltip & Dev Mocks",
       "norm_label": "folderthumbnailresult"
     },
     {
@@ -8831,8 +8820,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_features_image_viewer_components_tests_imageviewer_test",
-      "community": 20,
-      "community_name": "mocks.ts",
+      "community": 23,
+      "community_name": "FileSystemService",
       "norm_label": "imageviewer.test.tsx"
     },
     {
@@ -9194,8 +9183,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_lib_utils",
-      "community": 17,
-      "community_name": "app-shell/index.ts",
+      "community": 99,
+      "community_name": "tooltip.tsx",
       "norm_label": "lib/utils.ts"
     },
     {
@@ -9205,8 +9194,8 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "src_lib_utils_cn",
-      "community": 17,
-      "community_name": "app-shell/index.ts",
+      "community": 99,
+      "community_name": "tooltip.tsx",
       "norm_label": "cn()"
     },
     {
@@ -9216,8 +9205,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_main",
-      "community": 26,
-      "community_name": "App.tsx",
+      "community": 23,
+      "community_name": "FileSystemService",
       "norm_label": "main.tsx"
     },
     {
@@ -9260,8 +9249,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_shared_adapters_tauriadapters",
-      "community": 26,
-      "community_name": "App.tsx",
+      "community": 20,
+      "community_name": "mocks.ts",
       "norm_label": "tauriadapters.ts"
     },
     {
@@ -9271,8 +9260,8 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "src_shared_adapters_tauriadapters_taurifilesystemservice",
-      "community": 26,
-      "community_name": "App.tsx",
+      "community": 20,
+      "community_name": "mocks.ts",
       "norm_label": "taurifilesystemservice"
     },
     {
@@ -9502,8 +9491,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_shared_context_servicecontext",
-      "community": 26,
-      "community_name": "App.tsx",
+      "community": 23,
+      "community_name": "FileSystemService",
       "norm_label": "servicecontext.tsx"
     },
     {
@@ -9513,8 +9502,8 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "src_shared_context_servicecontext_servicescontext",
-      "community": 26,
-      "community_name": "App.tsx",
+      "community": 23,
+      "community_name": "FileSystemService",
       "norm_label": "servicescontext"
     },
     {
@@ -9524,8 +9513,8 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "src_shared_context_servicecontext_useservices",
-      "community": 42,
-      "community_name": "folder-navigation/index.ts",
+      "community": 20,
+      "community_name": "mocks.ts",
       "norm_label": "useservices()"
     },
     {
@@ -9535,8 +9524,8 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "src_shared_context_servicecontext_servicesproviderprops",
-      "community": 26,
-      "community_name": "App.tsx",
+      "community": 23,
+      "community_name": "FileSystemService",
       "norm_label": "servicesproviderprops"
     },
     {
@@ -9546,8 +9535,8 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "src_shared_context_servicecontext_servicesprovider",
-      "community": 20,
-      "community_name": "mocks.ts",
+      "community": 23,
+      "community_name": "FileSystemService",
       "norm_label": "servicesprovider()"
     },
     {
@@ -9557,8 +9546,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_shared_hooks_data_tests_useimages_test",
-      "community": 21,
-      "community_name": "Local Folder Container",
+      "community": 23,
+      "community_name": "FileSystemService",
       "norm_label": "useimages.test.tsx"
     },
     {
@@ -9568,8 +9557,8 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "src_shared_hooks_data_tests_useimages_test_mockimagesources",
-      "community": 21,
-      "community_name": "Local Folder Container",
+      "community": 23,
+      "community_name": "FileSystemService",
       "norm_label": "mockimagesources"
     },
     {
@@ -9579,8 +9568,8 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "src_shared_hooks_data_tests_useimages_test_createimagehandles",
-      "community": 21,
-      "community_name": "Local Folder Container",
+      "community": 23,
+      "community_name": "FileSystemService",
       "norm_label": "createimagehandles()"
     },
     {
@@ -9590,8 +9579,8 @@
       "source_location": "L32",
       "_origin": "ast",
       "id": "src_shared_hooks_data_tests_useimages_test_serviceswrapper",
-      "community": 21,
-      "community_name": "Local Folder Container",
+      "community": 23,
+      "community_name": "FileSystemService",
       "norm_label": "serviceswrapper()"
     },
     {
@@ -9909,8 +9898,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_shared_utils_logger",
-      "community": 26,
-      "community_name": "App.tsx",
+      "community": 20,
+      "community_name": "mocks.ts",
       "norm_label": "logger.ts"
     },
     {
@@ -9920,8 +9909,8 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "src_shared_utils_logger_logger",
-      "community": 26,
-      "community_name": "App.tsx",
+      "community": 20,
+      "community_name": "mocks.ts",
       "norm_label": "logger"
     },
     {
@@ -9986,8 +9975,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_test_mocks",
-      "community": 20,
-      "community_name": "mocks.ts",
+      "community": 17,
+      "community_name": "app-shell/index.ts",
       "norm_label": "mocks.ts"
     },
     {
@@ -9997,8 +9986,8 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "src_test_mocks_convertfilesrcimpl",
-      "community": 20,
-      "community_name": "mocks.ts",
+      "community": 17,
+      "community_name": "app-shell/index.ts",
       "norm_label": "convertfilesrcimpl()"
     },
     {
@@ -10008,8 +9997,8 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "src_test_mocks_basenameimpl",
-      "community": 20,
-      "community_name": "mocks.ts",
+      "community": 17,
+      "community_name": "app-shell/index.ts",
       "norm_label": "basenameimpl()"
     },
     {
@@ -10019,8 +10008,8 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "src_test_mocks_dirnameimpl",
-      "community": 20,
-      "community_name": "mocks.ts",
+      "community": 17,
+      "community_name": "app-shell/index.ts",
       "norm_label": "dirnameimpl()"
     },
     {
@@ -10030,8 +10019,8 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "src_test_mocks_mockinvoke",
-      "community": 20,
-      "community_name": "mocks.ts",
+      "community": 17,
+      "community_name": "app-shell/index.ts",
       "norm_label": "mockinvoke"
     },
     {
@@ -10041,8 +10030,8 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "src_test_mocks_mockconvertfilesrc",
-      "community": 20,
-      "community_name": "mocks.ts",
+      "community": 17,
+      "community_name": "app-shell/index.ts",
       "norm_label": "mockconvertfilesrc"
     },
     {
@@ -10052,8 +10041,8 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "src_test_mocks_mockdialogopen",
-      "community": 20,
-      "community_name": "mocks.ts",
+      "community": 17,
+      "community_name": "app-shell/index.ts",
       "norm_label": "mockdialogopen"
     },
     {
@@ -10063,8 +10052,8 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "src_test_mocks_mockbasename",
-      "community": 20,
-      "community_name": "mocks.ts",
+      "community": 17,
+      "community_name": "app-shell/index.ts",
       "norm_label": "mockbasename"
     },
     {
@@ -10074,8 +10063,8 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "src_test_mocks_mockdirname",
-      "community": 20,
-      "community_name": "mocks.ts",
+      "community": 17,
+      "community_name": "app-shell/index.ts",
       "norm_label": "mockdirname"
     },
     {
@@ -10085,8 +10074,8 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "src_test_mocks_mockopeneropen",
-      "community": 20,
-      "community_name": "mocks.ts",
+      "community": 17,
+      "community_name": "app-shell/index.ts",
       "norm_label": "mockopeneropen"
     },
     {
@@ -10096,8 +10085,8 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "src_test_mocks_mockreaddir",
-      "community": 20,
-      "community_name": "mocks.ts",
+      "community": 17,
+      "community_name": "app-shell/index.ts",
       "norm_label": "mockreaddir"
     },
     {
@@ -10107,8 +10096,8 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "src_test_mocks_mockexists",
-      "community": 20,
-      "community_name": "mocks.ts",
+      "community": 17,
+      "community_name": "app-shell/index.ts",
       "norm_label": "mockexists"
     },
     {
@@ -10118,8 +10107,8 @@
       "source_location": "L27",
       "_origin": "ast",
       "id": "src_test_mocks_mockstoreinstance",
-      "community": 20,
-      "community_name": "mocks.ts",
+      "community": 17,
+      "community_name": "app-shell/index.ts",
       "norm_label": "mockstoreinstance"
     },
     {
@@ -10129,8 +10118,8 @@
       "source_location": "L34",
       "_origin": "ast",
       "id": "src_test_mocks_mockstoreload",
-      "community": 20,
-      "community_name": "mocks.ts",
+      "community": 17,
+      "community_name": "app-shell/index.ts",
       "norm_label": "mockstoreload"
     },
     {
@@ -10140,8 +10129,8 @@
       "source_location": "L39",
       "_origin": "ast",
       "id": "src_test_mocks_setuptaurimocks",
-      "community": 20,
-      "community_name": "mocks.ts",
+      "community": 17,
+      "community_name": "app-shell/index.ts",
       "norm_label": "setuptaurimocks()"
     },
     {
@@ -10151,8 +10140,8 @@
       "source_location": "L93",
       "_origin": "ast",
       "id": "src_test_mocks_resetallmocks",
-      "community": 20,
-      "community_name": "mocks.ts",
+      "community": 17,
+      "community_name": "app-shell/index.ts",
       "norm_label": "resetallmocks()"
     },
     {
@@ -10162,8 +10151,8 @@
       "source_location": "L115",
       "_origin": "ast",
       "id": "src_test_mocks_createmockfilesystemservice",
-      "community": 51,
-      "community_name": "useSiblingContainers.ts",
+      "community": 23,
+      "community_name": "FileSystemService",
       "norm_label": "createmockfilesystemservice()"
     },
     {
@@ -10173,8 +10162,8 @@
       "source_location": "L146",
       "_origin": "ast",
       "id": "src_test_mocks_createmockfilesystemservicewiththumbnails",
-      "community": 20,
-      "community_name": "mocks.ts",
+      "community": 17,
+      "community_name": "app-shell/index.ts",
       "norm_label": "createmockfilesystemservicewiththumbnails()"
     },
     {
@@ -10195,8 +10184,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_test_setup",
-      "community": 20,
-      "community_name": "mocks.ts",
+      "community": 17,
+      "community_name": "app-shell/index.ts",
       "norm_label": "setup.ts"
     },
     {
@@ -10206,8 +10195,8 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "src_test_setup_mockmatchmedia",
-      "community": 20,
-      "community_name": "mocks.ts",
+      "community": 17,
+      "community_name": "app-shell/index.ts",
       "norm_label": "mockmatchmedia"
     },
     {
@@ -11221,6 +11210,138 @@
       "community": 87,
       "community_name": "Vitest Shims Types",
       "norm_label": "vitest.shims.d.ts"
+    },
+    {
+      "label": "SKILL.md",
+      "file_type": "document",
+      "source_file": ".agents/skills/review-unit-tests/SKILL.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "agents_skills_review_unit_tests_skill",
+      "community": 96,
+      "community_name": "Review Unit Tests",
+      "norm_label": "skill.md"
+    },
+    {
+      "label": "Review Unit Tests",
+      "file_type": "document",
+      "source_file": ".agents/skills/review-unit-tests/SKILL.md",
+      "source_location": "L13",
+      "_origin": "ast",
+      "id": "agents_skills_review_unit_tests_skill_review_unit_tests",
+      "community": 96,
+      "community_name": "Review Unit Tests",
+      "norm_label": "review unit tests"
+    },
+    {
+      "label": "\u8a55\u4fa1\u306e4\u672c\u67f1\uff08Khorikov\uff09",
+      "file_type": "document",
+      "source_file": ".agents/skills/review-unit-tests/SKILL.md",
+      "source_location": "L19",
+      "_origin": "ast",
+      "id": "agents_skills_review_unit_tests_skill_\u8a55\u4fa1\u306e4\u672c\u67f1_khorikov",
+      "community": 96,
+      "community_name": "Review Unit Tests",
+      "norm_label": "\u8a55\u4fa1\u306e4\u672c\u67f1(khorikov)"
+    },
+    {
+      "label": "\u4f4e\u4fa1\u5024\u306e\u5178\u578b\u30d1\u30bf\u30fc\u30f3\uff08\u524a\u9664\u5019\u88dc\uff09",
+      "file_type": "document",
+      "source_file": ".agents/skills/review-unit-tests/SKILL.md",
+      "source_location": "L30",
+      "_origin": "ast",
+      "id": "agents_skills_review_unit_tests_skill_\u4f4e\u4fa1\u5024\u306e\u5178\u578b\u30d1\u30bf\u30fc\u30f3_\u524a\u9664\u5019\u88dc",
+      "community": 96,
+      "community_name": "Review Unit Tests",
+      "norm_label": "\u4f4e\u4fa1\u5024\u306e\u5178\u578b\u30cf\u30bf\u30fc\u30f3(\u524a\u9664\u5019\u88dc)"
+    },
+    {
+      "label": "\u624b\u9806\uff08\u5358\u30d5\u30a1\u30a4\u30eb\u301c\u5c0f\u898f\u6a21\uff09",
+      "file_type": "document",
+      "source_file": ".agents/skills/review-unit-tests/SKILL.md",
+      "source_location": "L39",
+      "_origin": "ast",
+      "id": "agents_skills_review_unit_tests_skill_\u624b\u9806_\u5358\u30d5\u30a1\u30a4\u30eb_\u5c0f\u898f\u6a21",
+      "community": 96,
+      "community_name": "Review Unit Tests",
+      "norm_label": "\u624b\u9806(\u5358\u30d5\u30a1\u30a4\u30eb\u301c\u5c0f\u898f\u6a21)"
+    },
+    {
+      "label": "\u5927\u898f\u6a21\u6642\u306e\u30aa\u30fc\u30b1\u30b9\u30c8\u30ec\u30fc\u30b7\u30e7\u30f3",
+      "file_type": "document",
+      "source_file": ".agents/skills/review-unit-tests/SKILL.md",
+      "source_location": "L50",
+      "_origin": "ast",
+      "id": "agents_skills_review_unit_tests_skill_\u5927\u898f\u6a21\u6642\u306e\u30aa\u30fc\u30b1\u30b9\u30c8\u30ec\u30fc\u30b7\u30e7\u30f3",
+      "community": 96,
+      "community_name": "Review Unit Tests",
+      "norm_label": "\u5927\u898f\u6a21\u6642\u306e\u30aa\u30fc\u30b1\u30b9\u30c8\u30ec\u30fc\u30b7\u30e7\u30f3"
+    },
+    {
+      "label": "Pass 1 \u2014 \u6a5f\u80fd\u5225\u4e26\u5217\u30ec\u30d3\u30e5\u30fc\uff0b\u524a\u9664",
+      "file_type": "document",
+      "source_file": ".agents/skills/review-unit-tests/SKILL.md",
+      "source_location": "L58",
+      "_origin": "ast",
+      "id": "agents_skills_review_unit_tests_skill_pass_1_\u6a5f\u80fd\u5225\u4e26\u5217\u30ec\u30d3\u30e5\u30fc_\u524a\u9664",
+      "community": 96,
+      "community_name": "Review Unit Tests",
+      "norm_label": "pass 1 \u2014 \u6a5f\u80fd\u5225\u4e26\u5217\u30ec\u30d2\u30e5\u30fc+\u524a\u9664"
+    },
+    {
+      "label": "\u89aa\u306e\u6a2a\u65ad\u91cd\u8907\u30d1\u30b9",
+      "file_type": "document",
+      "source_file": ".agents/skills/review-unit-tests/SKILL.md",
+      "source_location": "L65",
+      "_origin": "ast",
+      "id": "agents_skills_review_unit_tests_skill_\u89aa\u306e\u6a2a\u65ad\u91cd\u8907\u30d1\u30b9",
+      "community": 96,
+      "community_name": "Review Unit Tests",
+      "norm_label": "\u89aa\u306e\u6a2a\u65ad\u91cd\u8907\u30cf\u30b9"
+    },
+    {
+      "label": "Pass 2 \u2014 \u524a\u9664\u306e\u7b2c\u4e8c\u610f\u898b\u30eb\u30fc\u30d7",
+      "file_type": "document",
+      "source_file": ".agents/skills/review-unit-tests/SKILL.md",
+      "source_location": "L76",
+      "_origin": "ast",
+      "id": "agents_skills_review_unit_tests_skill_pass_2_\u524a\u9664\u306e\u7b2c\u4e8c\u610f\u898b\u30eb\u30fc\u30d7",
+      "community": 96,
+      "community_name": "Review Unit Tests",
+      "norm_label": "pass 2 \u2014 \u524a\u9664\u306e\u7b2c\u4e8c\u610f\u898b\u30eb\u30fc\u30d5"
+    },
+    {
+      "label": "\u66d6\u6627\u30ea\u30b9\u30c8\u3068\u5224\u65ad\u5f85\u3061",
+      "file_type": "document",
+      "source_file": ".agents/skills/review-unit-tests/SKILL.md",
+      "source_location": "L102",
+      "_origin": "ast",
+      "id": "agents_skills_review_unit_tests_skill_\u66d6\u6627\u30ea\u30b9\u30c8\u3068\u5224\u65ad\u5f85\u3061",
+      "community": 96,
+      "community_name": "Review Unit Tests",
+      "norm_label": "\u66d6\u6627\u30ea\u30b9\u30c8\u3068\u5224\u65ad\u5f85\u3061"
+    },
+    {
+      "label": "\u5831\u544a\u30d5\u30a9\u30fc\u30de\u30c3\u30c8\uff08Pass 1\uff09",
+      "file_type": "document",
+      "source_file": ".agents/skills/review-unit-tests/SKILL.md",
+      "source_location": "L114",
+      "_origin": "ast",
+      "id": "agents_skills_review_unit_tests_skill_\u5831\u544a\u30d5\u30a9\u30fc\u30de\u30c3\u30c8_pass_1",
+      "community": 96,
+      "community_name": "Review Unit Tests",
+      "norm_label": "\u5831\u544a\u30d5\u30a9\u30fc\u30de\u30c3\u30c8(pass 1)"
+    },
+    {
+      "label": "\u518d\u5229\u7528\u306e\u8a00\u3044\u65b9",
+      "file_type": "document",
+      "source_file": ".agents/skills/review-unit-tests/SKILL.md",
+      "source_location": "L129",
+      "_origin": "ast",
+      "id": "agents_skills_review_unit_tests_skill_\u518d\u5229\u7528\u306e\u8a00\u3044\u65b9",
+      "community": 96,
+      "community_name": "Review Unit Tests",
+      "norm_label": "\u518d\u5229\u7528\u306e\u8a00\u3044\u65b9"
     },
     {
       "label": "001-replace-theme-provider/checklists/requirements.md",
@@ -12739,6 +12860,292 @@
       "community": 9,
       "community_name": "Rust Test Helpers",
       "norm_label": "contact & support"
+    },
+    {
+      "label": "test-value-review-ambiguous.md",
+      "file_type": "document",
+      "source_file": "docs/test-value-review-ambiguous.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "docs_test_value_review_ambiguous",
+      "community": 96,
+      "community_name": "Review Unit Tests",
+      "norm_label": "test-value-review-ambiguous.md"
+    },
+    {
+      "label": "\u5358\u4f53\u30c6\u30b9\u30c8\u4fa1\u5024\u30ec\u30d3\u30e5\u30fc \u2014 \u66d6\u6627\u30ea\u30b9\u30c8\uff08\u5224\u65ad\u6c42\u3080\uff09",
+      "file_type": "document",
+      "source_file": "docs/test-value-review-ambiguous.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "docs_test_value_review_ambiguous_\u5358\u4f53\u30c6\u30b9\u30c8\u4fa1\u5024\u30ec\u30d3\u30e5\u30fc_\u66d6\u6627\u30ea\u30b9\u30c8_\u5224\u65ad\u6c42\u3080",
+      "community": 96,
+      "community_name": "Review Unit Tests",
+      "norm_label": "\u5358\u4f53\u30c6\u30b9\u30c8\u4fa1\u5024\u30ec\u30d2\u30e5\u30fc \u2014 \u66d6\u6627\u30ea\u30b9\u30c8(\u5224\u65ad\u6c42\u3080)"
+    },
+    {
+      "label": "\u4e00\u89a7",
+      "file_type": "document",
+      "source_file": "docs/test-value-review-ambiguous.md",
+      "source_location": "L11",
+      "_origin": "ast",
+      "id": "docs_test_value_review_ambiguous_\u4e00\u89a7",
+      "community": 96,
+      "community_name": "Review Unit Tests",
+      "norm_label": "\u4e00\u89a7"
+    },
+    {
+      "label": "\u8a73\u7d30",
+      "file_type": "document",
+      "source_file": "docs/test-value-review-ambiguous.md",
+      "source_location": "L39",
+      "_origin": "ast",
+      "id": "docs_test_value_review_ambiguous_\u8a73\u7d30",
+      "community": 96,
+      "community_name": "Review Unit Tests",
+      "norm_label": "\u8a73\u7d30"
+    },
+    {
+      "label": "1. `keyboardConflicts` \u2014 \u30c7\u30d5\u30a9\u30eb\u30c8 mapping \u7121\u885d\u7a81",
+      "file_type": "document",
+      "source_file": "docs/test-value-review-ambiguous.md",
+      "source_location": "L41",
+      "_origin": "ast",
+      "id": "docs_test_value_review_ambiguous_1_keyboardconflicts_\u30c7\u30d5\u30a9\u30eb\u30c8_mapping_\u7121\u885d\u7a81",
+      "community": 96,
+      "community_name": "Review Unit Tests",
+      "norm_label": "1. `keyboardconflicts` \u2014 \u30c6\u30d5\u30a9\u30eb\u30c8 mapping \u7121\u885d\u7a81"
+    },
+    {
+      "label": "2. `keyboardUtils` \u2014 nextImage / previousImage \u306e\u671f\u5f85\u30ad\u30fc",
+      "file_type": "document",
+      "source_file": "docs/test-value-review-ambiguous.md",
+      "source_location": "L48",
+      "_origin": "ast",
+      "id": "docs_test_value_review_ambiguous_2_keyboardutils_nextimage_previousimage_\u306e\u671f\u5f85\u30ad\u30fc",
+      "community": 96,
+      "community_name": "Review Unit Tests",
+      "norm_label": "2. `keyboardutils` \u2014 nextimage / previousimage \u306e\u671f\u5f85\u30ad\u30fc"
+    },
+    {
+      "label": "3. `useControlsVisibility` \u2014 autoHide true\u2192false\uff08\u65e2\u5b58 timeout \u5b9f\u884c\uff09",
+      "file_type": "document",
+      "source_file": "docs/test-value-review-ambiguous.md",
+      "source_location": "L56",
+      "_origin": "ast",
+      "id": "docs_test_value_review_ambiguous_3_usecontrolsvisibility_autohide_true_false_\u65e2\u5b58_timeout_\u5b9f\u884c",
+      "community": 96,
+      "community_name": "Review Unit Tests",
+      "norm_label": "3. `usecontrolsvisibility` \u2014 autohide true\u2192false(\u65e2\u5b58 timeout \u5b9f\u884c)"
+    },
+    {
+      "label": "4. `useKeyboardHandler` \u2014 container is null",
+      "file_type": "document",
+      "source_file": "docs/test-value-review-ambiguous.md",
+      "source_location": "L63",
+      "_origin": "ast",
+      "id": "docs_test_value_review_ambiguous_4_usekeyboardhandler_container_is_null",
+      "community": 96,
+      "community_name": "Review Unit Tests",
+      "norm_label": "4. `usekeyboardhandler` \u2014 container is null"
+    },
+    {
+      "label": "5. `cn` \u2014 responsive / state variants",
+      "file_type": "document",
+      "source_file": "docs/test-value-review-ambiguous.md",
+      "source_location": "L70",
+      "_origin": "ast",
+      "id": "docs_test_value_review_ambiguous_5_cn_responsive_state_variants",
+      "community": 96,
+      "community_name": "Review Unit Tests",
+      "norm_label": "5. `cn` \u2014 responsive / state variants"
+    },
+    {
+      "label": "6. `isStringArray` \u2014 type guard narrowing",
+      "file_type": "document",
+      "source_file": "docs/test-value-review-ambiguous.md",
+      "source_location": "L78",
+      "_origin": "ast",
+      "id": "docs_test_value_review_ambiguous_6_isstringarray_type_guard_narrowing",
+      "community": 96,
+      "community_name": "Review Unit Tests",
+      "norm_label": "6. `isstringarray` \u2014 type guard narrowing"
+    },
+    {
+      "label": "7. `folderSort` \u2014 \u6570\u5024\u81ea\u7136\u9806\u30b9\u30e2\u30fc\u30af",
+      "file_type": "document",
+      "source_file": "docs/test-value-review-ambiguous.md",
+      "source_location": "L85",
+      "_origin": "ast",
+      "id": "docs_test_value_review_ambiguous_7_foldersort_\u6570\u5024\u81ea\u7136\u9806\u30b9\u30e2\u30fc\u30af",
+      "community": 96,
+      "community_name": "Review Unit Tests",
+      "norm_label": "7. `foldersort` \u2014 \u6570\u5024\u81ea\u7136\u9806\u30b9\u30e2\u30fc\u30af"
+    },
+    {
+      "label": "8. `useImages` \u2014 \u5b58\u5728\u3057\u306a\u3044\u30d5\u30a9\u30eb\u30c0 vs \u4f8b\u5916",
+      "file_type": "document",
+      "source_file": "docs/test-value-review-ambiguous.md",
+      "source_location": "L92",
+      "_origin": "ast",
+      "id": "docs_test_value_review_ambiguous_8_useimages_\u5b58\u5728\u3057\u306a\u3044\u30d5\u30a9\u30eb\u30c0_vs_\u4f8b\u5916",
+      "community": 96,
+      "community_name": "Review Unit Tests",
+      "norm_label": "8. `useimages` \u2014 \u5b58\u5728\u3057\u306a\u3044\u30d5\u30a9\u30eb\u30bf vs \u4f8b\u5916"
+    },
+    {
+      "label": "9. `tauriAdapters` \u2014 \u975estring\u2192null\uff08\u540c\u578b\u30ac\u30fc\u30c9\uff09",
+      "file_type": "document",
+      "source_file": "docs/test-value-review-ambiguous.md",
+      "source_location": "L100",
+      "_origin": "ast",
+      "id": "docs_test_value_review_ambiguous_9_tauriadapters_\u975estring_null_\u540c\u578b\u30ac\u30fc\u30c9",
+      "community": 96,
+      "community_name": "Review Unit Tests",
+      "norm_label": "9. `tauriadapters` \u2014 \u975estring\u2192null(\u540c\u578b\u30ab\u30fc\u30c8)"
+    },
+    {
+      "label": "10. `useSiblingFolders` \u2014 \u30cf\u30c3\u30d4\u30fc\u30d1\u30b9",
+      "file_type": "document",
+      "source_file": "docs/test-value-review-ambiguous.md",
+      "source_location": "L108",
+      "_origin": "ast",
+      "id": "docs_test_value_review_ambiguous_10_usesiblingfolders_\u30cf\u30c3\u30d4\u30fc\u30d1\u30b9",
+      "community": 96,
+      "community_name": "Review Unit Tests",
+      "norm_label": "10. `usesiblingfolders` \u2014 \u30cf\u30c3\u30d2\u30fc\u30cf\u30b9"
+    },
+    {
+      "label": "11. `FolderView` \u2014 \u30d5\u30a9\u30eb\u30c0\u540d\u8868\u793a",
+      "file_type": "document",
+      "source_file": "docs/test-value-review-ambiguous.md",
+      "source_location": "L115",
+      "_origin": "ast",
+      "id": "docs_test_value_review_ambiguous_11_folderview_\u30d5\u30a9\u30eb\u30c0\u540d\u8868\u793a",
+      "community": 96,
+      "community_name": "Review Unit Tests",
+      "norm_label": "11. `folderview` \u2014 \u30d5\u30a9\u30eb\u30bf\u540d\u8868\u793a"
+    },
+    {
+      "label": "12. `FolderList` \u2014 \u7a7a\u914d\u5217\u2192img \u306a\u3057",
+      "file_type": "document",
+      "source_file": "docs/test-value-review-ambiguous.md",
+      "source_location": "L122",
+      "_origin": "ast",
+      "id": "docs_test_value_review_ambiguous_12_folderlist_\u7a7a\u914d\u5217_img_\u306a\u3057",
+      "community": 96,
+      "community_name": "Review Unit Tests",
+      "norm_label": "12. `folderlist` \u2014 \u7a7a\u914d\u5217\u2192img \u306a\u3057"
+    },
+    {
+      "label": "13. `getSiblingFolders` \u2014 numeric natural sort",
+      "file_type": "document",
+      "source_file": "docs/test-value-review-ambiguous.md",
+      "source_location": "L129",
+      "_origin": "ast",
+      "id": "docs_test_value_review_ambiguous_13_getsiblingfolders_numeric_natural_sort",
+      "community": 96,
+      "community_name": "Review Unit Tests",
+      "norm_label": "13. `getsiblingfolders` \u2014 numeric natural sort"
+    },
+    {
+      "label": "14. `AppMenuBar` \u2014 menu structure hierarchy",
+      "file_type": "document",
+      "source_file": "docs/test-value-review-ambiguous.md",
+      "source_location": "L136",
+      "_origin": "ast",
+      "id": "docs_test_value_review_ambiguous_14_appmenubar_menu_structure_hierarchy",
+      "community": 96,
+      "community_name": "Review Unit Tests",
+      "norm_label": "14. `appmenubar` \u2014 menu structure hierarchy"
+    },
+    {
+      "label": "15. `applyResult` \u2014 startTransition + setAppState \u547c\u3073\u51fa\u3057",
+      "file_type": "document",
+      "source_file": "docs/test-value-review-ambiguous.md",
+      "source_location": "L143",
+      "_origin": "ast",
+      "id": "docs_test_value_review_ambiguous_15_applyresult_starttransition_setappstate_\u547c\u3073\u51fa\u3057",
+      "community": 96,
+      "community_name": "Review Unit Tests",
+      "norm_label": "15. `applyresult` \u2014 starttransition + setappstate \u547c\u3072\u51fa\u3057"
+    },
+    {
+      "label": "16. `applyResult` \u2014 theme \u6642\u306b setAppState \u3092\u547c\u3070\u306a\u3044",
+      "file_type": "document",
+      "source_file": "docs/test-value-review-ambiguous.md",
+      "source_location": "L150",
+      "_origin": "ast",
+      "id": "docs_test_value_review_ambiguous_16_applyresult_theme_\u6642\u306b_setappstate_\u3092\u547c\u3070\u306a\u3044",
+      "community": 96,
+      "community_name": "Review Unit Tests",
+      "norm_label": "16. `applyresult` \u2014 theme \u6642\u306b setappstate \u3092\u547c\u306f\u306a\u3044"
+    },
+    {
+      "label": "17. `ThemeSelector` \u4e00\u5f0f\uff083\u672c\uff09",
+      "file_type": "document",
+      "source_file": "docs/test-value-review-ambiguous.md",
+      "source_location": "L157",
+      "_origin": "ast",
+      "id": "docs_test_value_review_ambiguous_17_themeselector_\u4e00\u5f0f_3\u672c",
+      "community": 96,
+      "community_name": "Review Unit Tests",
+      "norm_label": "17. `themeselector` \u4e00\u5f0f(3\u672c)"
+    },
+    {
+      "label": "18. `ThemeToggle` \u2014 aria-labels",
+      "file_type": "document",
+      "source_file": "docs/test-value-review-ambiguous.md",
+      "source_location": "L167",
+      "_origin": "ast",
+      "id": "docs_test_value_review_ambiguous_18_themetoggle_aria_labels",
+      "community": 96,
+      "community_name": "Review Unit Tests",
+      "norm_label": "18. `themetoggle` \u2014 aria-labels"
+    },
+    {
+      "label": "19. theme-integration DOM vs theme-toggle UI",
+      "file_type": "document",
+      "source_file": "docs/test-value-review-ambiguous.md",
+      "source_location": "L174",
+      "_origin": "ast",
+      "id": "docs_test_value_review_ambiguous_19_theme_integration_dom_vs_theme_toggle_ui",
+      "community": 96,
+      "community_name": "Review Unit Tests",
+      "norm_label": "19. theme-integration dom vs theme-toggle ui"
+    },
+    {
+      "label": "20. `App` \u2014 folder selection vs path consistency",
+      "file_type": "document",
+      "source_file": "docs/test-value-review-ambiguous.md",
+      "source_location": "L182",
+      "_origin": "ast",
+      "id": "docs_test_value_review_ambiguous_20_app_folder_selection_vs_path_consistency",
+      "community": 96,
+      "community_name": "Review Unit Tests",
+      "norm_label": "20. `app` \u2014 folder selection vs path consistency"
+    },
+    {
+      "label": "21. `App` \u2014 Error Handling 2\u672c",
+      "file_type": "document",
+      "source_file": "docs/test-value-review-ambiguous.md",
+      "source_location": "L190",
+      "_origin": "ast",
+      "id": "docs_test_value_review_ambiguous_21_app_error_handling_2\u672c",
+      "community": 96,
+      "community_name": "Review Unit Tests",
+      "norm_label": "21. `app` \u2014 error handling 2\u672c"
+    },
+    {
+      "label": "\u5224\u65ad\u30e1\u30e2\u6b04",
+      "file_type": "document",
+      "source_file": "docs/test-value-review-ambiguous.md",
+      "source_location": "L200",
+      "_origin": "ast",
+      "id": "docs_test_value_review_ambiguous_\u5224\u65ad\u30e1\u30e2\u6b04",
+      "community": 96,
+      "community_name": "Review Unit Tests",
+      "norm_label": "\u5224\u65ad\u30e1\u30e2\u6b04"
     },
     {
       "label": "AGENTS.md \u2014 Agent Instructions",
@@ -16954,7 +17361,7 @@
       "relation": "defines",
       "confidence": "EXTRACTED",
       "source_file": ".husky/post-checkout",
-      "source_location": "L133",
+      "source_location": "L137",
       "weight": 1.0,
       "_origin": "ast",
       "source": "husky_post_checkout",
@@ -16987,7 +17394,7 @@
       "relation": "defines",
       "confidence": "EXTRACTED",
       "source_file": ".husky/post-commit",
-      "source_location": "L127",
+      "source_location": "L131",
       "weight": 1.0,
       "_origin": "ast",
       "source": "husky_post_commit",
@@ -16998,7 +17405,7 @@
       "relation": "defines",
       "confidence": "EXTRACTED",
       "source_file": ".husky/post-commit",
-      "source_location": "L135",
+      "source_location": "L139",
       "weight": 1.0,
       "_origin": "ast",
       "source": "husky_post_commit",
@@ -29122,18 +29529,6 @@
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
-      "source_file": "src/features/app-shell/actions/__tests__/actionRegistry.test.ts",
-      "source_location": "L2",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_features_app_shell_actions_tests_actionregistry_test",
-      "target": "src_features_app_shell_tests_helpers",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
       "source_file": "src/features/app-shell/hooks/__tests__/useAppActions.test.ts",
       "source_location": "L3",
       "weight": 1.0,
@@ -29228,18 +29623,6 @@
       "relation": "imports",
       "context": "import",
       "confidence": "EXTRACTED",
-      "source_file": "src/features/app-shell/actions/__tests__/actionRegistry.test.ts",
-      "source_location": "L2",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_features_app_shell_actions_tests_actionregistry_test",
-      "target": "src_features_app_shell_tests_helpers_createmockdeps",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
       "source_file": "src/features/app-shell/hooks/__tests__/useAppActions.test.ts",
       "source_location": "L3",
       "weight": 1.0,
@@ -29270,30 +29653,6 @@
       "_origin": "ast",
       "source": "src_features_app_shell_hooks_tests_useappactions_test",
       "target": "src_features_app_shell_tests_helpers_createmockapplier",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/features/app-shell/actions/__tests__/actionRegistry.test.ts",
-      "source_location": "L3",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_features_app_shell_actions_tests_actionregistry_test",
-      "target": "src_features_app_shell_actions_actionregistry",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/features/app-shell/actions/__tests__/actionRegistry.test.ts",
-      "source_location": "L3",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_features_app_shell_actions_tests_actionregistry_test",
-      "target": "src_features_app_shell_actions_actionregistry_createactionregistry",
       "confidence_score": 1.0
     },
     {
@@ -29816,7 +30175,7 @@
       "context": "export",
       "confidence": "EXTRACTED",
       "source_file": "src/features/app-shell/index.ts",
-      "source_location": "L12",
+      "source_location": "L4",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_features_app_shell_index",
@@ -30166,7 +30525,7 @@
       "context": "re-export",
       "confidence": "EXTRACTED",
       "source_file": "src/features/app-shell/index.ts",
-      "source_location": "L12",
+      "source_location": "L4",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_features_app_shell_index",
@@ -30178,7 +30537,7 @@
       "context": "re-export",
       "confidence": "EXTRACTED",
       "source_file": "src/features/app-shell/index.ts",
-      "source_location": "L12",
+      "source_location": "L4",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_features_app_shell_index",
@@ -30202,7 +30561,7 @@
       "context": "re-export",
       "confidence": "EXTRACTED",
       "source_file": "src/features/app-shell/index.ts",
-      "source_location": "L12",
+      "source_location": "L4",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_features_app_shell_index",
@@ -30214,7 +30573,7 @@
       "context": "re-export",
       "confidence": "EXTRACTED",
       "source_file": "src/features/app-shell/index.ts",
-      "source_location": "L12",
+      "source_location": "L4",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_features_app_shell_index",
@@ -30226,7 +30585,7 @@
       "context": "re-export",
       "confidence": "EXTRACTED",
       "source_file": "src/features/app-shell/index.ts",
-      "source_location": "L12",
+      "source_location": "L4",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_features_app_shell_index",
@@ -30286,7 +30645,7 @@
       "context": "re-export",
       "confidence": "EXTRACTED",
       "source_file": "src/features/app-shell/index.ts",
-      "source_location": "L12",
+      "source_location": "L4",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_features_app_shell_index",
@@ -30334,7 +30693,7 @@
       "context": "re-export",
       "confidence": "EXTRACTED",
       "source_file": "src/features/app-shell/index.ts",
-      "source_location": "L12",
+      "source_location": "L4",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_features_app_shell_index",
@@ -30579,7 +30938,7 @@
       "context": "export",
       "confidence": "EXTRACTED",
       "source_file": "src/features/app-shell/index.ts",
-      "source_location": "L21",
+      "source_location": "L13",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_features_app_shell_index",
@@ -30627,7 +30986,7 @@
       "context": "re-export",
       "confidence": "EXTRACTED",
       "source_file": "src/features/app-shell/index.ts",
-      "source_location": "L21",
+      "source_location": "L13",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_features_app_shell_index",
@@ -30651,7 +31010,7 @@
       "context": "re-export",
       "confidence": "EXTRACTED",
       "source_file": "src/features/app-shell/index.ts",
-      "source_location": "L21",
+      "source_location": "L13",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_features_app_shell_index",
@@ -30663,7 +31022,7 @@
       "context": "re-export",
       "confidence": "EXTRACTED",
       "source_file": "src/features/app-shell/index.ts",
-      "source_location": "L21",
+      "source_location": "L13",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_features_app_shell_index",
@@ -30699,7 +31058,7 @@
       "context": "re-export",
       "confidence": "EXTRACTED",
       "source_file": "src/features/app-shell/index.ts",
-      "source_location": "L27",
+      "source_location": "L19",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_features_app_shell_index",
@@ -30782,7 +31141,7 @@
       "context": "export",
       "confidence": "EXTRACTED",
       "source_file": "src/features/app-shell/index.ts",
-      "source_location": "L28",
+      "source_location": "L20",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_features_app_shell_index",
@@ -30794,7 +31153,7 @@
       "context": "re-export",
       "confidence": "EXTRACTED",
       "source_file": "src/features/app-shell/index.ts",
-      "source_location": "L28",
+      "source_location": "L20",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_features_app_shell_index",
@@ -30805,7 +31164,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/features/app-shell/components/KeyboardShortcutHelp.tsx",
-      "source_location": "L20",
+      "source_location": "L18",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_features_app_shell_components_keyboardshortcuthelp",
@@ -30816,7 +31175,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/features/app-shell/components/KeyboardShortcutHelp.tsx",
-      "source_location": "L13",
+      "source_location": "L11",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_features_app_shell_components_keyboardshortcuthelp",
@@ -30832,7 +31191,7 @@
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_features_app_shell_components_keyboardshortcuthelp",
-      "target": "src_features_image_viewer_keyboard_keyboardutils",
+      "target": "src_features_image_viewer_index",
       "confidence_score": 1.0
     },
     {
@@ -30860,23 +31219,11 @@
       "confidence_score": 1.0
     },
     {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/features/app-shell/components/KeyboardShortcutHelp.tsx",
-      "source_location": "L8",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_features_app_shell_components_keyboardshortcuthelp",
-      "target": "src_features_image_viewer_types_viewertypes",
-      "confidence_score": 1.0
-    },
-    {
       "relation": "imports",
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/features/app-shell/components/KeyboardShortcutHelp.tsx",
-      "source_location": "L8",
+      "source_location": "L4",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_features_app_shell_components_keyboardshortcuthelp",
@@ -30888,7 +31235,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/features/app-shell/components/KeyboardShortcutHelp.tsx",
-      "source_location": "L8",
+      "source_location": "L4",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_features_app_shell_components_keyboardshortcuthelp",
@@ -30900,7 +31247,7 @@
       "context": "export",
       "confidence": "EXTRACTED",
       "source_file": "src/features/app-shell/index.ts",
-      "source_location": "L29",
+      "source_location": "L21",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_features_app_shell_index",
@@ -30912,7 +31259,7 @@
       "context": "field",
       "confidence": "EXTRACTED",
       "source_file": "src/features/app-shell/components/KeyboardShortcutHelp.tsx",
-      "source_location": "L14",
+      "source_location": "L12",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_features_app_shell_components_keyboardshortcuthelp_keyboardshortcuthelpprops",
@@ -30925,7 +31272,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/features/app-shell/components/KeyboardShortcutHelp.tsx",
-      "source_location": "L108",
+      "source_location": "L106",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_features_app_shell_components_keyboardshortcuthelp_keyboardshortcuthelp",
@@ -30937,7 +31284,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/features/app-shell/components/KeyboardShortcutHelp.tsx",
-      "source_location": "L30",
+      "source_location": "L28",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_features_app_shell_components_keyboardshortcuthelp_keyboardshortcuthelp",
@@ -30948,7 +31295,7 @@
       "context": "re-export",
       "confidence": "EXTRACTED",
       "source_file": "src/features/app-shell/index.ts",
-      "source_location": "L29",
+      "source_location": "L21",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_features_app_shell_index",
@@ -31019,7 +31366,7 @@
       "context": "export",
       "confidence": "EXTRACTED",
       "source_file": "src/features/app-shell/index.ts",
-      "source_location": "L30",
+      "source_location": "L22",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_features_app_shell_index",
@@ -31031,7 +31378,7 @@
       "context": "re-export",
       "confidence": "EXTRACTED",
       "source_file": "src/features/app-shell/index.ts",
-      "source_location": "L30",
+      "source_location": "L22",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_features_app_shell_index",
@@ -31078,7 +31425,7 @@
       "context": "export",
       "confidence": "EXTRACTED",
       "source_file": "src/features/app-shell/index.ts",
-      "source_location": "L31",
+      "source_location": "L23",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_features_app_shell_index",
@@ -31090,7 +31437,7 @@
       "context": "re-export",
       "confidence": "EXTRACTED",
       "source_file": "src/features/app-shell/index.ts",
-      "source_location": "L31",
+      "source_location": "L23",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_features_app_shell_index",
@@ -31207,7 +31554,7 @@
       "context": "export",
       "confidence": "EXTRACTED",
       "source_file": "src/features/app-shell/index.ts",
-      "source_location": "L33",
+      "source_location": "L25",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_features_app_shell_index",
@@ -31231,7 +31578,7 @@
       "context": "re-export",
       "confidence": "EXTRACTED",
       "source_file": "src/features/app-shell/index.ts",
-      "source_location": "L33",
+      "source_location": "L25",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_features_app_shell_index",
@@ -31243,7 +31590,7 @@
       "context": "export",
       "confidence": "EXTRACTED",
       "source_file": "src/features/app-shell/index.ts",
-      "source_location": "L36",
+      "source_location": "L28",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_features_app_shell_index",
@@ -31255,7 +31602,7 @@
       "context": "re-export",
       "confidence": "EXTRACTED",
       "source_file": "src/features/app-shell/index.ts",
-      "source_location": "L36",
+      "source_location": "L28",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_features_app_shell_index",
@@ -31267,7 +31614,7 @@
       "context": "re-export",
       "confidence": "EXTRACTED",
       "source_file": "src/features/app-shell/index.ts",
-      "source_location": "L36",
+      "source_location": "L28",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_features_app_shell_index",
@@ -31279,7 +31626,7 @@
       "context": "re-export",
       "confidence": "EXTRACTED",
       "source_file": "src/features/app-shell/index.ts",
-      "source_location": "L36",
+      "source_location": "L28",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_features_app_shell_index",
@@ -31291,83 +31638,11 @@
       "context": "re-export",
       "confidence": "EXTRACTED",
       "source_file": "src/features/app-shell/index.ts",
-      "source_location": "L36",
+      "source_location": "L28",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_features_app_shell_index",
       "target": "src_features_app_shell_types_menutypes_menuitemprops",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "re_exports",
-      "context": "export",
-      "confidence": "EXTRACTED",
-      "source_file": "src/features/app-shell/index.ts",
-      "source_location": "L4",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_features_app_shell_index",
-      "target": "src_features_image_viewer_keyboard_keyboardutils",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "re_exports",
-      "context": "re-export",
-      "confidence": "EXTRACTED",
-      "source_file": "src/features/app-shell/index.ts",
-      "source_location": "L4",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_features_app_shell_index",
-      "target": "src_features_image_viewer_keyboard_keyboardutils_createcustomkeyboardmapping",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "re_exports",
-      "context": "re-export",
-      "confidence": "EXTRACTED",
-      "source_file": "src/features/app-shell/index.ts",
-      "source_location": "L4",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_features_app_shell_index",
-      "target": "src_features_image_viewer_keyboard_keyboardutils_createdefaultkeyboardmapping",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "re_exports",
-      "context": "re-export",
-      "confidence": "EXTRACTED",
-      "source_file": "src/features/app-shell/index.ts",
-      "source_location": "L4",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_features_app_shell_index",
-      "target": "src_features_image_viewer_keyboard_keyboardutils_findshortcutconflicts",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "re_exports",
-      "context": "re-export",
-      "confidence": "EXTRACTED",
-      "source_file": "src/features/app-shell/index.ts",
-      "source_location": "L4",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_features_app_shell_index",
-      "target": "src_features_image_viewer_keyboard_keyboardutils_getshortcutdescription",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "re_exports",
-      "context": "re-export",
-      "confidence": "EXTRACTED",
-      "source_file": "src/features/app-shell/index.ts",
-      "source_location": "L4",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_features_app_shell_index",
-      "target": "src_features_image_viewer_keyboard_keyboardutils_getshortcutlist",
       "confidence_score": 1.0
     },
     {
@@ -35292,7 +35567,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/features/image-viewer/components/__tests__/ImageViewer.test.tsx",
-      "source_location": "L12",
+      "source_location": "L11",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_features_image_viewer_components_tests_imageviewer_test",
@@ -35399,7 +35674,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/features/image-viewer/components/__tests__/ImageViewer.test.tsx",
-      "source_location": "L12",
+      "source_location": "L11",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_features_image_viewer_components_tests_imageviewer_test",
@@ -35407,23 +35682,11 @@
       "confidence_score": 1.0
     },
     {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/features/image-viewer/components/__tests__/ImageViewer.test.tsx",
-      "source_location": "L4",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_features_image_viewer_components_tests_imageviewer_test",
-      "target": "src_features_image_viewer_types_imagecontainer_imagecontainer",
-      "confidence_score": 1.0
-    },
-    {
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/features/image-viewer/components/__tests__/ImageViewer.test.tsx",
-      "source_location": "L5",
+      "source_location": "L4",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_features_image_viewer_components_tests_imageviewer_test",
@@ -35435,7 +35698,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/features/image-viewer/components/__tests__/ImageViewer.test.tsx",
-      "source_location": "L5",
+      "source_location": "L4",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_features_image_viewer_components_tests_imageviewer_test",
@@ -35447,7 +35710,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/features/image-viewer/components/__tests__/ImageViewer.test.tsx",
-      "source_location": "L6",
+      "source_location": "L5",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_features_image_viewer_components_tests_imageviewer_test",
@@ -35459,7 +35722,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/features/image-viewer/components/__tests__/ImageViewer.test.tsx",
-      "source_location": "L6",
+      "source_location": "L5",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_features_image_viewer_components_tests_imageviewer_test",
@@ -35471,7 +35734,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/features/image-viewer/components/__tests__/ImageViewer.test.tsx",
-      "source_location": "L7",
+      "source_location": "L6",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_features_image_viewer_components_tests_imageviewer_test",
@@ -35483,7 +35746,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/features/image-viewer/components/__tests__/ImageViewer.test.tsx",
-      "source_location": "L7",
+      "source_location": "L6",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_features_image_viewer_components_tests_imageviewer_test",
@@ -35495,7 +35758,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/features/image-viewer/components/__tests__/ImageViewer.test.tsx",
-      "source_location": "L7",
+      "source_location": "L6",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_features_image_viewer_components_tests_imageviewer_test",
@@ -35507,7 +35770,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/features/image-viewer/components/__tests__/ImageViewer.test.tsx",
-      "source_location": "L7",
+      "source_location": "L6",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_features_image_viewer_components_tests_imageviewer_test",
@@ -35733,7 +35996,79 @@
       "context": "export",
       "confidence": "EXTRACTED",
       "source_file": "src/features/image-viewer/index.ts",
-      "source_location": "L13",
+      "source_location": "L14",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "src_features_image_viewer_index",
+      "target": "src_features_image_viewer_keyboard_keyboardutils",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "re_exports",
+      "context": "re-export",
+      "confidence": "EXTRACTED",
+      "source_file": "src/features/image-viewer/index.ts",
+      "source_location": "L14",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "src_features_image_viewer_index",
+      "target": "src_features_image_viewer_keyboard_keyboardutils_createcustomkeyboardmapping",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "re_exports",
+      "context": "re-export",
+      "confidence": "EXTRACTED",
+      "source_file": "src/features/image-viewer/index.ts",
+      "source_location": "L14",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "src_features_image_viewer_index",
+      "target": "src_features_image_viewer_keyboard_keyboardutils_createdefaultkeyboardmapping",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "re_exports",
+      "context": "re-export",
+      "confidence": "EXTRACTED",
+      "source_file": "src/features/image-viewer/index.ts",
+      "source_location": "L14",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "src_features_image_viewer_index",
+      "target": "src_features_image_viewer_keyboard_keyboardutils_findshortcutconflicts",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "re_exports",
+      "context": "re-export",
+      "confidence": "EXTRACTED",
+      "source_file": "src/features/image-viewer/index.ts",
+      "source_location": "L14",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "src_features_image_viewer_index",
+      "target": "src_features_image_viewer_keyboard_keyboardutils_getshortcutdescription",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "re_exports",
+      "context": "re-export",
+      "confidence": "EXTRACTED",
+      "source_file": "src/features/image-viewer/index.ts",
+      "source_location": "L14",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "src_features_image_viewer_index",
+      "target": "src_features_image_viewer_keyboard_keyboardutils_getshortcutlist",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "re_exports",
+      "context": "export",
+      "confidence": "EXTRACTED",
+      "source_file": "src/features/image-viewer/index.ts",
+      "source_location": "L21",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_features_image_viewer_index",
@@ -35745,7 +36080,7 @@
       "context": "re-export",
       "confidence": "EXTRACTED",
       "source_file": "src/features/image-viewer/index.ts",
-      "source_location": "L13",
+      "source_location": "L21",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_features_image_viewer_index",
@@ -35757,7 +36092,7 @@
       "context": "export",
       "confidence": "EXTRACTED",
       "source_file": "src/features/image-viewer/index.ts",
-      "source_location": "L15",
+      "source_location": "L23",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_features_image_viewer_index",
@@ -35769,7 +36104,7 @@
       "context": "re-export",
       "confidence": "EXTRACTED",
       "source_file": "src/features/image-viewer/index.ts",
-      "source_location": "L15",
+      "source_location": "L23",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_features_image_viewer_index",
@@ -35781,7 +36116,7 @@
       "context": "re-export",
       "confidence": "EXTRACTED",
       "source_file": "src/features/image-viewer/index.ts",
-      "source_location": "L15",
+      "source_location": "L23",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_features_image_viewer_index",
@@ -35793,7 +36128,7 @@
       "context": "export",
       "confidence": "EXTRACTED",
       "source_file": "src/features/image-viewer/index.ts",
-      "source_location": "L16",
+      "source_location": "L24",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_features_image_viewer_index",
@@ -35805,7 +36140,7 @@
       "context": "re-export",
       "confidence": "EXTRACTED",
       "source_file": "src/features/image-viewer/index.ts",
-      "source_location": "L16",
+      "source_location": "L24",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_features_image_viewer_index",
@@ -35817,7 +36152,7 @@
       "context": "re-export",
       "confidence": "EXTRACTED",
       "source_file": "src/features/image-viewer/index.ts",
-      "source_location": "L16",
+      "source_location": "L24",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_features_image_viewer_index",
@@ -35829,7 +36164,7 @@
       "context": "re-export",
       "confidence": "EXTRACTED",
       "source_file": "src/features/image-viewer/index.ts",
-      "source_location": "L16",
+      "source_location": "L24",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_features_image_viewer_index",
@@ -35841,7 +36176,7 @@
       "context": "re-export",
       "confidence": "EXTRACTED",
       "source_file": "src/features/image-viewer/index.ts",
-      "source_location": "L16",
+      "source_location": "L24",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_features_image_viewer_index",
@@ -35853,7 +36188,7 @@
       "context": "re-export",
       "confidence": "EXTRACTED",
       "source_file": "src/features/image-viewer/index.ts",
-      "source_location": "L16",
+      "source_location": "L24",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_features_image_viewer_index",
@@ -35865,7 +36200,7 @@
       "context": "re-export",
       "confidence": "EXTRACTED",
       "source_file": "src/features/image-viewer/index.ts",
-      "source_location": "L16",
+      "source_location": "L24",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_features_image_viewer_index",
@@ -35877,7 +36212,7 @@
       "context": "re-export",
       "confidence": "EXTRACTED",
       "source_file": "src/features/image-viewer/index.ts",
-      "source_location": "L16",
+      "source_location": "L24",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_features_image_viewer_index",
@@ -36085,18 +36420,6 @@
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_features_image_viewer_keyboard_tests_keyboardutils_test",
-      "target": "src_features_image_viewer_keyboard_keyboardutils_findshortcutconflicts",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/features/image-viewer/keyboard/__tests__/keyboardUtils.test.ts",
-      "source_location": "L3",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_features_image_viewer_keyboard_tests_keyboardutils_test",
       "target": "src_features_image_viewer_keyboard_keyboardutils_getshortcutdescription",
       "confidence_score": 1.0
     },
@@ -36122,18 +36445,6 @@
       "_origin": "ast",
       "source": "src_features_image_viewer_keyboard_tests_keyboardutils_test",
       "target": "src_features_image_viewer_types_viewertypes",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/features/image-viewer/keyboard/__tests__/keyboardUtils.test.ts",
-      "source_location": "L2",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_features_image_viewer_keyboard_tests_keyboardutils_test",
-      "target": "src_features_image_viewer_types_viewertypes_actiontype",
       "confidence_score": 1.0
     },
     {
@@ -39461,6 +39772,138 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
+      "source_file": ".agents/skills/review-unit-tests/SKILL.md",
+      "source_location": "L13",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "agents_skills_review_unit_tests_skill",
+      "target": "agents_skills_review_unit_tests_skill_review_unit_tests",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/test-value-review-ambiguous.md",
+      "source_location": "L5",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_test_value_review_ambiguous",
+      "target": "agents_skills_review_unit_tests_skill",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".agents/skills/review-unit-tests/SKILL.md",
+      "source_location": "L30",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "agents_skills_review_unit_tests_skill_review_unit_tests",
+      "target": "agents_skills_review_unit_tests_skill_\u4f4e\u4fa1\u5024\u306e\u5178\u578b\u30d1\u30bf\u30fc\u30f3_\u524a\u9664\u5019\u88dc",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".agents/skills/review-unit-tests/SKILL.md",
+      "source_location": "L129",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "agents_skills_review_unit_tests_skill_review_unit_tests",
+      "target": "agents_skills_review_unit_tests_skill_\u518d\u5229\u7528\u306e\u8a00\u3044\u65b9",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".agents/skills/review-unit-tests/SKILL.md",
+      "source_location": "L114",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "agents_skills_review_unit_tests_skill_review_unit_tests",
+      "target": "agents_skills_review_unit_tests_skill_\u5831\u544a\u30d5\u30a9\u30fc\u30de\u30c3\u30c8_pass_1",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".agents/skills/review-unit-tests/SKILL.md",
+      "source_location": "L50",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "agents_skills_review_unit_tests_skill_review_unit_tests",
+      "target": "agents_skills_review_unit_tests_skill_\u5927\u898f\u6a21\u6642\u306e\u30aa\u30fc\u30b1\u30b9\u30c8\u30ec\u30fc\u30b7\u30e7\u30f3",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".agents/skills/review-unit-tests/SKILL.md",
+      "source_location": "L39",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "agents_skills_review_unit_tests_skill_review_unit_tests",
+      "target": "agents_skills_review_unit_tests_skill_\u624b\u9806_\u5358\u30d5\u30a1\u30a4\u30eb_\u5c0f\u898f\u6a21",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".agents/skills/review-unit-tests/SKILL.md",
+      "source_location": "L19",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "agents_skills_review_unit_tests_skill_review_unit_tests",
+      "target": "agents_skills_review_unit_tests_skill_\u8a55\u4fa1\u306e4\u672c\u67f1_khorikov",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".agents/skills/review-unit-tests/SKILL.md",
+      "source_location": "L58",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "agents_skills_review_unit_tests_skill_\u5927\u898f\u6a21\u6642\u306e\u30aa\u30fc\u30b1\u30b9\u30c8\u30ec\u30fc\u30b7\u30e7\u30f3",
+      "target": "agents_skills_review_unit_tests_skill_pass_1_\u6a5f\u80fd\u5225\u4e26\u5217\u30ec\u30d3\u30e5\u30fc_\u524a\u9664",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".agents/skills/review-unit-tests/SKILL.md",
+      "source_location": "L76",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "agents_skills_review_unit_tests_skill_\u5927\u898f\u6a21\u6642\u306e\u30aa\u30fc\u30b1\u30b9\u30c8\u30ec\u30fc\u30b7\u30e7\u30f3",
+      "target": "agents_skills_review_unit_tests_skill_pass_2_\u524a\u9664\u306e\u7b2c\u4e8c\u610f\u898b\u30eb\u30fc\u30d7",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".agents/skills/review-unit-tests/SKILL.md",
+      "source_location": "L102",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "agents_skills_review_unit_tests_skill_\u5927\u898f\u6a21\u6642\u306e\u30aa\u30fc\u30b1\u30b9\u30c8\u30ec\u30fc\u30b7\u30e7\u30f3",
+      "target": "agents_skills_review_unit_tests_skill_\u66d6\u6627\u30ea\u30b9\u30c8\u3068\u5224\u65ad\u5f85\u3061",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".agents/skills/review-unit-tests/SKILL.md",
+      "source_location": "L65",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "agents_skills_review_unit_tests_skill_\u5927\u898f\u6a21\u6642\u306e\u30aa\u30fc\u30b1\u30b9\u30c8\u30ec\u30fc\u30b7\u30e7\u30f3",
+      "target": "agents_skills_review_unit_tests_skill_\u89aa\u306e\u6a2a\u65ad\u91cd\u8907\u30d1\u30b9",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
       "source_file": "docs/specs/001-replace-theme-provider/checklists/requirements.md",
       "source_location": "L1",
       "weight": 1.0,
@@ -40908,6 +41351,281 @@
       "_origin": "ast",
       "source": "docs_specs_002_react_security_patch_quickstart_troubleshooting",
       "target": "docs_specs_002_react_security_patch_quickstart_\u578b\u30a8\u30e9\u30fc\u304c\u767a\u751f\u3057\u305f\u5834\u5408",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/test-value-review-ambiguous.md",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_test_value_review_ambiguous",
+      "target": "docs_test_value_review_ambiguous_\u5358\u4f53\u30c6\u30b9\u30c8\u4fa1\u5024\u30ec\u30d3\u30e5\u30fc_\u66d6\u6627\u30ea\u30b9\u30c8_\u5224\u65ad\u6c42\u3080",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/test-value-review-ambiguous.md",
+      "source_location": "L11",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_test_value_review_ambiguous_\u5358\u4f53\u30c6\u30b9\u30c8\u4fa1\u5024\u30ec\u30d3\u30e5\u30fc_\u66d6\u6627\u30ea\u30b9\u30c8_\u5224\u65ad\u6c42\u3080",
+      "target": "docs_test_value_review_ambiguous_\u4e00\u89a7",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/test-value-review-ambiguous.md",
+      "source_location": "L200",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_test_value_review_ambiguous_\u5358\u4f53\u30c6\u30b9\u30c8\u4fa1\u5024\u30ec\u30d3\u30e5\u30fc_\u66d6\u6627\u30ea\u30b9\u30c8_\u5224\u65ad\u6c42\u3080",
+      "target": "docs_test_value_review_ambiguous_\u5224\u65ad\u30e1\u30e2\u6b04",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/test-value-review-ambiguous.md",
+      "source_location": "L39",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_test_value_review_ambiguous_\u5358\u4f53\u30c6\u30b9\u30c8\u4fa1\u5024\u30ec\u30d3\u30e5\u30fc_\u66d6\u6627\u30ea\u30b9\u30c8_\u5224\u65ad\u6c42\u3080",
+      "target": "docs_test_value_review_ambiguous_\u8a73\u7d30",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/test-value-review-ambiguous.md",
+      "source_location": "L108",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_test_value_review_ambiguous_\u8a73\u7d30",
+      "target": "docs_test_value_review_ambiguous_10_usesiblingfolders_\u30cf\u30c3\u30d4\u30fc\u30d1\u30b9",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/test-value-review-ambiguous.md",
+      "source_location": "L115",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_test_value_review_ambiguous_\u8a73\u7d30",
+      "target": "docs_test_value_review_ambiguous_11_folderview_\u30d5\u30a9\u30eb\u30c0\u540d\u8868\u793a",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/test-value-review-ambiguous.md",
+      "source_location": "L122",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_test_value_review_ambiguous_\u8a73\u7d30",
+      "target": "docs_test_value_review_ambiguous_12_folderlist_\u7a7a\u914d\u5217_img_\u306a\u3057",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/test-value-review-ambiguous.md",
+      "source_location": "L129",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_test_value_review_ambiguous_\u8a73\u7d30",
+      "target": "docs_test_value_review_ambiguous_13_getsiblingfolders_numeric_natural_sort",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/test-value-review-ambiguous.md",
+      "source_location": "L136",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_test_value_review_ambiguous_\u8a73\u7d30",
+      "target": "docs_test_value_review_ambiguous_14_appmenubar_menu_structure_hierarchy",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/test-value-review-ambiguous.md",
+      "source_location": "L143",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_test_value_review_ambiguous_\u8a73\u7d30",
+      "target": "docs_test_value_review_ambiguous_15_applyresult_starttransition_setappstate_\u547c\u3073\u51fa\u3057",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/test-value-review-ambiguous.md",
+      "source_location": "L150",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_test_value_review_ambiguous_\u8a73\u7d30",
+      "target": "docs_test_value_review_ambiguous_16_applyresult_theme_\u6642\u306b_setappstate_\u3092\u547c\u3070\u306a\u3044",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/test-value-review-ambiguous.md",
+      "source_location": "L157",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_test_value_review_ambiguous_\u8a73\u7d30",
+      "target": "docs_test_value_review_ambiguous_17_themeselector_\u4e00\u5f0f_3\u672c",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/test-value-review-ambiguous.md",
+      "source_location": "L167",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_test_value_review_ambiguous_\u8a73\u7d30",
+      "target": "docs_test_value_review_ambiguous_18_themetoggle_aria_labels",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/test-value-review-ambiguous.md",
+      "source_location": "L174",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_test_value_review_ambiguous_\u8a73\u7d30",
+      "target": "docs_test_value_review_ambiguous_19_theme_integration_dom_vs_theme_toggle_ui",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/test-value-review-ambiguous.md",
+      "source_location": "L41",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_test_value_review_ambiguous_\u8a73\u7d30",
+      "target": "docs_test_value_review_ambiguous_1_keyboardconflicts_\u30c7\u30d5\u30a9\u30eb\u30c8_mapping_\u7121\u885d\u7a81",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/test-value-review-ambiguous.md",
+      "source_location": "L182",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_test_value_review_ambiguous_\u8a73\u7d30",
+      "target": "docs_test_value_review_ambiguous_20_app_folder_selection_vs_path_consistency",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/test-value-review-ambiguous.md",
+      "source_location": "L190",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_test_value_review_ambiguous_\u8a73\u7d30",
+      "target": "docs_test_value_review_ambiguous_21_app_error_handling_2\u672c",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/test-value-review-ambiguous.md",
+      "source_location": "L48",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_test_value_review_ambiguous_\u8a73\u7d30",
+      "target": "docs_test_value_review_ambiguous_2_keyboardutils_nextimage_previousimage_\u306e\u671f\u5f85\u30ad\u30fc",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/test-value-review-ambiguous.md",
+      "source_location": "L56",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_test_value_review_ambiguous_\u8a73\u7d30",
+      "target": "docs_test_value_review_ambiguous_3_usecontrolsvisibility_autohide_true_false_\u65e2\u5b58_timeout_\u5b9f\u884c",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/test-value-review-ambiguous.md",
+      "source_location": "L63",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_test_value_review_ambiguous_\u8a73\u7d30",
+      "target": "docs_test_value_review_ambiguous_4_usekeyboardhandler_container_is_null",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/test-value-review-ambiguous.md",
+      "source_location": "L70",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_test_value_review_ambiguous_\u8a73\u7d30",
+      "target": "docs_test_value_review_ambiguous_5_cn_responsive_state_variants",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/test-value-review-ambiguous.md",
+      "source_location": "L78",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_test_value_review_ambiguous_\u8a73\u7d30",
+      "target": "docs_test_value_review_ambiguous_6_isstringarray_type_guard_narrowing",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/test-value-review-ambiguous.md",
+      "source_location": "L85",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_test_value_review_ambiguous_\u8a73\u7d30",
+      "target": "docs_test_value_review_ambiguous_7_foldersort_\u6570\u5024\u81ea\u7136\u9806\u30b9\u30e2\u30fc\u30af",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/test-value-review-ambiguous.md",
+      "source_location": "L92",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_test_value_review_ambiguous_\u8a73\u7d30",
+      "target": "docs_test_value_review_ambiguous_8_useimages_\u5b58\u5728\u3057\u306a\u3044\u30d5\u30a9\u30eb\u30c0_vs_\u4f8b\u5916",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/test-value-review-ambiguous.md",
+      "source_location": "L100",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_test_value_review_ambiguous_\u8a73\u7d30",
+      "target": "docs_test_value_review_ambiguous_9_tauriadapters_\u975estring_null_\u540c\u578b\u30ac\u30fc\u30c9",
       "confidence_score": 1.0
     },
     {
@@ -44272,5 +44990,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "5750785f01600ffca0235a661ee84de62ca9c1ea"
+  "built_at_commit": "e6a3fae70e4e652ea24f4e36cc0ca89c8e01a6ae"
 }

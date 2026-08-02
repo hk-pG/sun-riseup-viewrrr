@@ -1,16 +1,16 @@
-# Graph Report - sun-riseup-viewrrr  (2026-07-28)
+# Graph Report - sun-riseup-viewrrr  (2026-08-02)
 
 ## Corpus Check
-- 230 files · ~175,322 words
+- 231 files · ~171,755 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 1430 nodes · 2402 edges · 92 communities (71 shown, 21 thin omitted)
+- 1467 nodes · 2431 edges · 94 communities (73 shown, 21 thin omitted)
 - Extraction: 94% EXTRACTED · 6% INFERRED · 0% AMBIGUOUS · INFERRED: 134 edges (avg confidence: 0.84)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `5750785f`
+- Built from commit: `e6a3fae7`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -41,7 +41,6 @@
 - FileSystemService
 - Windows Store Square Logos
 - Keyboard Shortcut Handling
-- App.tsx
 - shadcn Components Config
 - Archive Listing Logic
 - Filesystem Service Rust
@@ -56,7 +55,6 @@
 - Dev Strict TS Config
 - Rust Thumbnail Optimization
 - Tauri Capability Permissions
-- folder-navigation/index.ts
 - Test Fixtures Folder 2
 - Test Fixtures Folder 3 Digits
 - Nested Folder 4 Fixtures
@@ -91,22 +89,26 @@
 - SpecKit Tasks Template
 - React Logo Asset
 - Implementation Steps
+- Sidebar.tsx
+- folder-navigation/index.ts
 - Specification Quality Checklist: Replace Theme Provider with shadcn/ui Version
 - Specification Quality Checklist: Rust Backend Thumbnail Optimization
 - post-commit
 - post-checkout
+- Review Unit Tests
+- tooltip.tsx
 
 ## God Nodes (most connected - your core abstractions)
 1. `CommandError` - 35 edges
 2. `FileSystemService` - 32 edges
 3. `React` - 26 edges
-4. `compilerOptions` - 20 edges
-5. `ImageSource` - 19 edges
-6. `scripts` - 18 edges
-7. `cn()` - 17 edges
-8. `TempTestDir` - 16 edges
-9. `get_sibling_containers()` - 14 edges
-10. `ThumbnailGenerator` - 14 edges
+4. `詳細` - 22 edges
+5. `compilerOptions` - 20 edges
+6. `ImageSource` - 19 edges
+7. `scripts` - 18 edges
+8. `cn()` - 17 edges
+9. `TempTestDir` - 16 edges
+10. `get_sibling_containers()` - 14 edges
 
 ## Surprising Connections (you probably didn't know these)
 - `Quality gate (type-check, lint, test)` --semantically_similar_to--> `CI jobs: lint, frontend-test, backend-test`  [INFERRED] [semantically similar]
@@ -129,11 +131,11 @@
 - 4-file cycle: `src/App.tsx -> src/features/app-shell/index.ts -> src/features/app-shell/actions/index.ts -> src/features/app-shell/actions/types.ts -> src/App.tsx`
 - 4-file cycle: `src/App.tsx -> src/features/app-shell/index.ts -> src/features/app-shell/hooks/useAppActions.ts -> src/features/app-shell/actions/types.ts -> src/App.tsx`
 - 4-file cycle: `src/features/folder-navigation/components/FolderView.tsx -> src/features/folder-navigation/hooks/useThumbnail.ts -> src/shared/context/ServiceContext.tsx -> src/features/folder-navigation/index.ts -> src/features/folder-navigation/components/FolderView.tsx`
+- 4-file cycle: `src/features/folder-navigation/index.ts -> src/features/folder-navigation/services/getSiblingContainers.ts -> src/shared/index.ts -> src/shared/context/ServiceContext.tsx -> src/features/folder-navigation/index.ts`
 - 4-file cycle: `src/features/folder-navigation/hooks/useSiblingContainers.ts -> src/shared/context/ServiceContext.tsx -> src/shared/adapters/tauriAdapters.ts -> src/features/folder-navigation/index.ts -> src/features/folder-navigation/hooks/useSiblingContainers.ts`
 - 4-file cycle: `src/features/folder-navigation/hooks/useThumbnail.ts -> src/shared/context/ServiceContext.tsx -> src/shared/adapters/tauriAdapters.ts -> src/features/folder-navigation/index.ts -> src/features/folder-navigation/hooks/useThumbnail.ts`
 - 4-file cycle: `src/features/folder-navigation/hooks/useThumbnailPrefetch.ts -> src/shared/context/ServiceContext.tsx -> src/shared/adapters/tauriAdapters.ts -> src/features/folder-navigation/index.ts -> src/features/folder-navigation/hooks/useThumbnailPrefetch.ts`
 - 4-file cycle: `src/features/folder-navigation/index.ts -> src/features/folder-navigation/services/getSiblingContainers.ts -> src/shared/index.ts -> src/shared/adapters/tauriAdapters.ts -> src/features/folder-navigation/index.ts`
-- 4-file cycle: `src/features/folder-navigation/index.ts -> src/features/folder-navigation/services/getSiblingContainers.ts -> src/shared/index.ts -> src/shared/context/ServiceContext.tsx -> src/features/folder-navigation/index.ts`
 - 4-file cycle: `src/features/folder-navigation/hooks/useSiblingContainers.ts -> src/features/folder-navigation/services/getSiblingContainers.ts -> src/shared/index.ts -> src/shared/types/FolderSortFunction.ts -> src/features/folder-navigation/hooks/useSiblingContainers.ts`
 - 5-file cycle: `src/App.tsx -> src/features/app-shell/index.ts -> src/features/app-shell/actions/index.ts -> src/features/app-shell/actions/actionRegistry.ts -> src/features/app-shell/actions/types.ts -> src/App.tsx`
 - 5-file cycle: `src/App.tsx -> src/features/app-shell/index.ts -> src/features/app-shell/actions/index.ts -> src/features/app-shell/actions/openFolderAction.ts -> src/features/app-shell/actions/types.ts -> src/App.tsx`
@@ -142,11 +144,11 @@
 - 5-file cycle: `src/App.tsx -> src/features/app-shell/index.ts -> src/features/app-shell/hooks/useAppActions.ts -> src/features/app-shell/actions/actionRegistry.ts -> src/features/app-shell/actions/types.ts -> src/App.tsx`
 - 5-file cycle: `src/features/folder-navigation/components/FolderList/FolderList.tsx -> src/features/folder-navigation/components/FolderView.tsx -> src/features/folder-navigation/hooks/useThumbnail.ts -> src/shared/context/ServiceContext.tsx -> src/features/folder-navigation/index.ts -> src/features/folder-navigation/components/FolderList/FolderList.tsx`
 
-## Communities (92 total, 21 thin omitted)
+## Communities (94 total, 21 thin omitted)
 
 ### Community 0 - "UI Tooltip & Dev Mocks"
-Cohesion: 0.17
-Nodes (18): FolderList(), FolderListLoadMore(), FolderListLoadMoreProps, mockThumbnailIdle(), mockThumbnailIdle(), TODO: 状態の変更がある場合はactでラップする必要がある場合がある, FolderView(), Sidebar() (+10 more)
+Cohesion: 0.24
+Nodes (11): FolderList(), mockThumbnailIdle(), mockThumbnailIdle(), TODO: 状態の変更がある場合はactでラップする必要がある場合がある, FolderView(), fetchThumbnail(), useThumbnail(), FolderInfo (+3 more)
 
 ### Community 1 - "Agent Workflows & Architecture Docs"
 Cohesion: 0.06
@@ -158,19 +160,19 @@ Nodes (47): class-variance-authority, clsx, lucide-react, next-themes, dependenc
 
 ### Community 3 - "App Menu & Folder Navigation"
 Cohesion: 0.15
-Nodes (26): AppMenuBar(), fileMenu, MenuItemData, renderMenuItems(), viewMenu, Button(), buttonVariants, Menubar() (+18 more)
+Nodes (25): AppMenuBar(), fileMenu, renderMenuItems(), viewMenu, Button(), buttonVariants, Menubar(), MenubarCheckboxItem() (+17 more)
 
 ### Community 4 - "DevTooling Dependencies"
 Cohesion: 0.04
 Nodes (45): babel-plugin-react-compiler, @biomejs/biome, @commitlint/cli, @commitlint/config-conventional, globals, husky, jsdom, devDependencies (+37 more)
 
 ### Community 5 - "Action Registry Pattern"
-Cohesion: 0.14
-Nodes (26): AppState, createActionRegistry(), openFolderAction(), openImageAction(), toggleThemeAction(), ActionDependencies, ActionRegistry, ActionResult (+18 more)
+Cohesion: 0.13
+Nodes (27): AppState, createActionRegistry(), openFolderAction(), openImageAction(), toggleThemeAction(), ActionDependencies, ActionRegistry, ActionResult (+19 more)
 
 ### Community 6 - "Biome Lint Config"
-Cohesion: 0.05
-Nodes (44): source, assist, actions, css, formatter, parser, files, ignoreUnknown (+36 more)
+Cohesion: 0.06
+Nodes (42): source, assist, actions, css, formatter, parser, files, ignoreUnknown (+34 more)
 
 ### Community 7 - "App Shell State"
 Cohesion: 0.11
@@ -178,7 +180,7 @@ Nodes (14): initialState, Theme, ThemeProvider(), ThemeProviderContext, ThemePro
 
 ### Community 8 - "Biome Recommended Rules"
 Cohesion: 0.05
-Nodes (39): recommended, useKeyWithClickEvents, useKeyWithMouseEvents, noAdjacentSpacesInRegex, noExtraBooleanCast, noUselessCatch, noUselessTypeConstraint, recommended (+31 more)
+Nodes (41): recommended, useKeyWithClickEvents, useKeyWithMouseEvents, noAdjacentSpacesInRegex, noExtraBooleanCast, noUselessCatch, noUselessTypeConstraint, recommended (+33 more)
 
 ### Community 9 - "Rust Test Helpers"
 Cohesion: 0.04
@@ -212,6 +214,10 @@ Nodes (29): $CACHE/**, icons/128x128@2x.png, icons/128x128.png, icons/32x32.png,
 Cohesion: 0.07
 Nodes (26): DOM, DOM.Iterable, ES2022, compilerOptions, allowImportingTsExtensions, exactOptionalPropertyTypes, isolatedModules, jsx (+18 more)
 
+### Community 17 - "app-shell/index.ts"
+Cohesion: 0.12
+Nodes (17): AppMenuBarProps, basenameImpl(), convertFileSrcImpl(), dirnameImpl(), mockBasename, mockConvertFileSrc, mockDialogOpen, mockDirname (+9 more)
+
 ### Community 18 - "Image Container Trait"
 Cohesion: 0.08
 Nodes (54): Box, Q, get_sibling_containers(), list_image_handles(), list_images_in_container(), resolve_images_in_range(), ImageHandle, P (+46 more)
@@ -221,20 +227,20 @@ Cohesion: 0.08
 Nodes (26): 003 Spec Quality Checklist Ready, 003 Contracts UI Layout Only No New APIs, LayoutContainer, SidebarPane, ViewerPane, Sidebar and Viewer Scroll Fix Plan, Sidebar Scroll Quickstart CSS Layout Steps, Flex Layout with min-height:0 Decision (+18 more)
 
 ### Community 20 - "mocks.ts"
-Cohesion: 0.12
-Nodes (19): AppMenuBarProps, ServicesProvider(), basenameImpl(), convertFileSrcImpl(), dirnameImpl(), mockBasename, mockConvertFileSrc, mockDialogOpen (+11 more)
+Cohesion: 0.14
+Nodes (11): App(), APP_VIEWER_CONTAINER_CONFIG, TODO: 状態管理が複雑化している。appStateでの管理に無理が生じ始めている。, TODO: App.tsx自体が肥大化してきている。状態管理とUIロジックの分離を検討。, ErrorBoundary, Props, State, useSiblingContainers() (+3 more)
 
 ### Community 21 - "Local Folder Container"
-Cohesion: 0.05
-Nodes (52): allFolderPaths, devMockService, dummyFolders, folderNameMap, imageFolders, KeyboardShortcutHelp(), KeyboardShortcutHelpProps, ContainerConfig (+44 more)
+Cohesion: 0.06
+Nodes (51): allFolderPaths, devMockService, dummyFolders, folderNameMap, imageFolders, KeyboardShortcutHelp(), KeyboardShortcutHelpProps, ContainerConfig (+43 more)
 
 ### Community 22 - "Image Viewer UI"
 Cohesion: 0.05
 Nodes (42): 1.1. サムネイル生成ロジック, 1.2. Tauriコマンドの追加, 1.3. コマンドの登録, 1. ブランチのチェックアウト, 2.1. FileSystemServiceの拡張, 2.2. Tauriアダプターの実装, 2.3. useThumbnailフックの更新, 2. 依存関係のインストール (+34 more)
 
 ### Community 23 - "FileSystemService"
-Cohesion: 0.19
-Nodes (3): useOpenImageFile(), FileSystemService, FolderThumbnailResult
+Cohesion: 0.13
+Nodes (10): React, mockFolders, useOpenImageFile(), FileSystemService, servicesContext, ServicesProvider(), ServicesProviderProps, mockImageSources (+2 more)
 
 ### Community 24 - "Windows Store Square Logos"
 Cohesion: 0.12
@@ -243,10 +249,6 @@ Nodes (22): Square142x142Logo Windows Store Asset, Medium Tile Scaled Variant (1
 ### Community 25 - "Keyboard Shortcut Handling"
 Cohesion: 0.11
 Nodes (18): Phase 4 手動テスト - チェックリスト, T037: 初回ロード性能テスト, T038: UI応答性テスト, T039: キャッシュ再利用テスト, キャッシュ確認, スクリーンショット・ログ, パフォーマンス, 事前準備 (+10 more)
-
-### Community 26 - "App.tsx"
-Cohesion: 0.13
-Nodes (12): React, App(), APP_VIEWER_CONTAINER_CONFIG, TODO: 状態管理が複雑化している。appStateでの管理に無理が生じ始めている。, TODO: App.tsx自体が肥大化してきている。状態管理とUIロジックの分離を検討。, ErrorBoundary, Props, State (+4 more)
 
 ### Community 27 - "shadcn Components Config"
 Cohesion: 0.11
@@ -304,10 +306,6 @@ Nodes (11): get_or_create_thumbnail, ImageFile, useThumbnail, 001-rust-thumbnail
 Cohesion: 0.18
 Nodes (10): core:default, dialog:default, fs:default, main, opener:default, description, identifier, permissions (+2 more)
 
-### Community 42 - "folder-navigation/index.ts"
-Cohesion: 0.23
-Nodes (7): SIDEBAR_CONFIG, SidebarConfig, mockFolders, useFolderListPagination(), NOTE: folders の参照安定性に依存。React Compiler が有効な場合は自動メモ化される。, useThumbnailPrefetch(), useServices()
-
 ### Community 43 - "Test Fixtures Folder 2"
 Cohesion: 0.18
 Nodes (11): folder_2 test fixtures, Test fixture image 2-1 (digit 1, mint), Test fixture image 2-10 (digit 10, mint), Test fixture image 2-2 (numeral 2), Test fixture image 2-3 (numeral 3), Test fixture image 2-4 (numeral 4), Test fixture image 2-5 (numeral 5), Test fixture image 2-6 (numeral 6) (+3 more)
@@ -337,8 +335,8 @@ Cohesion: 0.33
 Nodes (6): CommandError Dual Definition Concern, get_sibling_containers Navigation Concern, ImageContainer Trait Granularity, ImageContainerService, Old list_images_in_container Coexistence, useImages Full Container Image Load
 
 ### Community 51 - "useSiblingContainers.ts"
-Cohesion: 0.27
-Nodes (8): createFolderEntry(), FolderEntry, useSiblingContainers(), getSiblingContainerEntries(), mockFileSystemService, FolderSortFunction, naturalFolderSort(), createMockFileSystemService()
+Cohesion: 0.33
+Nodes (6): createFolderEntry(), FolderEntry, getSiblingContainerEntries(), mockFileSystemService, FolderSortFunction, naturalFolderSort()
 
 ### Community 52 - "React Security Patch Spec"
 Cohesion: 0.50
@@ -364,6 +362,14 @@ Nodes (3): iOS AppIcon 76x76@1x (sunrise over open book), iOS AppIcon 76x76@2x (
 Cohesion: 0.12
 Nodes (16): Common Issues & Solutions, ✅ Functional Requirements, Implementation Steps, Phase 1: Prepare shadcn/ui Theme Provider (30 min), Phase 2: Update Import Paths (15 min), Phase 3: Remove resolvedTheme Usage (45 min), Phase 4: Simplify Theme Components (30 min), Phase 5: Update Tests (45 min) (+8 more)
 
+### Community 89 - "Sidebar.tsx"
+Cohesion: 0.23
+Nodes (8): FolderListLoadMore(), FolderListLoadMoreProps, Sidebar(), SidebarContent(), SidebarContentProps, SidebarHeader(), SidebarHeaderProps, SidebarProps
+
+### Community 90 - "folder-navigation/index.ts"
+Cohesion: 0.42
+Nodes (5): SIDEBAR_CONFIG, SidebarConfig, useFolderListPagination(), NOTE: folders の参照安定性に依存。React Compiler が有効な場合は自動メモ化される。, useThumbnailPrefetch()
+
 ### Community 91 - "Specification Quality Checklist: Replace Theme Provider with shadcn/ui Version"
 Cohesion: 0.33
 Nodes (5): Content Quality, Feature Readiness, Notes, Requirement Completeness, Specification Quality Checklist: Replace Theme Provider with shadcn/ui Version
@@ -380,12 +386,16 @@ Nodes (4): post-commit script, GRAPHIFY_CHANGED, GRAPHIFY_REBUILD_LOG, PYTHONHAS
 Cohesion: 0.50
 Nodes (3): post-checkout script, GRAPHIFY_REBUILD_LOG, PYTHONHASHSEED
 
+### Community 96 - "Review Unit Tests"
+Cohesion: 0.05
+Nodes (36): Pass 1 — 機能別並列レビュー＋削除, Pass 2 — 削除の第二意見ループ, Review Unit Tests, 低価値の典型パターン（削除候補）, 再利用の言い方, 報告フォーマット（Pass 1）, 大規模時のオーケストレーション, 手順（単ファイル〜小規模） (+28 more)
+
 ## Ambiguous Edges - Review These
 - `Quality gate (type-check, lint, test)` → `Project constitution (.specify/memory/constitution.md)`  [AMBIGUOUS]
   AGENTS.md · relation: rationale_for
 
 ## Knowledge Gaps
-- **476 isolated node(s):** `common.sh script`, `create-new-feature.sh script`, `SPECIFY_FEATURE`, `$schema`, `enabled` (+471 more)
+- **508 isolated node(s):** `common.sh script`, `create-new-feature.sh script`, `SPECIFY_FEATURE`, `$schema`, `enabled` (+503 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **21 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
@@ -394,15 +404,15 @@ _Questions this graph is uniquely positioned to answer:_
 
 - **What is the exact relationship between `Quality gate (type-check, lint, test)` and `Project constitution (.specify/memory/constitution.md)`?**
   _Edge tagged AMBIGUOUS (relation: rationale_for) - confidence is low._
-- **Why does `React` connect `App.tsx` to `UI Tooltip & Dev Mocks`, `App Menu & Folder Navigation`, `Action Registry Pattern`, `Biome Lint Config`, `App Shell State`, `folder-navigation/index.ts`, `app-shell/index.ts`, `useSiblingContainers.ts`, `mocks.ts`, `Local Folder Container`, `FileSystemService`?**
-  _High betweenness centrality (0.035) - this node is a cross-community bridge._
-- **Why does `globals` connect `Biome Lint Config` to `App.tsx`?**
-  _High betweenness centrality (0.028) - this node is a cross-community bridge._
+- **Why does `React` connect `FileSystemService` to `UI Tooltip & Dev Mocks`, `tooltip.tsx`, `App Menu & Folder Navigation`, `Action Registry Pattern`, `Biome Lint Config`, `App Shell State`, `app-shell/index.ts`, `useSiblingContainers.ts`, `mocks.ts`, `Local Folder Container`, `Sidebar.tsx`, `folder-navigation/index.ts`?**
+  _High betweenness centrality (0.033) - this node is a cross-community bridge._
+- **Why does `globals` connect `Biome Lint Config` to `FileSystemService`?**
+  _High betweenness centrality (0.027) - this node is a cross-community bridge._
 - **What connects `common.sh script`, `create-new-feature.sh script`, `SPECIFY_FEATURE` to the rest of the system?**
-  _476 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _508 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Agent Workflows & Architecture Docs` be split into smaller, more focused modules?**
   _Cohesion score 0.058279370952821465 - nodes in this community are weakly interconnected._
 - **Should `Frontend Runtime Dependencies` be split into smaller, more focused modules?**
   _Cohesion score 0.0425531914893617 - nodes in this community are weakly interconnected._
-- **Should `App Menu & Folder Navigation` be split into smaller, more focused modules?**
-  _Cohesion score 0.146218487394958 - nodes in this community are weakly interconnected._
+- **Should `DevTooling Dependencies` be split into smaller, more focused modules?**
+  _Cohesion score 0.044444444444444446 - nodes in this community are weakly interconnected._

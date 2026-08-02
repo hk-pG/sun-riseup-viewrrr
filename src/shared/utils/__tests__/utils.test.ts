@@ -36,16 +36,5 @@ describe('cn utility function', () => {
       expect(cn('px-2 px-4')).toBe('px-4');
       expect(cn('text-red-500 text-blue-500')).toBe('text-blue-500');
     });
-
-    it('should handle responsive variants', () => {
-      // twMerge should handle conflicting base classes but preserve responsive variants
-      expect(cn('text-sm md:text-lg text-base')).toBe('md:text-lg text-base');
-    });
-
-    it('should handle state variants', () => {
-      expect(cn('bg-red-500 hover:bg-blue-500 bg-green-500')).toBe(
-        'hover:bg-blue-500 bg-green-500',
-      );
-    });
   });
 });

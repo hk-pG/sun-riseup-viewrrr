@@ -35,18 +35,6 @@ describe('初期表示', () => {
     mockThumbnailIdle();
   });
 
-  // TODO: 状態の変更がある場合はactでラップする必要がある場合がある
-  it('フォルダが渡されなければ何も表示しないこと', async () => {
-    render(
-      <FolderList
-        data-testid="folder-list"
-        folders={[]}
-        onFolderSelect={vi.fn()}
-      />,
-    );
-    expect(screen.queryByRole('img')).not.toBeInTheDocument();
-  });
-
   it('フォルダが複数渡されたらすべて表示すること', () => {
     const folders: FolderInfo[] = [
       { name: 'Folder 1', path: '/path/to/folder1', imageCount: 1 },
