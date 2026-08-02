@@ -55,7 +55,7 @@ pnpm test
 | メニューアクション設計 | @docs/menu-action-architecture.md |
 | Tauri 跨層変更（FS 拡張） | @.github/copilot-instructions.md の「FileSystemService の拡張」 |
 | 設計の stress-test | @.agents/skills/grill-me/SKILL.md |
-| 単体テストの価値レビュー | @.agents/skills/review-unit-tests/SKILL.md |
+| 単体テストの価値レビュー | @.agents/skills/review-unit-tests/SKILL.md（大規模刈り込みは並列＋横断パス＋削除第二意見のうえコミット） |
 
 ## ブランチ（要点）
 
