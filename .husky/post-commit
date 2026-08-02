@@ -44,8 +44,12 @@ if [ -z "$_NON_GRAPH" ]; then
 fi
 
 # Detect the correct Python interpreter (handles uv tool, pipx, venv, system installs).
-# _PINNED was recorded at hook-install time; tried first so the hook works even
-# when the graphify launcher is not on PATH (common in GUI clients and CI).
+# _PINNED can be filled by a local `graphify hook install`, but when these hooks
+# are version-controlled keep it empty on purpose: a machine-local absolute path
+# must not be committed (same reason graphify-out/.graphify_python is gitignored).
+# Portable pin = probe 2 (graphify-out/.graphify_python, written by the skill/CLI).
+# Do not re-run hook install just to fill _PINNED — that would embed a local path
+# into a tracked file.
 #
 # Probes check availability with importlib.util.find_spec instead of importing
 # the package: a probe that imports graphify wholesale executes the full package
