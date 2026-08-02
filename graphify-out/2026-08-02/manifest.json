@@ -335,8 +335,8 @@
     "semantic_hash": "703bca8beccf8adc6d64f13fc19efff8"
   },
   "src/features/app-shell/components/KeyboardShortcutHelp.tsx": {
-    "mtime": 1785657908.7960937,
-    "ast_hash": "85ead041938a37e11c1ad6e2446fd482",
+    "mtime": 1785249613.3314302,
+    "ast_hash": "8a3d880a4dee52c333c896611ab9a517",
     "semantic_hash": ""
   },
   "src/features/app-shell/components/MenuDropdown.tsx": {
@@ -365,8 +365,8 @@
     "semantic_hash": "ff56f103455c8151be8e860998d77725"
   },
   "src/features/app-shell/index.ts": {
-    "mtime": 1785657908.7951815,
-    "ast_hash": "fcf13ee7530edb7e77dcc0afa4292d0a",
+    "mtime": 1785249613.3316011,
+    "ast_hash": "9cadcb1391d3cf2f35c8638a64f5a736",
     "semantic_hash": ""
   },
   "src/features/app-shell/types/menuTypes.ts": {
@@ -555,9 +555,9 @@
     "semantic_hash": "00b6e2b2325819356d6eeaf85f5c738e"
   },
   "src/features/image-viewer/index.ts": {
-    "mtime": 1785657906.466315,
-    "ast_hash": "d18431b507d9b33180b19d11dc47d1fd",
-    "semantic_hash": ""
+    "mtime": 1784552822.643899,
+    "ast_hash": "997d7d661445feafd9ea927365e0b032",
+    "semantic_hash": "997d7d661445feafd9ea927365e0b032"
   },
   "src/features/image-viewer/types/ImageContainer.ts": {
     "mtime": 1780758528.9718359,

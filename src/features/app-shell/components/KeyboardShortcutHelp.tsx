@@ -4,11 +4,9 @@ import { useState } from 'react';
 import {
   getShortcutDescription,
   getShortcutList,
-} from '../../image-viewer/keyboard/keyboardUtils';
-import type {
-  KeyboardMapping,
-  KeyboardShortcut,
-} from '../../image-viewer/types/viewerTypes';
+  type KeyboardMapping,
+  type KeyboardShortcut,
+} from '@/features/image-viewer';
 
 interface KeyboardShortcutHelpProps {
   mapping: KeyboardMapping;

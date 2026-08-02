@@ -10,6 +10,14 @@ export { ViewerControls } from './components/ViewerControls';
 // Hooks
 export { useControlsVisibility } from './hooks/useControlsVisibility';
 export { useKeyboardHandler } from './hooks/useKeyboardHandler';
+// Keyboard shortcuts
+export {
+  createCustomKeyboardMapping,
+  createDefaultKeyboardMapping,
+  findShortcutConflicts,
+  getShortcutDescription,
+  getShortcutList,
+} from './keyboard/keyboardUtils';
 export type { ImageContainer } from './types/ImageContainer';
 // Types
 export type { ImageHandle, ImageSource } from './types/ImageSource';

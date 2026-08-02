@@ -1,13 +1,5 @@
 // App Shell Feature Exports
 
-// Keyboard shortcuts
-export {
-  createCustomKeyboardMapping,
-  createDefaultKeyboardMapping,
-  findShortcutConflicts,
-  getShortcutDescription,
-  getShortcutList,
-} from '@/features/image-viewer/keyboard/keyboardUtils';
 // Actions
 export type {
   ActionDependencies,
