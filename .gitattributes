@@ -1,0 +1,3 @@
+# graphify graph.json union-merge（ローカルで `graphify hook install` が必要）
+graphify-out/graph.json merge=graphify
+graphify-out/**/graph.json merge=graphify
