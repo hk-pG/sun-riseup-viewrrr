@@ -65,9 +65,9 @@
     "semantic_hash": "06b925c411f1f33185497af2d2b33a15"
   },
   "package.json": {
-    "mtime": 1785851242.9372334,
-    "ast_hash": "ca11e30ea1f21f7697eff7de5fbc43ad",
-    "semantic_hash": "ca11e30ea1f21f7697eff7de5fbc43ad"
+    "mtime": 1785851246.3034472,
+    "ast_hash": "70a31b8838e47c20b21d3695680e279b",
+    "semantic_hash": ""
   },
   "scripts/clear_caches_macos.sh": {
     "mtime": 1784446013.2139912,
