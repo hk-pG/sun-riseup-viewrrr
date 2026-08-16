@@ -33,57 +33,61 @@ export const mockStoreInstance = {
 // Declared after mockStoreInstance to avoid temporal dead zone
 const mockStoreLoad = vi.fn().mockResolvedValue(mockStoreInstance);
 
+// Mock Tauri core APIs
+vi.mock('@tauri-apps/api/core', () => ({
+  invoke: mockInvoke,
+  convertFileSrc: mockConvertFileSrc,
+  transformCallback: vi.fn(),
+}));
+
+// Mock Tauri log plugin
+// @tauri-apps/plugin-log → @tauri-apps/api/event → transformCallback のインポートチェーンを
+// ブラウザテスト環境（ESM strict）で断ち切るために必要
+vi.mock('@tauri-apps/plugin-log', () => ({
+  debug: vi.fn().mockResolvedValue(undefined),
+  error: vi.fn().mockResolvedValue(undefined),
+  info: vi.fn().mockResolvedValue(undefined),
+  trace: vi.fn().mockResolvedValue(undefined),
+  warn: vi.fn().mockResolvedValue(undefined),
+}));
+
+// Mock Tauri dialog plugin
+vi.mock('@tauri-apps/plugin-dialog', () => ({
+  open: mockDialogOpen,
+}));
+
+// Mock Tauri path utilities
+vi.mock('@tauri-apps/api/path', () => ({
+  basename: mockBasename,
+  dirname: mockDirname,
+}));
+
+// Mock Tauri opener plugin
+vi.mock('@tauri-apps/plugin-opener', () => ({
+  open: mockOpenerOpen,
+}));
+
+// Mock Tauri filesystem plugin
+vi.mock('@tauri-apps/plugin-fs', () => ({
+  readDir: mockReadDir,
+  exists: mockExists,
+}));
+
+// Mock Tauri store plugin
+vi.mock('@tauri-apps/plugin-store', () => ({
+  Store: {
+    load: mockStoreLoad,
+  },
+}));
+
 /**
- * Setup standardized mocks for Tauri APIs
+ * All Tauri API mocks above are registered via `vi.mock`, which Vitest always
+ * hoists to the top of this module regardless of where the call appears
+ * syntactically. This function is kept as a no-op for backward compatibility
+ * with existing call sites (`setup.ts` and several `beforeEach` blocks) that
+ * historically called it to "activate" the mocks.
  */
-export const setupTauriMocks = () => {
-  // Mock Tauri core APIs
-  vi.mock('@tauri-apps/api/core', () => ({
-    invoke: mockInvoke,
-    convertFileSrc: mockConvertFileSrc,
-    transformCallback: vi.fn(),
-  }));
-
-  // Mock Tauri log plugin
-  // @tauri-apps/plugin-log → @tauri-apps/api/event → transformCallback のインポートチェーンを
-  // ブラウザテスト環境（ESM strict）で断ち切るために必要
-  vi.mock('@tauri-apps/plugin-log', () => ({
-    debug: vi.fn().mockResolvedValue(undefined),
-    error: vi.fn().mockResolvedValue(undefined),
-    info: vi.fn().mockResolvedValue(undefined),
-    trace: vi.fn().mockResolvedValue(undefined),
-    warn: vi.fn().mockResolvedValue(undefined),
-  }));
-
-  // Mock Tauri dialog plugin
-  vi.mock('@tauri-apps/plugin-dialog', () => ({
-    open: mockDialogOpen,
-  }));
-
-  // Mock Tauri path utilities
-  vi.mock('@tauri-apps/api/path', () => ({
-    basename: mockBasename,
-    dirname: mockDirname,
-  }));
-
-  // Mock Tauri opener plugin
-  vi.mock('@tauri-apps/plugin-opener', () => ({
-    open: mockOpenerOpen,
-  }));
-
-  // Mock Tauri filesystem plugin
-  vi.mock('@tauri-apps/plugin-fs', () => ({
-    readDir: mockReadDir,
-    exists: mockExists,
-  }));
-
-  // Mock Tauri store plugin
-  vi.mock('@tauri-apps/plugin-store', () => ({
-    Store: {
-      load: mockStoreLoad,
-    },
-  }));
-};
+export const setupTauriMocks = () => {};
 
 /**
  * Reset all mocks and re-apply default implementations.
