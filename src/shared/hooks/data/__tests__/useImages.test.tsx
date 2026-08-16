@@ -6,6 +6,16 @@ import type { ImageContainer, ImageSource } from '@/features/image-viewer';
 import { ServicesProvider, useImages } from '@/shared';
 import { createMockFileSystemService } from '../../../../test/mocks';
 
+vi.mock('@/shared/utils/logger', () => ({
+  logger: {
+    debug: vi.fn(),
+    error: vi.fn(),
+    info: vi.fn(),
+    warn: vi.fn(),
+    trace: vi.fn(),
+  },
+}));
+
 // モックデータ
 const mockImageSources: ImageSource[] = [
   {

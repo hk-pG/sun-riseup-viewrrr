@@ -93,7 +93,6 @@ export const useImages = (source?: ImageContainer) => {
       keepPreviousData: true,
       errorRetryCount: 0,
       onError: (err) => {
-        console.dir(err);
         logger.error(`${err}`, {
           file: 'useImages.ts',
           line: 124,
