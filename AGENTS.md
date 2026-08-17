@@ -2,6 +2,12 @@
 
 ## Cursor Cloud specific instructions
 
+### Language preference (user-facing vs agent-facing)
+- Write anything the **user will read** in **Japanese**. This includes GitHub PR titles/bodies,
+  review replies intended for the user, and chat messages to the user.
+- Agent-facing / internal docs (for example most of this `AGENTS.md`, commit messages that are
+  not meant as user-facing prose, code comments following repo convention) may stay in **English**.
+
 This repo is **`sun-riseup-viewrrr`**, a Tauri v2 cross-platform desktop image viewer:
 a React 19 + TypeScript + Vite frontend (`src/`) and a Rust backend / Cargo workspace
 (`src-tauri/`, with the domain logic in `src-tauri/core_logic`). Standard commands live in
