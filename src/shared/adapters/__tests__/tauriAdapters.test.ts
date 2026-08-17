@@ -2,6 +2,16 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import type { ImageHandle } from '@/features/image-viewer';
 import { tauriFileSystemService } from '../tauriAdapters';
 
+vi.mock('@/shared/utils/logger', () => ({
+  logger: {
+    debug: vi.fn(),
+    error: vi.fn(),
+    info: vi.fn(),
+    warn: vi.fn(),
+    trace: vi.fn(),
+  },
+}));
+
 // Mock Tauri APIs
 vi.mock('@tauri-apps/api/core', () => ({
   invoke: vi.fn(),

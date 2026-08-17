@@ -99,20 +99,5 @@
   "97": "hash_path",
   "98": "CommandError",
   "99": "ADR-003: 画像ビューア操作を `dispatch(ActionType)` と `useViewerActions` に集約する",
-  "100": "UserExperienceTracker",
-  "101": "tooltip.tsx",
-  "102": "FolderList/index.ts",
-  "103": "@commitlint/cli",
-  "104": "@commitlint/config-conventional",
-  "105": "globals",
-  "106": "husky",
-  "107": "@tauri-apps/cli",
-  "108": "@testing-library/jest-dom",
-  "109": "@testing-library/react",
-  "110": "tw-animate-css",
-  "111": "@types/react",
-  "112": "vite",
-  "113": "@vitest/browser-playwright",
-  "114": "vitest-browser-react",
-  "115": "@vitest/coverage-v8"
+  "100": "UserExperienceTracker"
 }

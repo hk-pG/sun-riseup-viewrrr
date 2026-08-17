@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom';
 import { cleanup } from '@testing-library/react';
 import { afterEach, vi } from 'vitest';
-import { setupTauriMocks } from './mocks';
+import './mocks';
 
 // Setup global vi for tests
 (globalThis as typeof globalThis & { vi: typeof vi }).vi = vi;
@@ -30,9 +30,6 @@ Object.defineProperty(window, 'matchMedia', {
   writable: true,
   value: mockMatchMedia,
 });
-
-// Setup Tauri API mocks (centralized in mocks.ts)
-setupTauriMocks();
 
 // React 19: Enhanced test utilities
 import { act } from '@testing-library/react';

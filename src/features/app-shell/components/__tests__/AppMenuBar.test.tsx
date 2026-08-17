@@ -1,7 +1,7 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import type React from 'react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { resetAllMocks, setupTauriMocks } from '../../../../test/mocks';
+import { resetAllMocks } from '../../../../test/mocks';
 import {
   AppMenuBar,
   type AppMenuBarEvent,
@@ -102,7 +102,6 @@ describe('AppMenuBar Component (No Theme Dependencies)', () => {
 
   beforeEach(() => {
     resetAllMocks();
-    setupTauriMocks();
     mockOnMenuAction = vi.fn<(actionId: AppMenuBarEvent) => void>();
   });
 

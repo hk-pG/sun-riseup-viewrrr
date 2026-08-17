@@ -7,11 +7,7 @@ import App from '../App';
 import { ThemeProvider } from '../components/theme-provider';
 import type { FileSystemService } from '../features/folder-navigation/services/FileSystemService';
 import { ServicesProvider } from '../shared/context/ServiceContext';
-import {
-  createMockFileSystemService,
-  resetAllMocks,
-  setupTauriMocks,
-} from '../test/mocks';
+import { createMockFileSystemService, resetAllMocks } from '../test/mocks';
 
 // テストで制御可能なモック関数
 const mockOpenImageFile = vi.fn();
@@ -104,7 +100,6 @@ describe('App Component', () => {
 
   beforeEach(() => {
     resetAllMocks();
-    setupTauriMocks();
     mockFileSystemService = createMockFileSystemService();
     mockOpenImageFile.mockReset();
     vi.spyOn(console, 'error').mockImplementation(() => {});
