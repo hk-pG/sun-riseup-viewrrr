@@ -59,6 +59,8 @@ const images = await invoke<string[]>("list_images_in_folder", { folderPath });
 
 ### ビルド & 実行
 
+pnpm 11 が必要（バージョンは `package.json#packageManager`）。設定は `pnpm-workspace.yaml`（`allowBuilds` など）。`package.json` の `pnpm` フィールドは読まれない。
+
 ```bash
 pnpm install              # 依存関係のインストール
 pnpm tauri dev            # ホットリロード付き開発モード

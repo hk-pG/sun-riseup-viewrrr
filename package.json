@@ -3,8 +3,10 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
+  "packageManager": "pnpm@11.22.0",
   "engines": {
-    "node": ">=22.22.2"
+    "node": ">=22.22.2",
+    "pnpm": ">=11.22.0 <12"
   },
   "scripts": {
     "dev": "vite",
@@ -49,13 +51,6 @@
     "tailwind-merge": "^3.6.0",
     "tailwindcss": "^4.3.3",
     "tailwindcss-animate": "^1.0.7"
-  },
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "@biomejs/biome",
-      "@tailwindcss/oxide",
-      "esbuild"
-    ]
   },
   "devDependencies": {
     "@biomejs/biome": "^2.5.6",

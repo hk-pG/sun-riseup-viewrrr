@@ -1,0 +1,6 @@
+# pnpm 11 以降、設定は package.json#pnpm ではなくここに置く。
+# 新しい native / postinstall 依存を足したら allowBuilds を更新する。
+allowBuilds:
+  "@biomejs/biome": true
+  "@tailwindcss/oxide": true
+  esbuild: true
