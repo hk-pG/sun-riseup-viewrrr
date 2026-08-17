@@ -53,8 +53,14 @@ describe('useKeyboardHandler', () => {
           ],
         ],
         [
-          'customAction',
-          [{ key: 'c', preventDefault: false, description: 'Custom' }],
+          'toggleControls',
+          [
+            {
+              key: 'c',
+              preventDefault: false,
+              description: 'Toggle controls',
+            },
+          ],
         ],
       ]),
       onAction: mockOnAction,
@@ -147,7 +153,7 @@ describe('useKeyboardHandler', () => {
       mockContainer.dispatchEvent(event);
 
       expect(preventDefaultSpy).not.toHaveBeenCalled();
-      expect(mockOnAction).toHaveBeenCalledWith('customAction', event);
+      expect(mockOnAction).toHaveBeenCalledWith('toggleControls', event);
     });
   });
 
@@ -262,7 +268,9 @@ describe('useKeyboardHandler', () => {
       // Update the mapping
       const newMapping: KeyboardMapping = {
         ...mockKeyboardMapping,
-        shortcuts: new Map([['newAction', [{ key: 'n', description: 'New' }]]]),
+        shortcuts: new Map([
+          ['resetZoom', [{ key: 'n', description: 'Reset zoom' }]],
+        ]),
       };
 
       rerender({ mapping: newMapping });

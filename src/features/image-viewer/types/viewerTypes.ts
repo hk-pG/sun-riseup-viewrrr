@@ -63,8 +63,7 @@ export type ActionType =
   | 'lastImage'
   | 'toggleControls'
   | 'toggleFitMode'
-  | 'resetRotation'
-  | string;
+  | 'resetRotation';
 
 /**
  * キーボードショートカットの情報を表す型。

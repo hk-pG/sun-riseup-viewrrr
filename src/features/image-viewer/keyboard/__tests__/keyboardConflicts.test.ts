@@ -83,11 +83,11 @@ describe('Keyboard Conflict Detection', () => {
       it('should not detect conflicts for different modifier combinations', () => {
         const mapping: KeyboardMapping = {
           shortcuts: new Map([
-            ['action1', [{ key: 's', ctrlKey: true, description: 'Ctrl+S' }]],
-            ['action2', [{ key: 's', shiftKey: true, description: 'Shift+S' }]],
-            ['action3', [{ key: 's', altKey: true, description: 'Alt+S' }]],
-            ['action4', [{ key: 's', metaKey: true, description: 'Cmd+S' }]],
-            ['action5', [{ key: 's', description: 'Just S' }]],
+            ['zoomIn', [{ key: 's', ctrlKey: true, description: 'Ctrl+S' }]],
+            ['zoomOut', [{ key: 's', shiftKey: true, description: 'Shift+S' }]],
+            ['resetZoom', [{ key: 's', altKey: true, description: 'Alt+S' }]],
+            ['rotateLeft', [{ key: 's', metaKey: true, description: 'Cmd+S' }]],
+            ['rotateRight', [{ key: 's', description: 'Just S' }]],
           ]),
           onAction: mockOnAction,
           enabled: true,
@@ -108,7 +108,8 @@ describe('Keyboard Conflict Detection', () => {
                 { key: 'j', description: 'J key' },
               ],
             ],
-            ['customAction', [{ key: 'j', description: 'Custom J' }]], // Conflicts with nextImage's 'j'
+            // Conflicts with nextImage's 'j'
+            ['toggleControls', [{ key: 'j', description: 'Toggle controls' }]],
           ]),
           onAction: mockOnAction,
           enabled: true,
@@ -119,18 +120,18 @@ describe('Keyboard Conflict Detection', () => {
         expect(conflicts).toHaveLength(1);
         expect(conflicts[0].shortcut.key).toBe('j');
         expect(conflicts[0].actions).toEqual(
-          expect.arrayContaining(['nextImage', 'customAction']),
+          expect.arrayContaining(['nextImage', 'toggleControls']),
         );
       });
 
       it('should detect multiple separate conflicts', () => {
         const mapping: KeyboardMapping = {
           shortcuts: new Map([
-            ['action1', [{ key: 'a', description: 'Action 1' }]],
-            ['action2', [{ key: 'a', description: 'Action 2' }]], // Conflict 1
-            ['action3', [{ key: 'b', ctrlKey: true, description: 'Action 3' }]],
-            ['action4', [{ key: 'b', ctrlKey: true, description: 'Action 4' }]], // Conflict 2
-            ['action5', [{ key: 'c', description: 'Action 5' }]], // No conflict
+            ['nextImage', [{ key: 'a', description: 'Next image' }]],
+            ['previousImage', [{ key: 'a', description: 'Previous image' }]], // Conflict 1
+            ['zoomIn', [{ key: 'b', ctrlKey: true, description: 'Zoom in' }]],
+            ['zoomOut', [{ key: 'b', ctrlKey: true, description: 'Zoom out' }]], // Conflict 2
+            ['resetZoom', [{ key: 'c', description: 'Reset zoom' }]], // No conflict
           ]),
           onAction: mockOnAction,
           enabled: true,
@@ -145,13 +146,13 @@ describe('Keyboard Conflict Detection', () => {
 
         expect(aConflict).toBeDefined();
         expect(aConflict?.actions).toEqual(
-          expect.arrayContaining(['action1', 'action2']),
+          expect.arrayContaining(['nextImage', 'previousImage']),
         );
 
         expect(bConflict).toBeDefined();
         expect(bConflict?.shortcut.ctrlKey).toBe(true);
         expect(bConflict?.actions).toEqual(
-          expect.arrayContaining(['action3', 'action4']),
+          expect.arrayContaining(['zoomIn', 'zoomOut']),
         );
       });
 
@@ -159,23 +160,23 @@ describe('Keyboard Conflict Detection', () => {
         const mapping: KeyboardMapping = {
           shortcuts: new Map([
             [
-              'action1',
+              'nextImage',
               [
                 { key: 'a', description: 'A key' },
                 { key: 'b', description: 'B key' },
               ],
             ],
             [
-              'action2',
+              'previousImage',
               [
-                { key: 'b', description: 'B key again' }, // Conflicts with action1
+                { key: 'b', description: 'B key again' }, // Conflicts with nextImage
                 { key: 'c', description: 'C key' },
               ],
             ],
             [
-              'action3',
+              'zoomIn',
               [
-                { key: 'c', description: 'C key again' }, // Conflicts with action2
+                { key: 'c', description: 'C key again' }, // Conflicts with previousImage
                 { key: 'd', description: 'D key' },
               ],
             ],
@@ -192,10 +193,10 @@ describe('Keyboard Conflict Detection', () => {
         const cConflict = conflicts.find((c) => c.shortcut.key === 'c');
 
         expect(bConflict?.actions).toEqual(
-          expect.arrayContaining(['action1', 'action2']),
+          expect.arrayContaining(['nextImage', 'previousImage']),
         );
         expect(cConflict?.actions).toEqual(
-          expect.arrayContaining(['action2', 'action3']),
+          expect.arrayContaining(['previousImage', 'zoomIn']),
         );
       });
     });
@@ -238,7 +239,7 @@ describe('Keyboard Conflict Detection', () => {
         const mapping: KeyboardMapping = {
           shortcuts: new Map([
             [
-              'action1',
+              'nextImage',
               [
                 {
                   key: 'a',
@@ -250,7 +251,7 @@ describe('Keyboard Conflict Detection', () => {
               ],
             ],
             [
-              'action2',
+              'previousImage',
               [
                 {
                   key: 'a',
@@ -272,7 +273,7 @@ describe('Keyboard Conflict Detection', () => {
         expect(conflicts).toHaveLength(1);
         expect(conflicts[0].shortcut.key).toBe('a');
         expect(conflicts[0].actions).toEqual(
-          expect.arrayContaining(['action1', 'action2']),
+          expect.arrayContaining(['nextImage', 'previousImage']),
         );
       });
     });
