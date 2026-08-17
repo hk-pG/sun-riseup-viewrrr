@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState, useTransition } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { ImageContainer } from '@/features/image-viewer/types/ImageContainer';
 import type { ImageSource } from '@/features/image-viewer/types/ImageSource';
 import type {
@@ -10,6 +10,7 @@ import type {
 import { useImages } from '@/shared/hooks/data/useImages';
 import { useControlsVisibility } from '../hooks/useControlsVisibility';
 import { useKeyboardHandler } from '../hooks/useKeyboardHandler';
+import { useViewerActions } from '../hooks/useViewerActions';
 import { ImageDisplay } from './ImageDisplay';
 import { ViewerControls } from './ViewerControls';
 
@@ -22,26 +23,11 @@ export interface ImageViewerProps {
   settings?: Partial<ViewerSettings>;
   keyboardMapping?: KeyboardMapping;
   callbacks?: {
-    onImageChange?: (index: number, image: ImageSource) => void;
-    onZoomChange?: (zoom: number) => void;
-    onRotationChange?: (rotation: number) => void;
-    onSettingsChange?: (settings: Partial<ViewerSettings>) => void;
-    onCustomAction?: (action: string, event: KeyboardEvent) => void;
     onImageLoad?: (image: ImageSource) => void;
     onImageError?: (error: Error, image: ImageSource) => void;
   };
   className?: string;
 }
-
-const defaultSettings: ViewerSettings = {
-  fitMode: 'both',
-  zoom: 1,
-  rotation: 0,
-  backgroundColor: '#1a1a1a',
-  showControls: true,
-  autoHideControls: true,
-  controlsTimeout: 3000,
-};
 
 export function ImageViewer({
   container,
@@ -51,20 +37,16 @@ export function ImageViewer({
   callbacks,
   className = '',
 }: ImageViewerProps) {
-  const mergedSettings = {
-    ...defaultSettings,
-    ...userSettings,
-  };
-
   const imageSource = container;
   const { images = [], isLoading, error } = useImages(imageSource);
   const [loading, setLoading] = useState(true);
 
-  // 重い処理（ズーム）を非ブロッキングで実行、軽量操作（画像切り替え）には使用しない
-  const [, startTransition] = useTransition();
+  const { currentIndex, dispatch, settings } = useViewerActions({
+    images,
+    initialIndex,
+    userSettings: userSettings,
+  });
 
-  const [currentIndex, setCurrentIndex] = useState(initialIndex);
-  const [settings, setSettings] = useState<ViewerSettings>(mergedSettings);
   const containerRef = useRef<HTMLDivElement>(null);
 
   const currentImage = images[currentIndex];
@@ -76,71 +58,9 @@ export function ImageViewer({
     settings.controlsTimeout,
   );
 
-  const goToNext = () => {
-    if (currentIndex >= images.length - 1) return;
-
-    setCurrentIndex((prev) => {
-      const newIndex = prev + 1;
-      callbacks?.onImageChange?.(newIndex, images[newIndex]);
-      return newIndex;
-    });
-  };
-
-  const goToPrevious = () => {
-    if (currentIndex <= 0) return;
-
-    setCurrentIndex((prev) => {
-      const newIndex = prev - 1;
-      callbacks?.onImageChange?.(newIndex, images[newIndex]);
-      return newIndex;
-    });
-  };
-
-  const zoomIn = () => {
-    const currentZoom = settings.zoom;
-    if (currentZoom >= 5) return;
-
-    startTransition(() => {
-      setSettings((prev) => {
-        const newZoom = Math.min(prev.zoom * 1.2, 5);
-        callbacks?.onZoomChange?.(newZoom);
-        return { ...prev, zoom: newZoom };
-      });
-    });
-  };
-
-  const zoomOut = () => {
-    const currentZoom = settings.zoom;
-    if (currentZoom <= 0.1) return;
-
-    startTransition(() => {
-      setSettings((prev) => {
-        const newZoom = Math.max(prev.zoom / 1.2, 0.1);
-        callbacks?.onZoomChange?.(newZoom);
-        return { ...prev, zoom: newZoom };
-      });
-    });
-  };
-
-  const resetZoom = () => {
-    if (settings.zoom === 1) return;
-
-    startTransition(() => {
-      setSettings((prev) => {
-        callbacks?.onZoomChange?.(1);
-        return { ...prev, zoom: 1 };
-      });
-    });
-  };
-
   // キーボードマッピングの拡張
   // 画像数やコールバックの都合でonActionだけ差し替えたい場合は、親でKeyboardMappingを生成して渡す設計にする
   useKeyboardHandler(keyboardMapping, containerRef);
-
-  // 外部からの設定変更を反映
-  useEffect(() => {
-    setSettings((prev) => ({ ...prev, ...userSettings }));
-  }, [userSettings]);
 
   useEffect(() => {
     setLoading(isLoading);
@@ -202,11 +122,11 @@ export function ImageViewer({
         currentIndex={currentIndex}
         totalImages={images.length}
         zoom={settings.zoom}
-        onPrevious={goToPrevious}
-        onNext={goToNext}
-        onZoomIn={zoomIn}
-        onZoomOut={zoomOut}
-        onResetZoom={resetZoom}
+        onPrevious={() => dispatch('previousImage')}
+        onNext={() => dispatch('nextImage')}
+        onZoomIn={() => dispatch('zoomIn')}
+        onZoomOut={() => dispatch('zoomOut')}
+        onResetZoom={() => dispatch('resetZoom')}
         isVisible={controlsVisible}
       />
     </div>

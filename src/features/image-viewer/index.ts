@@ -24,7 +24,6 @@ export type { ImageHandle, ImageSource } from './types/ImageSource';
 export type {
   ActionType,
   ImageDisplayProps,
-  ImageViewerCallbacks,
   KeyboardMapping,
   KeyboardShortcut,
   ViewerControlsProps,
