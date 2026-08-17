@@ -1,6 +1,6 @@
 # sun-riseup-viewrrr — Agent Instructions
 
-Tauri v2 + React 19 + TypeScript の画像ビューア。機能ベースアーキテクチャ（`src/features/`）。
+Tauri v2 + React 19 + TypeScript の画像ビューア。機能ベースアーキテクチャ（`src/features/`）。パッケージマネージャは pnpm 11（`package.json#packageManager` を正とする）。
 
 ## 基本方針
 
