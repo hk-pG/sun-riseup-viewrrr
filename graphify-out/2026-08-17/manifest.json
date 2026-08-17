@@ -515,9 +515,9 @@
     "semantic_hash": "1eb1f4cf1fd0e4d5eed45e2cbac8a0ec"
   },
   "src/features/image-viewer/components/ImageViewer.tsx": {
-    "mtime": 1786942582.2958703,
-    "ast_hash": "6e30dc91c76ee2c12ea9843a2f6d5b33",
-    "semantic_hash": ""
+    "mtime": 1784552822.643942,
+    "ast_hash": "1827e5aeeee647c62c7d62f6030c2442",
+    "semantic_hash": "1827e5aeeee647c62c7d62f6030c2442"
   },
   "src/features/image-viewer/components/ViewerControls.tsx": {
     "mtime": 1781445988.5732193,
@@ -535,12 +535,12 @@
     "semantic_hash": ""
   },
   "src/features/image-viewer/hooks/__tests__/useKeyboardHandler.test.ts": {
-    "mtime": 1786943529.7447562,
-    "ast_hash": "ccea5db71b19faa8ff936efa2155c006",
+    "mtime": 1785851401.7632072,
+    "ast_hash": "1d8f411ec48e51db8d1bd49a0d5e9991",
     "semantic_hash": ""
   },
   "src/features/image-viewer/hooks/useControlsVisibility.ts": {
-    "mtime": 1785852980.4843357,
+    "mtime": 1779114783.7677238,
     "ast_hash": "30b6a38270f90f6d021326931458a4b8",
     "semantic_hash": "30b6a38270f90f6d021326931458a4b8"
   },
@@ -565,9 +565,9 @@
     "semantic_hash": "49eeb9c18eb969e0dfa3a4be69852d42"
   },
   "src/features/image-viewer/types/viewerTypes.ts": {
-    "mtime": 1786943534.586451,
-    "ast_hash": "8ea6162cc4498dc2d454ac8dee8c7356",
-    "semantic_hash": ""
+    "mtime": 1785766172.46999,
+    "ast_hash": "3095cd170dd67245dc32bbcb9f743266",
+    "semantic_hash": "3095cd170dd67245dc32bbcb9f743266"
   },
   "src/lib/utils.ts": {
     "mtime": 1768890927.7826228,
@@ -1625,8 +1625,8 @@
     "semantic_hash": ""
   },
   "src/features/image-viewer/keyboard/__tests__/keyboardConflicts.test.ts": {
-    "mtime": 1786943545.599679,
-    "ast_hash": "1abb4224cbefaae51c086b76c414d8ed",
+    "mtime": 1785851401.7637482,
+    "ast_hash": "a9f8d0975464105862fa68ded7925d44",
     "semantic_hash": ""
   },
   "src/features/image-viewer/keyboard/__tests__/keyboardUtils.test.ts": {
@@ -1642,21 +1642,6 @@
   "docs/test-value-review-ambiguous.md": {
     "mtime": 1785851401.7359707,
     "ast_hash": "91b65dfc6daa8d9b3769d3d02aef15f3",
-    "semantic_hash": ""
-  },
-  "src/features/image-viewer/hooks/__tests__/useViewerActions.test.ts": {
-    "mtime": 1786991231.7938442,
-    "ast_hash": "23d21aef60463b02b02677d4cfd9ee99",
-    "semantic_hash": ""
-  },
-  "src/features/image-viewer/hooks/useViewerActions.ts": {
-    "mtime": 1786991024.5902102,
-    "ast_hash": "30c5c922c131442063ce24df33400ddc",
-    "semantic_hash": ""
-  },
-  "docs/adr/003-viewer-actions-dispatch.md": {
-    "mtime": 1786970505.0521865,
-    "ast_hash": "06ccbad14f0624e8a1cac851fff653e8",
     "semantic_hash": ""
   }
 }

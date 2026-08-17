@@ -97,7 +97,5 @@
   "95": "ImageContainerReaderConfig",
   "96": "Review Unit Tests",
   "97": "hash_path",
-  "98": "CommandError",
-  "99": "ADR-003: 画像ビューア操作を `dispatch(ActionType)` と `useViewerActions` に集約する",
-  "100": "UserExperienceTracker"
+  "98": "CommandError"
 }
