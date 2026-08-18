@@ -20,7 +20,7 @@
 フロントエンド                              Rust バックエンド
 ──────────────────────────────────────────────────────────────
 useThumbnail (FolderView.tsx)
-  ① listImagesInFolder(folderPath)    →   list_images_in_folder
+  ① listImagesInFolder(folderPath)    →   list_images_in_container（deprecated）
   ② getBaseName(files[0])            →   tauri path::basename
   ③ getOrCreateThumbnail(files[0])   →   get_or_create_thumbnail
   ④ convertFileSrc(cachePath)             (ローカル変換)
@@ -28,7 +28,7 @@ useThumbnail (FolderView.tsx)
 
 useThumbnailPrefetch (Sidebar.tsx)
   ⑤ folders.slice(0, visibleCount)        (フロントが件数決定)
-  ⑥ N回 listImagesInFolder(folder)   →   N回 list_images_in_folder
+  ⑥ N回 listImagesInFolder(folder)   →   N回 list_images_in_container（deprecated）
   ⑦ batchCreateThumbnails(paths, N)  →   batch_create_thumbnails
   = N+1回のIPC（フロントがバッチ戦略を制御）
 ```
@@ -64,7 +64,7 @@ useThumbnailPrefetch (Sidebar.tsx)
 ──────────────────────────────────────────────────────────────
 useThumbnail (FolderView.tsx)
   ① getFolderThumbnail(folderPath)   →   get_folder_thumbnail
-                                           ├─ list_images_in_folder (内部)
+                                           ├─ get_first_image_in_container (内部)
                                            ├─ get_or_create_thumbnail (内部)
                                            └─ basename (内部)
   ② convertFileSrc(result.thumbnailPath)  (ローカル変換)
@@ -113,7 +113,7 @@ pub async fn get_folder_thumbnail(
 ```
 
 **内部処理フロー**:
-1. `core_logic::list_images_in_folder(folder_path)` で画像一覧取得
+1. `core_logic::fs::resolve_images_in_range(folder_path, offset=0, count=1)` で先頭1件を解決
 2. 画像がなければ `Ok(None)` を返却
 3. 最初の画像を選択し `ThumbnailGenerator::get_or_create_thumbnail` でサムネイル生成
 4. `std::path::Path::file_name()` でbasename取得
@@ -143,7 +143,7 @@ pub async fn prefetch_folder_thumbnails(
 
 **内部処理フロー**:
 1. `tokio::task::spawn_blocking` で非同期実行
-2. 各フォルダから `core_logic::list_images_in_folder` で最初の画像を収集
+2. 各フォルダから `core_logic::thumbnail::container::get_first_image_in_container` で最初の画像を収集
 3. `BatchThumbnailGenerator` でバッチ生成（優先度はバックエンド内部で決定）
 4. 個別画像のエラーは無視（プリフェッチは best-effort）
 5. `Ok(())` を返却
@@ -409,12 +409,12 @@ async function fetchThumbnail(folderPath: string, fs: FileSystemService) {
 | リスク | 影響度 | 対策 |
 |--------|--------|------|
 | Rust テストで `AppHandle` が必要 | 中 | `FolderThumbnailResult` のシリアライズテストは単体で可能。`get_folder_thumbnail` は統合テストで検証 |
-| `core_logic::list_images_in_folder` の結果順序に依存 | 低 | ファイルシステムの `read_dir` 順序に依存するが、現行と同じ挙動。必要なら Rust 側でソート追加 |
+| `resolve_images_in_range` の結果順序に依存 | 低 | ファイルシステムの `read_dir` 順序に依存するが、現行と同じ挙動。必要なら Rust 側でソート追加 |
 | `prefetch_folder_thumbnails` の大量フォルダ入力 | 低 | バックエンドの `TaskPriority` で自動制御。rayon スレッドプールが飽和を防止 |
 | Tauri v2 の `#[command]` で `Option<T>` の返却 | 低 | Tauri v2 は `Result<Option<T>, String>` を正しくシリアライズ。JSONで `null` として返る |
 
 ### 前提条件
-- `core_logic::list_images_in_folder` が Rust コマンド内部から直接呼び出せること（確認済み — `core_logic` クレートとして分離されている）
+- `core_logic::fs::resolve_images_in_range` が Rust コマンド内部から直接呼び出せること（確認済み — `core_logic` クレートとして分離されている）
 - `ThumbnailGenerator` と `BatchThumbnailGenerator` の既存内部APIは変更不要
 - テストで使用する `tests/fixtures/images/` フォルダが利用可能
 
