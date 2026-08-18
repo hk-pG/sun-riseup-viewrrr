@@ -36,7 +36,7 @@ export function FolderView({
       type="button"
       aria-pressed={isSelected}
       className={cn(
-        'flex w-full cursor-pointer flex-col p-1.5 text-left transition-colors hover:bg-sidebar-accent',
+        'flex w-full cursor-pointer flex-col gap-1.5 p-1.5 text-left transition-colors hover:bg-sidebar-accent',
         isSelected && 'bg-sidebar-accent ring-1 ring-sidebar-ring ring-inset',
         className,
       )}
@@ -73,7 +73,7 @@ export function FolderView({
         })()}
       </div>
 
-      <div className="w-full min-w-0 px-1 py-1">
+      <div className="w-full min-w-0 px-1">
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>

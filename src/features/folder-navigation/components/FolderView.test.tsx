@@ -30,6 +30,7 @@ describe('FolderView', () => {
     expect(screen.getByText('Test Folder')).toBeInTheDocument();
     const button = screen.getByRole('button', { pressed: false });
     expect(button).toHaveClass('p-1.5');
+    expect(button).toHaveClass('gap-1.5');
     expect(button).not.toHaveClass('border-2');
     expect(button).not.toHaveClass('ring-1');
   });
