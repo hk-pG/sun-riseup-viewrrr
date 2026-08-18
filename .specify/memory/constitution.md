@@ -112,7 +112,7 @@ pnpm test          # Vitestテストスイート
 - SWR（キャッシュ付きデータフェッチング用）
 - Radix UI primitives（`@radix-ui/*`。所有コンポーネントとして `src/shared/components/ui/` に管理）
 
-> **shadcn/ui CLIは使用禁止。** 過去に足場として使用したが、デスクトップアプリのUI/UX目標と合わないため凍結済み。新規UIコンポーネントは `@radix-ui/*` + 自前Tailwindクラスで実装する。`shadcn add` は実行しない。
+> **プロダクトUIの正本は `docs/ui-ux-principles.md`。** 棚と舞台の見た目に shadcn 既定のカード・トークン・HTML メニューを使わない。トースト・ツールチップ等の小さな部品の実装詳細として既存の shadcn 由来ファイルを残してよい。`shadcn add` で棚・舞台を足さない。
 
 **バックエンド**:
 - Tauri v2（Rust）
