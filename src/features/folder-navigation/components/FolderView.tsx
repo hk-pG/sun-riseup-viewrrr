@@ -6,6 +6,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
+import { cn } from '@/lib/utils';
 import { useThumbnail } from '../hooks/useThumbnail';
 import type { FolderViewProps } from '../types/folderTypes';
 
@@ -34,7 +35,11 @@ export function FolderView({
     <button
       type="button"
       aria-pressed={isSelected}
-      className={`flex w-full cursor-pointer flex-col text-left transition-colors hover:bg-sidebar-accent ${isSelected ? 'bg-sidebar-accent' : ''} ${className} `}
+      className={cn(
+        'flex w-full cursor-pointer flex-col p-1.5 text-left transition-colors hover:bg-sidebar-accent',
+        isSelected && 'bg-sidebar-accent ring-1 ring-sidebar-ring ring-inset',
+        className,
+      )}
       onClick={handleClick}
       onDoubleClick={handleDoubleClick}
     >

@@ -28,9 +28,24 @@ describe('FolderView', () => {
     });
     render(<FolderView folder={mockFolder} onClick={() => {}} />);
     expect(screen.getByText('Test Folder')).toBeInTheDocument();
-    expect(screen.getByRole('button', { pressed: false })).not.toHaveClass(
-      'border-2',
-    );
+    const button = screen.getByRole('button', { pressed: false });
+    expect(button).toHaveClass('p-1.5');
+    expect(button).not.toHaveClass('border-2');
+    expect(button).not.toHaveClass('ring-1');
+  });
+
+  it('選択中は薄い背景と 1px のリングで示す', () => {
+    vi.mocked(useThumbnail).mockReturnValue({
+      thumbnail: null,
+      isLoading: false,
+      isError: false,
+    });
+    render(<FolderView folder={mockFolder} isSelected onClick={() => {}} />);
+    const button = screen.getByRole('button', { pressed: true });
+    expect(button).toHaveClass('p-1.5');
+    expect(button).toHaveClass('bg-sidebar-accent');
+    expect(button).toHaveClass('ring-1');
+    expect(button).not.toHaveClass('border-2');
   });
 
   it('画像枚数を表示する', () => {
