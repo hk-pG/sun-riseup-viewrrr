@@ -50,7 +50,15 @@ const fs = useServices(); // FileSystemService実装を返す
 フロントエンドは Tauri の invoke を通じて Rust コマンドを呼び出します：
 
 ```typescript
-const images = await invoke<string[]>("list_images_in_folder", { folderPath });
+// コンテナ内の画像を「ハンドル（一覧）→ 指定範囲の解決」の2フェーズで取得
+const handles = await invoke<ImageHandle[]>("list_image_handles", {
+  containerPath,
+});
+const images = await invoke<string[]>("resolve_images_in_range", {
+  containerPath,
+  offset: 0,
+  count: 1,
+});
 ```
 
 `src-tauri/src/commands/fs.rs`の Rust ラッパーが`core_logic`クレートに処理を委譲します。
@@ -85,7 +93,7 @@ pnpm test:watch           # ウォッチモード
 pnpm storybook            # コンポーネントプレイグラウンド
 ```
 
-テストは Vitest + `@testing-library/react`を使用。Tauri のモックは`src/test/mocks.ts`の`setupTauriMocks()`を使用。DI パターンの例は`src/__tests__/App.test.tsx`を参照。
+テストは Vitest + `@testing-library/react`を使用。Tauri のモックは `src/test/setup.ts` の `setupFiles` 経由で `src/test/mocks.ts` が読み込まれ、登録される。テスト間リセットは `resetAllMocks()` を使用。DI パターンの例は `src/__tests__/App.test.tsx` を参照。
 
 ### ブランチ運用
 
