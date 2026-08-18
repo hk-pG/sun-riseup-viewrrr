@@ -21,11 +21,14 @@ export function FolderList({
     return selectedFolder?.path === folder.path;
   };
 
-  const parentRef = useRef(null);
+  const parentRef = useRef<HTMLDivElement>(null);
   const folderViewVirtualizer = useVirtualizer({
     count: folders.length,
     getScrollElement: () => parentRef.current,
-    estimateSize: () => thumbnailSize + 80,
+    estimateSize: () => {
+      const width = parentRef.current?.clientWidth ?? 250;
+      return Math.round(width * 1.5) + 32;
+    },
     overscan: 3,
   });
 

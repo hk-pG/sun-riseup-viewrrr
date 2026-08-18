@@ -35,10 +35,10 @@ export function Sidebar({
 
   return (
     <aside
-      className={`flex min-h-0 flex-col border-sidebar-border bg-sidebar text-sidebar-foreground`}
+      className={`flex min-h-0 flex-col border-sidebar-border border-r bg-sidebar text-sidebar-foreground`}
       style={{ width, ...style }}
     >
-      <div className="flex min-h-0 flex-1 flex-col p-2">
+      <div className="flex min-h-0 flex-1 flex-col">
         <SidebarHeader />
         <SidebarContent
           folders={folders}

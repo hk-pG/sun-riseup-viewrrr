@@ -16,9 +16,9 @@
         "title": "sun-riseup-viewrrr",
         "width": 1200,
         "height": 1200,
-        "decorations": false,
+        "decorations": true,
         "dragDropEnabled": true,
-        "transparent": true
+        "transparent": false
       }
     ],
     "security": {

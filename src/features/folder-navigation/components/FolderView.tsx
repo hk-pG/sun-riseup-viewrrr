@@ -14,7 +14,6 @@ export function FolderView({
   isSelected = false,
   onClick,
   onDoubleClick,
-  thumbnailSize = 120,
   showImageCount = true,
   className = '',
 }: FolderViewProps) {
@@ -35,14 +34,11 @@ export function FolderView({
     <button
       type="button"
       aria-pressed={isSelected}
-      className={`flex w-full cursor-pointer flex-col items-center rounded-lg p-3 transition-colors hover:bg-sidebar-accent ${isSelected ? 'border-2 border-sidebar-primary bg-sidebar-accent' : 'border-2 border-transparent'} ${className} `}
+      className={`flex w-full cursor-pointer flex-col text-left transition-colors hover:bg-sidebar-accent ${isSelected ? 'bg-sidebar-accent' : ''} ${className} `}
       onClick={handleClick}
       onDoubleClick={handleDoubleClick}
     >
-      <div
-        className="mb-2 flex items-center justify-center overflow-hidden rounded-md bg-muted"
-        style={{ width: thumbnailSize, height: thumbnailSize }}
-      >
+      <div className="aspect-[2/3] w-full overflow-hidden bg-muted">
         {(() => {
           if (isLoading) {
             return (
@@ -58,7 +54,7 @@ export function FolderView({
               <img
                 src={thumbnail.assetUrl}
                 alt={`${folder.name}のサムネイル`}
-                className="h-full w-full object-cover"
+                className="h-full w-full object-cover object-top"
                 onError={() => setImgError(true)}
               />
             );
@@ -66,15 +62,13 @@ export function FolderView({
 
           return (
             <div className="flex h-full w-full items-center justify-center text-muted-foreground">
-              <span className="text-4xl">
-                <LucideFolder />
-              </span>
+              <LucideFolder className="size-8" />
             </div>
           );
         })()}
       </div>
 
-      <div className="w-full min-w-0 overflow-hidden px-1 text-center">
+      <div className="w-full min-w-0 px-1 py-1">
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
@@ -88,9 +82,7 @@ export function FolderView({
           </Tooltip>
         </TooltipProvider>
         {showImageCount && folder.imageCount !== undefined && (
-          <p className="mt-1 text-muted-foreground text-xs">
-            {folder.imageCount}枚
-          </p>
+          <p className="text-muted-foreground text-xs">{folder.imageCount}枚</p>
         )}
       </div>
     </button>

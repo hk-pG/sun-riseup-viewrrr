@@ -139,12 +139,11 @@ describe('App Component', () => {
       expect(screen.getByText('画像が選択されていません')).toBeInTheDocument();
     });
 
-    it('should set menu bar as draggable', () => {
+    it('should not mark the in-window menu as a drag region (native title bar)', () => {
       renderApp();
 
       const menuBar = screen.getByRole('banner');
-      // INFO: UIに関する設定だが、フレームレスのため確実にdata-tauri-drag-region属性が設定されている必要がある
-      expect(menuBar).toHaveAttribute('data-tauri-drag-region', 'true');
+      expect(menuBar).not.toHaveAttribute('data-tauri-drag-region');
     });
   });
 

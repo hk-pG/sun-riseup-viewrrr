@@ -1,4 +1,3 @@
-import { Eye, FileText, FolderOpen } from 'lucide-react';
 import {
   Menubar,
   MenubarContent,
@@ -56,27 +55,36 @@ export type MenuItemData = {
   children?: MenuItemData[];
 };
 
+const modifierKey = (): string => {
+  if (
+    typeof navigator !== 'undefined' &&
+    /Mac|iPhone|iPad/.test(navigator.userAgent)
+  ) {
+    return '⌘';
+  }
+  return 'Ctrl';
+};
+
+const mod = modifierKey();
+
 // メニュー構造データ例
 const fileMenu: MenuItemData[] = [
   {
     type: 'item',
     label: 'フォルダを開く',
-    icon: <FolderOpen className="mr-2 h-4 w-4" />,
-    shortcut: 'Ctrl+O',
+    shortcut: `${mod}+O`,
     actionId: 'open-folder',
   },
   {
     type: 'item',
     label: '画像ファイルを開く',
-    icon: <span className="mr-2">🖼</span>,
-    shortcut: 'Ctrl+Shift+O',
+    shortcut: `${mod}+Shift+O`,
     actionId: 'open-image',
   },
   { type: 'separator' },
   {
     type: 'item',
     label: '終了',
-    shortcut: 'Alt+F4',
     actionId: 'exit',
   },
 ];
@@ -195,39 +203,30 @@ function renderMenuItems(
 
 export const AppMenuBar = ({
   onMenuAction,
-  isDraggable = true,
+  isDraggable = false,
   className = '',
   style,
 }: AppMenuBarProps) => {
   return (
     <header
-      className={`flex items-center justify-between border-border bg-background px-4 py-2 text-foreground ${className}`}
+      className={`flex items-center border-border border-b bg-background px-1 text-foreground ${className}`}
       style={style}
       {...(isDraggable ? { 'data-tauri-drag-region': true } : {})}
     >
-      <div className="flex items-center gap-4">
-        <Menubar className="border-border bg-background">
-          <MenubarMenu>
-            <MenubarTrigger>
-              <FileText className="h-4 w-4" />
-              ファイル
-            </MenubarTrigger>
-            <MenubarContent className="border-border bg-popover shadow-lg">
-              {renderMenuItems(fileMenu, onMenuAction)}
-            </MenubarContent>
-          </MenubarMenu>
-          <MenubarMenu>
-            <MenubarTrigger>
-              <Eye className="h-4 w-4" />
-              表示
-            </MenubarTrigger>
-            <MenubarContent className="border-border bg-popover shadow-lg">
-              {renderMenuItems(viewMenu, onMenuAction)}
-            </MenubarContent>
-          </MenubarMenu>
-          {/* ...他のメニューも同様にデータ化して適用可能... */}
-        </Menubar>
-      </div>
+      <Menubar className="h-7 border-0 bg-transparent p-0 shadow-none">
+        <MenubarMenu>
+          <MenubarTrigger>ファイル</MenubarTrigger>
+          <MenubarContent>
+            {renderMenuItems(fileMenu, onMenuAction)}
+          </MenubarContent>
+        </MenubarMenu>
+        <MenubarMenu>
+          <MenubarTrigger>表示</MenubarTrigger>
+          <MenubarContent>
+            {renderMenuItems(viewMenu, onMenuAction)}
+          </MenubarContent>
+        </MenubarMenu>
+      </Menubar>
     </header>
   );
 };

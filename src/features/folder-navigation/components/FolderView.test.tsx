@@ -28,6 +28,9 @@ describe('FolderView', () => {
     });
     render(<FolderView folder={mockFolder} onClick={() => {}} />);
     expect(screen.getByText('Test Folder')).toBeInTheDocument();
+    expect(screen.getByRole('button', { pressed: false })).not.toHaveClass(
+      'border-2',
+    );
   });
 
   it('画像枚数を表示する', () => {
