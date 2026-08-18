@@ -110,7 +110,7 @@ export function KeyboardShortcutHelp({
                       ))}
                     </div>
                     {item.shortcuts[0]?.description && (
-                      <p className="mt-1 text-gray-500 text-sm">
+                      <p className="mt-1 text-muted-foreground text-sm">
                         {item.shortcuts[0].description}
                       </p>
                     )}
@@ -121,8 +121,8 @@ export function KeyboardShortcutHelp({
           )}
         </div>
 
-        <div className="border-gray-200 border-t bg-gray-50 p-4">
-          <p className="text-center text-gray-600 text-sm">
+        <div className="border-border border-t bg-muted p-4">
+          <p className="text-center text-muted-foreground text-sm">
             設定は呼び出し元で変更できます
           </p>
         </div>

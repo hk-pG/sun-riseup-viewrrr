@@ -37,7 +37,7 @@ const defaultSettings: ViewerSettings = {
   fitMode: 'both',
   zoom: 1,
   rotation: 0,
-  backgroundColor: '#1a1a1a',
+  backgroundColor: 'var(--viewer-bg, oklch(0.13 0 0))',
   showControls: true,
   autoHideControls: true,
   controlsTimeout: 3000,
