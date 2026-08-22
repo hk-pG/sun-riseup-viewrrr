@@ -6,63 +6,73 @@ sun-riseup-viewrrr は、漫画・イラストコレクション向けのクロ�
 
 ---
 
+## 主な機能
+
+- フォルダおよび ZIP アーカイブ内の画像閲覧
+- 同じ階層にあるフォルダ・アーカイブの一覧とサムネイル表示
+- キーボードショートカットによるページ送りと操作
+- ライト / ダークテーマの切り替え
+
 ## システム構成
 
-フロントとバックエンドのつながりがざっくり分かる粒度で記載しています。個々の機能設計はここでは扱いません。
+フロントエンドとバックエンドのつながりが分かる粒度でまとめています。個々の機能の設計はここでは扱いません。
 
 ### 全体像
 
 ```mermaid
 flowchart LR
   subgraph FE["フロントエンド — React 19 / TypeScript / Vite"]
-    UI["features/*\n画面・操作"]
-    Svc["FileSystemService\n（Context による DI）"]
-    Adapters["tauriAdapters\nまたは mockService"]
+    UI["features/*<br/>画面・操作"]
+    Svc["FileSystemService<br/>（Context による DI）"]
+    Adapter["tauriAdapters<br/>本番実装"]
+    Mock["mockService<br/>開発用実装"]
   end
 
   subgraph IPC["Tauri 境界"]
-    Invoke["invoke / dialog\nasset protocol"]
+    Invoke["invoke コマンド<br/>dialog / path など"]
   end
 
   subgraph BE["バックエンド — Rust / Tauri v2"]
-    Shell["src-tauri\nIPC・プラグイン"]
-    Core["core_logic\nドメインロジック"]
+    Shell["src-tauri<br/>コマンド登録・プラグイン"]
+    Core["core_logic<br/>ドメインロジック"]
   end
 
   subgraph OS["ローカル"]
     Disk["フォルダ / ZIP"]
-    Cache["アプリキャッシュ\n展開・サムネイル"]
+    Cache["アプリキャッシュ<br/>展開・サムネイル"]
   end
 
-  UI --> Svc --> Adapters --> Invoke --> Shell --> Core
+  UI --> Svc --> Adapter --> Invoke --> Shell --> Core
+  Svc -. VITE_MOCK 時 .-> Mock
   Core --> Disk
   Core --> Cache
+  UI -. asset protocol で画像表示 .-> Cache
 ```
 
 ### レイヤの役割
 
 | レイヤ | 主な置き場 | 役割 |
 | --- | --- | --- |
-| UI | `src/features/` | 画面と操作（シェル / フォルダナビ / 画像ビューア） |
-| フロント境界 | `src/shared/` | `FileSystemService` の契約と DI。本番は Tauri アダプタ、開発時はモックに差し替え可能 |
-| Tauri シェル | `src-tauri/` | `invoke` コマンドの登録、プラグイン、キャッシュパスの解決 |
-| ドメイン | `src-tauri/core_logic/` | Tauri に依存しない FS・アーカイブ読取・サムネイル処理 |
-| ローカル資源 | OS のファイルシステム | 画像本体と、展開・サムネイル用キャッシュ |
+| UI | `src/features/` | 画面と操作（シェル / フォルダナビゲーション / 画像ビューア） |
+| フロント境界 | `src/shared/` | `FileSystemService` の契約と DI、Tauri API のアダプタ |
+| Tauri シェル | `src-tauri/` | コマンド登録、プラグイン、キャッシュパスの解決 |
+| ドメイン | `src-tauri/core_logic/` | Tauri に依存しないファイル走査・アーカイブ読取・サムネイル生成 |
+| ローカル資源 | OS のファイルシステム | 画像本体と、アーカイブ展開・サムネイルのキャッシュ |
 
-補足です。
+ポイントは次の 3 点です。
 
-- 通信は主に `invoke`（コマンド呼び出し）です。フロントはサービス抽象経由で呼ぶため、UI が Tauri API に直接依存しません。
-- 重い処理は Rust 側に寄せています。フォルダ / ZIP の列挙やサムネイル生成は `core_logic` が担い、シェルは薄いラッパです。
-- 開発時は `pnpm dev:mock` で同じサービス契約をモック実装に差し替え、ブラウザだけで UI を起動できます。
+- フロントエンドとバックエンドの通信は `invoke` によるコマンド呼び出しが中心です。UI は `FileSystemService` を介して呼ぶため、Tauri API に直接依存しません。
+- 重い処理は Rust 側に寄せています。フォルダや ZIP の走査、サムネイル生成は `core_logic` が担い、`src-tauri` は薄いラッパに留めています。
+- 開発時は同じ契約のモック実装に差し替えられるため、Rust バックエンドなしでもブラウザだけで UI を確認できます。
 
-### 技術スタック（概要）
+### 技術スタック
 
 | 領域 | 技術 |
 | --- | --- |
 | UI | React 19, TypeScript, Vite, Tailwind CSS, SWR |
-| デスクトップ | Tauri v2（dialog / path / log など） |
-| バックエンド | Rust（`core_logic` crate + Tauri シェル） |
-| 品質 | Biome, Vitest, Cargo test |
+| デスクトップ | Tauri v2（dialog / fs / log などのプラグイン） |
+| バックエンド | Rust（Tauri シェル + `core_logic` クレート） |
+| 品質 | Biome, Vitest, `cargo test` |
 
 ### ディレクトリ構成（抜粋）
 
@@ -71,11 +81,11 @@ flowchart LR
 ├── src/                      # フロントエンド
 │   ├── features/             # 画面・機能単位
 │   ├── shared/               # アダプタ・DI・共通フック
-│   └── dev/                  # モック実装（VITE_MOCK）
-├── src-tauri/                # Tauri シェル（IPC・プラグイン）
+│   └── dev/                  # 開発用モック実装
+├── src-tauri/                # Tauri シェル（コマンド・プラグイン）
 │   └── core_logic/           # ドメインロジック（Tauri 非依存）
-├── tests/                    # モック用フィクスチャなど
-└── docs/                     # 設計メモ・ADR（実行には不要）
+├── tests/                    # テスト・モック共用のフィクスチャ
+└── docs/                     # 設計メモ・ADR
 ```
 
 ---
@@ -86,8 +96,10 @@ flowchart LR
 
 ## 前提条件
 
-OS ごとの前提条件は、Tauri 公式ドキュメントを参照してください。  
-[https://v2.tauri.app/start/prerequisites/](https://v2.tauri.app/start/prerequisites/)
+- Node.js 22 以上と pnpm
+- Rust ツールチェイン（stable）
+- OS ごとの依存パッケージは、Tauri 公式ドキュメントを参照してください  
+  [https://v2.tauri.app/start/prerequisites/](https://v2.tauri.app/start/prerequisites/)
 
 ## ビルド・開発手順
 
@@ -103,7 +115,7 @@ OS ごとの前提条件は、Tauri 公式ドキュメントを参照してく�
     pnpm tauri dev
     ```
 
-    UI だけをブラウザで確認する場合:
+    UI だけをブラウザで確認する場合は、モックモードを使用します。
 
     ```bash
     pnpm dev:mock
@@ -114,3 +126,11 @@ OS ごとの前提条件は、Tauri 公式ドキュメントを参照してく�
     ```bash
     pnpm tauri build
     ```
+
+## 開発時のコマンド
+
+```bash
+pnpm lint                          # Biome によるチェック
+pnpm test                          # フロントエンドのテスト（Vitest）
+cd src-tauri && cargo test --workspace  # Rust のテスト
+```
