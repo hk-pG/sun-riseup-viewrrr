@@ -20,33 +20,32 @@ sun-riseup-viewrrr は、漫画・イラストコレクション向けのクロ�
 ### 全体像
 
 ```mermaid
-flowchart LR
-  subgraph FE["フロントエンド — React 19 / TypeScript / Vite"]
+flowchart TB
+  subgraph FE["フロントエンド — React / TypeScript / Vite"]
+    direction TB
     UI["features/*<br/>画面・操作"]
-    Svc["FileSystemService<br/>（Context による DI）"]
+    Svc["FileSystemService<br/>Tauri を隠す抽象化 + DI"]
     Adapter["tauriAdapters<br/>本番実装"]
     Mock["mockService<br/>開発用実装"]
-  end
-
-  subgraph IPC["Tauri 境界"]
-    Invoke["invoke コマンド<br/>dialog / path など"]
+    UI --> Svc
+    Svc --> Adapter
+    Svc -. VITE_MOCK 時 .-> Mock
   end
 
   subgraph BE["バックエンド — Rust / Tauri v2"]
+    direction TB
     Shell["src-tauri<br/>コマンド登録・プラグイン"]
-    Core["core_logic<br/>ドメインロジック"]
+    Core["core_logic<br/>画像走査・ZIP 展開<br/>サムネイル生成"]
+    Shell --> Core
   end
 
-  subgraph OS["ローカル"]
-    Disk["フォルダ / ZIP"]
-    Cache["アプリキャッシュ<br/>展開・サムネイル"]
-  end
+  Disk["フォルダ / ZIP"]
+  Cache["アプリキャッシュ<br/>展開画像・サムネイル"]
 
-  UI --> Svc --> Adapter --> Invoke --> Shell --> Core
-  Svc -. VITE_MOCK 時 .-> Mock
+  Adapter -- "invoke コマンド" --> Shell
   Core --> Disk
   Core --> Cache
-  UI -. asset protocol で画像表示 .-> Cache
+  UI -. "画像は asset protocol" .-> Cache
 ```
 
 ### レイヤの役割
