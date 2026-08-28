@@ -9,6 +9,7 @@ import { AppMenuBar, useAppActions } from './features/app-shell';
 import {
   type FolderInfo,
   LocalFolderContainer,
+  SIDEBAR_CONFIG,
   Sidebar,
   useOpenImageFile,
   useSiblingContainers,
@@ -111,16 +112,14 @@ function App({ initialState }: { initialState?: Partial<AppState> }) {
   return (
     <ErrorBoundary>
       <div className="flex h-screen flex-col bg-background">
-        <div data-tauri-drag-region className="draggable h-16">
-          <AppMenuBar isDraggable={true} onMenuAction={handleMenuAction} />
-        </div>
+        <AppMenuBar onMenuAction={handleMenuAction} />
 
-        <div className="flex flex-1 overflow-hidden bg-background text-foreground">
+        <div className="flex min-h-0 flex-1 overflow-hidden text-foreground">
           <Sidebar
             folders={folderInfo}
             selectedFolder={selectedFolder}
             onFolderSelect={handleFolderSelect}
-            width={280}
+            width={SIDEBAR_CONFIG.DEFAULT_WIDTH}
             loading={isPending}
           />
           <ImageViewer

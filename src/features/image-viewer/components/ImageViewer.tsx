@@ -1,13 +1,27 @@
 'use client';
 
-import { useEffect, useRef, useState, useTransition } from 'react';
+import {
+  type MouseEvent,
+  type ReactNode,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  useTransition,
+} from 'react';
 import type { ImageContainer } from '@/features/image-viewer/types/ImageContainer';
 import type { ImageSource } from '@/features/image-viewer/types/ImageSource';
 import type {
+  ActionType,
   KeyboardMapping,
   ViewerSettings,
 } from '@/features/image-viewer/types/viewerTypes';
 import { useImages } from '@/shared/hooks/data/useImages';
+import {
+  createCustomKeyboardMapping,
+  createDefaultKeyboardMapping,
+} from '@/shared/utils/keyboardUtils';
 import { useControlsVisibility } from '../hooks/useControlsVisibility';
 import { useKeyboardHandler } from '../hooks/useKeyboardHandler';
 import { ImageDisplay } from './ImageDisplay';
@@ -37,17 +51,19 @@ const defaultSettings: ViewerSettings = {
   fitMode: 'both',
   zoom: 1,
   rotation: 0,
-  backgroundColor: '#1a1a1a',
+  backgroundColor: 'var(--viewer-bg, oklch(0.13 0 0))',
   showControls: true,
   autoHideControls: true,
-  controlsTimeout: 3000,
+  controlsTimeout: 1200,
 };
+
+const stageLabelClass = 'text-lg text-white/55';
 
 export function ImageViewer({
   container,
   initialIndex = 0,
   settings: userSettings,
-  keyboardMapping,
+  keyboardMapping: keyboardMappingProp,
   callbacks,
   className = '',
 }: ImageViewerProps) {
@@ -60,7 +76,6 @@ export function ImageViewer({
   const { images = [], isLoading, error } = useImages(imageSource);
   const [loading, setLoading] = useState(true);
 
-  // 重い処理（ズーム）を非ブロッキングで実行、軽量操作（画像切り替え）には使用しない
   const [, startTransition] = useTransition();
 
   const [currentIndex, setCurrentIndex] = useState(initialIndex);
@@ -69,75 +84,194 @@ export function ImageViewer({
 
   const currentImage = images[currentIndex];
 
-  // コントロールの表示管理
-  const { isVisible: controlsVisible, handleMouseMove } = useControlsVisibility(
+  const {
+    isVisible: hudVisible,
+    handleMouseMove,
+    reveal,
+  } = useControlsVisibility(
     settings.showControls,
     settings.autoHideControls,
     settings.controlsTimeout,
   );
 
-  const goToNext = () => {
-    if (currentIndex >= images.length - 1) return;
-
+  const goToNext = useCallback(() => {
     setCurrentIndex((prev) => {
+      if (prev >= images.length - 1) return prev;
       const newIndex = prev + 1;
       callbacks?.onImageChange?.(newIndex, images[newIndex]);
       return newIndex;
     });
-  };
+    reveal();
+  }, [images, callbacks, reveal]);
 
-  const goToPrevious = () => {
-    if (currentIndex <= 0) return;
-
+  const goToPrevious = useCallback(() => {
     setCurrentIndex((prev) => {
+      if (prev <= 0) return prev;
       const newIndex = prev - 1;
       callbacks?.onImageChange?.(newIndex, images[newIndex]);
       return newIndex;
     });
-  };
+    reveal();
+  }, [images, callbacks, reveal]);
 
-  const zoomIn = () => {
-    const currentZoom = settings.zoom;
-    if (currentZoom >= 5) return;
-
+  const zoomIn = useCallback(() => {
     startTransition(() => {
       setSettings((prev) => {
+        if (prev.zoom >= 5) return prev;
         const newZoom = Math.min(prev.zoom * 1.2, 5);
         callbacks?.onZoomChange?.(newZoom);
         return { ...prev, zoom: newZoom };
       });
     });
-  };
+  }, [callbacks]);
 
-  const zoomOut = () => {
-    const currentZoom = settings.zoom;
-    if (currentZoom <= 0.1) return;
-
+  const zoomOut = useCallback(() => {
     startTransition(() => {
       setSettings((prev) => {
+        if (prev.zoom <= 0.1) return prev;
         const newZoom = Math.max(prev.zoom / 1.2, 0.1);
         callbacks?.onZoomChange?.(newZoom);
         return { ...prev, zoom: newZoom };
       });
     });
-  };
+  }, [callbacks]);
 
-  const resetZoom = () => {
-    if (settings.zoom === 1) return;
-
+  const resetZoom = useCallback(() => {
     startTransition(() => {
       setSettings((prev) => {
+        if (prev.zoom === 1) return prev;
         callbacks?.onZoomChange?.(1);
         return { ...prev, zoom: 1 };
       });
     });
-  };
+  }, [callbacks]);
 
-  // キーボードマッピングの拡張
-  // 画像数やコールバックの都合でonActionだけ差し替えたい場合は、親でKeyboardMappingを生成して渡す設計にする
+  const goToFirst = useCallback(() => {
+    setCurrentIndex((prev) => {
+      if (prev === 0 || images.length === 0) return prev;
+      callbacks?.onImageChange?.(0, images[0]);
+      return 0;
+    });
+    reveal();
+  }, [images, callbacks, reveal]);
+
+  const goToLast = useCallback(() => {
+    setCurrentIndex((prev) => {
+      const last = images.length - 1;
+      if (last < 0 || prev === last) return prev;
+      callbacks?.onImageChange?.(last, images[last]);
+      return last;
+    });
+    reveal();
+  }, [images, callbacks, reveal]);
+
+  const handleAction = useCallback(
+    (action: ActionType, event: KeyboardEvent) => {
+      switch (action) {
+        case 'nextImage':
+          goToNext();
+          break;
+        case 'previousImage':
+          goToPrevious();
+          break;
+        case 'firstImage':
+          goToFirst();
+          break;
+        case 'lastImage':
+          goToLast();
+          break;
+        case 'zoomIn':
+          zoomIn();
+          break;
+        case 'zoomOut':
+          zoomOut();
+          break;
+        case 'resetZoom':
+          resetZoom();
+          break;
+        default:
+          callbacks?.onCustomAction?.(action, event);
+      }
+    },
+    [
+      goToNext,
+      goToPrevious,
+      goToFirst,
+      goToLast,
+      zoomIn,
+      zoomOut,
+      resetZoom,
+      callbacks,
+    ],
+  );
+
+  const builtInMapping = useMemo(() => {
+    const base = createDefaultKeyboardMapping(handleAction);
+    return createCustomKeyboardMapping(
+      {
+        nextImage: [
+          { key: 'ArrowLeft', description: '次の画像', preventDefault: true },
+          {
+            key: ' ',
+            description: '次の画像（スペース）',
+            preventDefault: true,
+          },
+          { key: 'j', description: '次の画像', preventDefault: true },
+        ],
+        previousImage: [
+          { key: 'ArrowRight', description: '前の画像', preventDefault: true },
+          { key: 'k', description: '前の画像', preventDefault: true },
+        ],
+        zoomIn: [
+          { key: '+', description: 'ズームイン', preventDefault: true },
+          { key: '=', description: 'ズームイン', preventDefault: true },
+        ],
+        zoomOut: [
+          { key: '-', description: 'ズームアウト', preventDefault: true },
+        ],
+        resetZoom: [
+          { key: '0', description: 'ズームリセット', preventDefault: true },
+        ],
+      },
+      handleAction,
+      base,
+    );
+  }, [handleAction]);
+
+  const keyboardMapping = keyboardMappingProp ?? builtInMapping;
+
   useKeyboardHandler(keyboardMapping, containerRef);
 
-  // 外部からの設定変更を反映
+  const handleStageClick = (event: MouseEvent<HTMLDivElement>) => {
+    if (images.length === 0) return;
+    const rect = event.currentTarget.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    if (x < rect.width / 2) {
+      goToNext();
+    } else {
+      goToPrevious();
+    }
+  };
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+
+    const onWheel = (event: WheelEvent) => {
+      event.preventDefault();
+      if (event.deltaY > 0) {
+        goToNext();
+      } else if (event.deltaY < 0) {
+        goToPrevious();
+      }
+    };
+
+    el.addEventListener('wheel', onWheel, { passive: false });
+    return () => {
+      el.removeEventListener('wheel', onWheel);
+    };
+  }, [goToNext, goToPrevious]);
+
   useEffect(() => {
     setSettings((prev) => ({ ...prev, ...userSettings }));
   }, [userSettings]);
@@ -146,38 +280,30 @@ export function ImageViewer({
     setLoading(isLoading);
   }, [isLoading]);
 
+  let stageBody: ReactNode;
   if (loading) {
-    return (
-      <div
-        className={`flex items-center justify-center ${className}`}
-        style={{ backgroundColor: settings.backgroundColor }}
-      >
-        <div className="text-foreground text-lg">読み込み中...</div>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div
-        className={`flex items-center justify-center ${className}`}
-        style={{ backgroundColor: settings.backgroundColor }}
-      >
-        <div className="text-destructive text-lg">{String(error)}</div>
-      </div>
-    );
-  }
-
-  if (images.length === 0) {
-    return (
-      <div
-        className={`flex items-center justify-center ${className}`}
-        style={{ backgroundColor: settings.backgroundColor }}
-      >
-        <div className="text-lg text-muted-foreground">
-          画像が選択されていません
-        </div>
-      </div>
+    stageBody = <div className={stageLabelClass}>読み込み中...</div>;
+  } else if (error) {
+    stageBody = <div className="text-destructive text-lg">{String(error)}</div>;
+  } else if (images.length === 0 || !currentImage) {
+    stageBody = <div className={stageLabelClass}>画像が選択されていません</div>;
+  } else {
+    stageBody = (
+      <>
+        <ImageDisplay
+          image={currentImage}
+          settings={settings}
+          onLoad={() => callbacks?.onImageLoad?.(currentImage)}
+          onError={(err) => callbacks?.onImageError?.(err, currentImage)}
+          className="h-full w-full"
+          transitionType="fade"
+        />
+        <ViewerControls
+          currentIndex={currentIndex}
+          totalImages={images.length}
+          isVisible={hudVisible}
+        />
+      </>
     );
   }
 
@@ -185,30 +311,16 @@ export function ImageViewer({
     <div
       ref={containerRef}
       role="application"
-      className={`relative ${className}`}
+      className={`relative flex h-full w-full items-center justify-center ${className}`}
+      style={{ backgroundColor: settings.backgroundColor }}
       onMouseMove={handleMouseMove}
+      onClick={handleStageClick}
+      onKeyDown={() => {
+        containerRef.current?.focus();
+      }}
       tabIndex={-1}
     >
-      <ImageDisplay
-        image={currentImage}
-        settings={settings}
-        onLoad={() => callbacks?.onImageLoad?.(currentImage)}
-        onError={(error) => callbacks?.onImageError?.(error, currentImage)}
-        className="h-full w-full pb-24"
-        transitionType="fade"
-      />
-
-      <ViewerControls
-        currentIndex={currentIndex}
-        totalImages={images.length}
-        zoom={settings.zoom}
-        onPrevious={goToPrevious}
-        onNext={goToNext}
-        onZoomIn={zoomIn}
-        onZoomOut={zoomOut}
-        onResetZoom={resetZoom}
-        isVisible={controlsVisible}
-      />
+      {stageBody}
     </div>
   );
 }

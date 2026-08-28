@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { LocalFolderContainer } from '@/features/folder-navigation';
 import type { ImageContainer } from '@/features/image-viewer';
@@ -81,6 +81,90 @@ describe('ImageViewer', () => {
       renderComponent({ container });
 
       expect(mockUseImages).toHaveBeenCalledWith(container);
+    });
+  });
+
+  const twoImages = [
+    {
+      id: 'page-1',
+      name: 'page-1.jpg',
+      assetUrl: '/page-1.jpg',
+    },
+    {
+      id: 'page-2',
+      name: 'page-2.jpg',
+      assetUrl: '/page-2.jpg',
+    },
+  ];
+
+  describe('stage reading (right-opening)', () => {
+    const mockRect = {
+      x: 0,
+      y: 0,
+      top: 0,
+      left: 0,
+      bottom: 400,
+      right: 400,
+      width: 400,
+      height: 400,
+      toJSON: () => ({}),
+    };
+
+    const renderWithImages = () => {
+      vi.mocked(useImages).mockReturnValue({
+        images: twoImages,
+        isLoading: false,
+        error: null,
+      });
+      return renderComponent({
+        container: new LocalFolderContainer(
+          '/test/folder',
+          createMockFileSystemService(),
+        ),
+        settings: { autoHideControls: false },
+      });
+    };
+
+    it('shows a page HUD instead of a button toolbar', () => {
+      renderWithImages();
+
+      expect(screen.getByText('1 / 2')).toBeInTheDocument();
+      expect(
+        screen.queryByRole('button', { name: '次の画像' }),
+      ).not.toBeInTheDocument();
+      expect(
+        screen.queryByRole('button', { name: 'ズームイン' }),
+      ).not.toBeInTheDocument();
+    });
+
+    it('advances on left-half click (right-opening)', () => {
+      renderWithImages();
+      const stage = screen.getByRole('application');
+      vi.spyOn(stage, 'getBoundingClientRect').mockReturnValue(mockRect);
+
+      fireEvent.click(stage, { clientX: 50, clientY: 200 });
+
+      expect(screen.getByText('2 / 2')).toBeInTheDocument();
+    });
+
+    it('goes back on right-half click (right-opening)', () => {
+      renderWithImages();
+      const stage = screen.getByRole('application');
+      vi.spyOn(stage, 'getBoundingClientRect').mockReturnValue(mockRect);
+
+      fireEvent.click(stage, { clientX: 50, clientY: 200 });
+      fireEvent.click(stage, { clientX: 350, clientY: 200 });
+
+      expect(screen.getByText('1 / 2')).toBeInTheDocument();
+    });
+
+    it('turns the page with the wheel even while not zoomed', () => {
+      renderWithImages();
+      const stage = screen.getByRole('application');
+
+      fireEvent.wheel(stage, { deltaY: 80 });
+
+      expect(screen.getByText('2 / 2')).toBeInTheDocument();
     });
   });
 });

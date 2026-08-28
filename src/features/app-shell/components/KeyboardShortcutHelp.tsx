@@ -53,9 +53,9 @@ export function KeyboardShortcutHelp({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/80 backdrop-blur-sm">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
       <div
-        className={`mx-4 max-h-[80vh] w-full max-w-2xl overflow-hidden rounded-lg bg-card text-card-foreground shadow-xl ${className}`}
+        className={`mx-4 max-h-[80vh] w-full max-w-2xl overflow-hidden rounded-md border border-border bg-card text-card-foreground ${className}`}
       >
         <div className="border-border border-b p-6">
           <div className="mb-4 flex items-center justify-between">
@@ -110,7 +110,7 @@ export function KeyboardShortcutHelp({
                       ))}
                     </div>
                     {item.shortcuts[0]?.description && (
-                      <p className="mt-1 text-gray-500 text-sm">
+                      <p className="mt-1 text-muted-foreground text-sm">
                         {item.shortcuts[0].description}
                       </p>
                     )}
@@ -121,8 +121,8 @@ export function KeyboardShortcutHelp({
           )}
         </div>
 
-        <div className="border-gray-200 border-t bg-gray-50 p-4">
-          <p className="text-center text-gray-600 text-sm">
+        <div className="border-border border-t bg-muted p-4">
+          <p className="text-center text-muted-foreground text-sm">
             設定は呼び出し元で変更できます
           </p>
         </div>

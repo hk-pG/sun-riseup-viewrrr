@@ -36,12 +36,6 @@ export interface ImageDisplayProps {
 export interface ViewerControlsProps {
   currentIndex: number;
   totalImages: number;
-  zoom: number;
-  onPrevious: () => void;
-  onNext: () => void;
-  onZoomIn: () => void;
-  onZoomOut: () => void;
-  onResetZoom: () => void;
   isVisible: boolean;
   className?: string;
 }

@@ -71,5 +71,5 @@ export const useControlsVisibility = (
     };
   }, []);
 
-  return { isVisible, handleMouseMove };
+  return { isVisible, handleMouseMove, reveal: handleMouseMove };
 };

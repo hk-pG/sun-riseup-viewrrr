@@ -123,11 +123,11 @@ describe('AppMenuBar Component (No Theme Dependencies)', () => {
       expect(screen.getByRole('banner')).toBeInTheDocument();
     });
 
-    it('should set drag region attribute when isDraggable is true', () => {
-      renderAppMenuBar({ isDraggable: true });
+    it('should not set drag region by default (native title bar)', () => {
+      renderAppMenuBar();
 
       const header = screen.getByRole('banner');
-      expect(header).toHaveAttribute('data-tauri-drag-region', 'true');
+      expect(header).not.toHaveAttribute('data-tauri-drag-region');
     });
 
     it('should not set drag region attribute when isDraggable is false', () => {
@@ -196,6 +196,13 @@ describe('AppMenuBar Component (No Theme Dependencies)', () => {
   });
 
   describe('Menu Action Callbacks', () => {
+    it('終了メニューに Alt+F4 を直書きしない', () => {
+      renderAppMenuBar();
+
+      expect(screen.getByText('終了')).toBeInTheDocument();
+      expect(screen.queryByText('Alt+F4')).not.toBeInTheDocument();
+    });
+
     it('ファイルメニューの「フォルダを開く」クリックで onMenuAction("open-folder") が呼ばれる', () => {
       renderAppMenuBar();
 

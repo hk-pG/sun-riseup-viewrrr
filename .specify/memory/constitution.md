@@ -110,7 +110,9 @@ pnpm test          # Vitestテストスイート
 - Vite 6（バンドリング用）
 - Tailwind CSS 4（`@tailwindcss/vite`使用）
 - SWR（キャッシュ付きデータフェッチング用）
-- shadcn/uiコンポーネント
+- Radix UI primitives（`@radix-ui/*`。所有コンポーネントとして `src/shared/components/ui/` に管理）
+
+> **プロダクトUIの正本は `docs/ui-ux-principles.md`。** 棚と舞台の見た目に shadcn 既定のカード・トークン・HTML メニューを使わない。トースト・ツールチップ等の小さな部品の実装詳細として既存の shadcn 由来ファイルを残してよい。`shadcn add` で棚・舞台を足さない。
 
 **バックエンド**:
 - Tauri v2（Rust）
@@ -177,7 +179,8 @@ pnpm build         # 本番変更の場合
 - ストーリーは `stories/` サブディレクトリに
 
 **スタイリング**:
-- Tailwindクラスのみ（インラインスタイルは使用しない）
+- Tailwindクラスを優先する。ただし**実行時に決まる寸法**（仮想リスト高さ・サイドバー幅・ビューア背景色など）は `style=` を使ってよい
+- 色・半径・余白はCSSトークン（`--background` 等）経由にする。`gray-50` などの生パレット値をコンポーネントに直書きしない
 - 条件付きクラスには `cn()` ユーティリティを使用
 - Biomeがクラスのソートを強制
 

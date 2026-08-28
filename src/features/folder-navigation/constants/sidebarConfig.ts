@@ -13,7 +13,7 @@ export const SIDEBAR_CONFIG = {
   PREFETCH_DELAY_MS: 100,
 
   /** サイドバーのデフォルト幅（px） */
-  DEFAULT_WIDTH: 250,
+  DEFAULT_WIDTH: 280,
 
   /** サムネイルのデフォルトサイズ（px） */
   DEFAULT_THUMBNAIL_SIZE: 100,

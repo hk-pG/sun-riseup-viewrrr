@@ -21,11 +21,17 @@ export function FolderList({
     return selectedFolder?.path === folder.path;
   };
 
-  const parentRef = useRef(null);
+  const parentRef = useRef<HTMLDivElement>(null);
   const folderViewVirtualizer = useVirtualizer({
     count: folders.length,
     getScrollElement: () => parentRef.current,
-    estimateSize: () => thumbnailSize + 80,
+    estimateSize: () => {
+      const width = parentRef.current?.clientWidth ?? 250;
+      // Cover is inset by list gutter (px-2) and item padding (p-1.5).
+      const coverWidth = Math.max(48, width - 16 - 12);
+      const labelAndPadding = 36 + 12 + 8;
+      return Math.round(coverWidth * 1.5) + labelAndPadding;
+    },
     overscan: 3,
   });
 
@@ -44,7 +50,7 @@ export function FolderList({
             key={item.key}
             ref={folderViewVirtualizer.measureElement}
             data-index={item.index}
-            className="absolute top-0 left-0 w-full"
+            className="absolute top-0 left-0 w-full px-2 py-1"
             style={{
               transform: `translateY(${item.start}px)`,
             }}
