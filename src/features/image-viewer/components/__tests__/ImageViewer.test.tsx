@@ -7,7 +7,6 @@ import { useImages } from '../../../../shared/hooks/data/useImages';
 import {
   createMockFileSystemService,
   resetAllMocks,
-  setupTauriMocks,
 } from '../../../../test/mocks';
 import { ImageViewer } from '../..';
 
@@ -16,7 +15,6 @@ vi.mock('../../../../shared/hooks/data/useImages');
 describe('ImageViewer', () => {
   beforeEach(() => {
     resetAllMocks();
-    setupTauriMocks();
   });
 
   const renderComponent = (props: React.ComponentProps<typeof ImageViewer>) => {

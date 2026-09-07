@@ -49,6 +49,7 @@ export interface AppMenuBarProps {
 // メニューアイテムの型定義
 export type MenuItemData = {
   type: 'item' | 'separator' | 'submenu';
+  key?: string;
   label?: string;
   icon?: React.ReactNode;
   shortcut?: string;
@@ -72,7 +73,7 @@ const fileMenu: MenuItemData[] = [
     shortcut: 'Ctrl+Shift+O',
     actionId: 'open-image',
   },
-  { type: 'separator' },
+  { type: 'separator', key: 'file-separator-exit' },
   {
     type: 'item',
     label: '終了',
@@ -88,7 +89,7 @@ const viewMenu: MenuItemData[] = [
     shortcut: 'F11',
     actionId: 'fullscreen',
   },
-  { type: 'separator' },
+  { type: 'separator', key: 'view-separator-fit' },
   {
     type: 'submenu',
     label: '表示モード',
@@ -138,7 +139,7 @@ const viewMenu: MenuItemData[] = [
       },
     ],
   },
-  { type: 'separator' },
+  { type: 'separator', key: 'view-separator-controls' },
   {
     type: 'item',
     label: 'コントロール表示切り替え',
@@ -161,7 +162,7 @@ function renderMenuItems(
     if (item.type === 'separator') {
       return (
         <MenubarSeparator
-          key={`separator-${item.actionId}`}
+          key={item.key ?? `separator-${index}`}
           className="bg-border"
         />
       );
