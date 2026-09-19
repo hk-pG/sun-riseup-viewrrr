@@ -3,25 +3,22 @@
 import { useEffect, useRef, useState } from 'react';
 import type { ImageContainer } from '@/features/image-viewer/types/ImageContainer';
 import type { ImageSource } from '@/features/image-viewer/types/ImageSource';
-import type {
-  KeyboardMapping,
-  ViewerSettings,
-} from '@/features/image-viewer/types/viewerTypes';
+import type { ViewerSettings } from '@/features/image-viewer/types/viewerTypes';
 import { useImages } from '@/shared/hooks/data/useImages';
 import { useControlsVisibility } from '../hooks/useControlsVisibility';
 import { useKeyboardHandler } from '../hooks/useKeyboardHandler';
 import { useViewerActions } from '../hooks/useViewerActions';
+import { createDefaultKeyboardMapping } from '../keyboard/keyboardUtils';
 import { ImageDisplay } from './ImageDisplay';
 import { ViewerControls } from './ViewerControls';
 
 /**
- * ImageViewerProps: 画像コンテナまたはフォルダパスを受け取り、その中の画像を表示するビューアのprops
+ * ImageViewerProps: 画像コンテナを受け取り、その中の画像を表示するビューアのprops
  */
 export interface ImageViewerProps {
   container?: ImageContainer;
   initialIndex?: number;
   settings?: Partial<ViewerSettings>;
-  keyboardMapping?: KeyboardMapping;
   callbacks?: {
     onImageLoad?: (image: ImageSource) => void;
     onImageError?: (error: Error, image: ImageSource) => void;
@@ -33,18 +30,16 @@ export function ImageViewer({
   container,
   initialIndex = 0,
   settings: userSettings,
-  keyboardMapping,
   callbacks,
   className = '',
 }: ImageViewerProps) {
-  const imageSource = container;
-  const { images = [], isLoading, error } = useImages(imageSource);
+  const { images = [], isLoading, error } = useImages(container);
   const [loading, setLoading] = useState(true);
 
   const { currentIndex, dispatch, settings } = useViewerActions({
     images,
     initialIndex,
-    userSettings: userSettings,
+    userSettings,
   });
 
   const containerRef = useRef<HTMLDivElement>(null);
@@ -58,48 +53,18 @@ export function ImageViewer({
     settings.controlsTimeout,
   );
 
+  const defaultKeyboardMapping = createDefaultKeyboardMapping(
+    (action, _event) => {
+      dispatch(action);
+    },
+  );
   // キーボードマッピングの拡張
   // 画像数やコールバックの都合でonActionだけ差し替えたい場合は、親でKeyboardMappingを生成して渡す設計にする
-  useKeyboardHandler(keyboardMapping, containerRef);
+  useKeyboardHandler(defaultKeyboardMapping, containerRef);
 
   useEffect(() => {
     setLoading(isLoading);
   }, [isLoading]);
-
-  if (loading) {
-    return (
-      <div
-        className={`flex items-center justify-center ${className}`}
-        style={{ backgroundColor: settings.backgroundColor }}
-      >
-        <div className="text-foreground text-lg">読み込み中...</div>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div
-        className={`flex items-center justify-center ${className}`}
-        style={{ backgroundColor: settings.backgroundColor }}
-      >
-        <div className="text-destructive text-lg">{String(error)}</div>
-      </div>
-    );
-  }
-
-  if (images.length === 0) {
-    return (
-      <div
-        className={`flex items-center justify-center ${className}`}
-        style={{ backgroundColor: settings.backgroundColor }}
-      >
-        <div className="text-lg text-muted-foreground">
-          画像が選択されていません
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div
@@ -109,26 +74,53 @@ export function ImageViewer({
       onMouseMove={handleMouseMove}
       tabIndex={-1}
     >
-      <ImageDisplay
-        image={currentImage}
-        settings={settings}
-        onLoad={() => callbacks?.onImageLoad?.(currentImage)}
-        onError={(error) => callbacks?.onImageError?.(error, currentImage)}
-        className="h-full w-full pb-24"
-        transitionType="fade"
-      />
+      {loading ? (
+        <div
+          className={`flex items-center justify-center ${className}`}
+          style={{ backgroundColor: settings.backgroundColor }}
+        >
+          <div className="text-foreground text-lg">読み込み中...</div>
+        </div>
+      ) : error ? (
+        <div
+          className={`flex items-center justify-center ${className}`}
+          style={{ backgroundColor: settings.backgroundColor }}
+        >
+          <div className="text-destructive text-lg">{String(error)}</div>
+        </div>
+      ) : images.length === 0 ? (
+        <div
+          className={`flex items-center justify-center ${className}`}
+          style={{ backgroundColor: settings.backgroundColor }}
+        >
+          <div className="text-lg text-muted-foreground">
+            画像が選択されていません
+          </div>
+        </div>
+      ) : (
+        <>
+          <ImageDisplay
+            image={currentImage}
+            settings={settings}
+            onLoad={() => callbacks?.onImageLoad?.(currentImage)}
+            onError={(error) => callbacks?.onImageError?.(error, currentImage)}
+            className="h-full w-full pb-24"
+            transitionType="fade"
+          />
 
-      <ViewerControls
-        currentIndex={currentIndex}
-        totalImages={images.length}
-        zoom={settings.zoom}
-        onPrevious={() => dispatch('previousImage')}
-        onNext={() => dispatch('nextImage')}
-        onZoomIn={() => dispatch('zoomIn')}
-        onZoomOut={() => dispatch('zoomOut')}
-        onResetZoom={() => dispatch('resetZoom')}
-        isVisible={controlsVisible}
-      />
+          <ViewerControls
+            currentIndex={currentIndex}
+            totalImages={images.length}
+            zoom={settings.zoom}
+            onPrevious={() => dispatch('previousImage')}
+            onNext={() => dispatch('nextImage')}
+            onZoomIn={() => dispatch('zoomIn')}
+            onZoomOut={() => dispatch('zoomOut')}
+            onResetZoom={() => dispatch('resetZoom')}
+            isVisible={controlsVisible}
+          />
+        </>
+      )}
     </div>
   );
 }

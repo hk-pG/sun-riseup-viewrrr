@@ -332,4 +332,27 @@ describe('useKeyboardHandler', () => {
       expect(mockOnAction).not.toHaveBeenCalled();
     });
   });
+
+  describe('replace onAction function', () => {
+    it('when onAction function is replaced, the new function should be called', () => {
+      // Arrange
+      const { rerender } = renderHook(() =>
+        useKeyboardHandler(mockKeyboardMapping, mockContainerRef),
+      );
+
+      const newOnAction =
+        vi.fn<(action: ActionType, event: KeyboardEvent) => void>();
+      // Replace the onAction function
+      mockKeyboardMapping.onAction = newOnAction;
+
+      // Act
+      rerender();
+      const event = new KeyboardEvent('keydown', { key: 'ArrowRight' });
+      mockContainer.dispatchEvent(event);
+
+      // Assert
+      expect(newOnAction).toHaveBeenCalled();
+      expect(mockOnAction).not.toHaveBeenCalled();
+    });
+  });
 });

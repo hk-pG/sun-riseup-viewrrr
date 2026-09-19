@@ -182,6 +182,7 @@ return { goToNext, zoomIn, handleKeyboardAction };
 - `dispatch(action, event?)` の署名と `onCustomAction` への event 伝播方針
 - `firstImage` / `rotate*` / `toggleControls` など、デフォルトキー表にあるが未実装の action をいつ `dispatch` に載せるか
 - hook が一定行数を超えたときのファイル分割トリガ（目安の明文化は任意）
+- **キーボード入力の到達モデル → ADR-004 で決定済み**（コンテナスコープ + フォーカス移譲）
 
 
 
