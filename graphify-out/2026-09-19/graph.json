@@ -1630,8 +1630,8 @@
       "source_location": "L82",
       "_origin": "ast",
       "id": "ref_react",
-      "community": 97,
-      "community_name": "folder-navigation/index.ts",
+      "community": 39,
+      "community_name": "src/fs.rs",
       "norm_label": "react"
     },
     {
@@ -3562,8 +3562,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_tauri_core_logic_src_fs",
-      "community": 18,
-      "community_name": "Image Container Trait",
+      "community": 23,
+      "community_name": "FileSystemService",
       "norm_label": "src/fs.rs"
     },
     {
@@ -3573,8 +3573,8 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "src_tauri_core_logic_src_fs_list_image_handles",
-      "community": 18,
-      "community_name": "Image Container Trait",
+      "community": 23,
+      "community_name": "FileSystemService",
       "norm_label": "list_image_handles()"
     },
     {
@@ -3584,8 +3584,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "src_tauri_core_logic_src_fs_rs_p",
-      "community": 18,
-      "community_name": "Image Container Trait",
+      "community": 23,
+      "community_name": "FileSystemService",
       "norm_label": "p"
     },
     {
@@ -3595,8 +3595,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "q",
-      "community": 18,
-      "community_name": "Image Container Trait",
+      "community": 23,
+      "community_name": "FileSystemService",
       "norm_label": "q"
     },
     {
@@ -3606,8 +3606,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "src_tauri_core_logic_src_fs_rs_result",
-      "community": 18,
-      "community_name": "Image Container Trait",
+      "community": 23,
+      "community_name": "FileSystemService",
       "norm_label": "result"
     },
     {
@@ -3617,8 +3617,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "src_tauri_core_logic_src_fs_rs_vec",
-      "community": 18,
-      "community_name": "Image Container Trait",
+      "community": 23,
+      "community_name": "FileSystemService",
       "norm_label": "vec"
     },
     {
@@ -3628,8 +3628,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "src_tauri_core_logic_src_fs_rs_imagehandle",
-      "community": 18,
-      "community_name": "Image Container Trait",
+      "community": 23,
+      "community_name": "FileSystemService",
       "norm_label": "imagehandle"
     },
     {
@@ -3639,8 +3639,8 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "src_tauri_core_logic_src_fs_resolve_images_in_range",
-      "community": 18,
-      "community_name": "Image Container Trait",
+      "community": 23,
+      "community_name": "FileSystemService",
       "norm_label": "resolve_images_in_range()"
     },
     {
@@ -3650,8 +3650,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "src_tauri_core_logic_src_fs_rs_string",
-      "community": 18,
-      "community_name": "Image Container Trait",
+      "community": 23,
+      "community_name": "FileSystemService",
       "norm_label": "string"
     },
     {
@@ -3661,8 +3661,8 @@
       "source_location": "L47",
       "_origin": "ast",
       "id": "src_tauri_core_logic_src_fs_list_images_in_container",
-      "community": 18,
-      "community_name": "Image Container Trait",
+      "community": 23,
+      "community_name": "FileSystemService",
       "norm_label": "list_images_in_container()"
     },
     {
@@ -3672,8 +3672,8 @@
       "source_location": "L58",
       "_origin": "ast",
       "id": "src_tauri_core_logic_src_fs_get_sibling_containers",
-      "community": 18,
-      "community_name": "Image Container Trait",
+      "community": 23,
+      "community_name": "FileSystemService",
       "norm_label": "get_sibling_containers()"
     },
     {
@@ -3683,8 +3683,8 @@
       "source_location": "L76",
       "_origin": "ast",
       "id": "src_tauri_core_logic_src_fs_test_list_image_handles_in_folder_success",
-      "community": 18,
-      "community_name": "Image Container Trait",
+      "community": 23,
+      "community_name": "FileSystemService",
       "norm_label": "test_list_image_handles_in_folder_success()"
     },
     {
@@ -3694,8 +3694,8 @@
       "source_location": "L100",
       "_origin": "ast",
       "id": "src_tauri_core_logic_src_fs_test_resolve_images_in_range_in_folder_success",
-      "community": 18,
-      "community_name": "Image Container Trait",
+      "community": 23,
+      "community_name": "FileSystemService",
       "norm_label": "test_resolve_images_in_range_in_folder_success()"
     },
     {
@@ -3705,8 +3705,8 @@
       "source_location": "L122",
       "_origin": "ast",
       "id": "src_tauri_core_logic_src_fs_test_list_images_in_folder_success",
-      "community": 18,
-      "community_name": "Image Container Trait",
+      "community": 23,
+      "community_name": "FileSystemService",
       "norm_label": "test_list_images_in_folder_success()"
     },
     {
@@ -3716,8 +3716,8 @@
       "source_location": "L140",
       "_origin": "ast",
       "id": "src_tauri_core_logic_src_fs_test_list_images_in_container_not_found",
-      "community": 18,
-      "community_name": "Image Container Trait",
+      "community": 23,
+      "community_name": "FileSystemService",
       "norm_label": "test_list_images_in_container_not_found()"
     },
     {
@@ -3727,8 +3727,8 @@
       "source_location": "L151",
       "_origin": "ast",
       "id": "src_tauri_core_logic_src_fs_test_get_sibling_containers_success",
-      "community": 18,
-      "community_name": "Image Container Trait",
+      "community": 23,
+      "community_name": "FileSystemService",
       "norm_label": "test_get_sibling_containers_success()"
     },
     {
@@ -3738,8 +3738,8 @@
       "source_location": "L171",
       "_origin": "ast",
       "id": "src_tauri_core_logic_src_fs_test_get_sibling_containers_not_found",
-      "community": 18,
-      "community_name": "Image Container Trait",
+      "community": 23,
+      "community_name": "FileSystemService",
       "norm_label": "test_get_sibling_containers_not_found()"
     },
     {
@@ -3760,8 +3760,8 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "src_tauri_core_logic_src_image_container_commanderror",
-      "community": 18,
-      "community_name": "Image Container Trait",
+      "community": 17,
+      "community_name": "app-shell/index.ts",
       "norm_label": "commanderror"
     },
     {
@@ -3782,8 +3782,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "src_tauri_core_logic_src_image_container_rs_from",
-      "community": 18,
-      "community_name": "Image Container Trait",
+      "community": 17,
+      "community_name": "app-shell/index.ts",
       "norm_label": "from"
     },
     {
@@ -3793,8 +3793,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "src_tauri_core_logic_src_image_container_rs_error",
-      "community": 18,
-      "community_name": "Image Container Trait",
+      "community": 17,
+      "community_name": "app-shell/index.ts",
       "norm_label": "error"
     },
     {
@@ -3804,8 +3804,8 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "src_tauri_core_logic_src_image_container_commanderror_from",
-      "community": 18,
-      "community_name": "Image Container Trait",
+      "community": 17,
+      "community_name": "app-shell/index.ts",
       "norm_label": ".from()"
     },
     {
@@ -3815,8 +3815,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "src_tauri_core_logic_src_image_container_rs_self",
-      "community": 18,
-      "community_name": "Image Container Trait",
+      "community": 17,
+      "community_name": "app-shell/index.ts",
       "norm_label": "self"
     },
     {
@@ -4079,8 +4079,8 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "src_tauri_core_logic_src_image_container_archive_archiveimageentry",
-      "community": 28,
-      "community_name": "Archive Listing Logic",
+      "community": 17,
+      "community_name": "app-shell/index.ts",
       "norm_label": "archiveimageentry"
     },
     {
@@ -4090,8 +4090,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "src_tauri_core_logic_src_image_container_archive_rs_pathbuf",
-      "community": 28,
-      "community_name": "Archive Listing Logic",
+      "community": 17,
+      "community_name": "app-shell/index.ts",
       "norm_label": "pathbuf"
     },
     {
@@ -4101,8 +4101,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "src_tauri_core_logic_src_image_container_archive_rs_string",
-      "community": 28,
-      "community_name": "Archive Listing Logic",
+      "community": 17,
+      "community_name": "app-shell/index.ts",
       "norm_label": "string"
     },
     {
@@ -4112,8 +4112,8 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "src_tauri_core_logic_src_image_container_archive_archiveimagecontainer",
-      "community": 28,
-      "community_name": "Archive Listing Logic",
+      "community": 17,
+      "community_name": "app-shell/index.ts",
       "norm_label": "archiveimagecontainer"
     },
     {
@@ -4145,8 +4145,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "src_tauri_core_logic_src_image_container_archive_rs_result",
-      "community": 28,
-      "community_name": "Archive Listing Logic",
+      "community": 17,
+      "community_name": "app-shell/index.ts",
       "norm_label": "result"
     },
     {
@@ -4178,8 +4178,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "src_tauri_core_logic_src_image_container_archive_rs_vec",
-      "community": 28,
-      "community_name": "Archive Listing Logic",
+      "community": 17,
+      "community_name": "app-shell/index.ts",
       "norm_label": "vec"
     },
     {
@@ -4189,8 +4189,8 @@
       "source_location": "L55",
       "_origin": "ast",
       "id": "src_tauri_core_logic_src_image_container_archive_archiveimagecontainer_list_archive_entries",
-      "community": 28,
-      "community_name": "Archive Listing Logic",
+      "community": 17,
+      "community_name": "app-shell/index.ts",
       "norm_label": ".list_archive_entries()"
     },
     {
@@ -4200,8 +4200,8 @@
       "source_location": "L95",
       "_origin": "ast",
       "id": "src_tauri_core_logic_src_image_container_archive_archiveimagecontainer_validate_archive_path",
-      "community": 28,
-      "community_name": "Archive Listing Logic",
+      "community": 17,
+      "community_name": "app-shell/index.ts",
       "norm_label": ".validate_archive_path()"
     },
     {
@@ -4211,8 +4211,8 @@
       "source_location": "L113",
       "_origin": "ast",
       "id": "src_tauri_core_logic_src_image_container_archive_archiveimagecontainer_open_archive",
-      "community": 28,
-      "community_name": "Archive Listing Logic",
+      "community": 17,
+      "community_name": "app-shell/index.ts",
       "norm_label": ".open_archive()"
     },
     {
@@ -4222,8 +4222,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "ziparchive",
-      "community": 28,
-      "community_name": "Archive Listing Logic",
+      "community": 17,
+      "community_name": "app-shell/index.ts",
       "norm_label": "ziparchive"
     },
     {
@@ -4233,8 +4233,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "file",
-      "community": 10,
-      "community_name": "Thumbnail Container Rust",
+      "community": 18,
+      "community_name": "Image Container Trait",
       "norm_label": "file"
     },
     {
@@ -4244,8 +4244,8 @@
       "source_location": "L118",
       "_origin": "ast",
       "id": "src_tauri_core_logic_src_image_container_archive_archiveimagecontainer_get_extract_dir",
-      "community": 28,
-      "community_name": "Archive Listing Logic",
+      "community": 17,
+      "community_name": "app-shell/index.ts",
       "norm_label": ".get_extract_dir()"
     },
     {
@@ -4255,8 +4255,8 @@
       "source_location": "L129",
       "_origin": "ast",
       "id": "src_tauri_core_logic_src_image_container_archive_archiveimagecontainer_extract_entry",
-      "community": 28,
-      "community_name": "Archive Listing Logic",
+      "community": 17,
+      "community_name": "app-shell/index.ts",
       "norm_label": ".extract_entry()"
     },
     {
@@ -4266,8 +4266,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "r",
-      "community": 28,
-      "community_name": "Archive Listing Logic",
+      "community": 17,
+      "community_name": "app-shell/index.ts",
       "norm_label": "r"
     },
     {
@@ -4288,8 +4288,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "src_tauri_core_logic_src_image_container_archive_rs_imagecontainer",
-      "community": 28,
-      "community_name": "Archive Listing Logic",
+      "community": 17,
+      "community_name": "app-shell/index.ts",
       "norm_label": "imagecontainer"
     },
     {
@@ -4299,8 +4299,8 @@
       "source_location": "L155",
       "_origin": "ast",
       "id": "src_tauri_core_logic_src_image_container_archive_archiveimagecontainer_list_handles",
-      "community": 28,
-      "community_name": "Archive Listing Logic",
+      "community": 17,
+      "community_name": "app-shell/index.ts",
       "norm_label": ".list_handles()"
     },
     {
@@ -4310,8 +4310,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "src_tauri_core_logic_src_image_container_archive_rs_imagehandle",
-      "community": 28,
-      "community_name": "Archive Listing Logic",
+      "community": 17,
+      "community_name": "app-shell/index.ts",
       "norm_label": "imagehandle"
     },
     {
@@ -4321,8 +4321,8 @@
       "source_location": "L168",
       "_origin": "ast",
       "id": "src_tauri_core_logic_src_image_container_archive_archiveimagecontainer_resolve_range",
-      "community": 28,
-      "community_name": "Archive Listing Logic",
+      "community": 17,
+      "community_name": "app-shell/index.ts",
       "norm_label": ".resolve_range()"
     },
     {
@@ -4475,8 +4475,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_tauri_core_logic_src_image_container_folder",
-      "community": 18,
-      "community_name": "Image Container Trait",
+      "community": 20,
+      "community_name": "mocks.ts",
       "norm_label": "folder.rs"
     },
     {
@@ -4486,8 +4486,8 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "src_tauri_core_logic_src_image_container_folder_folderimagecontainer",
-      "community": 18,
-      "community_name": "Image Container Trait",
+      "community": 20,
+      "community_name": "mocks.ts",
       "norm_label": "folderimagecontainer"
     },
     {
@@ -4497,8 +4497,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "src_tauri_core_logic_src_image_container_folder_rs_pathbuf",
-      "community": 18,
-      "community_name": "Image Container Trait",
+      "community": 20,
+      "community_name": "mocks.ts",
       "norm_label": "pathbuf"
     },
     {
@@ -4508,8 +4508,8 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "src_tauri_core_logic_src_image_container_folder_folderimagecontainer_new",
-      "community": 18,
-      "community_name": "Image Container Trait",
+      "community": 20,
+      "community_name": "mocks.ts",
       "norm_label": ".new()"
     },
     {
@@ -4519,8 +4519,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "src_tauri_core_logic_src_image_container_folder_rs_p",
-      "community": 18,
-      "community_name": "Image Container Trait",
+      "community": 20,
+      "community_name": "mocks.ts",
       "norm_label": "p"
     },
     {
@@ -4530,8 +4530,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "src_tauri_core_logic_src_image_container_folder_rs_result",
-      "community": 18,
-      "community_name": "Image Container Trait",
+      "community": 20,
+      "community_name": "mocks.ts",
       "norm_label": "result"
     },
     {
@@ -4541,8 +4541,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "src_tauri_core_logic_src_image_container_folder_rs_self",
-      "community": 18,
-      "community_name": "Image Container Trait",
+      "community": 20,
+      "community_name": "mocks.ts",
       "norm_label": "self"
     },
     {
@@ -4552,8 +4552,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "src_tauri_core_logic_src_image_container_folder_rs_imagecontainer",
-      "community": 18,
-      "community_name": "Image Container Trait",
+      "community": 20,
+      "community_name": "mocks.ts",
       "norm_label": "imagecontainer"
     },
     {
@@ -4563,8 +4563,8 @@
       "source_location": "L32",
       "_origin": "ast",
       "id": "src_tauri_core_logic_src_image_container_folder_folderimagecontainer_list_handles",
-      "community": 18,
-      "community_name": "Image Container Trait",
+      "community": 20,
+      "community_name": "mocks.ts",
       "norm_label": ".list_handles()"
     },
     {
@@ -4574,8 +4574,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "src_tauri_core_logic_src_image_container_folder_rs_vec",
-      "community": 18,
-      "community_name": "Image Container Trait",
+      "community": 20,
+      "community_name": "mocks.ts",
       "norm_label": "vec"
     },
     {
@@ -4585,8 +4585,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "src_tauri_core_logic_src_image_container_folder_rs_imagehandle",
-      "community": 18,
-      "community_name": "Image Container Trait",
+      "community": 20,
+      "community_name": "mocks.ts",
       "norm_label": "imagehandle"
     },
     {
@@ -4596,8 +4596,8 @@
       "source_location": "L48",
       "_origin": "ast",
       "id": "src_tauri_core_logic_src_image_container_folder_folderimagecontainer_resolve_range",
-      "community": 18,
-      "community_name": "Image Container Trait",
+      "community": 20,
+      "community_name": "mocks.ts",
       "norm_label": ".resolve_range()"
     },
     {
@@ -4607,8 +4607,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "src_tauri_core_logic_src_image_container_folder_rs_string",
-      "community": 18,
-      "community_name": "Image Container Trait",
+      "community": 20,
+      "community_name": "mocks.ts",
       "norm_label": "string"
     },
     {
@@ -4618,8 +4618,8 @@
       "source_location": "L78",
       "_origin": "ast",
       "id": "src_tauri_core_logic_src_image_container_folder_list_image_paths_in_folder",
-      "community": 18,
-      "community_name": "Image Container Trait",
+      "community": 20,
+      "community_name": "mocks.ts",
       "norm_label": "list_image_paths_in_folder()"
     },
     {
@@ -4629,8 +4629,8 @@
       "source_location": "L98",
       "_origin": "ast",
       "id": "src_tauri_core_logic_src_image_container_folder_is_supported_image_path",
-      "community": 18,
-      "community_name": "Image Container Trait",
+      "community": 20,
+      "community_name": "mocks.ts",
       "norm_label": "is_supported_image_path()"
     },
     {
@@ -4640,8 +4640,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "src_tauri_core_logic_src_image_container_folder_rs_path",
-      "community": 18,
-      "community_name": "Image Container Trait",
+      "community": 20,
+      "community_name": "mocks.ts",
       "norm_label": "path"
     },
     {
@@ -4651,8 +4651,8 @@
       "source_location": "L124",
       "_origin": "ast",
       "id": "src_tauri_core_logic_src_image_container_folder_get_sibling_folders",
-      "community": 18,
-      "community_name": "Image Container Trait",
+      "community": 20,
+      "community_name": "mocks.ts",
       "norm_label": "get_sibling_folders()"
     },
     {
@@ -4662,8 +4662,8 @@
       "source_location": "L159",
       "_origin": "ast",
       "id": "src_tauri_core_logic_src_image_container_folder_get_sibling_archives",
-      "community": 18,
-      "community_name": "Image Container Trait",
+      "community": 20,
+      "community_name": "mocks.ts",
       "norm_label": "get_sibling_archives()"
     },
     {
@@ -4673,8 +4673,8 @@
       "source_location": "L199",
       "_origin": "ast",
       "id": "src_tauri_core_logic_src_image_container_folder_test_get_sibling_folders_success",
-      "community": 18,
-      "community_name": "Image Container Trait",
+      "community": 20,
+      "community_name": "mocks.ts",
       "norm_label": "test_get_sibling_folders_success()"
     },
     {
@@ -4684,8 +4684,8 @@
       "source_location": "L219",
       "_origin": "ast",
       "id": "src_tauri_core_logic_src_image_container_folder_test_get_sibling_folders_not_found",
-      "community": 18,
-      "community_name": "Image Container Trait",
+      "community": 20,
+      "community_name": "mocks.ts",
       "norm_label": "test_get_sibling_folders_not_found()"
     },
     {
@@ -4695,8 +4695,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_tauri_core_logic_src_image_container_reader_config",
-      "community": 28,
-      "community_name": "Archive Listing Logic",
+      "community": 51,
+      "community_name": "useSiblingContainers.ts",
       "norm_label": "reader_config.rs"
     },
     {
@@ -4706,8 +4706,8 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "src_tauri_core_logic_src_image_container_reader_config_imagecontainerreaderconfig",
-      "community": 28,
-      "community_name": "Archive Listing Logic",
+      "community": 51,
+      "community_name": "useSiblingContainers.ts",
       "norm_label": "imagecontainerreaderconfig"
     },
     {
@@ -4717,8 +4717,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "src_tauri_core_logic_src_image_container_reader_config_rs_pathbuf",
-      "community": 28,
-      "community_name": "Archive Listing Logic",
+      "community": 51,
+      "community_name": "useSiblingContainers.ts",
       "norm_label": "pathbuf"
     },
     {
@@ -4728,8 +4728,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "src_tauri_core_logic_src_image_container_reader_config_rs_vec",
-      "community": 28,
-      "community_name": "Archive Listing Logic",
+      "community": 51,
+      "community_name": "useSiblingContainers.ts",
       "norm_label": "vec"
     },
     {
@@ -4739,8 +4739,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "src_tauri_core_logic_src_image_container_reader_config_rs_string",
-      "community": 28,
-      "community_name": "Archive Listing Logic",
+      "community": 51,
+      "community_name": "useSiblingContainers.ts",
       "norm_label": "string"
     },
     {
@@ -4750,8 +4750,8 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "src_tauri_core_logic_src_image_container_reader_config_imagecontainerreaderconfig_new",
-      "community": 28,
-      "community_name": "Archive Listing Logic",
+      "community": 51,
+      "community_name": "useSiblingContainers.ts",
       "norm_label": ".new()"
     },
     {
@@ -4761,8 +4761,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "src_tauri_core_logic_src_image_container_reader_config_rs_p",
-      "community": 28,
-      "community_name": "Archive Listing Logic",
+      "community": 51,
+      "community_name": "useSiblingContainers.ts",
       "norm_label": "p"
     },
     {
@@ -4772,8 +4772,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "src_tauri_core_logic_src_image_container_reader_config_rs_self",
-      "community": 28,
-      "community_name": "Archive Listing Logic",
+      "community": 51,
+      "community_name": "useSiblingContainers.ts",
       "norm_label": "self"
     },
     {
@@ -4783,8 +4783,8 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "src_tauri_core_logic_src_image_container_reader_config_imagecontainerreaderconfig_get_extract_dir",
-      "community": 28,
-      "community_name": "Archive Listing Logic",
+      "community": 51,
+      "community_name": "useSiblingContainers.ts",
       "norm_label": ".get_extract_dir()"
     },
     {
@@ -4794,8 +4794,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "src_tauri_core_logic_src_image_container_reader_config_rs_path",
-      "community": 28,
-      "community_name": "Archive Listing Logic",
+      "community": 51,
+      "community_name": "useSiblingContainers.ts",
       "norm_label": "path"
     },
     {
@@ -4805,8 +4805,8 @@
       "source_location": "L28",
       "_origin": "ast",
       "id": "src_tauri_core_logic_src_image_container_reader_config_imagecontainerreaderconfig_is_supported_extension",
-      "community": 28,
-      "community_name": "Archive Listing Logic",
+      "community": 51,
+      "community_name": "useSiblingContainers.ts",
       "norm_label": ".is_supported_extension()"
     },
     {
@@ -5949,8 +5949,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_tauri_core_logic_src_utils",
-      "community": 28,
-      "community_name": "Archive Listing Logic",
+      "community": 100,
+      "community_name": "UserExperienceTracker",
       "norm_label": "core_logic/src/utils.rs"
     },
     {
@@ -5960,8 +5960,8 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "src_tauri_core_logic_src_utils_hash_path",
-      "community": 28,
-      "community_name": "Archive Listing Logic",
+      "community": 100,
+      "community_name": "UserExperienceTracker",
       "norm_label": "hash_path()"
     },
     {
@@ -5971,8 +5971,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "src_tauri_core_logic_src_utils_rs_p",
-      "community": 28,
-      "community_name": "Archive Listing Logic",
+      "community": 100,
+      "community_name": "UserExperienceTracker",
       "norm_label": "p"
     },
     {
@@ -5982,8 +5982,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "src_tauri_core_logic_src_utils_rs_string",
-      "community": 28,
-      "community_name": "Archive Listing Logic",
+      "community": 100,
+      "community_name": "UserExperienceTracker",
       "norm_label": "string"
     },
     {
@@ -5993,8 +5993,8 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "src_tauri_core_logic_src_utils_test_hash_path_consistency",
-      "community": 28,
-      "community_name": "Archive Listing Logic",
+      "community": 100,
+      "community_name": "UserExperienceTracker",
       "norm_label": "test_hash_path_consistency()"
     },
     {
@@ -6004,8 +6004,8 @@
       "source_location": "L33",
       "_origin": "ast",
       "id": "src_tauri_core_logic_src_utils_test_hash_path_uniqueness",
-      "community": 28,
-      "community_name": "Archive Listing Logic",
+      "community": 100,
+      "community_name": "UserExperienceTracker",
       "norm_label": "test_hash_path_uniqueness()"
     },
     {
@@ -6708,8 +6708,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_app",
-      "community": 98,
-      "community_name": "CommandError",
+      "community": 7,
+      "community_name": "App Shell State",
       "norm_label": "app.tsx"
     },
     {
@@ -6719,8 +6719,8 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "src_app_app_viewer_container_config",
-      "community": 98,
-      "community_name": "CommandError",
+      "community": 7,
+      "community_name": "App Shell State",
       "norm_label": "app_viewer_container_config"
     },
     {
@@ -6741,8 +6741,8 @@
       "source_location": "L38",
       "_origin": "ast",
       "id": "src_app_app",
-      "community": 98,
-      "community_name": "CommandError",
+      "community": 7,
+      "community_name": "App Shell State",
       "norm_label": "app()"
     },
     {
@@ -6752,8 +6752,8 @@
       "source_location": "L32",
       "_origin": "ast",
       "id": "src_app_rationale_32",
-      "community": 98,
-      "community_name": "CommandError",
+      "community": 7,
+      "community_name": "App Shell State",
       "norm_label": "todo: \u72b6\u614b\u7ba1\u7406\u304b\u8907\u96d1\u5316\u3057\u3066\u3044\u308b\u3002appstate\u3066\u306e\u7ba1\u7406\u306b\u7121\u7406\u304b\u751f\u3057\u59cb\u3081\u3066\u3044\u308b\u3002"
     },
     {
@@ -6763,8 +6763,8 @@
       "source_location": "L33",
       "_origin": "ast",
       "id": "src_app_rationale_33",
-      "community": 98,
-      "community_name": "CommandError",
+      "community": 7,
+      "community_name": "App Shell State",
       "norm_label": "todo: app.tsx\u81ea\u4f53\u304b\u80a5\u5927\u5316\u3057\u3066\u304d\u3066\u3044\u308b\u3002\u72b6\u614b\u7ba1\u7406\u3068ui\u30ed\u30b7\u30c3\u30af\u306e\u5206\u96e2\u3092\u691c\u8a0e\u3002"
     },
     {
@@ -6774,8 +6774,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_tests_app_test",
-      "community": 42,
-      "community_name": "useSiblingContainers.ts",
+      "community": 7,
+      "community_name": "App Shell State",
       "norm_label": "app.test.tsx"
     },
     {
@@ -6785,8 +6785,8 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "src_tests_app_test_mockopenimagefile",
-      "community": 42,
-      "community_name": "useSiblingContainers.ts",
+      "community": 7,
+      "community_name": "App Shell State",
       "norm_label": "mockopenimagefile"
     },
     {
@@ -7049,8 +7049,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_components_ui_tooltip",
-      "community": 97,
-      "community_name": "folder-navigation/index.ts",
+      "community": 101,
+      "community_name": "tooltip.tsx",
       "norm_label": "tooltip.tsx"
     },
     {
@@ -7060,8 +7060,8 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "src_components_ui_tooltip_tooltipcontent",
-      "community": 97,
-      "community_name": "folder-navigation/index.ts",
+      "community": 101,
+      "community_name": "tooltip.tsx",
       "norm_label": "tooltipcontent"
     },
     {
@@ -7071,8 +7071,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_dev_mockservice",
-      "community": 21,
-      "community_name": "Local Folder Container",
+      "community": 26,
+      "community_name": "folder.rs",
       "norm_label": "mockservice.ts"
     },
     {
@@ -7082,8 +7082,8 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "src_dev_mockservice_imagefolders",
-      "community": 21,
-      "community_name": "Local Folder Container",
+      "community": 26,
+      "community_name": "folder.rs",
       "norm_label": "imagefolders"
     },
     {
@@ -7093,8 +7093,8 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "src_dev_mockservice_dummyfolders",
-      "community": 21,
-      "community_name": "Local Folder Container",
+      "community": 26,
+      "community_name": "folder.rs",
       "norm_label": "dummyfolders"
     },
     {
@@ -7104,8 +7104,8 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "src_dev_mockservice_allfolderpaths",
-      "community": 21,
-      "community_name": "Local Folder Container",
+      "community": 26,
+      "community_name": "folder.rs",
       "norm_label": "allfolderpaths"
     },
     {
@@ -7115,8 +7115,8 @@
       "source_location": "L27",
       "_origin": "ast",
       "id": "src_dev_mockservice_foldernamemap",
-      "community": 21,
-      "community_name": "Local Folder Container",
+      "community": 26,
+      "community_name": "folder.rs",
       "norm_label": "foldernamemap"
     },
     {
@@ -7126,8 +7126,8 @@
       "source_location": "L32",
       "_origin": "ast",
       "id": "src_dev_mockservice_createimagehandles",
-      "community": 21,
-      "community_name": "Local Folder Container",
+      "community": 26,
+      "community_name": "folder.rs",
       "norm_label": "createimagehandles()"
     },
     {
@@ -7137,8 +7137,8 @@
       "source_location": "L40",
       "_origin": "ast",
       "id": "src_dev_mockservice_resolveimagepaths",
-      "community": 21,
-      "community_name": "Local Folder Container",
+      "community": 26,
+      "community_name": "folder.rs",
       "norm_label": "resolveimagepaths()"
     },
     {
@@ -7148,8 +7148,8 @@
       "source_location": "L49",
       "_origin": "ast",
       "id": "src_dev_mockservice_devmockservice",
-      "community": 21,
-      "community_name": "Local Folder Container",
+      "community": 26,
+      "community_name": "folder.rs",
       "norm_label": "devmockservice"
     },
     {
@@ -7192,8 +7192,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_features_app_shell_actions_tests_openfolderaction_test",
-      "community": 17,
-      "community_name": "app-shell/index.ts",
+      "community": 5,
+      "community_name": "Action Registry Pattern",
       "norm_label": "openfolderaction.test.ts"
     },
     {
@@ -7753,8 +7753,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_features_folder_navigation_components_folderlist_folderlistloadmore",
-      "community": 0,
-      "community_name": "UI Tooltip & Dev Mocks",
+      "community": 102,
+      "community_name": "FolderList/index.ts",
       "norm_label": "folderlistloadmore.tsx"
     },
     {
@@ -7764,8 +7764,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_features_folder_navigation_components_folderlist_folderlistloadmore_folderlistloadmoreprops",
-      "community": 0,
-      "community_name": "UI Tooltip & Dev Mocks",
+      "community": 102,
+      "community_name": "FolderList/index.ts",
       "norm_label": "folderlistloadmoreprops"
     },
     {
@@ -7775,8 +7775,8 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "src_features_folder_navigation_components_folderlist_folderlistloadmore_folderlistloadmore",
-      "community": 0,
-      "community_name": "UI Tooltip & Dev Mocks",
+      "community": 102,
+      "community_name": "FolderList/index.ts",
       "norm_label": "folderlistloadmore()"
     },
     {
@@ -7830,8 +7830,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_features_folder_navigation_components_folderlist_index",
-      "community": 0,
-      "community_name": "UI Tooltip & Dev Mocks",
+      "community": 102,
+      "community_name": "FolderList/index.ts",
       "norm_label": "folderlist/index.ts"
     },
     {
@@ -7874,8 +7874,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_features_folder_navigation_components_sidebar_sidebar",
-      "community": 0,
-      "community_name": "UI Tooltip & Dev Mocks",
+      "community": 95,
+      "community_name": "ImageContainerReaderConfig",
       "norm_label": "sidebar.tsx"
     },
     {
@@ -7885,8 +7885,8 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "src_features_folder_navigation_components_sidebar_sidebar_sidebar",
-      "community": 0,
-      "community_name": "UI Tooltip & Dev Mocks",
+      "community": 95,
+      "community_name": "ImageContainerReaderConfig",
       "norm_label": "sidebar()"
     },
     {
@@ -7896,8 +7896,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_features_folder_navigation_components_sidebar_sidebarcontent",
-      "community": 0,
-      "community_name": "UI Tooltip & Dev Mocks",
+      "community": 95,
+      "community_name": "ImageContainerReaderConfig",
       "norm_label": "sidebarcontent.tsx"
     },
     {
@@ -7907,8 +7907,8 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "src_features_folder_navigation_components_sidebar_sidebarcontent_sidebarcontentprops",
-      "community": 0,
-      "community_name": "UI Tooltip & Dev Mocks",
+      "community": 95,
+      "community_name": "ImageContainerReaderConfig",
       "norm_label": "sidebarcontentprops"
     },
     {
@@ -7918,8 +7918,8 @@
       "source_location": "L29",
       "_origin": "ast",
       "id": "src_features_folder_navigation_components_sidebar_sidebarcontent_sidebarcontent",
-      "community": 0,
-      "community_name": "UI Tooltip & Dev Mocks",
+      "community": 95,
+      "community_name": "ImageContainerReaderConfig",
       "norm_label": "sidebarcontent()"
     },
     {
@@ -7929,8 +7929,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_features_folder_navigation_components_sidebar_sidebarheader",
-      "community": 0,
-      "community_name": "UI Tooltip & Dev Mocks",
+      "community": 95,
+      "community_name": "ImageContainerReaderConfig",
       "norm_label": "sidebarheader.tsx"
     },
     {
@@ -7940,8 +7940,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_features_folder_navigation_components_sidebar_sidebarheader_sidebarheaderprops",
-      "community": 0,
-      "community_name": "UI Tooltip & Dev Mocks",
+      "community": 95,
+      "community_name": "ImageContainerReaderConfig",
       "norm_label": "sidebarheaderprops"
     },
     {
@@ -7951,8 +7951,8 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "src_features_folder_navigation_components_sidebar_sidebarheader_sidebarheader",
-      "community": 0,
-      "community_name": "UI Tooltip & Dev Mocks",
+      "community": 95,
+      "community_name": "ImageContainerReaderConfig",
       "norm_label": "sidebarheader()"
     },
     {
@@ -7962,8 +7962,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_features_folder_navigation_components_sidebar_index",
-      "community": 0,
-      "community_name": "UI Tooltip & Dev Mocks",
+      "community": 95,
+      "community_name": "ImageContainerReaderConfig",
       "norm_label": "sidebar/index.ts"
     },
     {
@@ -8149,8 +8149,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_features_folder_navigation_containers_tests_localfoldercontainer_test",
-      "community": 17,
-      "community_name": "app-shell/index.ts",
+      "community": 5,
+      "community_name": "Action Registry Pattern",
       "norm_label": "localfoldercontainer.test.ts"
     },
     {
@@ -8160,8 +8160,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_features_folder_navigation_hooks_tests_useopenimagefile_test",
-      "community": 98,
-      "community_name": "CommandError",
+      "community": 5,
+      "community_name": "Action Registry Pattern",
       "norm_label": "useopenimagefile.test.ts"
     },
     {
@@ -8171,8 +8171,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_features_folder_navigation_hooks_tests_usesiblingfolders_test",
-      "community": 42,
-      "community_name": "useSiblingContainers.ts",
+      "community": 39,
+      "community_name": "src/fs.rs",
       "norm_label": "usesiblingfolders.test.tsx"
     },
     {
@@ -8182,8 +8182,8 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "src_features_folder_navigation_hooks_tests_usesiblingfolders_test_serviceswrapper",
-      "community": 42,
-      "community_name": "useSiblingContainers.ts",
+      "community": 39,
+      "community_name": "src/fs.rs",
       "norm_label": "serviceswrapper()"
     },
     {
@@ -8193,8 +8193,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_features_folder_navigation_hooks_tests_usethumbnail_test",
-      "community": 42,
-      "community_name": "useSiblingContainers.ts",
+      "community": 39,
+      "community_name": "src/fs.rs",
       "norm_label": "usethumbnail.test.tsx"
     },
     {
@@ -8204,8 +8204,8 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "src_features_folder_navigation_hooks_tests_usethumbnail_test_createwrapper",
-      "community": 42,
-      "community_name": "useSiblingContainers.ts",
+      "community": 39,
+      "community_name": "src/fs.rs",
       "norm_label": "createwrapper()"
     },
     {
@@ -8215,8 +8215,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_features_folder_navigation_hooks_tests_usethumbnailprefetch_test",
-      "community": 97,
-      "community_name": "folder-navigation/index.ts",
+      "community": 39,
+      "community_name": "src/fs.rs",
       "norm_label": "usethumbnailprefetch.test.tsx"
     },
     {
@@ -8226,8 +8226,8 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "src_features_folder_navigation_hooks_tests_usethumbnailprefetch_test_createwrapper",
-      "community": 97,
-      "community_name": "folder-navigation/index.ts",
+      "community": 39,
+      "community_name": "src/fs.rs",
       "norm_label": "createwrapper()"
     },
     {
@@ -8237,8 +8237,8 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "src_features_folder_navigation_hooks_tests_usethumbnailprefetch_test_mockfolders",
-      "community": 97,
-      "community_name": "folder-navigation/index.ts",
+      "community": 39,
+      "community_name": "src/fs.rs",
       "norm_label": "mockfolders"
     },
     {
@@ -8270,8 +8270,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_features_folder_navigation_hooks_useopenimagefile",
-      "community": 98,
-      "community_name": "CommandError",
+      "community": 5,
+      "community_name": "Action Registry Pattern",
       "norm_label": "useopenimagefile.ts"
     },
     {
@@ -8292,8 +8292,8 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "src_features_folder_navigation_hooks_useopenimagefile_useopenimagefile",
-      "community": 98,
-      "community_name": "CommandError",
+      "community": 5,
+      "community_name": "Action Registry Pattern",
       "norm_label": "useopenimagefile()"
     },
     {
@@ -8336,8 +8336,8 @@
       "source_location": "L28",
       "_origin": "ast",
       "id": "src_features_folder_navigation_hooks_usesiblingcontainers_usesiblingcontainers",
-      "community": 98,
-      "community_name": "CommandError",
+      "community": 7,
+      "community_name": "App Shell State",
       "norm_label": "usesiblingcontainers()"
     },
     {
@@ -8358,8 +8358,8 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "src_features_folder_navigation_hooks_usethumbnail_fetchthumbnail",
-      "community": 20,
-      "community_name": "mocks.ts",
+      "community": 5,
+      "community_name": "Action Registry Pattern",
       "norm_label": "fetchthumbnail()"
     },
     {
@@ -8413,8 +8413,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_features_folder_navigation_index",
-      "community": 0,
-      "community_name": "UI Tooltip & Dev Mocks",
+      "community": 97,
+      "community_name": "folder-navigation/index.ts",
       "norm_label": "folder-navigation/index.ts"
     },
     {
@@ -8424,8 +8424,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_features_folder_navigation_services_filesystemservice",
-      "community": 42,
-      "community_name": "useSiblingContainers.ts",
+      "community": 5,
+      "community_name": "Action Registry Pattern",
       "norm_label": "filesystemservice.ts"
     },
     {
@@ -8435,8 +8435,8 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "src_features_folder_navigation_services_filesystemservice_filesystemservice",
-      "community": 42,
-      "community_name": "useSiblingContainers.ts",
+      "community": 5,
+      "community_name": "Action Registry Pattern",
       "norm_label": "filesystemservice"
     },
     {
@@ -8446,8 +8446,8 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "src_features_folder_navigation_services_filesystemservice_filesystemservice_getbasename",
-      "community": 42,
-      "community_name": "useSiblingContainers.ts",
+      "community": 5,
+      "community_name": "Action Registry Pattern",
       "norm_label": ".getbasename()"
     },
     {
@@ -8457,8 +8457,8 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "src_features_folder_navigation_services_filesystemservice_filesystemservice_getdirname",
-      "community": 98,
-      "community_name": "CommandError",
+      "community": 5,
+      "community_name": "Action Registry Pattern",
       "norm_label": ".getdirname()"
     },
     {
@@ -8468,8 +8468,8 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "src_features_folder_navigation_services_filesystemservice_filesystemservice_listimagesincontainer",
-      "community": 42,
-      "community_name": "useSiblingContainers.ts",
+      "community": 5,
+      "community_name": "Action Registry Pattern",
       "norm_label": ".listimagesincontainer()"
     },
     {
@@ -8512,8 +8512,8 @@
       "source_location": "L55",
       "_origin": "ast",
       "id": "src_features_folder_navigation_services_filesystemservice_filesystemservice_convertfilesrc",
-      "community": 20,
-      "community_name": "mocks.ts",
+      "community": 5,
+      "community_name": "Action Registry Pattern",
       "norm_label": ".convertfilesrc()"
     },
     {
@@ -8523,8 +8523,8 @@
       "source_location": "L63",
       "_origin": "ast",
       "id": "src_features_folder_navigation_services_filesystemservice_filesystemservice_getfolderthumbnail",
-      "community": 20,
-      "community_name": "mocks.ts",
+      "community": 5,
+      "community_name": "Action Registry Pattern",
       "norm_label": ".getfolderthumbnail()"
     },
     {
@@ -8534,8 +8534,8 @@
       "source_location": "L69",
       "_origin": "ast",
       "id": "src_features_folder_navigation_services_filesystemservice_filesystemservice_prefetchfolderthumbnails",
-      "community": 42,
-      "community_name": "useSiblingContainers.ts",
+      "community": 5,
+      "community_name": "Action Registry Pattern",
       "norm_label": ".prefetchfolderthumbnails()"
     },
     {
@@ -8644,8 +8644,8 @@
       "source_location": "L58",
       "_origin": "ast",
       "id": "src_features_folder_navigation_types_foldertypes_sidebarprops",
-      "community": 0,
-      "community_name": "UI Tooltip & Dev Mocks",
+      "community": 7,
+      "community_name": "App Shell State",
       "norm_label": "sidebarprops"
     },
     {
@@ -8655,8 +8655,8 @@
       "source_location": "L76",
       "_origin": "ast",
       "id": "src_features_folder_navigation_types_foldertypes_folderthumbnailresult",
-      "community": 20,
-      "community_name": "mocks.ts",
+      "community": 5,
+      "community_name": "Action Registry Pattern",
       "norm_label": "folderthumbnailresult"
     },
     {
@@ -8707,7 +8707,7 @@
       "label": "ImageViewerProps",
       "file_type": "code",
       "source_file": "src/features/image-viewer/components/ImageViewer.tsx",
-      "source_location": "L18",
+      "source_location": "L20",
       "_origin": "ast",
       "id": "src_features_image_viewer_components_imageviewer_imageviewerprops",
       "community": 21,
@@ -8718,7 +8718,7 @@
       "label": "ImageViewer()",
       "file_type": "code",
       "source_file": "src/features/image-viewer/components/ImageViewer.tsx",
-      "source_location": "L29",
+      "source_location": "L32",
       "_origin": "ast",
       "id": "src_features_image_viewer_components_imageviewer_imageviewer",
       "community": 21,
@@ -8732,8 +8732,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_features_image_viewer_components_viewercontrols",
-      "community": 21,
-      "community_name": "Local Folder Container",
+      "community": 3,
+      "community_name": "App Menu & Folder Navigation",
       "norm_label": "viewercontrols.tsx"
     },
     {
@@ -8743,8 +8743,8 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "src_features_image_viewer_components_viewercontrols_viewercontrols",
-      "community": 21,
-      "community_name": "Local Folder Container",
+      "community": 3,
+      "community_name": "App Menu & Folder Navigation",
       "norm_label": "viewercontrols()"
     },
     {
@@ -9150,8 +9150,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_lib_utils",
-      "community": 97,
-      "community_name": "folder-navigation/index.ts",
+      "community": 101,
+      "community_name": "tooltip.tsx",
       "norm_label": "lib/utils.ts"
     },
     {
@@ -9161,8 +9161,8 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "src_lib_utils_cn",
-      "community": 97,
-      "community_name": "folder-navigation/index.ts",
+      "community": 101,
+      "community_name": "tooltip.tsx",
       "norm_label": "cn()"
     },
     {
@@ -9172,8 +9172,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_main",
-      "community": 7,
-      "community_name": "App Shell State",
+      "community": 39,
+      "community_name": "src/fs.rs",
       "norm_label": "main.tsx"
     },
     {
@@ -9183,8 +9183,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_shared_adapters_tests_tauriadapters_test",
-      "community": 20,
-      "community_name": "mocks.ts",
+      "community": 21,
+      "community_name": "Local Folder Container",
       "norm_label": "tauriadapters.test.ts"
     },
     {
@@ -9194,8 +9194,8 @@
       "source_location": "L33",
       "_origin": "ast",
       "id": "src_shared_adapters_tests_tauriadapters_test_mockinvoke",
-      "community": 20,
-      "community_name": "mocks.ts",
+      "community": 21,
+      "community_name": "Local Folder Container",
       "norm_label": "mockinvoke"
     },
     {
@@ -9205,8 +9205,8 @@
       "source_location": "L34",
       "_origin": "ast",
       "id": "src_shared_adapters_tests_tauriadapters_test_mocktauriopendialog",
-      "community": 20,
-      "community_name": "mocks.ts",
+      "community": 21,
+      "community_name": "Local Folder Container",
       "norm_label": "mocktauriopendialog"
     },
     {
@@ -9216,8 +9216,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_shared_adapters_tauriadapters",
-      "community": 20,
-      "community_name": "mocks.ts",
+      "community": 21,
+      "community_name": "Local Folder Container",
       "norm_label": "tauriadapters.ts"
     },
     {
@@ -9227,8 +9227,8 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "src_shared_adapters_tauriadapters_taurifilesystemservice",
-      "community": 20,
-      "community_name": "mocks.ts",
+      "community": 21,
+      "community_name": "Local Folder Container",
       "norm_label": "taurifilesystemservice"
     },
     {
@@ -9458,8 +9458,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_shared_context_servicecontext",
-      "community": 42,
-      "community_name": "useSiblingContainers.ts",
+      "community": 39,
+      "community_name": "src/fs.rs",
       "norm_label": "servicecontext.tsx"
     },
     {
@@ -9469,8 +9469,8 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "src_shared_context_servicecontext_servicescontext",
-      "community": 42,
-      "community_name": "useSiblingContainers.ts",
+      "community": 39,
+      "community_name": "src/fs.rs",
       "norm_label": "servicescontext"
     },
     {
@@ -9480,8 +9480,8 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "src_shared_context_servicecontext_useservices",
-      "community": 98,
-      "community_name": "CommandError",
+      "community": 7,
+      "community_name": "App Shell State",
       "norm_label": "useservices()"
     },
     {
@@ -9491,8 +9491,8 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "src_shared_context_servicecontext_servicesproviderprops",
-      "community": 42,
-      "community_name": "useSiblingContainers.ts",
+      "community": 39,
+      "community_name": "src/fs.rs",
       "norm_label": "servicesproviderprops"
     },
     {
@@ -9502,8 +9502,8 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "src_shared_context_servicecontext_servicesprovider",
-      "community": 42,
-      "community_name": "useSiblingContainers.ts",
+      "community": 39,
+      "community_name": "src/fs.rs",
       "norm_label": "servicesprovider()"
     },
     {
@@ -9513,8 +9513,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_shared_hooks_data_tests_useimages_test",
-      "community": 17,
-      "community_name": "app-shell/index.ts",
+      "community": 21,
+      "community_name": "Local Folder Container",
       "norm_label": "useimages.test.tsx"
     },
     {
@@ -9524,8 +9524,8 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "src_shared_hooks_data_tests_useimages_test_mockimagesources",
-      "community": 17,
-      "community_name": "app-shell/index.ts",
+      "community": 21,
+      "community_name": "Local Folder Container",
       "norm_label": "mockimagesources"
     },
     {
@@ -9535,8 +9535,8 @@
       "source_location": "L36",
       "_origin": "ast",
       "id": "src_shared_hooks_data_tests_useimages_test_createimagehandles",
-      "community": 17,
-      "community_name": "app-shell/index.ts",
+      "community": 21,
+      "community_name": "Local Folder Container",
       "norm_label": "createimagehandles()"
     },
     {
@@ -9546,8 +9546,8 @@
       "source_location": "L42",
       "_origin": "ast",
       "id": "src_shared_hooks_data_tests_useimages_test_serviceswrapper",
-      "community": 17,
-      "community_name": "app-shell/index.ts",
+      "community": 21,
+      "community_name": "Local Folder Container",
       "norm_label": "serviceswrapper()"
     },
     {
@@ -9865,8 +9865,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_shared_utils_logger",
-      "community": 20,
-      "community_name": "mocks.ts",
+      "community": 21,
+      "community_name": "Local Folder Container",
       "norm_label": "logger.ts"
     },
     {
@@ -9876,8 +9876,8 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "src_shared_utils_logger_logger",
-      "community": 20,
-      "community_name": "mocks.ts",
+      "community": 21,
+      "community_name": "Local Folder Container",
       "norm_label": "logger"
     },
     {
@@ -9942,8 +9942,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_test_mocks",
-      "community": 17,
-      "community_name": "app-shell/index.ts",
+      "community": 5,
+      "community_name": "Action Registry Pattern",
       "norm_label": "mocks.ts"
     },
     {
@@ -9953,8 +9953,8 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "src_test_mocks_convertfilesrcimpl",
-      "community": 17,
-      "community_name": "app-shell/index.ts",
+      "community": 5,
+      "community_name": "Action Registry Pattern",
       "norm_label": "convertfilesrcimpl()"
     },
     {
@@ -9964,8 +9964,8 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "src_test_mocks_basenameimpl",
-      "community": 17,
-      "community_name": "app-shell/index.ts",
+      "community": 5,
+      "community_name": "Action Registry Pattern",
       "norm_label": "basenameimpl()"
     },
     {
@@ -9975,8 +9975,8 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "src_test_mocks_dirnameimpl",
-      "community": 17,
-      "community_name": "app-shell/index.ts",
+      "community": 5,
+      "community_name": "Action Registry Pattern",
       "norm_label": "dirnameimpl()"
     },
     {
@@ -9986,8 +9986,8 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "src_test_mocks_mockinvoke",
-      "community": 17,
-      "community_name": "app-shell/index.ts",
+      "community": 5,
+      "community_name": "Action Registry Pattern",
       "norm_label": "mockinvoke"
     },
     {
@@ -9997,8 +9997,8 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "src_test_mocks_mockconvertfilesrc",
-      "community": 17,
-      "community_name": "app-shell/index.ts",
+      "community": 5,
+      "community_name": "Action Registry Pattern",
       "norm_label": "mockconvertfilesrc"
     },
     {
@@ -10008,8 +10008,8 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "src_test_mocks_mockdialogopen",
-      "community": 17,
-      "community_name": "app-shell/index.ts",
+      "community": 5,
+      "community_name": "Action Registry Pattern",
       "norm_label": "mockdialogopen"
     },
     {
@@ -10019,8 +10019,8 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "src_test_mocks_mockbasename",
-      "community": 17,
-      "community_name": "app-shell/index.ts",
+      "community": 5,
+      "community_name": "Action Registry Pattern",
       "norm_label": "mockbasename"
     },
     {
@@ -10030,8 +10030,8 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "src_test_mocks_mockdirname",
-      "community": 17,
-      "community_name": "app-shell/index.ts",
+      "community": 5,
+      "community_name": "Action Registry Pattern",
       "norm_label": "mockdirname"
     },
     {
@@ -10041,8 +10041,8 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "src_test_mocks_mockopeneropen",
-      "community": 17,
-      "community_name": "app-shell/index.ts",
+      "community": 5,
+      "community_name": "Action Registry Pattern",
       "norm_label": "mockopeneropen"
     },
     {
@@ -10052,8 +10052,8 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "src_test_mocks_mockreaddir",
-      "community": 17,
-      "community_name": "app-shell/index.ts",
+      "community": 5,
+      "community_name": "Action Registry Pattern",
       "norm_label": "mockreaddir"
     },
     {
@@ -10063,8 +10063,8 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "src_test_mocks_mockexists",
-      "community": 17,
-      "community_name": "app-shell/index.ts",
+      "community": 5,
+      "community_name": "Action Registry Pattern",
       "norm_label": "mockexists"
     },
     {
@@ -10074,8 +10074,8 @@
       "source_location": "L27",
       "_origin": "ast",
       "id": "src_test_mocks_mockstoreinstance",
-      "community": 17,
-      "community_name": "app-shell/index.ts",
+      "community": 5,
+      "community_name": "Action Registry Pattern",
       "norm_label": "mockstoreinstance"
     },
     {
@@ -10085,8 +10085,8 @@
       "source_location": "L34",
       "_origin": "ast",
       "id": "src_test_mocks_mockstoreload",
-      "community": 17,
-      "community_name": "app-shell/index.ts",
+      "community": 5,
+      "community_name": "Action Registry Pattern",
       "norm_label": "mockstoreload"
     },
     {
@@ -10096,8 +10096,8 @@
       "source_location": "L81",
       "_origin": "ast",
       "id": "src_test_mocks_resetallmocks",
-      "community": 17,
-      "community_name": "app-shell/index.ts",
+      "community": 5,
+      "community_name": "Action Registry Pattern",
       "norm_label": "resetallmocks()"
     },
     {
@@ -10107,8 +10107,8 @@
       "source_location": "L103",
       "_origin": "ast",
       "id": "src_test_mocks_createmockfilesystemservice",
-      "community": 17,
-      "community_name": "app-shell/index.ts",
+      "community": 5,
+      "community_name": "Action Registry Pattern",
       "norm_label": "createmockfilesystemservice()"
     },
     {
@@ -10118,8 +10118,8 @@
       "source_location": "L134",
       "_origin": "ast",
       "id": "src_test_mocks_createmockfilesystemservicewiththumbnails",
-      "community": 17,
-      "community_name": "app-shell/index.ts",
+      "community": 5,
+      "community_name": "Action Registry Pattern",
       "norm_label": "createmockfilesystemservicewiththumbnails()"
     },
     {
@@ -10162,8 +10162,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_test_ui_responsiveness_test_utils",
-      "community": 7,
-      "community_name": "App Shell State",
+      "community": 89,
+      "community_name": "ui-responsiveness-test-utils.ts",
       "norm_label": "ui-responsiveness-test-utils.ts"
     },
     {
@@ -10173,8 +10173,8 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "src_test_ui_responsiveness_test_utils_testnonblockingupdate",
-      "community": 7,
-      "community_name": "App Shell State",
+      "community": 89,
+      "community_name": "ui-responsiveness-test-utils.ts",
       "norm_label": "testnonblockingupdate()"
     },
     {
@@ -10184,8 +10184,8 @@
       "source_location": "L35",
       "_origin": "ast",
       "id": "src_test_ui_responsiveness_test_utils_testhookbehavior",
-      "community": 7,
-      "community_name": "App Shell State",
+      "community": 89,
+      "community_name": "ui-responsiveness-test-utils.ts",
       "norm_label": "testhookbehavior()"
     },
     {
@@ -10239,8 +10239,8 @@
       "source_location": "L92",
       "_origin": "ast",
       "id": "src_test_ui_responsiveness_test_utils_smoothinteractioncoordinator",
-      "community": 7,
-      "community_name": "App Shell State",
+      "community": 89,
+      "community_name": "ui-responsiveness-test-utils.ts",
       "norm_label": "smoothinteractioncoordinator"
     },
     {
@@ -10250,8 +10250,8 @@
       "source_location": "L95",
       "_origin": "ast",
       "id": "src_test_ui_responsiveness_test_utils_smoothinteractioncoordinator_addupdate",
-      "community": 7,
-      "community_name": "App Shell State",
+      "community": 89,
+      "community_name": "ui-responsiveness-test-utils.ts",
       "norm_label": ".addupdate()"
     },
     {
@@ -10261,8 +10261,8 @@
       "source_location": "L107",
       "_origin": "ast",
       "id": "src_test_ui_responsiveness_test_utils_smoothinteractioncoordinator_waitforall",
-      "community": 7,
-      "community_name": "App Shell State",
+      "community": 89,
+      "community_name": "ui-responsiveness-test-utils.ts",
       "norm_label": ".waitforall()"
     },
     {
@@ -10272,8 +10272,8 @@
       "source_location": "L117",
       "_origin": "ast",
       "id": "src_test_ui_responsiveness_test_utils_waitforuserperceivedcompletion",
-      "community": 7,
-      "community_name": "App Shell State",
+      "community": 89,
+      "community_name": "ui-responsiveness-test-utils.ts",
       "norm_label": "waitforuserperceivedcompletion()"
     },
     {
@@ -10305,8 +10305,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_fixtures_data_mockdata",
-      "community": 21,
-      "community_name": "Local Folder Container",
+      "community": 26,
+      "community_name": "folder.rs",
       "norm_label": "mockdata.ts"
     },
     {
@@ -10316,8 +10316,8 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "tests_fixtures_data_mockdata_createmockimages",
-      "community": 21,
-      "community_name": "Local Folder Container",
+      "community": 26,
+      "community_name": "folder.rs",
       "norm_label": "createmockimages()"
     },
     {
@@ -10327,8 +10327,8 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "tests_fixtures_data_mockdata_createmockimagesources",
-      "community": 21,
-      "community_name": "Local Folder Container",
+      "community": 26,
+      "community_name": "folder.rs",
       "norm_label": "createmockimagesources()"
     },
     {
@@ -10338,8 +10338,8 @@
       "source_location": "L36",
       "_origin": "ast",
       "id": "tests_fixtures_data_mockdata_mockimagesourcesbyfolderpath",
-      "community": 21,
-      "community_name": "Local Folder Container",
+      "community": 26,
+      "community_name": "folder.rs",
       "norm_label": "mockimagesourcesbyfolderpath"
     },
     {
@@ -10349,8 +10349,8 @@
       "source_location": "L52",
       "_origin": "ast",
       "id": "tests_fixtures_data_mockdata_getmockimagefolders",
-      "community": 21,
-      "community_name": "Local Folder Container",
+      "community": 26,
+      "community_name": "folder.rs",
       "norm_label": "getmockimagefolders()"
     },
     {
@@ -10360,8 +10360,8 @@
       "source_location": "L75",
       "_origin": "ast",
       "id": "tests_fixtures_data_mockdata_mocksidebaronlyfolders",
-      "community": 21,
-      "community_name": "Local Folder Container",
+      "community": 26,
+      "community_name": "folder.rs",
       "norm_label": "mocksidebaronlyfolders"
     },
     {
@@ -10371,8 +10371,8 @@
       "source_location": "L82",
       "_origin": "ast",
       "id": "tests_fixtures_data_mockdata_generatedummyemptyfolders",
-      "community": 21,
-      "community_name": "Local Folder Container",
+      "community": 26,
+      "community_name": "folder.rs",
       "norm_label": "generatedummyemptyfolders()"
     },
     {
@@ -10382,8 +10382,8 @@
       "source_location": "L92",
       "_origin": "ast",
       "id": "tests_fixtures_data_mockdata_generatelongnamefolders",
-      "community": 21,
-      "community_name": "Local Folder Container",
+      "community": 26,
+      "community_name": "folder.rs",
       "norm_label": "generatelongnamefolders()"
     },
     {
@@ -11567,188 +11567,12 @@
       "label": "\u53c2\u8003",
       "file_type": "document",
       "source_file": "docs/adr/003-viewer-actions-dispatch.md",
-      "source_location": "L189",
+      "source_location": "L188",
       "_origin": "ast",
       "id": "docs_adr_003_viewer_actions_dispatch_\u53c2\u8003",
       "community": 99,
       "community_name": "ADR-003: \u753b\u50cf\u30d3\u30e5\u30fc\u30a2\u64cd\u4f5c\u3092 `dispatch(ActionType)` \u3068 `useViewerActions` \u306b\u96c6\u7d04\u3059\u308b",
       "norm_label": "\u53c2\u8003"
-    },
-    {
-      "label": "004-keyboard-input-reach-model.md",
-      "file_type": "document",
-      "source_file": "docs/adr/004-keyboard-input-reach-model.md",
-      "source_location": "L1",
-      "_origin": "ast",
-      "id": "docs_adr_004_keyboard_input_reach_model",
-      "community": 26,
-      "community_name": "folder.rs",
-      "norm_label": "004-keyboard-input-reach-model.md"
-    },
-    {
-      "label": "ADR-004: \u30ad\u30fc\u30dc\u30fc\u30c9\u5165\u529b\u306e\u5230\u9054\u30e2\u30c7\u30eb \u2014 \u30b3\u30f3\u30c6\u30ca\u30b9\u30b3\u30fc\u30d7 + \u30d5\u30a9\u30fc\u30ab\u30b9\u79fb\u8b72",
-      "file_type": "document",
-      "source_file": "docs/adr/004-keyboard-input-reach-model.md",
-      "source_location": "L1",
-      "_origin": "ast",
-      "id": "docs_adr_004_keyboard_input_reach_model_adr_004_\u30ad\u30fc\u30dc\u30fc\u30c9\u5165\u529b\u306e\u5230\u9054\u30e2\u30c7\u30eb_\u30b3\u30f3\u30c6\u30ca\u30b9\u30b3\u30fc\u30d7_\u30d5\u30a9\u30fc\u30ab\u30b9\u79fb\u8b72",
-      "community": 26,
-      "community_name": "folder.rs",
-      "norm_label": "adr-004: \u30ad\u30fc\u30db\u30fc\u30c8\u5165\u529b\u306e\u5230\u9054\u30e2\u30c6\u30eb \u2014 \u30b3\u30f3\u30c6\u30ca\u30b9\u30b3\u30fc\u30d5 + \u30d5\u30a9\u30fc\u30ab\u30b9\u79fb\u8b72"
-    },
-    {
-      "label": "\u30b9\u30c6\u30fc\u30bf\u30b9",
-      "file_type": "document",
-      "source_file": "docs/adr/004-keyboard-input-reach-model.md",
-      "source_location": "L3",
-      "_origin": "ast",
-      "id": "docs_adr_004_keyboard_input_reach_model_\u30b9\u30c6\u30fc\u30bf\u30b9",
-      "community": 26,
-      "community_name": "folder.rs",
-      "norm_label": "\u30b9\u30c6\u30fc\u30bf\u30b9"
-    },
-    {
-      "label": "\u65e5\u4ed8",
-      "file_type": "document",
-      "source_file": "docs/adr/004-keyboard-input-reach-model.md",
-      "source_location": "L7",
-      "_origin": "ast",
-      "id": "docs_adr_004_keyboard_input_reach_model_\u65e5\u4ed8",
-      "community": 26,
-      "community_name": "folder.rs",
-      "norm_label": "\u65e5\u4ed8"
-    },
-    {
-      "label": "\u80cc\u666f",
-      "file_type": "document",
-      "source_file": "docs/adr/004-keyboard-input-reach-model.md",
-      "source_location": "L11",
-      "_origin": "ast",
-      "id": "docs_adr_004_keyboard_input_reach_model_\u80cc\u666f",
-      "community": 26,
-      "community_name": "folder.rs",
-      "norm_label": "\u80cc\u666f"
-    },
-    {
-      "label": "\u6c7a\u5b9a",
-      "file_type": "document",
-      "source_file": "docs/adr/004-keyboard-input-reach-model.md",
-      "source_location": "L24",
-      "_origin": "ast",
-      "id": "docs_adr_004_keyboard_input_reach_model_\u6c7a\u5b9a",
-      "community": 26,
-      "community_name": "folder.rs",
-      "norm_label": "\u6c7a\u5b9a"
-    },
-    {
-      "label": "\u63a1\u7528\u7406\u7531",
-      "file_type": "document",
-      "source_file": "docs/adr/004-keyboard-input-reach-model.md",
-      "source_location": "L40",
-      "_origin": "ast",
-      "id": "docs_adr_004_keyboard_input_reach_model_\u63a1\u7528\u7406\u7531",
-      "community": 26,
-      "community_name": "folder.rs",
-      "norm_label": "\u63a1\u7528\u7406\u7531"
-    },
-    {
-      "label": "issue-triage-2026-08.md",
-      "file_type": "document",
-      "source_file": "docs/issue-triage-2026-08.md",
-      "source_location": "L1",
-      "_origin": "ast",
-      "id": "docs_issue_triage_2026_08",
-      "community": 23,
-      "community_name": "FileSystemService",
-      "norm_label": "issue-triage-2026-08.md"
-    },
-    {
-      "label": "GitHub Issue \u73fe\u72b6\u7167\u5408\uff082026-08-18\uff09",
-      "file_type": "document",
-      "source_file": "docs/issue-triage-2026-08.md",
-      "source_location": "L1",
-      "_origin": "ast",
-      "id": "docs_issue_triage_2026_08_github_issue_\u73fe\u72b6\u7167\u5408_2026_08_18",
-      "community": 23,
-      "community_name": "FileSystemService",
-      "norm_label": "github issue \u73fe\u72b6\u7167\u5408(2026-08-18)"
-    },
-    {
-      "label": "1. \u5206\u985e\u30b5\u30de\u30ea\u30fc",
-      "file_type": "document",
-      "source_file": "docs/issue-triage-2026-08.md",
-      "source_location": "L17",
-      "_origin": "ast",
-      "id": "docs_issue_triage_2026_08_1_\u5206\u985e\u30b5\u30de\u30ea\u30fc",
-      "community": 23,
-      "community_name": "FileSystemService",
-      "norm_label": "1. \u5206\u985e\u30b5\u30de\u30ea\u30fc"
-    },
-    {
-      "label": "2. \u30af\u30ed\u30fc\u30ba\u3057\u3066\u3088\u3044",
-      "file_type": "document",
-      "source_file": "docs/issue-triage-2026-08.md",
-      "source_location": "L30",
-      "_origin": "ast",
-      "id": "docs_issue_triage_2026_08_2_\u30af\u30ed\u30fc\u30ba\u3057\u3066\u3088\u3044",
-      "community": 23,
-      "community_name": "FileSystemService",
-      "norm_label": "2. \u30af\u30ed\u30fc\u30b9\u3057\u3066\u3088\u3044"
-    },
-    {
-      "label": "3. \u65b9\u91dd\u3092\u66f4\u65b0\u3057\u3066\u304b\u3089\u7740\u624b",
-      "file_type": "document",
-      "source_file": "docs/issue-triage-2026-08.md",
-      "source_location": "L45",
-      "_origin": "ast",
-      "id": "docs_issue_triage_2026_08_3_\u65b9\u91dd\u3092\u66f4\u65b0\u3057\u3066\u304b\u3089\u7740\u624b",
-      "community": 23,
-      "community_name": "FileSystemService",
-      "norm_label": "3. \u65b9\u91dd\u3092\u66f4\u65b0\u3057\u3066\u304b\u3089\u7740\u624b"
-    },
-    {
-      "label": "4. \u3053\u308c\u304b\u3089\u5b9f\u88c5\uff08\u65b9\u91dd\u306f\u6709\u52b9\uff09",
-      "file_type": "document",
-      "source_file": "docs/issue-triage-2026-08.md",
-      "source_location": "L59",
-      "_origin": "ast",
-      "id": "docs_issue_triage_2026_08_4_\u3053\u308c\u304b\u3089\u5b9f\u88c5_\u65b9\u91dd\u306f\u6709\u52b9",
-      "community": 23,
-      "community_name": "FileSystemService",
-      "norm_label": "4. \u3053\u308c\u304b\u3089\u5b9f\u88c5(\u65b9\u91dd\u306f\u6709\u52b9)"
-    },
-    {
-      "label": "5. \u7740\u624b\u57fa\u6e96\u5f85\u3061",
-      "file_type": "document",
-      "source_file": "docs/issue-triage-2026-08.md",
-      "source_location": "L74",
-      "_origin": "ast",
-      "id": "docs_issue_triage_2026_08_5_\u7740\u624b\u57fa\u6e96\u5f85\u3061",
-      "community": 23,
-      "community_name": "FileSystemService",
-      "norm_label": "5. \u7740\u624b\u57fa\u6e96\u5f85\u3061"
-    },
-    {
-      "label": "6. \u30af\u30ed\u30fc\u30ba\u6e08\u307f Issue \u3068\u306e\u95a2\u4fc2\uff08\u53c2\u8003\uff09",
-      "file_type": "document",
-      "source_file": "docs/issue-triage-2026-08.md",
-      "source_location": "L82",
-      "_origin": "ast",
-      "id": "docs_issue_triage_2026_08_6_\u30af\u30ed\u30fc\u30ba\u6e08\u307f_issue_\u3068\u306e\u95a2\u4fc2_\u53c2\u8003",
-      "community": 23,
-      "community_name": "FileSystemService",
-      "norm_label": "6. \u30af\u30ed\u30fc\u30b9\u6e08\u307f issue \u3068\u306e\u95a2\u4fc2(\u53c2\u8003)"
-    },
-    {
-      "label": "7. \u63a8\u5968\u3059\u308b\u6b21\u306e\u52d5\u304d",
-      "file_type": "document",
-      "source_file": "docs/issue-triage-2026-08.md",
-      "source_location": "L98",
-      "_origin": "ast",
-      "id": "docs_issue_triage_2026_08_7_\u63a8\u5968\u3059\u308b\u6b21\u306e\u52d5\u304d",
-      "community": 23,
-      "community_name": "FileSystemService",
-      "norm_label": "7. \u63a8\u5968\u3059\u308b\u6b21\u306e\u52d5\u304d"
     },
     {
       "label": "001-replace-theme-provider/checklists/requirements.md",
@@ -35233,7 +35057,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/features/image-viewer/components/ImageViewer.tsx",
-      "source_location": "L12",
+      "source_location": "L14",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_features_image_viewer_components_imageviewer",
@@ -35281,7 +35105,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/features/image-viewer/components/ImageViewer.tsx",
-      "source_location": "L12",
+      "source_location": "L14",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_features_image_viewer_components_imageviewer",
@@ -35304,7 +35128,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/features/image-viewer/components/ImageViewer.tsx",
-      "source_location": "L29",
+      "source_location": "L32",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_features_image_viewer_components_imageviewer",
@@ -35315,7 +35139,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/features/image-viewer/components/ImageViewer.tsx",
-      "source_location": "L18",
+      "source_location": "L20",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_features_image_viewer_components_imageviewer",
@@ -35327,7 +35151,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/features/image-viewer/components/ImageViewer.tsx",
-      "source_location": "L13",
+      "source_location": "L15",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_features_image_viewer_components_imageviewer",
@@ -35339,7 +35163,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/features/image-viewer/components/ImageViewer.tsx",
-      "source_location": "L13",
+      "source_location": "L15",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_features_image_viewer_components_imageviewer",
@@ -35351,7 +35175,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/features/image-viewer/components/ImageViewer.tsx",
-      "source_location": "L8",
+      "source_location": "L11",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_features_image_viewer_components_imageviewer",
@@ -35363,7 +35187,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/features/image-viewer/components/ImageViewer.tsx",
-      "source_location": "L8",
+      "source_location": "L11",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_features_image_viewer_components_imageviewer",
@@ -35375,7 +35199,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/features/image-viewer/components/ImageViewer.tsx",
-      "source_location": "L9",
+      "source_location": "L12",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_features_image_viewer_components_imageviewer",
@@ -35387,7 +35211,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/features/image-viewer/components/ImageViewer.tsx",
-      "source_location": "L9",
+      "source_location": "L12",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_features_image_viewer_components_imageviewer",
@@ -35399,7 +35223,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/features/image-viewer/components/ImageViewer.tsx",
-      "source_location": "L10",
+      "source_location": "L13",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_features_image_viewer_components_imageviewer",
@@ -35411,35 +35235,11 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/features/image-viewer/components/ImageViewer.tsx",
-      "source_location": "L10",
+      "source_location": "L13",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_features_image_viewer_components_imageviewer",
       "target": "src_features_image_viewer_hooks_usevieweractions_usevieweractions",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/features/image-viewer/components/ImageViewer.tsx",
-      "source_location": "L11",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_features_image_viewer_components_imageviewer",
-      "target": "src_features_image_viewer_keyboard_keyboardutils",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/features/image-viewer/components/ImageViewer.tsx",
-      "source_location": "L11",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_features_image_viewer_components_imageviewer",
-      "target": "src_features_image_viewer_keyboard_keyboardutils_createdefaultkeyboardmapping",
       "confidence_score": 1.0
     },
     {
@@ -35511,6 +35311,18 @@
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_features_image_viewer_components_imageviewer",
+      "target": "src_features_image_viewer_types_viewertypes_keyboardmapping",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/features/image-viewer/components/ImageViewer.tsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "src_features_image_viewer_components_imageviewer",
       "target": "src_features_image_viewer_types_viewertypes_viewersettings",
       "confidence_score": 1.0
     },
@@ -35519,7 +35331,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/features/image-viewer/components/ImageViewer.tsx",
-      "source_location": "L7",
+      "source_location": "L10",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_features_image_viewer_components_imageviewer",
@@ -35531,7 +35343,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/features/image-viewer/components/ImageViewer.tsx",
-      "source_location": "L7",
+      "source_location": "L10",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_features_image_viewer_components_imageviewer",
@@ -35555,7 +35367,7 @@
       "context": "field",
       "confidence": "EXTRACTED",
       "source_file": "src/features/image-viewer/components/ImageViewer.tsx",
-      "source_location": "L19",
+      "source_location": "L21",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_features_image_viewer_components_imageviewer_imageviewerprops",
@@ -35567,7 +35379,7 @@
       "context": "field",
       "confidence": "EXTRACTED",
       "source_file": "src/features/image-viewer/components/ImageViewer.tsx",
-      "source_location": "L22",
+      "source_location": "L25",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_features_image_viewer_components_imageviewer_imageviewerprops",
@@ -35576,10 +35388,22 @@
     },
     {
       "relation": "references",
+      "context": "field",
+      "confidence": "EXTRACTED",
+      "source_file": "src/features/image-viewer/components/ImageViewer.tsx",
+      "source_location": "L24",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "src_features_image_viewer_components_imageviewer_imageviewerprops",
+      "target": "src_features_image_viewer_types_viewertypes_keyboardmapping",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
       "context": "generic_arg",
       "confidence": "EXTRACTED",
       "source_file": "src/features/image-viewer/components/ImageViewer.tsx",
-      "source_location": "L21",
+      "source_location": "L23",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_features_image_viewer_components_imageviewer_imageviewerprops",
@@ -35604,7 +35428,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/features/image-viewer/components/ImageViewer.tsx",
-      "source_location": "L50",
+      "source_location": "L55",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_features_image_viewer_components_imageviewer_imageviewer",
@@ -35628,7 +35452,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/features/image-viewer/components/ImageViewer.tsx",
-      "source_location": "L39",
+      "source_location": "L44",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_features_image_viewer_components_imageviewer_imageviewer",
@@ -35640,19 +35464,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/features/image-viewer/components/ImageViewer.tsx",
-      "source_location": "L56",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_features_image_viewer_components_imageviewer_imageviewer",
-      "target": "src_features_image_viewer_keyboard_keyboardutils_createdefaultkeyboardmapping"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/features/image-viewer/components/ImageViewer.tsx",
-      "source_location": "L36",
+      "source_location": "L41",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_features_image_viewer_components_imageviewer_imageviewer",
@@ -40104,7 +39916,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/adr/003-viewer-actions-dispatch.md",
-      "source_location": "L189",
+      "source_location": "L188",
       "weight": 1.0,
       "_origin": "ast",
       "source": "docs_adr_003_viewer_actions_dispatch_adr_003_\u753b\u50cf\u30d3\u30e5\u30fc\u30a2\u64cd\u4f5c\u3092_dispatch_actiontype_\u3068_usevieweractions_\u306b\u96c6\u7d04\u3059\u308b",
@@ -40307,160 +40119,6 @@
       "_origin": "ast",
       "source": "docs_adr_003_viewer_actions_dispatch_\u4ee3\u66ff\u6848",
       "target": "docs_adr_003_viewer_actions_dispatch_d_\u73fe\u72b6\u7dad\u6301_\u30b3\u30f3\u30dd\u30fc\u30cd\u30f3\u30c8\u5185\u306e\u540d\u524d\u4ed8\u304d\u95a2\u6570",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "docs/adr/004-keyboard-input-reach-model.md",
-      "source_location": "L1",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "docs_adr_004_keyboard_input_reach_model",
-      "target": "docs_adr_004_keyboard_input_reach_model_adr_004_\u30ad\u30fc\u30dc\u30fc\u30c9\u5165\u529b\u306e\u5230\u9054\u30e2\u30c7\u30eb_\u30b3\u30f3\u30c6\u30ca\u30b9\u30b3\u30fc\u30d7_\u30d5\u30a9\u30fc\u30ab\u30b9\u79fb\u8b72",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "docs/adr/004-keyboard-input-reach-model.md",
-      "source_location": "L3",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "docs_adr_004_keyboard_input_reach_model_adr_004_\u30ad\u30fc\u30dc\u30fc\u30c9\u5165\u529b\u306e\u5230\u9054\u30e2\u30c7\u30eb_\u30b3\u30f3\u30c6\u30ca\u30b9\u30b3\u30fc\u30d7_\u30d5\u30a9\u30fc\u30ab\u30b9\u79fb\u8b72",
-      "target": "docs_adr_004_keyboard_input_reach_model_\u30b9\u30c6\u30fc\u30bf\u30b9",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "docs/adr/004-keyboard-input-reach-model.md",
-      "source_location": "L7",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "docs_adr_004_keyboard_input_reach_model_adr_004_\u30ad\u30fc\u30dc\u30fc\u30c9\u5165\u529b\u306e\u5230\u9054\u30e2\u30c7\u30eb_\u30b3\u30f3\u30c6\u30ca\u30b9\u30b3\u30fc\u30d7_\u30d5\u30a9\u30fc\u30ab\u30b9\u79fb\u8b72",
-      "target": "docs_adr_004_keyboard_input_reach_model_\u65e5\u4ed8",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "docs/adr/004-keyboard-input-reach-model.md",
-      "source_location": "L24",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "docs_adr_004_keyboard_input_reach_model_adr_004_\u30ad\u30fc\u30dc\u30fc\u30c9\u5165\u529b\u306e\u5230\u9054\u30e2\u30c7\u30eb_\u30b3\u30f3\u30c6\u30ca\u30b9\u30b3\u30fc\u30d7_\u30d5\u30a9\u30fc\u30ab\u30b9\u79fb\u8b72",
-      "target": "docs_adr_004_keyboard_input_reach_model_\u6c7a\u5b9a",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "docs/adr/004-keyboard-input-reach-model.md",
-      "source_location": "L11",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "docs_adr_004_keyboard_input_reach_model_adr_004_\u30ad\u30fc\u30dc\u30fc\u30c9\u5165\u529b\u306e\u5230\u9054\u30e2\u30c7\u30eb_\u30b3\u30f3\u30c6\u30ca\u30b9\u30b3\u30fc\u30d7_\u30d5\u30a9\u30fc\u30ab\u30b9\u79fb\u8b72",
-      "target": "docs_adr_004_keyboard_input_reach_model_\u80cc\u666f",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "docs/adr/004-keyboard-input-reach-model.md",
-      "source_location": "L40",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "docs_adr_004_keyboard_input_reach_model_\u6c7a\u5b9a",
-      "target": "docs_adr_004_keyboard_input_reach_model_\u63a1\u7528\u7406\u7531",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "docs/issue-triage-2026-08.md",
-      "source_location": "L1",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "docs_issue_triage_2026_08",
-      "target": "docs_issue_triage_2026_08_github_issue_\u73fe\u72b6\u7167\u5408_2026_08_18",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "docs/issue-triage-2026-08.md",
-      "source_location": "L17",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "docs_issue_triage_2026_08_github_issue_\u73fe\u72b6\u7167\u5408_2026_08_18",
-      "target": "docs_issue_triage_2026_08_1_\u5206\u985e\u30b5\u30de\u30ea\u30fc",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "docs/issue-triage-2026-08.md",
-      "source_location": "L30",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "docs_issue_triage_2026_08_github_issue_\u73fe\u72b6\u7167\u5408_2026_08_18",
-      "target": "docs_issue_triage_2026_08_2_\u30af\u30ed\u30fc\u30ba\u3057\u3066\u3088\u3044",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "docs/issue-triage-2026-08.md",
-      "source_location": "L45",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "docs_issue_triage_2026_08_github_issue_\u73fe\u72b6\u7167\u5408_2026_08_18",
-      "target": "docs_issue_triage_2026_08_3_\u65b9\u91dd\u3092\u66f4\u65b0\u3057\u3066\u304b\u3089\u7740\u624b",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "docs/issue-triage-2026-08.md",
-      "source_location": "L59",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "docs_issue_triage_2026_08_github_issue_\u73fe\u72b6\u7167\u5408_2026_08_18",
-      "target": "docs_issue_triage_2026_08_4_\u3053\u308c\u304b\u3089\u5b9f\u88c5_\u65b9\u91dd\u306f\u6709\u52b9",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "docs/issue-triage-2026-08.md",
-      "source_location": "L74",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "docs_issue_triage_2026_08_github_issue_\u73fe\u72b6\u7167\u5408_2026_08_18",
-      "target": "docs_issue_triage_2026_08_5_\u7740\u624b\u57fa\u6e96\u5f85\u3061",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "docs/issue-triage-2026-08.md",
-      "source_location": "L82",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "docs_issue_triage_2026_08_github_issue_\u73fe\u72b6\u7167\u5408_2026_08_18",
-      "target": "docs_issue_triage_2026_08_6_\u30af\u30ed\u30fc\u30ba\u6e08\u307f_issue_\u3068\u306e\u95a2\u4fc2_\u53c2\u8003",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "docs/issue-triage-2026-08.md",
-      "source_location": "L98",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "docs_issue_triage_2026_08_github_issue_\u73fe\u72b6\u7167\u5408_2026_08_18",
-      "target": "docs_issue_triage_2026_08_7_\u63a8\u5968\u3059\u308b\u6b21\u306e\u52d5\u304d",
       "confidence_score": 1.0
     },
     {
@@ -45310,5 +44968,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "2a859fb8507b680eb80eef088fb37bacd172786a"
+  "built_at_commit": "88f2fb7e77a98d9c60ef81bc25d8c6994edba6bd"
 }

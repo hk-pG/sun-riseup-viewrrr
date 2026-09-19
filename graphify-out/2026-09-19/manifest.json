@@ -40,9 +40,9 @@
     "semantic_hash": "84e3d4526721b249c314e86867cab9dc"
   },
   ".vscode/settings.json": {
-    "mtime": 1787033037.3220835,
-    "ast_hash": "024a1cfd762791ff3cfb0ef411de6ca5",
-    "semantic_hash": ""
+    "mtime": 1780807294.3469594,
+    "ast_hash": "6ab96babb728a3999c4d6422f3a352ad",
+    "semantic_hash": "6ab96babb728a3999c4d6422f3a352ad"
   },
   ".vscode/tasks.json": {
     "mtime": 1768890927.7573683,
@@ -195,7 +195,7 @@
     "semantic_hash": "38ad6b08d106439da64c4297cf3d9aa3"
   },
   "src-tauri/src/lib.rs": {
-    "mtime": 1787432657.7177496,
+    "mtime": 1781970114.62606,
     "ast_hash": "ef1952d9a157b9b75d7bb08c362b245c",
     "semantic_hash": "ef1952d9a157b9b75d7bb08c362b245c"
   },
@@ -515,8 +515,8 @@
     "semantic_hash": "1eb1f4cf1fd0e4d5eed45e2cbac8a0ec"
   },
   "src/features/image-viewer/components/ImageViewer.tsx": {
-    "mtime": 1789388314.3652558,
-    "ast_hash": "be7ab4b6b4fc75a3b9246fc47d9a1a86",
+    "mtime": 1786999062.0299323,
+    "ast_hash": "686590abbc1985f3e05b25285de4af1b",
     "semantic_hash": ""
   },
   "src/features/image-viewer/components/ViewerControls.tsx": {
@@ -535,19 +535,19 @@
     "semantic_hash": ""
   },
   "src/features/image-viewer/hooks/__tests__/useKeyboardHandler.test.ts": {
-    "mtime": 1789808191.5509946,
-    "ast_hash": "cfe6f5f2bee8ba2a25d71b02e4ecc083",
+    "mtime": 1786999062.0308015,
+    "ast_hash": "ccea5db71b19faa8ff936efa2155c006",
     "semantic_hash": ""
   },
   "src/features/image-viewer/hooks/useControlsVisibility.ts": {
-    "mtime": 1789304444.0424771,
+    "mtime": 1785852980.4843357,
     "ast_hash": "30b6a38270f90f6d021326931458a4b8",
     "semantic_hash": "30b6a38270f90f6d021326931458a4b8"
   },
   "src/features/image-viewer/hooks/useKeyboardHandler.ts": {
-    "mtime": 1789806168.1973028,
-    "ast_hash": "5128c165254005585859db538de18ca1",
-    "semantic_hash": ""
+    "mtime": 1768890927.7816048,
+    "ast_hash": "00b6e2b2325819356d6eeaf85f5c738e",
+    "semantic_hash": "00b6e2b2325819356d6eeaf85f5c738e"
   },
   "src/features/image-viewer/index.ts": {
     "mtime": 1786999062.0315845,
@@ -775,8 +775,8 @@
     "semantic_hash": "91ee64f525391d4bcb7165f07802ceed"
   },
   ".github/copilot-instructions.md": {
-    "mtime": 1787913893.4060612,
-    "ast_hash": "9c7452555b15037b99a1f2ce9a8674ad",
+    "mtime": 1786998369.468657,
+    "ast_hash": "0db5f1b48c848e4cad2b623f0dda4ce9",
     "semantic_hash": ""
   },
   ".github/dependabot.yml": {
@@ -885,7 +885,7 @@
     "semantic_hash": ""
   },
   "README.md": {
-    "mtime": 1787434136.1229172,
+    "mtime": 1768890927.7574518,
     "ast_hash": "3c72de5bebbeaef3eadf5c61d37b513f",
     "semantic_hash": "3c72de5bebbeaef3eadf5c61d37b513f"
   },
@@ -1080,9 +1080,9 @@
     "semantic_hash": "afcceb8ffdb97d4e9c1aed3f0ceb7503"
   },
   "docs/specs/016-thumbnail-backend-responsibility/spec.md": {
-    "mtime": 1787913893.406905,
-    "ast_hash": "b8baa47dea0414ec769399abf5279044",
-    "semantic_hash": ""
+    "mtime": 1779017678.832267,
+    "ast_hash": "c82bd1e027122a84cd25f37d853661f2",
+    "semantic_hash": "c82bd1e027122a84cd25f37d853661f2"
   },
   "docs/test-mock-refactor-todo.md": {
     "mtime": 1779017678.832673,
@@ -1090,9 +1090,9 @@
     "semantic_hash": "2be528b058c153027702dd5ac45a9290"
   },
   "docs/testing-strategy-2026-05.md": {
-    "mtime": 1787913893.4075317,
-    "ast_hash": "330ad45ac34f27e299e8e0b205636401",
-    "semantic_hash": ""
+    "mtime": 1779017678.832969,
+    "ast_hash": "503c8fdfc50c43db98f731393366b99f",
+    "semantic_hash": "503c8fdfc50c43db98f731393366b99f"
   },
   "docs/thumbnail-system-design-issues.md": {
     "mtime": 1772980225.5348892,
@@ -1620,8 +1620,8 @@
     "semantic_hash": ""
   },
   "src/features/image-viewer/keyboard/keyboardUtils.ts": {
-    "mtime": 1789807847.822656,
-    "ast_hash": "54633c6cf703b46deae34f780bd3fd00",
+    "mtime": 1786999062.0324502,
+    "ast_hash": "7d9d43e1b7753619c0d00efbac1bdc2f",
     "semantic_hash": ""
   },
   "src/features/image-viewer/keyboard/__tests__/keyboardConflicts.test.ts": {
@@ -1650,28 +1650,18 @@
     "semantic_hash": ""
   },
   "src/features/image-viewer/hooks/useViewerActions.ts": {
-    "mtime": 1789304769.2170548,
+    "mtime": 1786999062.0311396,
     "ast_hash": "30c5c922c131442063ce24df33400ddc",
     "semantic_hash": ""
   },
   "docs/adr/003-viewer-actions-dispatch.md": {
-    "mtime": 1787038242.8896239,
-    "ast_hash": "a15d40c656518c7c84613e00ae35a543",
+    "mtime": 1786999062.0056443,
+    "ast_hash": "06ccbad14f0624e8a1cac851fff653e8",
     "semantic_hash": ""
   },
   "pnpm-workspace.yaml": {
     "mtime": 1786998369.4824939,
     "ast_hash": "324883bec94ec5f8b3ec583a7e0630a4",
-    "semantic_hash": ""
-  },
-  "docs/adr/004-keyboard-input-reach-model.md": {
-    "mtime": 1789802129.3161874,
-    "ast_hash": "63eade88e9125caf197920e7a49c3789",
-    "semantic_hash": ""
-  },
-  "docs/issue-triage-2026-08.md": {
-    "mtime": 1787913893.4065108,
-    "ast_hash": "540db509354f7c86d8c44e35d6e90e56",
     "semantic_hash": ""
   }
 }

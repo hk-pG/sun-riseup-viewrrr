@@ -1,16 +1,16 @@
-# Graph Report - sun-riseup-viewrrr  (2026-08-18)
+# Graph Report - sun-riseup-viewrrr  (2026-09-19)
 
 ## Corpus Check
-- 234 files · ~171,281 words
+- 236 files · ~172,252 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 1466 nodes · 2416 edges · 112 communities (78 shown, 34 thin omitted)
-- Extraction: 94% EXTRACTED · 6% INFERRED · 0% AMBIGUOUS · INFERRED: 134 edges (avg confidence: 0.84)
+- 1482 nodes · 2445 edges · 110 communities (76 shown, 34 thin omitted)
+- Extraction: 94% EXTRACTED · 5% INFERRED · 0% AMBIGUOUS · INFERRED: 134 edges (avg confidence: 0.84)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `23f86df5`
+- Built from commit: `2a859fb8`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -54,9 +54,9 @@
 - Thumbnail Config Validation
 - Vite Node TS Config
 - Dev Strict TS Config
-- src/fs.rs
 - Rust Thumbnail Optimization
 - Tauri Capability Permissions
+- useSiblingContainers.ts
 - Test Fixtures Folder 2
 - Test Fixtures Folder 3 Digits
 - Nested Folder 4 Fixtures
@@ -65,7 +65,6 @@
 - Desktop App Icon Sizes
 - SpecKit Feature Branch Script
 - ImageContainer Refactor Docs
-- useSiblingContainers.ts
 - React Security Patch Spec
 - Folder 1 Fixture Digits
 - Folder 4 Orange Digits
@@ -91,17 +90,16 @@
 - SpecKit Tasks Template
 - React Logo Asset
 - Implementation Steps
+- ui-responsiveness-test-utils.ts
 - folder-navigation/index.ts
 - Specification Quality Checklist: Replace Theme Provider with shadcn/ui Version
 - Specification Quality Checklist: Rust Backend Thumbnail Optimization
 - post-commit
 - post-checkout
-- ImageContainerReaderConfig
 - Review Unit Tests
+- folder-navigation/index.ts
 - CommandError
 - ADR-003: 画像ビューア操作を `dispatch(ActionType)` と `useViewerActions` に集約する
-- UserExperienceTracker
-- tooltip.tsx
 - @commitlint/cli
 - @commitlint/config-conventional
 - globals
@@ -120,8 +118,8 @@
 1. `CommandError` - 35 edges
 2. `FileSystemService` - 32 edges
 3. `React` - 27 edges
-4. `compilerOptions` - 20 edges
-5. `ImageSource` - 19 edges
+4. `ImageSource` - 20 edges
+5. `compilerOptions` - 20 edges
 6. `scripts` - 18 edges
 7. `cn()` - 17 edges
 8. `TempTestDir` - 16 edges
@@ -142,31 +140,31 @@
 
 ## Import Cycles
 - 3-file cycle: `src/App.tsx -> src/features/app-shell/index.ts -> src/features/app-shell/actions/types.ts -> src/App.tsx`
-- 3-file cycle: `src/features/folder-navigation/hooks/useThumbnailPrefetch.ts -> src/shared/context/ServiceContext.tsx -> src/features/folder-navigation/index.ts -> src/features/folder-navigation/hooks/useThumbnailPrefetch.ts`
 - 3-file cycle: `src/features/folder-navigation/hooks/useSiblingContainers.ts -> src/shared/context/ServiceContext.tsx -> src/features/folder-navigation/index.ts -> src/features/folder-navigation/hooks/useSiblingContainers.ts`
 - 3-file cycle: `src/features/folder-navigation/hooks/useThumbnail.ts -> src/shared/context/ServiceContext.tsx -> src/features/folder-navigation/index.ts -> src/features/folder-navigation/hooks/useThumbnail.ts`
+- 3-file cycle: `src/features/folder-navigation/hooks/useThumbnailPrefetch.ts -> src/shared/context/ServiceContext.tsx -> src/features/folder-navigation/index.ts -> src/features/folder-navigation/hooks/useThumbnailPrefetch.ts`
 - 3-file cycle: `src/features/image-viewer/components/ImageViewer.tsx -> src/shared/hooks/data/useImages.ts -> src/features/image-viewer/index.ts -> src/features/image-viewer/components/ImageViewer.tsx`
 - 4-file cycle: `src/App.tsx -> src/features/app-shell/index.ts -> src/features/app-shell/actions/index.ts -> src/features/app-shell/actions/types.ts -> src/App.tsx`
 - 4-file cycle: `src/App.tsx -> src/features/app-shell/index.ts -> src/features/app-shell/hooks/useAppActions.ts -> src/features/app-shell/actions/types.ts -> src/App.tsx`
-- 4-file cycle: `src/features/folder-navigation/hooks/useThumbnailPrefetch.ts -> src/shared/context/ServiceContext.tsx -> src/shared/adapters/tauriAdapters.ts -> src/features/folder-navigation/index.ts -> src/features/folder-navigation/hooks/useThumbnailPrefetch.ts`
 - 4-file cycle: `src/features/folder-navigation/hooks/useSiblingContainers.ts -> src/features/folder-navigation/services/getSiblingContainers.ts -> src/shared/index.ts -> src/shared/types/FolderSortFunction.ts -> src/features/folder-navigation/hooks/useSiblingContainers.ts`
-- 4-file cycle: `src/features/folder-navigation/index.ts -> src/features/folder-navigation/services/getSiblingContainers.ts -> src/shared/index.ts -> src/shared/adapters/tauriAdapters.ts -> src/features/folder-navigation/index.ts`
-- 4-file cycle: `src/features/folder-navigation/index.ts -> src/features/folder-navigation/services/getSiblingContainers.ts -> src/shared/index.ts -> src/shared/context/ServiceContext.tsx -> src/features/folder-navigation/index.ts`
-- 4-file cycle: `src/features/folder-navigation/components/FolderView.tsx -> src/features/folder-navigation/hooks/useThumbnail.ts -> src/shared/context/ServiceContext.tsx -> src/features/folder-navigation/index.ts -> src/features/folder-navigation/components/FolderView.tsx`
 - 4-file cycle: `src/features/folder-navigation/hooks/useSiblingContainers.ts -> src/shared/context/ServiceContext.tsx -> src/shared/adapters/tauriAdapters.ts -> src/features/folder-navigation/index.ts -> src/features/folder-navigation/hooks/useSiblingContainers.ts`
+- 4-file cycle: `src/features/folder-navigation/components/FolderView.tsx -> src/features/folder-navigation/hooks/useThumbnail.ts -> src/shared/context/ServiceContext.tsx -> src/features/folder-navigation/index.ts -> src/features/folder-navigation/components/FolderView.tsx`
+- 4-file cycle: `src/features/folder-navigation/index.ts -> src/features/folder-navigation/services/getSiblingContainers.ts -> src/shared/index.ts -> src/shared/context/ServiceContext.tsx -> src/features/folder-navigation/index.ts`
 - 4-file cycle: `src/features/folder-navigation/hooks/useThumbnail.ts -> src/shared/context/ServiceContext.tsx -> src/shared/adapters/tauriAdapters.ts -> src/features/folder-navigation/index.ts -> src/features/folder-navigation/hooks/useThumbnail.ts`
+- 4-file cycle: `src/features/folder-navigation/hooks/useThumbnailPrefetch.ts -> src/shared/context/ServiceContext.tsx -> src/shared/adapters/tauriAdapters.ts -> src/features/folder-navigation/index.ts -> src/features/folder-navigation/hooks/useThumbnailPrefetch.ts`
+- 4-file cycle: `src/features/folder-navigation/index.ts -> src/features/folder-navigation/services/getSiblingContainers.ts -> src/shared/index.ts -> src/shared/adapters/tauriAdapters.ts -> src/features/folder-navigation/index.ts`
 - 5-file cycle: `src/App.tsx -> src/features/app-shell/index.ts -> src/features/app-shell/actions/index.ts -> src/features/app-shell/actions/actionRegistry.ts -> src/features/app-shell/actions/types.ts -> src/App.tsx`
 - 5-file cycle: `src/App.tsx -> src/features/app-shell/index.ts -> src/features/app-shell/actions/index.ts -> src/features/app-shell/actions/openFolderAction.ts -> src/features/app-shell/actions/types.ts -> src/App.tsx`
 - 5-file cycle: `src/App.tsx -> src/features/app-shell/index.ts -> src/features/app-shell/actions/index.ts -> src/features/app-shell/actions/openImageAction.ts -> src/features/app-shell/actions/types.ts -> src/App.tsx`
 - 5-file cycle: `src/App.tsx -> src/features/app-shell/index.ts -> src/features/app-shell/actions/index.ts -> src/features/app-shell/actions/toggleThemeAction.ts -> src/features/app-shell/actions/types.ts -> src/App.tsx`
 - 5-file cycle: `src/App.tsx -> src/features/app-shell/index.ts -> src/features/app-shell/hooks/useAppActions.ts -> src/features/app-shell/actions/actionRegistry.ts -> src/features/app-shell/actions/types.ts -> src/App.tsx`
-- 5-file cycle: `src/features/folder-navigation/hooks/useSiblingContainers.ts -> src/features/folder-navigation/services/getSiblingContainers.ts -> src/shared/index.ts -> src/shared/utils/folderSort.ts -> src/shared/types/FolderSortFunction.ts -> src/features/folder-navigation/hooks/useSiblingContainers.ts`
+- 5-file cycle: `src/features/folder-navigation/hooks/useSiblingContainers.ts -> src/features/folder-navigation/services/getSiblingContainers.ts -> src/shared/index.ts -> src/shared/adapters/tauriAdapters.ts -> src/features/folder-navigation/index.ts -> src/features/folder-navigation/hooks/useSiblingContainers.ts`
 
-## Communities (112 total, 34 thin omitted)
+## Communities (110 total, 34 thin omitted)
 
 ### Community 0 - "UI Tooltip & Dev Mocks"
-Cohesion: 0.25
-Nodes (10): FolderList(), FolderListLoadMore(), FolderListLoadMoreProps, mockThumbnailIdle(), mockThumbnailIdle(), FolderView(), SidebarContentProps, useThumbnail() (+2 more)
+Cohesion: 0.19
+Nodes (16): FolderList(), FolderListLoadMore(), FolderListLoadMoreProps, mockThumbnailIdle(), mockThumbnailIdle(), FolderView(), Sidebar(), SidebarContent() (+8 more)
 
 ### Community 1 - "Agent Workflows & Architecture Docs"
 Cohesion: 0.06
@@ -185,20 +183,20 @@ Cohesion: 0.11
 Nodes (19): babel-plugin-react-compiler, @biomejs/biome, jsdom, devDependencies, babel-plugin-react-compiler, @biomejs/biome, jsdom, playwright (+11 more)
 
 ### Community 5 - "Action Registry Pattern"
-Cohesion: 0.05
-Nodes (53): AppState, createActionRegistry(), openFolderAction(), openImageAction(), toggleThemeAction(), ActionDependencies, ActionRegistry, ActionResult (+45 more)
+Cohesion: 0.14
+Nodes (27): AppState, createActionRegistry(), openFolderAction(), openImageAction(), toggleThemeAction(), ActionDependencies, ActionRegistry, ActionResult (+19 more)
 
 ### Community 6 - "Biome Lint Config"
-Cohesion: 0.06
-Nodes (42): source, assist, actions, css, formatter, parser, files, ignoreUnknown (+34 more)
+Cohesion: 0.05
+Nodes (44): source, assist, actions, css, formatter, parser, files, ignoreUnknown (+36 more)
 
 ### Community 7 - "App Shell State"
-Cohesion: 0.12
-Nodes (10): initialState, Theme, ThemeProvider(), ThemeProviderContext, ThemeProviderProps, ThemeProviderState, ThemeToggle(), SmoothInteractionCoordinator (+2 more)
+Cohesion: 0.13
+Nodes (12): initialState, Theme, ThemeProvider(), ThemeProviderContext, ThemeProviderProps, ThemeProviderState, useTheme(), Toaster() (+4 more)
 
 ### Community 8 - "Biome Recommended Rules"
 Cohesion: 0.05
-Nodes (41): recommended, useKeyWithClickEvents, useKeyWithMouseEvents, noAdjacentSpacesInRegex, noExtraBooleanCast, noUselessCatch, noUselessTypeConstraint, recommended (+33 more)
+Nodes (39): recommended, useKeyWithClickEvents, useKeyWithMouseEvents, noAdjacentSpacesInRegex, noExtraBooleanCast, noUselessCatch, noUselessTypeConstraint, recommended (+31 more)
 
 ### Community 9 - "Rust Test Helpers"
 Cohesion: 0.04
@@ -206,7 +204,7 @@ Nodes (46): Contact & Support, CVE確認, Next Steps, Overview, Phase 1: Securit
 
 ### Community 10 - "Thumbnail Container Rust"
 Cohesion: 0.09
-Nodes (30): AsRef, FolderThumbnailResult, get_first_image_in_container(), Option, Path, Result, String, test_get_first_image_returns_image_path() (+22 more)
+Nodes (31): AsRef, File, FolderThumbnailResult, get_first_image_in_container(), Option, Path, Result, String (+23 more)
 
 ### Community 11 - "SpecKit Prerequisite Scripts"
 Cohesion: 0.11
@@ -233,12 +231,12 @@ Cohesion: 0.07
 Nodes (26): DOM, DOM.Iterable, ES2022, compilerOptions, allowImportingTsExtensions, exactOptionalPropertyTypes, isolatedModules, jsx (+18 more)
 
 ### Community 17 - "app-shell/index.ts"
-Cohesion: 0.21
-Nodes (14): R, ArchiveImageContainer, ArchiveImageEntry, ImageContainer, ImageHandle, PathBuf, Result, String (+6 more)
+Cohesion: 0.11
+Nodes (16): mockImageSources, basenameImpl(), convertFileSrcImpl(), createMockFileSystemService(), dirnameImpl(), mockBasename, mockConvertFileSrc, mockDialogOpen (+8 more)
 
 ### Community 18 - "Image Container Trait"
-Cohesion: 0.19
-Nodes (19): Box, File, get_sibling_containers(), ImageContainer, ImageContainerReader, ImageHandle, resolves_images_in_requested_range_for_folder(), returns_error_when_folder_not_found() (+11 more)
+Cohesion: 0.08
+Nodes (54): Box, Q, get_sibling_containers(), list_image_handles(), list_images_in_container(), resolve_images_in_range(), ImageHandle, P (+46 more)
 
 ### Community 19 - "Sidebar Scroll Layout Spec"
 Cohesion: 0.08
@@ -246,19 +244,19 @@ Nodes (26): 003 Spec Quality Checklist Ready, 003 Contracts UI Layout Only No Ne
 
 ### Community 20 - "mocks.ts"
 Cohesion: 0.22
-Nodes (16): FolderImageContainer, get_sibling_archives(), get_sibling_folders(), is_supported_image_path(), list_image_paths_in_folder(), ImageContainer, ImageHandle, P (+8 more)
+Nodes (6): fetchThumbnail(), FolderThumbnailResult, tauriFileSystemService, mockInvoke, mockTauriOpenDialog, logger
 
 ### Community 21 - "Local Folder Container"
-Cohesion: 0.05
-Nodes (52): allFolderPaths, devMockService, dummyFolders, folderNameMap, imageFolders, KeyboardShortcutHelp(), KeyboardShortcutHelpProps, DEFAULT_CONTAINER_CONFIG (+44 more)
+Cohesion: 0.06
+Nodes (49): allFolderPaths, devMockService, dummyFolders, folderNameMap, imageFolders, KeyboardShortcutHelp(), KeyboardShortcutHelpProps, ContainerConfig (+41 more)
 
 ### Community 22 - "Image Viewer UI"
 Cohesion: 0.05
 Nodes (42): 1.1. サムネイル生成ロジック, 1.2. Tauriコマンドの追加, 1.3. コマンドの登録, 1. ブランチのチェックアウト, 2.1. FileSystemServiceの拡張, 2.2. Tauriアダプターの実装, 2.3. useThumbnailフックの更新, 2. 依存関係のインストール (+34 more)
 
 ### Community 23 - "FileSystemService"
-Cohesion: 0.27
-Nodes (16): Q, get_sibling_containers(), list_image_handles(), list_images_in_container(), resolve_images_in_range(), ImageHandle, P, Result (+8 more)
+Cohesion: 0.22
+Nodes (8): 1. 分類サマリー, 2. クローズしてよい, 3. 方針を更新してから着手, 4. これから実装（方針は有効）, 5. 着手基準待ち, 6. クローズ済み Issue との関係（参考）, 7. 推奨する次の動き, GitHub Issue 現状照合（2026-08-18）
 
 ### Community 24 - "Windows Store Square Logos"
 Cohesion: 0.12
@@ -269,16 +267,16 @@ Cohesion: 0.11
 Nodes (18): Phase 4 手動テスト - チェックリスト, T037: 初回ロード性能テスト, T038: UI応答性テスト, T039: キャッシュ再利用テスト, キャッシュ確認, スクリーンショット・ログ, パフォーマンス, 事前準備 (+10 more)
 
 ### Community 26 - "folder.rs"
-Cohesion: 0.31
-Nodes (9): App(), APP_VIEWER_CONTAINER_CONFIG, TODO: 状態管理が複雑化している。appStateでの管理に無理が生じ始めている。, TODO: App.tsx自体が肥大化してきている。状態管理とUIロジックの分離を検討。, useTheme(), Toaster(), ToasterProps, useSiblingContainers() (+1 more)
+Cohesion: 0.29
+Nodes (6): ADR-004: キーボード入力の到達モデル — コンテナスコープ + フォーカス移譲, ステータス, 採用理由, 日付, 決定, 背景
 
 ### Community 27 - "shadcn Components Config"
 Cohesion: 0.11
 Nodes (18): aliases, components, hooks, lib, ui, utils, iconLibrary, registries (+10 more)
 
 ### Community 28 - "Archive Listing Logic"
-Cohesion: 0.20
-Nodes (16): get_zip_entries_without_extracting(), is_supported_archive_image_path(), lists_entries_from_fixture_zip_without_extracting(), lists_handles_without_extracting_archive(), resolve_range_reuses_cached_files(), resolves_only_requested_range_in_handle_order(), returns_an_image_file_in_zip_container(), returns_empty_list_for_zip_with_no_images() (+8 more)
+Cohesion: 0.08
+Nodes (38): R, ArchiveImageContainer, ArchiveImageEntry, get_zip_entries_without_extracting(), is_supported_archive_image_path(), lists_entries_from_fixture_zip_without_extracting(), lists_handles_without_extracting_archive(), resolve_range_reuses_cached_files() (+30 more)
 
 ### Community 29 - "Filesystem Service Rust"
 Cohesion: 0.12
@@ -320,10 +318,6 @@ Nodes (11): ESNext, vite.config.ts, compilerOptions, allowSyntheticDefaultImport
 Cohesion: 0.17
 Nodes (11): **/*.stories.ts, **/*.stories.tsx, compilerOptions, exactOptionalPropertyTypes, noUncheckedIndexedAccess, noUnusedLocals, noUnusedParameters, extends (+3 more)
 
-### Community 39 - "src/fs.rs"
-Cohesion: 0.21
-Nodes (8): React, mockFolders, NOTE: folders の参照安定性に依存。React Compiler が有効な場合は自動メモ化される。, useThumbnailPrefetch(), servicesContext, ServicesProvider(), ServicesProviderProps, mockOpenImageFile
-
 ### Community 40 - "Rust Thumbnail Optimization"
 Cohesion: 0.18
 Nodes (11): get_or_create_thumbnail, ImageFile, useThumbnail, 001-rust-thumbnail-optimization, FileSystemService, WebKitGTK Image Decode Bottleneck, BLAKE3 Cache Hash, rayon Parallel Processing (+3 more)
@@ -331,6 +325,10 @@ Nodes (11): get_or_create_thumbnail, ImageFile, useThumbnail, 001-rust-thumbnail
 ### Community 41 - "Tauri Capability Permissions"
 Cohesion: 0.18
 Nodes (10): core:default, dialog:default, fs:default, main, opener:default, description, identifier, permissions (+2 more)
+
+### Community 42 - "useSiblingContainers.ts"
+Cohesion: 0.15
+Nodes (11): createFolderEntry(), FolderEntry, FileSystemService, getSiblingContainerEntries(), mockFileSystemService, servicesContext, ServicesProvider(), ServicesProviderProps (+3 more)
 
 ### Community 43 - "Test Fixtures Folder 2"
 Cohesion: 0.18
@@ -359,10 +357,6 @@ Nodes (6): Sun Riseup Viewrrr Brand Master Logo (1024 SVG, sunrise behind open b
 ### Community 50 - "ImageContainer Refactor Docs"
 Cohesion: 0.33
 Nodes (6): CommandError Dual Definition Concern, get_sibling_containers Navigation Concern, ImageContainer Trait Granularity, ImageContainerService, Old list_images_in_container Coexistence, useImages Full Container Image Load
-
-### Community 51 - "useSiblingContainers.ts"
-Cohesion: 0.22
-Nodes (7): ImageContainerReaderConfig, P, Path, PathBuf, Self, String, Vec
 
 ### Community 52 - "React Security Patch Spec"
 Cohesion: 0.50
@@ -408,32 +402,28 @@ Nodes (4): post-commit script, GRAPHIFY_CHANGED, GRAPHIFY_REBUILD_LOG, PYTHONHAS
 Cohesion: 0.50
 Nodes (3): post-checkout script, GRAPHIFY_REBUILD_LOG, PYTHONHASHSEED
 
-### Community 95 - "ImageContainerReaderConfig"
-Cohesion: 0.23
-Nodes (10): Sidebar(), SidebarContent(), SidebarHeader(), SidebarHeaderProps, SIDEBAR_CONFIG, SidebarConfig, ContainerConfig, useFolderListPagination() (+2 more)
-
 ### Community 96 - "Review Unit Tests"
 Cohesion: 0.12
 Nodes (14): Pass 1 — 機能別並列レビュー＋削除, Pass 2 — 削除の第二意見ループ, Review Unit Tests, 低価値の典型パターン（削除候補）, 再利用の言い方, 報告フォーマット（Pass 1）, 大規模時のオーケストレーション, 手順（単ファイル〜小規模） (+6 more)
 
+### Community 97 - "folder-navigation/index.ts"
+Cohesion: 0.17
+Nodes (9): React, TooltipContent, SIDEBAR_CONFIG, SidebarConfig, mockFolders, useFolderListPagination(), NOTE: folders の参照安定性に依存。React Compiler が有効な場合は自動メモ化される。, useThumbnailPrefetch() (+1 more)
+
 ### Community 98 - "CommandError"
-Cohesion: 0.25
-Nodes (3): ErrorBoundary, Props, State
+Cohesion: 0.14
+Nodes (10): App(), APP_VIEWER_CONTAINER_CONFIG, TODO: 状態管理が複雑化している。appStateでの管理に無理が生じ始めている。, TODO: App.tsx自体が肥大化してきている。状態管理とUIロジックの分離を検討。, ErrorBoundary, Props, State, useOpenImageFile() (+2 more)
 
 ### Community 99 - "ADR-003: 画像ビューア操作を `dispatch(ActionType)` と `useViewerActions` に集約する"
 Cohesion: 0.08
 Nodes (24): 1. 単一入口 `dispatch(action: ActionType)`, 2. 状態と `dispatch` は `useViewerActions` に置く, 3. キーボード表は `createDefaultKeyboardMapping` を使う, 4. 初期実装は `switch`、巨大化したら中身だけストラテジ化, A. 名前付き関数を hook から返し、キーボードだけ `switch`, ADR-003: 画像ビューア操作を `dispatch(ActionType)` と `useViewerActions` に集約する, B. 初手から `Record<ActionType, Handler>` レジストリ, C. app-shell の Action Registry にビューア操作も載せる (+16 more)
-
-### Community 100 - "UserExperienceTracker"
-Cohesion: 0.47
-Nodes (5): hash_path(), P, String, test_hash_path_consistency(), test_hash_path_uniqueness()
 
 ## Ambiguous Edges - Review These
 - `Quality gate (type-check, lint, test)` → `Project constitution (.specify/memory/constitution.md)`  [AMBIGUOUS]
   AGENTS.md · relation: rationale_for
 
 ## Knowledge Gaps
-- **505 isolated node(s):** `name`, `private`, `version`, `type`, `packageManager` (+500 more)
+- **516 isolated node(s):** `common.sh script`, `create-new-feature.sh script`, `SPECIFY_FEATURE`, `$schema`, `enabled` (+511 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **34 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
@@ -442,12 +432,12 @@ _Questions this graph is uniquely positioned to answer:_
 
 - **What is the exact relationship between `Quality gate (type-check, lint, test)` and `Project constitution (.specify/memory/constitution.md)`?**
   _Edge tagged AMBIGUOUS (relation: rationale_for) - confidence is low._
-- **Why does `React` connect `src/fs.rs` to `UI Tooltip & Dev Mocks`, `CommandError`, `App Menu & Folder Navigation`, `tooltip.tsx`, `Biome Lint Config`, `App Shell State`, `Action Registry Pattern`, `Local Folder Container`, `folder.rs`, `ImageContainerReaderConfig`?**
-  _High betweenness centrality (0.027) - this node is a cross-community bridge._
-- **Why does `globals` connect `Biome Lint Config` to `src/fs.rs`?**
-  _High betweenness centrality (0.020) - this node is a cross-community bridge._
-- **What connects `name`, `private`, `version` to the rest of the system?**
-  _505 weakly-connected nodes found - possible documentation gaps or missing edges._
+- **Why does `React` connect `folder-navigation/index.ts` to `UI Tooltip & Dev Mocks`, `CommandError`, `App Menu & Folder Navigation`, `Action Registry Pattern`, `Biome Lint Config`, `App Shell State`, `useSiblingContainers.ts`, `Local Folder Container`?**
+  _High betweenness centrality (0.033) - this node is a cross-community bridge._
+- **Why does `globals` connect `Biome Lint Config` to `folder-navigation/index.ts`?**
+  _High betweenness centrality (0.026) - this node is a cross-community bridge._
+- **What connects `common.sh script`, `create-new-feature.sh script`, `SPECIFY_FEATURE` to the rest of the system?**
+  _516 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Agent Workflows & Architecture Docs` be split into smaller, more focused modules?**
   _Cohesion score 0.058279370952821465 - nodes in this community are weakly interconnected._
 - **Should `Frontend Runtime Dependencies` be split into smaller, more focused modules?**
