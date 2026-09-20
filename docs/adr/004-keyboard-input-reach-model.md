@@ -12,7 +12,7 @@ Accepted
 
 ADR-003 は「操作の一本化（dispatch）」を決めたが、**キーボードイベントが listener にどう届くか**は未定義のままだった。
 
-実装レビューにより、以下の構造的問題が判明した:
+実装レビューにより、以下の構造的問題が判明した
 
 1. **ref が成功描画にしか付かない** — loading / error / empty の early return には `ref` がなく、初回 effect で `containerRef.current === null` になる
 2. **mapping が毎レンダー新規生成される** — `createDefaultKeyboardMapping` の戻り値が毎回別参照。`useKeyboardHandler` の effect 依存（`shortcuts`, `onAction`）が毎レンダー変わり、描画のたびに listener を付け外しする

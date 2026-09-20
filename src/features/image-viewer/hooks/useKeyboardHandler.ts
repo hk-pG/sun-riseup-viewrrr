@@ -34,11 +34,9 @@ export const useKeyboardHandler = (
   keyboardMapping: KeyboardMapping | undefined,
   containerRef: React.RefObject<HTMLElement | HTMLButtonElement | null>,
 ) => {
-  // onActionをrefに保存し、useEffect内で最新のonActionを参照できるようにする
+  // onActionをrefに保存し、listenerから最新のonActionを参照できるようにする
   const onActionRef = useRef(keyboardMapping?.onAction);
-  useEffect(() => {
-    onActionRef.current = keyboardMapping?.onAction;
-  });
+  onActionRef.current = keyboardMapping?.onAction;
 
   // イベントリスナーの登録・解除（containerRefやkeyboardMappingの変更時に再登録）
   useEffect(() => {

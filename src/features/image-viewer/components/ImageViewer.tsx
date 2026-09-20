@@ -66,6 +66,13 @@ export function ImageViewer({
     setLoading(isLoading);
   }, [isLoading]);
 
+  // キーボードショートカットが使えるようにcontainerへfocus
+  useEffect(() => {
+    if (containerRef.current) {
+      containerRef.current.focus();
+    }
+  }, []);
+
   return (
     <div
       ref={containerRef}
@@ -73,6 +80,13 @@ export function ImageViewer({
       className={`relative ${className}`}
       onMouseMove={handleMouseMove}
       tabIndex={-1}
+      onPointerDown={() => {
+        // 再レンダリングを伴わない操作でフォーカスが外れた後、
+        // 再度ビューアをクリックした時にフォーカスが当たるようにする
+        if (containerRef.current) {
+          containerRef.current.focus();
+        }
+      }}
     >
       {loading ? (
         <div
