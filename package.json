@@ -33,7 +33,7 @@
     "@radix-ui/react-tooltip": "^1.2.16",
     "@shadcn/ui": "^0.0.4",
     "@tailwindcss/vite": "^4.3.3",
-    "@tanstack/react-virtual": "^3.14.12",
+    "@tanstack/react-virtual": "^3.14.13",
     "@tauri-apps/api": "^2.11.1",
     "@tauri-apps/plugin-dialog": "~2.7.3",
     "@tauri-apps/plugin-fs": "~2.5.2",
