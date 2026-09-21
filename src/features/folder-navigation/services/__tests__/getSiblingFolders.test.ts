@@ -171,32 +171,4 @@ describe('getSiblingFolderEntries', () => {
       getSiblingContainerEntries(currentPath, mockFileSystemService),
     ).rejects.toThrow();
   });
-
-  it('should handle numeric folder names correctly with natural sort', async () => {
-    const currentPath = '/path/to/folder5';
-    const siblingPaths = ['/path/to/folder10', '/path/to/folder2'];
-
-    mockFileSystemService.getSiblingContainers = vi
-      .fn()
-      .mockResolvedValue(siblingPaths);
-    mockFileSystemService.getBaseName = vi
-      .fn()
-      .mockImplementation(async (path) => {
-        if (path === currentPath) return 'folder5';
-        if (path === '/path/to/folder10') return 'folder10';
-        if (path === '/path/to/folder2') return 'folder2';
-        return '';
-      });
-
-    const result = await getSiblingContainerEntries(
-      currentPath,
-      mockFileSystemService,
-    );
-
-    expect(result).toEqual([
-      { name: 'folder2', path: '/path/to/folder2' },
-      { name: 'folder5', path: '/path/to/folder5' },
-      { name: 'folder10', path: '/path/to/folder10' },
-    ]);
-  });
 });

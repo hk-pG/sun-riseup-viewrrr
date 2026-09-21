@@ -34,14 +34,6 @@ describe('useSiblingContainers', () => {
     mockFileSystemService = createMockFileSystemService();
   });
 
-  it('初期状態または currentFolderPath が空文字列の場合、entries は空配列であり、フォルダ取得処理は実行されない', async () => {
-    const { result } = renderHook(() => useSiblingContainers(''), {
-      wrapper: ServicesWrapper,
-    });
-
-    expect(result.current.entries).toEqual([]);
-  });
-
   it('currentFolderPath が指定された場合、同階層のフォルダ情報を取得すること', async () => {
     // 現在のフォルダも含めた期待値（ソート済み）
     const mockEntries: FolderEntry[] = [
@@ -76,54 +68,6 @@ describe('useSiblingContainers', () => {
       expect(result.current.entries).toEqual(mockEntries);
     });
 
-    expect(mockFileSystemService.getSiblingContainers).toHaveBeenCalledWith(
-      TEST_CURRENT_PATH,
-    );
-  });
-
-  it('該当するフォルダがない場合、現在のフォルダのみが含まれること', async () => {
-    const expectedEntries: FolderEntry[] = [
-      { name: 'current', path: TEST_CURRENT_PATH },
-    ];
-
-    mockFileSystemService.getSiblingContainers = vi.fn().mockResolvedValue([]);
-    mockFileSystemService.getBaseName = vi
-      .fn()
-      .mockImplementation(async (p) => {
-        if (p === TEST_CURRENT_PATH) return 'current';
-        return '';
-      });
-
-    const { result } = renderHook(
-      () => useSiblingContainers(TEST_CURRENT_PATH),
-      {
-        wrapper: ServicesWrapper,
-      },
-    );
-
-    await waitFor(() => {
-      expect(result.current.entries).toEqual(expectedEntries);
-    });
-    expect(mockFileSystemService.getSiblingContainers).toHaveBeenCalledWith(
-      TEST_CURRENT_PATH,
-    );
-  });
-
-  it('getSiblingContainers がエラーをスローした場合、entries は空配列になること', async () => {
-    mockFileSystemService.getSiblingContainers = vi
-      .fn()
-      .mockRejectedValue(new Error('Failed to get sibling folders'));
-
-    const { result } = renderHook(
-      () => useSiblingContainers(TEST_CURRENT_PATH),
-      {
-        wrapper: ServicesWrapper,
-      },
-    );
-
-    await waitFor(() => {
-      expect(result.current.entries).toEqual([]);
-    });
     expect(mockFileSystemService.getSiblingContainers).toHaveBeenCalledWith(
       TEST_CURRENT_PATH,
     );

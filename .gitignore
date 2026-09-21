@@ -35,3 +35,6 @@ coverage/
 target/
 .pnpm-store/
 tests/fixtures/images-large/
+
+# Machine-local graphify interpreter path (written by graphify / skill)
+graphify-out/.graphify_python

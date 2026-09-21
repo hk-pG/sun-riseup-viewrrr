@@ -63,8 +63,7 @@ export type ActionType =
   | 'lastImage'
   | 'toggleControls'
   | 'toggleFitMode'
-  | 'resetRotation'
-  | string;
+  | 'resetRotation';
 
 /**
  * キーボードショートカットの情報を表す型。
@@ -90,19 +89,4 @@ export interface KeyboardMapping {
   shortcuts: Map<ActionType, KeyboardShortcut[]>;
   onAction: (action: ActionType, event: KeyboardEvent) => void;
   enabled?: boolean;
-}
-
-/**
- * 画像ビューアのコールバック関数群。
- * - ImageViewerPropsで利用される。
- * - ImageFile型やViewerSettings型と連携する。
- */
-export interface ImageViewerCallbacks {
-  onImageChange?: (index: number, image: ImageFile) => void;
-  onZoomChange?: (zoom: number) => void;
-  onRotationChange?: (rotation: number) => void;
-  onSettingsChange?: (settings: Partial<ViewerSettings>) => void;
-  onCustomAction?: (action: string, event: KeyboardEvent) => void;
-  onImageLoad?: (image: ImageFile) => void;
-  onImageError?: (error: Error, image: ImageFile) => void;
 }

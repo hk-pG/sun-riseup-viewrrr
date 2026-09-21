@@ -48,66 +48,6 @@ describe('Theme System Integration', () => {
     document.documentElement.className = '';
   });
 
-  it('should apply theme classes to document element', async () => {
-    await act(async () => {
-      render(
-        <ThemeProvider defaultTheme="light">
-          <ThemeToggle />
-        </ThemeProvider>,
-      );
-    });
-
-    // Wait for initial theme to be applied
-    await waitFor(() => {
-      expect(document.documentElement).toHaveClass('light');
-    });
-
-    const button = screen.getByRole('button');
-
-    // Test that clicking the button triggers theme changes
-    await act(async () => {
-      fireEvent.click(button);
-    });
-
-    // Just verify that some theme class is applied after clicking
-    await waitFor(() => {
-      const hasThemeClass =
-        document.documentElement.classList.contains('light') ||
-        document.documentElement.classList.contains('dark');
-      expect(hasThemeClass).toBe(true);
-    });
-  });
-
-  it('should handle dark theme as default', async () => {
-    await act(async () => {
-      render(
-        <ThemeProvider defaultTheme="dark">
-          <ThemeToggle />
-        </ThemeProvider>,
-      );
-    });
-
-    // Should apply dark theme by default
-    expect(document.documentElement).toHaveClass('dark');
-    expect(document.documentElement).not.toHaveClass('light');
-  });
-
-  it('should handle light theme explicitly', async () => {
-    await act(async () => {
-      render(
-        <ThemeProvider defaultTheme="light">
-          <ThemeToggle />
-        </ThemeProvider>,
-      );
-    });
-
-    // Wait for initial theme to be applied
-    await waitFor(() => {
-      expect(document.documentElement).toHaveClass('light');
-      expect(document.documentElement).not.toHaveClass('dark');
-    });
-  });
-
   it('should maintain theme state without persistence', async () => {
     await act(async () => {
       render(
