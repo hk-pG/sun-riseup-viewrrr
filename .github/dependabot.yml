@@ -38,6 +38,9 @@ updates:
         update-types: ["version-update:semver-major"]
       - dependency-name: "vitest"
         update-types: ["version-update:semver-major"]
+      # vitest 本体と揃えないと CI が壊れるため、関連パッケージのメジャーも除外
+      - dependency-name: "@vitest/*"
+        update-types: ["version-update:semver-major"]
 
   - package-ecosystem: "cargo"
     directory: "/src-tauri"
