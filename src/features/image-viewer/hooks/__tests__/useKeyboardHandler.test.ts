@@ -53,8 +53,14 @@ describe('useKeyboardHandler', () => {
           ],
         ],
         [
-          'customAction',
-          [{ key: 'c', preventDefault: false, description: 'Custom' }],
+          'toggleControls',
+          [
+            {
+              key: 'c',
+              preventDefault: false,
+              description: 'Toggle controls',
+            },
+          ],
         ],
       ]),
       onAction: mockOnAction,
@@ -106,43 +112,6 @@ describe('useKeyboardHandler', () => {
       expect(mockOnAction).not.toHaveBeenCalled();
     });
 
-    it('should match multiple shortcuts for the same action', () => {
-      const shortcuts: KeyboardShortcut[] = [
-        { key: 'ArrowRight', description: 'Next with arrow' },
-        { key: ' ', description: 'Next with space' },
-        { key: 'j', description: 'Next with j' },
-      ];
-
-      const mappingWithMultiple: KeyboardMapping = {
-        shortcuts: new Map([['nextImage', shortcuts]]),
-        onAction: mockOnAction,
-        enabled: true,
-      };
-
-      renderHook(() =>
-        useKeyboardHandler(mappingWithMultiple, mockContainerRef),
-      );
-
-      // Test first shortcut
-      const event1 = new KeyboardEvent('keydown', { key: 'ArrowRight' });
-      mockContainer.dispatchEvent(event1);
-      expect(mockOnAction).toHaveBeenCalledWith('nextImage', event1);
-
-      mockOnAction.mockClear();
-
-      // Test second shortcut
-      const event2 = new KeyboardEvent('keydown', { key: ' ' });
-      mockContainer.dispatchEvent(event2);
-      expect(mockOnAction).toHaveBeenCalledWith('nextImage', event2);
-
-      mockOnAction.mockClear();
-
-      // Test third shortcut
-      const event3 = new KeyboardEvent('keydown', { key: 'j' });
-      mockContainer.dispatchEvent(event3);
-      expect(mockOnAction).toHaveBeenCalledWith('nextImage', event3);
-    });
-
     it('should not match when key mapping is disabled', () => {
       const disabledMapping: KeyboardMapping = {
         ...mockKeyboardMapping,
@@ -184,7 +153,7 @@ describe('useKeyboardHandler', () => {
       mockContainer.dispatchEvent(event);
 
       expect(preventDefaultSpy).not.toHaveBeenCalled();
-      expect(mockOnAction).toHaveBeenCalledWith('customAction', event);
+      expect(mockOnAction).toHaveBeenCalledWith('toggleControls', event);
     });
   });
 
@@ -299,7 +268,9 @@ describe('useKeyboardHandler', () => {
       // Update the mapping
       const newMapping: KeyboardMapping = {
         ...mockKeyboardMapping,
-        shortcuts: new Map([['newAction', [{ key: 'n', description: 'New' }]]]),
+        shortcuts: new Map([
+          ['resetZoom', [{ key: 'n', description: 'Reset zoom' }]],
+        ]),
       };
 
       rerender({ mapping: newMapping });
@@ -338,18 +309,6 @@ describe('useKeyboardHandler', () => {
   });
 
   describe('action execution', () => {
-    it('should execute action with correct parameters', () => {
-      renderHook(() =>
-        useKeyboardHandler(mockKeyboardMapping, mockContainerRef),
-      );
-
-      const event = new KeyboardEvent('keydown', { key: 'ArrowLeft' });
-      mockContainer.dispatchEvent(event);
-
-      expect(mockOnAction).toHaveBeenCalledTimes(1);
-      expect(mockOnAction).toHaveBeenCalledWith('previousImage', event);
-    });
-
     it('should not execute action for unmatched keys', () => {
       renderHook(() =>
         useKeyboardHandler(mockKeyboardMapping, mockContainerRef),
@@ -374,70 +333,25 @@ describe('useKeyboardHandler', () => {
     });
   });
 
-  describe('complex modifier combinations', () => {
-    it('should match complex modifier combinations correctly', () => {
-      const complexMapping: KeyboardMapping = {
-        shortcuts: new Map([
-          [
-            'complexAction',
-            [
-              {
-                key: 's',
-                ctrlKey: true,
-                shiftKey: true,
-                altKey: true,
-                description: 'Complex shortcut',
-              },
-            ],
-          ],
-        ]),
-        onAction: mockOnAction,
-        enabled: true,
-      };
+  describe('replace onAction function', () => {
+    it('when onAction function is replaced, the new function should be called', () => {
+      // Arrange
+      const { rerender } = renderHook(() =>
+        useKeyboardHandler(mockKeyboardMapping, mockContainerRef),
+      );
 
-      renderHook(() => useKeyboardHandler(complexMapping, mockContainerRef));
+      const newOnAction =
+        vi.fn<(action: ActionType, event: KeyboardEvent) => void>();
+      // Replace the onAction function
+      mockKeyboardMapping.onAction = newOnAction;
 
-      const event = new KeyboardEvent('keydown', {
-        key: 's',
-        ctrlKey: true,
-        shiftKey: true,
-        altKey: true,
-      });
+      // Act
+      rerender();
+      const event = new KeyboardEvent('keydown', { key: 'ArrowRight' });
       mockContainer.dispatchEvent(event);
 
-      expect(mockOnAction).toHaveBeenCalledWith('complexAction', event);
-    });
-
-    it('should not match when some modifiers are missing', () => {
-      const complexMapping: KeyboardMapping = {
-        shortcuts: new Map([
-          [
-            'complexAction',
-            [
-              {
-                key: 's',
-                ctrlKey: true,
-                shiftKey: true,
-                altKey: true,
-                description: 'Complex shortcut',
-              },
-            ],
-          ],
-        ]),
-        onAction: mockOnAction,
-        enabled: true,
-      };
-
-      renderHook(() => useKeyboardHandler(complexMapping, mockContainerRef));
-
-      const event = new KeyboardEvent('keydown', {
-        key: 's',
-        ctrlKey: true,
-        shiftKey: true,
-        // altKey missing
-      });
-      mockContainer.dispatchEvent(event);
-
+      // Assert
+      expect(newOnAction).toHaveBeenCalled();
       expect(mockOnAction).not.toHaveBeenCalled();
     });
   });

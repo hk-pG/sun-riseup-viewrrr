@@ -14,15 +14,6 @@
   "[json]": {
     "editor.defaultFormatter": "biomejs.biome"
   },
-  "chat.tools.terminal.autoApprove": {
-    "gh": true,
-    "/^node -e \"const l = require\\('\\./pnpm-lock\\.yaml' /\\* workaround \\*/\\)\" 2>/dev/null; grep \"version: 19\" pnpm-lock\\.yaml \\| grep -v \"@\" \\| head -10$/": {
-      "approve": true,
-      "matchCommandLine": true
-    },
-    "git checkout": true,
-    "git pull": true
-  },
   "editor.codeActionsOnSave": {
     "source.fixAll.biome": "explicit",
     "source.organizeImports.biome": "explicit"

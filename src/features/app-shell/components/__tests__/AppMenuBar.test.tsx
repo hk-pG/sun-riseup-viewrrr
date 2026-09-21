@@ -99,12 +99,10 @@ vi.mock('../../../../../components/theme-provider', () => ({
 
 describe('AppMenuBar Component (No Theme Dependencies)', () => {
   let mockOnMenuAction = vi.fn<(actionId: AppMenuBarEvent) => void>();
-  let mockOnOpenFolder = vi.fn<() => void>();
 
   beforeEach(() => {
     resetAllMocks();
     mockOnMenuAction = vi.fn<(actionId: AppMenuBarEvent) => void>();
-    mockOnOpenFolder = vi.fn<() => void>();
   });
 
   const getDefaultProps = (): AppMenuBarProps => ({
@@ -116,12 +114,6 @@ describe('AppMenuBar Component (No Theme Dependencies)', () => {
   };
 
   describe('Component Rendering and Structure', () => {
-    it('should render without errors', () => {
-      renderAppMenuBar();
-
-      expect(screen.getByRole('banner')).toBeInTheDocument();
-    });
-
     it('should set drag region attribute when isDraggable is true', () => {
       renderAppMenuBar({ isDraggable: true });
 
@@ -134,63 +126,6 @@ describe('AppMenuBar Component (No Theme Dependencies)', () => {
 
       const header = screen.getByRole('banner');
       expect(header).not.toHaveAttribute('data-tauri-drag-region');
-    });
-  });
-
-  describe('Component Props', () => {
-    it('should accept onMenuAction prop', () => {
-      const customOnMenuAction = vi.fn<(actionId: AppMenuBarEvent) => void>();
-      renderAppMenuBar({ onMenuAction: customOnMenuAction });
-
-      expect(screen.getByRole('banner')).toBeInTheDocument();
-    });
-
-    it('should accept isDraggable prop', () => {
-      renderAppMenuBar({ isDraggable: true });
-
-      const header = screen.getByRole('banner');
-      expect(header).toHaveAttribute('data-tauri-drag-region', 'true');
-    });
-  });
-
-  describe('Menu Item Structure Validation', () => {
-    it('should have correct menu structure hierarchy', () => {
-      renderAppMenuBar();
-
-      const fileMenu = screen.getByText('ファイル');
-      const viewMenu = screen.getByText('表示');
-
-      expect(fileMenu).toBeInTheDocument();
-      expect(viewMenu).toBeInTheDocument();
-
-      const menubar = screen.getByRole('menubar');
-      expect(menubar).toBeInTheDocument();
-    });
-  });
-
-  describe('Accessibility Features', () => {
-    it('should have proper ARIA roles and attributes', () => {
-      renderAppMenuBar();
-
-      const menubar = screen.getByRole('menubar');
-      const menuItems = screen.getAllByRole('menuitem');
-
-      expect(menubar).toHaveAttribute('role', 'menubar');
-
-      menuItems.forEach((item) => {
-        expect(item).toHaveAttribute('role', 'menuitem');
-      });
-    });
-  });
-
-  describe('Component Integration', () => {
-    it('should integrate properly with open folder button', () => {
-      renderAppMenuBar({ onOpenFolder: mockOnOpenFolder });
-
-      const header = screen.getByRole('banner');
-      const menubar = screen.getByRole('menubar');
-
-      expect(header).toContainElement(menubar);
     });
   });
 

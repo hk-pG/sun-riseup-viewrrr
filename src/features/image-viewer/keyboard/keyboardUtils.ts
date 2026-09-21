@@ -2,7 +2,7 @@ import type {
   ActionType,
   KeyboardMapping,
   KeyboardShortcut,
-} from '../../features/image-viewer/types/viewerTypes';
+} from '../types/viewerTypes';
 
 // デフォルトのキーボードショートカット設定
 export const createDefaultKeyboardMapping = (
@@ -12,7 +12,7 @@ export const createDefaultKeyboardMapping = (
     [
       'nextImage',
       [
-        { key: 'ArrowRight', description: '次の画像' },
+        { key: 'ArrowLeft', description: '次の画像' },
         { key: ' ', description: '次の画像（スペース）' },
         { key: 'j', description: '次の画像' },
       ],
@@ -20,7 +20,7 @@ export const createDefaultKeyboardMapping = (
     [
       'previousImage',
       [
-        { key: 'ArrowLeft', description: '前の画像' },
+        { key: 'ArrowRight', description: '前の画像' },
         { key: 'k', description: '前の画像' },
       ],
     ],

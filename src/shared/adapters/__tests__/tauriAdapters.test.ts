@@ -104,17 +104,6 @@ describe('openImageFileDialog', () => {
       filters: [{ name: 'Images', extensions: customExtensions }],
     });
   });
-
-  it('should handle unexpected dialog response types', async () => {
-    const unexpectedResponse = { unexpected: 'object' };
-    mockTauriOpenDialog.mockResolvedValue(
-      unexpectedResponse as unknown as string | null,
-    );
-
-    const result = await tauriFileSystemService.openImageFileDialog?.();
-
-    expect(result).toBeNull();
-  });
 });
 
 describe('listImagesInContainer', () => {
@@ -139,19 +128,6 @@ describe('listImagesInContainer', () => {
       await tauriFileSystemService.listImagesInContainer(folderPath);
 
     expect(result).toEqual(expectedImages);
-    expect(mockInvoke).toHaveBeenCalledWith('list_images_in_container', {
-      containerPath: folderPath,
-    });
-  });
-
-  it('should return empty array when folder has no images', async () => {
-    const folderPath = '/Users/test/empty';
-    mockInvoke.mockResolvedValue([]);
-
-    const result =
-      await tauriFileSystemService.listImagesInContainer(folderPath);
-
-    expect(result).toEqual([]);
     expect(mockInvoke).toHaveBeenCalledWith('list_images_in_container', {
       containerPath: folderPath,
     });

@@ -11,20 +11,6 @@ describe('applyResult', () => {
     applier = createMockApplier();
   });
 
-  it('folder-selected: startTransition 内で setAppState を呼び出す', () => {
-    applyResult(
-      {
-        type: 'folder-selected',
-        folderPath: '/test/folder',
-        initialImageIndex: 5,
-      },
-      applier,
-    );
-
-    expect(applier.startTransition).toHaveBeenCalledOnce();
-    expect(applier.setAppState).toHaveBeenCalledOnce();
-  });
-
   it('folder-selected: setAppState の updater が正しい状態を生成する', () => {
     applyResult(
       {

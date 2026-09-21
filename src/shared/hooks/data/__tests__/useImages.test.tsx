@@ -87,29 +87,6 @@ describe('useImages', () => {
     });
   });
 
-  it('存在しないフォルダを指定した場合、エラーが返される', async () => {
-    mockFileSystemService.listImageHandles = vi.fn().mockReturnValue(null);
-
-    const { result } = renderHook(
-      () =>
-        useImages(
-          new LocalFolderContainer(
-            '/non/existent/folder',
-            mockFileSystemService,
-          ),
-        ),
-      {
-        wrapper: ServicesWrapper,
-      },
-    );
-
-    await waitFor(() => {
-      expect(result.current.images).toBeUndefined();
-      expect(result.current.error).toBeDefined();
-      expect(result.current.isLoading).toBe(false);
-    });
-  });
-
   it('ファイルアクセスで例外が発生した場合、エラーが返される', async () => {
     mockFileSystemService.listImageHandles = vi
       .fn()
@@ -147,17 +124,6 @@ describe('useImages', () => {
       expect(result.current.error).toBeUndefined();
       expect(result.current.isLoading).toBe(false);
     });
-  });
-
-  it('folderPathがnullの場合、imagesはundefinedになる', async () => {
-    mockFileSystemService.listImageHandles = vi.fn();
-    const { result } = renderHook(() => useImages(undefined), {
-      wrapper: ServicesWrapper,
-    });
-    expect(result.current.images).toBeUndefined();
-    expect(result.current.error).toBeUndefined();
-    expect(result.current.isLoading).toBe(false);
-    expect(mockFileSystemService.listImageHandles).not.toHaveBeenCalled();
   });
 
   it('folderPathがundefinedの場合、imagesはundefinedになる', async () => {

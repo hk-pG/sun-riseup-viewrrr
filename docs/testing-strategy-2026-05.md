@@ -33,12 +33,13 @@
 現行のテスト基盤は、旧レポート時点より整理が進んでいる。
 
 - `src/test/mocks.ts`
-  - Tauri API モックのセットアップを `setupTauriMocks()` に集約
+  - Tauri API モックの登録（`vi.mock`）をモジュールスコープで実行
   - `resetAllMocks()` を提供
   - 共通の `createMockFileSystemService()` を提供
   - サムネイル向けの `createMockFileSystemServiceWithThumbnails()` を提供
 - `src/test/setup.ts`
-  - `setupTauriMocks()` を呼び出し、グローバルなテスト初期化を一本化
+  - `setupFiles` 経由で `src/test/mocks.ts` を読み込み、モック登録をグローバル有効化
+  - React 19 のテストユーティリティ（`act`）もここで提供
 - `src/shared/context/ServiceContext.tsx`
   - `ServicesProvider` が `Partial<FileSystemService>` を受け取るため、テスト側は必要な API だけ差し替えられる
 
