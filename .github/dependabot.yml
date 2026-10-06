@@ -8,6 +8,12 @@ updates:
     target-branch: "feature/core" # PRの向き先をfeature/coreに
     open-pull-requests-limit: 5 # 同時PR数を制限
     groups:
+      react:
+        patterns:
+          - "react"
+          - "react-dom"
+          - "@types/react"
+          - "@types/react-dom"
       radix-ui:
         patterns:
           - "@radix-ui/*"
