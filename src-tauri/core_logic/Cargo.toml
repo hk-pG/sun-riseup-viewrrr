@@ -15,7 +15,7 @@ rayon = "1.11"
 blake3 = "1.8"
 thiserror = "2.0"
 num_cpus = "1.16"
-zip = "8.6.0"
+zip = "9.0.1"
 
 [dev-dependencies]
 uuid = { version = "1", features = ["v4"] }
