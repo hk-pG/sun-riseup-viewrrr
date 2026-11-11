@@ -1,0 +1,94 @@
+name: Dependabot auto-merge
+
+# Dependabot が開いた pull_request だけを対象にする。
+# このイベントの GITHUB_TOKEN は既定で読み取り専用なので、書き込みは必要なジョブだけに付ける。
+# semver-patch と semver-minor は gh pr merge --auto --squash。
+# semver-major はコメントするだけでマージしない。
+# グループ更新の update-type は、含まれる更新のうち最も高い semver（major > minor > patch）。
+# PR のコードはチェックアウトしない。
+on:
+  pull_request:
+    branches:
+      - feature/core
+    types:
+      - opened
+      - synchronize
+      - reopened
+
+permissions:
+  contents: read
+
+concurrency:
+  group: dependabot-auto-merge-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  metadata:
+    if: ${{ github.actor == 'dependabot[bot]' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      pull-requests: read
+    outputs:
+      update-type: ${{ steps.metadata.outputs.update-type }}
+    steps:
+      # hk-pG/swallow と同じ commit SHA（v3.1.0）。
+      - name: Dependabot の更新種別を取得
+        id: metadata
+        uses: dependabot/fetch-metadata@25dd0e34f4fe68f24cc83900b1fe3fe149efef98 # v3.1.0
+        with:
+          github-token: ${{ github.token }}
+
+      - name: 更新種別を記録する
+        env:
+          UPDATE_TYPE: ${{ steps.metadata.outputs.update-type }}
+        run: echo "update-type=${UPDATE_TYPE}"
+
+  merge:
+    needs: metadata
+    if: ${{ github.actor == 'dependabot[bot]' && needs.metadata.result == 'success' && (needs.metadata.outputs.update-type == 'version-update:semver-patch' || needs.metadata.outputs.update-type == 'version-update:semver-minor') }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: semver-patch / semver-minor の auto-merge を有効にする
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_URL: ${{ github.event.pull_request.html_url }}
+        run: |
+          set -euo pipefail
+          enabled="$(gh pr view "$PR_URL" --json autoMergeRequest --jq 'if .autoMergeRequest == null then "false" else "true" end')"
+          if [ "$enabled" = "true" ]; then
+            echo "auto-merge は既に有効です"
+            exit 0
+          fi
+          if ! gh pr merge --auto --squash "$PR_URL"; then
+            echo "gh pr merge --auto --squash に失敗しました。Allow auto-merge と feature/core の必須ステータスチェックを確認してください。" >&2
+            exit 1
+          fi
+
+  major:
+    needs: metadata
+    if: ${{ github.actor == 'dependabot[bot]' && needs.metadata.result == 'success' && needs.metadata.outputs.update-type == 'version-update:semver-major' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      pull-requests: write
+    steps:
+      - name: semver-major はコメントしてマージしない
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_URL: ${{ github.event.pull_request.html_url }}
+        run: |
+          set -euo pipefail
+          marker="dependabot-auto-merge:semver-major"
+          exists="$(gh pr view "$PR_URL" --json reviews --jq 'any(.reviews[]; ((.body // "") | contains("dependabot-auto-merge:semver-major")))')"
+          if [ "$exists" = "true" ]; then
+            echo "major のコメントは既にあります"
+            exit 0
+          fi
+          body="$(printf '%s\n' "<!-- ${marker} -->" "この更新は semver-major のため、自動マージしません。差分を確認してから手動でマージしてください。")"
+          gh pr review "$PR_URL" --comment --body "$body"
