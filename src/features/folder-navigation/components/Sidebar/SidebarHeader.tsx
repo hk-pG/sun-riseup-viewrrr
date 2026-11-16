@@ -15,7 +15,7 @@ export function SidebarHeader({
 }: SidebarHeaderProps) {
   return (
     <h2
-      className={`mb-3 px-2 font-semibold text-sidebar-foreground text-sm ${className}`}
+      className={`text-sidebar-foreground mb-3 px-2 text-sm font-semibold ${className}`}
     >
       {title}
     </h2>

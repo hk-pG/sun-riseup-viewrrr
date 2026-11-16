@@ -52,7 +52,7 @@ export function SidebarContent({
   if (folders.length === 0) {
     return (
       <div className="flex h-32 items-center justify-center px-4">
-        <div className="text-center text-muted-foreground text-sm">
+        <div className="text-muted-foreground text-center text-sm">
           {emptyMessage}
         </div>
       </div>

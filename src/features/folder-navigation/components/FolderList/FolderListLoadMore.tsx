@@ -19,7 +19,7 @@ export function FolderListLoadMore({
     <button
       type="button"
       onClick={onClick}
-      className={`w-full p-2 text-muted-foreground text-sm hover:bg-sidebar-accent ${className}`}
+      className={`text-muted-foreground hover:bg-sidebar-accent w-full p-2 text-sm ${className}`}
     >
       さらに読み込む ({remainingCount}件)
     </button>
