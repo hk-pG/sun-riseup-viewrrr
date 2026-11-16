@@ -35,12 +35,12 @@ export function FolderView({
     <button
       type="button"
       aria-pressed={isSelected}
-      className={`flex w-full cursor-pointer flex-col items-center rounded-lg p-3 transition-colors hover:bg-sidebar-accent ${isSelected ? 'border-2 border-sidebar-primary bg-sidebar-accent' : 'border-2 border-transparent'} ${className} `}
+      className={`hover:bg-sidebar-accent flex w-full cursor-pointer flex-col items-center rounded-lg p-3 transition-colors ${isSelected ? 'border-sidebar-primary bg-sidebar-accent border-2' : 'border-2 border-transparent'} ${className} `}
       onClick={handleClick}
       onDoubleClick={handleDoubleClick}
     >
       <div
-        className="mb-2 flex items-center justify-center overflow-hidden rounded-md bg-muted"
+        className="bg-muted mb-2 flex items-center justify-center overflow-hidden rounded-md"
         style={{ width: thumbnailSize, height: thumbnailSize }}
       >
         {(() => {
@@ -48,7 +48,7 @@ export function FolderView({
             return (
               <div
                 data-testid="thumbnail-loading"
-                className="h-full w-full animate-pulse bg-muted-foreground/20"
+                className="bg-muted-foreground/20 h-full w-full animate-pulse"
               />
             );
           }
@@ -65,7 +65,7 @@ export function FolderView({
           }
 
           return (
-            <div className="flex h-full w-full items-center justify-center text-muted-foreground">
+            <div className="text-muted-foreground flex h-full w-full items-center justify-center">
               <span className="text-4xl">
                 <LucideFolder />
               </span>
@@ -78,7 +78,7 @@ export function FolderView({
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
-              <p className="cursor-help truncate text-sidebar-foreground text-sm leading-tight">
+              <p className="text-sidebar-foreground cursor-help truncate text-sm leading-tight">
                 {folder.name}
               </p>
             </TooltipTrigger>
@@ -88,7 +88,7 @@ export function FolderView({
           </Tooltip>
         </TooltipProvider>
         {showImageCount && folder.imageCount !== undefined && (
-          <p className="mt-1 text-muted-foreground text-xs">
+          <p className="text-muted-foreground mt-1 text-xs">
             {folder.imageCount}枚
           </p>
         )}

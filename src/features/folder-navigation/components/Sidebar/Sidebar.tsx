@@ -35,7 +35,7 @@ export function Sidebar({
 
   return (
     <aside
-      className={`flex min-h-0 flex-col border-sidebar-border bg-sidebar text-sidebar-foreground`}
+      className={`border-sidebar-border bg-sidebar text-sidebar-foreground flex min-h-0 flex-col`}
       style={{ width, ...style }}
     >
       <div className="flex min-h-0 flex-1 flex-col p-2">

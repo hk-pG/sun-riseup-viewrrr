@@ -17,7 +17,7 @@ export function MenuItem({ action, onAction, depth = 0 }: MenuItemProps) {
   return (
     <div className="relative">
       <button
-        className={`flex w-full items-center justify-between px-3 py-2 text-left text-foreground text-sm hover:bg-accent hover:text-accent-foreground disabled:cursor-not-allowed disabled:opacity-50 ${depth > 0 ? 'pl-6' : ''} `}
+        className={`text-foreground hover:bg-accent hover:text-accent-foreground flex w-full items-center justify-between px-3 py-2 text-left text-sm disabled:cursor-not-allowed disabled:opacity-50 ${depth > 0 ? 'pl-6' : ''} `}
         disabled={action.disabled}
         onClick={handleClick}
         type="button"
@@ -37,7 +37,7 @@ export function MenuItem({ action, onAction, depth = 0 }: MenuItemProps) {
       </button>
 
       {hasSubmenu && isOpen && (
-        <div className="absolute top-0 left-full z-50 min-w-48 rounded-md border border-border bg-popover shadow-lg">
+        <div className="border-border bg-popover absolute top-0 left-full z-50 min-w-48 rounded-md border shadow-lg">
           {action.submenu?.map((subAction) => (
             <MenuItem
               key={subAction.id}
