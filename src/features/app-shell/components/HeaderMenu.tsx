@@ -23,11 +23,11 @@ export function HeaderMenu({
 
   return (
     <header
-      className={`flex items-center justify-between border-gray-200 border-b bg-white px-4 py-2 ${className}`}
+      className={`flex items-center justify-between border-b border-gray-200 bg-white px-4 py-2 ${className}`}
       style={style}
     >
       <div className="flex items-center gap-4">
-        <h1 className="font-semibold text-gray-800 text-lg">{title}</h1>
+        <h1 className="text-lg font-semibold text-gray-800">{title}</h1>
 
         <nav className="flex items-center">
           {onOpenFolder && (
