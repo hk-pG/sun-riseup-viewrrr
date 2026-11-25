@@ -202,7 +202,7 @@ export const AppMenuBar = ({
 }: AppMenuBarProps) => {
   return (
     <header
-      className={`flex items-center justify-between border-border bg-background px-4 py-2 text-foreground ${className}`}
+      className={`border-border bg-background text-foreground flex items-center justify-between px-4 py-2 ${className}`}
       style={style}
       {...(isDraggable ? { 'data-tauri-drag-region': true } : {})}
     >

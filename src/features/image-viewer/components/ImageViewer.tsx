@@ -107,7 +107,7 @@ export function ImageViewer({
           className={`flex items-center justify-center ${className}`}
           style={{ backgroundColor: settings.backgroundColor }}
         >
-          <div className="text-lg text-muted-foreground">
+          <div className="text-muted-foreground text-lg">
             画像が選択されていません
           </div>
         </div>

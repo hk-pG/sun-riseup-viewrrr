@@ -34,6 +34,7 @@ describe('cn utility function', () => {
     it('should merge conflicting Tailwind classes', () => {
       // Later classes should override earlier ones
       expect(cn('px-2 px-4')).toBe('px-4');
+      // biome-ignore lint/nursery/useTailwindSortedClasses: 後のクラスが勝つことを検証するため、意図的に未ソートのままにする
       expect(cn('text-red-500 text-blue-500')).toBe('text-blue-500');
     });
   });

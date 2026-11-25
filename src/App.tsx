@@ -110,12 +110,12 @@ function App({ initialState }: { initialState?: Partial<AppState> }) {
 
   return (
     <ErrorBoundary>
-      <div className="flex h-screen flex-col bg-background">
+      <div className="bg-background flex h-screen flex-col">
         <div data-tauri-drag-region className="draggable h-16">
           <AppMenuBar isDraggable={true} onMenuAction={handleMenuAction} />
         </div>
 
-        <div className="flex flex-1 overflow-hidden bg-background text-foreground">
+        <div className="bg-background text-foreground flex flex-1 overflow-hidden">
           <Sidebar
             folders={folderInfo}
             selectedFolder={selectedFolder}

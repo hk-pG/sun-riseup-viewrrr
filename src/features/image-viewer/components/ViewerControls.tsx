@@ -28,7 +28,7 @@ export function ViewerControls({
 
   return (
     <div
-      className={`absolute bottom-4 left-1/2 flex -translate-x-1/2 transform items-center gap-4 rounded-lg bg-background/75 px-4 py-2 text-foreground backdrop-blur-sm ${className}`}
+      className={`bg-background/75 text-foreground absolute bottom-4 left-1/2 flex -translate-x-1/2 transform items-center gap-4 rounded-lg px-4 py-2 backdrop-blur-sm ${className}`}
     >
       <Button
         aria-label="次の画像"
@@ -52,7 +52,7 @@ export function ViewerControls({
         <ArrowBigRight />
       </Button>
 
-      <div className="h-4 w-px bg-border" />
+      <div className="bg-border h-4 w-px" />
 
       <Button
         aria-label="ズームイン"
